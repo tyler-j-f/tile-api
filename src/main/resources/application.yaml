@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: tile-nft
+    tileCount: 1
+    bitsPerTile: 24
