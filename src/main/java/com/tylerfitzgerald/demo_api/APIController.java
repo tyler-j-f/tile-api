@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.http.HttpService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,7 +70,8 @@ public class APIController {
 
     @GetMapping("/api/test/{id}")
     public String getTestJSON(@PathVariable String id) {
-        return "name/" + appConfig.getName() + "/tiles/" + appConfig.getTileCount() + "/bits/" + appConfig.getBitsPerTile();
+        Web3j web3a = Web3j.build(new HttpService());
+        return "hahaha!";
     }
 
 }
