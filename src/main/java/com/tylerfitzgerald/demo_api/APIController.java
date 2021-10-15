@@ -87,17 +87,13 @@ public class APIController {
                 DefaultBlockParameter.valueOf(currentBlockNumber), appConfig.getNftFactoryContractAddress()
         );
         EthLog logs = web3.ethGetLogs(filter).sendAsync().get();
-        List<EthLog.LogResult> logOutput = logs.getLogs();
+        List<?> logOutput = logs.getLogs();
         if (logOutput.size() == 0) {
             String output = "No events found";
             System.out.println(output);
             return output;
         }
         System.out.println("logOutput: " + logOutput.toString());
-        EthLog.LogResult log1 = logOutput.get(0);
-        System.out.println("log1: " + log1.toString());
-        Object log1Get = log1.get();
-        System.out.println("log1Get: " + log1Get);
         return "END";
     }
 
