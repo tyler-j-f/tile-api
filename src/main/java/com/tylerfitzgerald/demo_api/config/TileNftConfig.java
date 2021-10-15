@@ -13,6 +13,8 @@ public class TileNftConfig {
     private int bitsPerTile;
     private String alchemyAPIKey;
     private String alchemyBaseUrl;
+    private String nftContractAddress;
+    private String nftFactoryContractAddress;
 
     public String getAlchemyURI() {
         return alchemyBaseUrl + alchemyAPIKey;

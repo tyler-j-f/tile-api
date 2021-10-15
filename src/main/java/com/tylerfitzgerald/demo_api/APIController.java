@@ -8,12 +8,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.DefaultBlockParameter;
+import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.response.EthBlockNumber;
+import org.web3j.protocol.core.methods.response.EthLog;
 import org.web3j.protocol.http.HttpService;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -78,9 +82,22 @@ public class APIController {
     public String getTestJSON(@PathVariable String id) throws ExecutionException, InterruptedException {
         Web3j web3 = Web3j.build(new HttpService(appConfig.getAlchemyURI()));  // defaults to http://localhost:8545/
         EthBlockNumber ethBlockNumber = web3.ethBlockNumber().sendAsync().get();
-        BigInteger blockNumber = ethBlockNumber.getBlockNumber();
-        String output = "blockNumber: " + blockNumber;
+        BigInteger currentBlockNumber = ethBlockNumber.getBlockNumber();
+        String output = "blockNumber: " + currentBlockNumber;
         System.out.println(output);
+        //
+        //
+        EthFilter filter = new EthFilter(
+                DefaultBlockParameter.valueOf(currentBlockNumber.subtract(new BigInteger("1000"))),
+                DefaultBlockParameter.valueOf(currentBlockNumber), appConfig.getNftFactoryContractAddress()
+        );
+        EthLog logs = web3.ethGetLogs(filter).sendAsync().get();
+        List<EthLog.LogResult> logOutput = logs.getLogs();
+        System.out.println("logOutput: " + logOutput.toString());
+        EthLog.LogResult log1 = logOutput.get(0);
+        System.out.println("log1: " + log1.toString());
+        Object log1Get = log1.get();
+        System.out.println("log1Get: " + log1Get);
         return output;
     }
 
