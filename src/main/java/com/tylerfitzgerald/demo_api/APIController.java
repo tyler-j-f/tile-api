@@ -81,24 +81,24 @@ public class APIController {
     @GetMapping("/api/test/{id}")
     public String getTestJSON(@PathVariable String id) throws ExecutionException, InterruptedException {
         Web3j web3 = Web3j.build(new HttpService(appConfig.getAlchemyURI()));  // defaults to http://localhost:8545/
-        EthBlockNumber ethBlockNumber = web3.ethBlockNumber().sendAsync().get();
-        BigInteger currentBlockNumber = ethBlockNumber.getBlockNumber();
-        String output = "blockNumber: " + currentBlockNumber;
-        System.out.println(output);
-        //
-        //
+        BigInteger currentBlockNumber = web3.ethBlockNumber().sendAsync().get().getBlockNumber();
         EthFilter filter = new EthFilter(
                 DefaultBlockParameter.valueOf(currentBlockNumber.subtract(new BigInteger("1000"))),
                 DefaultBlockParameter.valueOf(currentBlockNumber), appConfig.getNftFactoryContractAddress()
         );
         EthLog logs = web3.ethGetLogs(filter).sendAsync().get();
         List<EthLog.LogResult> logOutput = logs.getLogs();
+        if (logOutput.size() == 0) {
+            String output = "No events found";
+            System.out.println(output);
+            return output;
+        }
         System.out.println("logOutput: " + logOutput.toString());
         EthLog.LogResult log1 = logOutput.get(0);
         System.out.println("log1: " + log1.toString());
         Object log1Get = log1.get();
         System.out.println("log1Get: " + log1Get);
-        return output;
+        return "END";
     }
 
 }
