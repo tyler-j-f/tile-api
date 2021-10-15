@@ -83,7 +83,7 @@ public class APIController {
         Web3j web3 = Web3j.build(new HttpService(appConfig.getAlchemyURI()));  // defaults to http://localhost:8545/
         BigInteger currentBlockNumber = web3.ethBlockNumber().sendAsync().get().getBlockNumber();
         EthFilter filter = new EthFilter(
-                DefaultBlockParameter.valueOf(currentBlockNumber.subtract(new BigInteger("1000"))),
+                DefaultBlockParameter.valueOf(currentBlockNumber.subtract(new BigInteger("5760"))),
                 DefaultBlockParameter.valueOf(currentBlockNumber), appConfig.getNftFactoryContractAddress()
         );
         EthLog logs = web3.ethGetLogs(filter).sendAsync().get();
