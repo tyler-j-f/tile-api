@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.methods.response.EthBlockNumber;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 import org.web3j.protocol.http.HttpService;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
@@ -77,9 +79,9 @@ public class APIController {
     @GetMapping("/api/test/{id}")
     public String getTestJSON(@PathVariable String id) throws ExecutionException, InterruptedException {
         Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
-        Web3ClientVersion web3ClientVersion = web3.web3ClientVersion().sendAsync().get();
-        String clientVersion = web3ClientVersion.getWeb3ClientVersion();
-        String output = "clientVersion: " + clientVersion;
+        EthBlockNumber ethBlockNumber = web3.ethBlockNumber().sendAsync().get();
+        BigInteger blockNumber = ethBlockNumber.getBlockNumber();
+        String output = "blockNumber: " + blockNumber;
         System.out.println(output);
         return output;
     }
