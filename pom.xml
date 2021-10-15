@@ -43,14 +43,8 @@
 
 		<dependency>
 			<groupId>org.web3j</groupId>
-			<artifactId>core</artifactId>
-			<version>4.8.7</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpcore</artifactId>
-			<version>4.4.6</version>
+			<artifactId>web3j-spring-boot-starter</artifactId>
+			<version>1.6.0</version>
 		</dependency>
 
 	</dependencies>

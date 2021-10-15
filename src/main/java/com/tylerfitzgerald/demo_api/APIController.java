@@ -8,13 +8,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 import org.web3j.protocol.http.HttpService;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 public class APIController {
+
+    @Autowired
+    private Web3j web3j;
 
     @Autowired
     private TileNftConfig appConfig;
@@ -69,9 +75,13 @@ public class APIController {
     }
 
     @GetMapping("/api/test/{id}")
-    public String getTestJSON(@PathVariable String id) {
-        Web3j web3a = Web3j.build(new HttpService());
-        return "hahaha!";
+    public String getTestJSON(@PathVariable String id) throws ExecutionException, InterruptedException, IOException {
+        Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
+        Web3ClientVersion web3ClientVersion = web3.web3ClientVersion().send();
+        String clientVersion = web3ClientVersion.getWeb3ClientVersion();
+        String output = "clientVersion: " + clientVersion;
+        System.out.println(output);
+        return output;
     }
 
 }
