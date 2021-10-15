@@ -11,4 +11,10 @@ public class TileNftConfig {
     private String name;
     private int tileCount;
     private int bitsPerTile;
+    private String alchemyAPIKey;
+    private String alchemyBaseUrl;
+
+    public String getAlchemyURI() {
+        return alchemyBaseUrl + alchemyAPIKey;
+    }
 }

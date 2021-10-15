@@ -3,3 +3,5 @@ spring:
     name: tile-nft
     tileCount: 1
     bitsPerTile: 24
+    alchemyAPIKey: "cM6mpgOs8PlQFVgeYtPIW-fUzy5L5tC8"
+    alchemyBaseUrl: "https://eth-rinkeby.alchemyapi.io/v2/"

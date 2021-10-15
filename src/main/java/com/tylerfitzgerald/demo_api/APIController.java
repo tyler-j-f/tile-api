@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.EthBlockNumber;
-import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 import org.web3j.protocol.http.HttpService;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,10 +18,6 @@ import java.util.concurrent.ExecutionException;
 
 @RestController
 public class APIController {
-
-    String ALCHEMY_API_KEY = "cM6mpgOs8PlQFVgeYtPIW-fUzy5L5tC8";
-    String ALCHEMY_BASE_URL = "https://eth-rinkeby.alchemyapi.io/v2/";
-    String ALCHEMY_URI = ALCHEMY_BASE_URL + ALCHEMY_API_KEY;
 
     @Autowired
     private Web3j web3j;
@@ -82,7 +76,7 @@ public class APIController {
 
     @GetMapping("/api/test/{id}")
     public String getTestJSON(@PathVariable String id) throws ExecutionException, InterruptedException {
-        Web3j web3 = Web3j.build(new HttpService(ALCHEMY_URI));  // defaults to http://localhost:8545/
+        Web3j web3 = Web3j.build(new HttpService(appConfig.getAlchemyURI()));  // defaults to http://localhost:8545/
         EthBlockNumber ethBlockNumber = web3.ethBlockNumber().sendAsync().get();
         BigInteger blockNumber = ethBlockNumber.getBlockNumber();
         String output = "blockNumber: " + blockNumber;
