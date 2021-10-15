@@ -75,9 +75,9 @@ public class APIController {
     }
 
     @GetMapping("/api/test/{id}")
-    public String getTestJSON(@PathVariable String id) throws ExecutionException, InterruptedException, IOException {
+    public String getTestJSON(@PathVariable String id) throws ExecutionException, InterruptedException {
         Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
-        Web3ClientVersion web3ClientVersion = web3.web3ClientVersion().send();
+        Web3ClientVersion web3ClientVersion = web3.web3ClientVersion().sendAsync().get();
         String clientVersion = web3ClientVersion.getWeb3ClientVersion();
         String output = "clientVersion: " + clientVersion;
         System.out.println(output);
