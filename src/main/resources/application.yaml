@@ -5,5 +5,5 @@ spring:
     bitsPerTile: 24
     alchemyAPIKey: "cM6mpgOs8PlQFVgeYtPIW-fUzy5L5tC8"
     alchemyBaseUrl: "https://eth-rinkeby.alchemyapi.io/v2/"
-    nftContractAddress: "0x270D224c6302dAf0BDd9da90cC00951053f8d074"
-    nftFactoryContractAddress: "0xa44787e418CA00afA82D6E2006a0bc6ee858A35b"
+    nftContractAddress: "0x29502a8DE72Ad5A33C26E2e407c8E1e0E3a5a3F7"
+    nftFactoryContractAddress: "0x1b78Cd0aa89a34B865231eaaDd86E9b13cC97064"

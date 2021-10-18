@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.methods.request.EthFilter;
-import org.web3j.protocol.core.methods.response.EthBlockNumber;
 import org.web3j.protocol.core.methods.response.EthLog;
+import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.http.HttpService;
 
 import java.math.BigInteger;
@@ -87,13 +87,15 @@ public class APIController {
                 DefaultBlockParameter.valueOf(currentBlockNumber), appConfig.getNftFactoryContractAddress()
         );
         EthLog logs = web3.ethGetLogs(filter).sendAsync().get();
-        List<?> logOutput = logs.getLogs();
-        if (logOutput.size() == 0) {
+        List<EthLog.LogResult> logOutput = logs.getLogs();
+        int size = logOutput.size();
+        if (size == 0) {
             String output = "No events found";
             System.out.println(output);
             return output;
         }
-        System.out.println("logOutput: " + logOutput.toString());
+        List<String> topics = ((Log) logOutput.get(size - 1)).getTopics();
+        System.out.println("topics: " + topics);
         return "END";
     }
 
