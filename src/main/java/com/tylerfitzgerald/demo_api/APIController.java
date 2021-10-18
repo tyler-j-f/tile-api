@@ -94,8 +94,12 @@ public class APIController {
             System.out.println(output);
             return output;
         }
-        List<String> topics = ((Log) logOutput.get(size - 1)).getTopics();
-        System.out.println("topics: " + topics);
+        MintEvent event = MintEvent.builder()
+                .topics(((Log) logOutput.get(size - 1)).getTopics())
+                .build();
+        System.out.println("Sale option:  " + event.getSaleOptionId());
+        System.out.println("Sale option supply:  " + event.getSaleOptionSupplyPostMint());
+        System.out.println("Token id:  " + event.getTokenId());
         return "END";
     }
 
