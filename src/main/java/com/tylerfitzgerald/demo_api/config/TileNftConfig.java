@@ -15,6 +15,7 @@ public class TileNftConfig {
     private String alchemyBaseUrl;
     private String nftContractAddress;
     private String nftFactoryContractAddress;
+    private String mintEventHashSignature;
 
     public String getAlchemyURI() {
         return alchemyBaseUrl + alchemyAPIKey;

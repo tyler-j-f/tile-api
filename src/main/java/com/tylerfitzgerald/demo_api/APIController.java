@@ -86,20 +86,29 @@ public class APIController {
                 DefaultBlockParameter.valueOf(currentBlockNumber.subtract(new BigInteger("5760"))),
                 DefaultBlockParameter.valueOf(currentBlockNumber), appConfig.getNftFactoryContractAddress()
         );
-        EthLog logs = web3.ethGetLogs(filter).sendAsync().get();
-        List<EthLog.LogResult> logOutput = logs.getLogs();
-        int size = logOutput.size();
+        List<EthLog.LogResult> logs = web3.ethGetLogs(filter).sendAsync().get().getLogs();
+        int size = logs.size();
         if (size == 0) {
             String output = "No events found";
             System.out.println(output);
             return output;
         }
-        MintEvent event = MintEvent.builder()
-                .topics(((Log) logOutput.get(size - 1)).getTopics())
-                .build();
-        System.out.println("Sale option:  " + event.getSaleOptionId());
-        System.out.println("Sale option supply:  " + event.getSaleOptionSupplyPostMint());
-        System.out.println("Token id:  " + event.getTokenId());
+        List<MintEvent> events = new ArrayList<>();
+        for (EthLog.LogResult log : logs) {
+            List<String> topics = ((Log) log).getTopics();
+            if (topics.get(0).equals(appConfig.getMintEventHashSignature())) {
+                events.add(
+                        MintEvent.builder()
+                                .topics(topics)
+                                .build()
+                );
+            }
+        }
+
+        System.out.println("events size:  " + events.size());
+        System.out.println("event 1: " + events.get(0).toString());
+        System.out.println("event 2: " + events.get(1).toString());
+        //System.out.println("event 3: " + events.get(2));
         return "END";
     }
 
