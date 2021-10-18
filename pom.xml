@@ -21,7 +21,7 @@
 		<dependency>
 			<groupId>com.google.cloud</groupId>
 			<artifactId>spring-cloud-gcp-starter-sql-mysql</artifactId>
-			<version>1.18.20</version>
+			<version>2.0.0-RC1</version>
 		</dependency>
 
 		<dependency>
