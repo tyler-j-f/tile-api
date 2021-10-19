@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "spring.application")
 @Data
-public class TileNftConfig {
+public class EnvConfig {
     private String name;
     private int tileCount;
     private int bitsPerTile;

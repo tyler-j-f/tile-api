@@ -2,11 +2,9 @@ package com.tylerfitzgerald.demo_api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tylerfitzgerald.demo_api.config.TileNftConfig;
-import com.tylerfitzgerald.demo_api.token.TokenDTO;
+import com.tylerfitzgerald.demo_api.config.EnvConfig;
 import com.tylerfitzgerald.demo_api.token.TokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,17 +27,17 @@ public class APIController {
 
     private final JdbcTemplate jdbcTemplate;
 
+    @Autowired
     private TokenRepository tokenRepository;
 
     @Autowired
     private Web3j web3j;
 
     @Autowired
-    private TileNftConfig appConfig;
+    private EnvConfig appConfig;
 
     public APIController(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate    = jdbcTemplate;
-        this.tokenRepository = new TokenRepository(jdbcTemplate);
     }
 
     @GetMapping("/api/creature/{id}")
