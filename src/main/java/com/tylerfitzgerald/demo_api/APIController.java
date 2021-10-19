@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tylerfitzgerald.demo_api.config.TileNftConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 public class APIController {
@@ -121,10 +123,14 @@ public class APIController {
     }
 
     @GetMapping("/api/test2/{id}")
-    public List<String> getTestJSON2(@PathVariable String id) throws ExecutionException, InterruptedException {
-        return this.jdbcTemplate.queryForList("SELECT * FROM users").stream()
-                .map(m -> m.values().toString())
-                .collect(Collectors.toList());
+    public String getTestJSON2(@PathVariable String id) throws ExecutionException, InterruptedException {
+//        String sql = "CREATE TABLE pet (name VARCHAR(20), owner VARCHAR(20))";
+//        this.jdbcTemplate.execute(sql);
+//        String sql2 = "INSERT INTO pet VALUES ('Garfield-Dog', 'Ronald')";
+//        this.jdbcTemplate.execute(sql2);
+        String sql3 = "SELECT * FROM pet";
+        Stream<Pet> stream = this.jdbcTemplate.queryForStream(sql3, new BeanPropertyRowMapper(Pet.class));
+        return stream.collect(Collectors.toList()).toString();
     }
 
 }
