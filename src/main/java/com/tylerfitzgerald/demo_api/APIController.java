@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tylerfitzgerald.demo_api.config.TileNftConfig;
 import com.tylerfitzgerald.demo_api.token.TokenDTO;
+import com.tylerfitzgerald.demo_api.token.TokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,13 +23,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 public class APIController {
 
     private final JdbcTemplate jdbcTemplate;
+
+    private TokenRepository tokenRepository;
 
     @Autowired
     private Web3j web3j;
@@ -37,7 +38,8 @@ public class APIController {
     private TileNftConfig appConfig;
 
     public APIController(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+        this.jdbcTemplate    = jdbcTemplate;
+        this.tokenRepository = new TokenRepository(jdbcTemplate);
     }
 
     @GetMapping("/api/creature/{id}")
@@ -125,13 +127,7 @@ public class APIController {
 
     @GetMapping("/api/getTblTokens")
     public String getTblTokens() {
-//        String sql = "CREATE TABLE pet (name VARCHAR(20), owner VARCHAR(20))";
-//        this.jdbcTemplate.execute(sql);
-//        String sql2 = "INSERT INTO pet VALUES ('Garfield-Dog', 'Ronald')";
-//        this.jdbcTemplate.execute(sql2);
-        String sql = "SELECT * FROM token";
-        Stream<TokenDTO> stream = this.jdbcTemplate.queryForStream(sql, new BeanPropertyRowMapper(TokenDTO.class));
-        return stream.collect(Collectors.toList()).toString();
+        return tokenRepository.read().toString();
     }
 
     @GetMapping("/api/createSqlTables")
