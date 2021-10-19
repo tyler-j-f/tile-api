@@ -12,10 +12,11 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private final String READ_SQL        = "SELECT * FROM token";
-    private final String READ_BY_ID_SQL  = "SELECT * FROM token WHERE tokenId = ?";
-    private final String CREATE_SQL      = "INSERT INTO token VALUES (null , ?, ?)";
-    private final String UPDATE_SQL      = "UPDATE token set saleId = ?";
+    private final String READ_SQL          = "SELECT * FROM token";
+    private final String READ_BY_ID_SQL    = "SELECT * FROM token WHERE tokenId = ?";
+    private final String CREATE_SQL        = "INSERT INTO token VALUES (null , ?, ?)";
+    private final String UPDATE_SQL        = "UPDATE token set saleId = ?";
+    private final String DELETE_BY_ID_SQL  = "DELETE FROM token WHERE tokenId = ?";
 
     public TokenRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -83,8 +84,15 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
     }
 
     @Override
-    public TokenDTO delete(TokenDTO entity) {
-        return null;
+    public boolean delete(TokenDTO entity) {
+        if (!doesTokenIdExist(entity)) {
+            return false;
+        }
+        jdbcTemplate.update(
+                DELETE_BY_ID_SQL,
+                entity.getTokenId()
+        );
+        return !doesTokenIdExist(entity);
     }
 
     private boolean doesTokenIdExist(TokenDTO entity) {

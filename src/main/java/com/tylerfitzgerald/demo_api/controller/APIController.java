@@ -166,6 +166,19 @@ public class APIController {
         return tokenDTO.toString();
     }
 
+    @GetMapping("/api/deleteToken/{tokenId}")
+    public String dropToken(@PathVariable Long tokenId) {
+        TokenDTO tokenDTO = tokenRepository.update(
+                TokenDTO.builder().
+                        tokenId(tokenId).
+                        build()
+        );
+        if (!tokenRepository.delete(tokenDTO)) {
+            return "Could not delete tokenId: " + tokenId;
+        }
+        return "Deleted tokenId: " + tokenId;
+    }
+
     @GetMapping("/api/createSqlTables")
     public String createSqlTables() {
 //        String sql = "CREATE TABLE token(id int NOT NULL AUTO_INCREMENT, tokenId int, saleId int, PRIMARY KEY (id))";

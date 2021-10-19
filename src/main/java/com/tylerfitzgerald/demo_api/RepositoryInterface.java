@@ -7,5 +7,5 @@ public interface RepositoryInterface<T, K> {
     T readById(K id);
     T create(T entity);
     T update(T entity);
-    T delete(T entity);
+    boolean delete(T entity);
 }
