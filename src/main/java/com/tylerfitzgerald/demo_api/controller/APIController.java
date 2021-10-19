@@ -1,7 +1,11 @@
-package com.tylerfitzgerald.demo_api;
+package com.tylerfitzgerald.demo_api.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tylerfitzgerald.demo_api.Creature;
+import com.tylerfitzgerald.demo_api.DisplayTypeTrait;
+import com.tylerfitzgerald.demo_api.MintEvent;
+import com.tylerfitzgerald.demo_api.Trait;
 import com.tylerfitzgerald.demo_api.config.EnvConfig;
 import com.tylerfitzgerald.demo_api.token.TokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +18,6 @@ import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.response.EthLog;
 import org.web3j.protocol.core.methods.response.Log;
-import org.web3j.protocol.http.HttpService;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -91,13 +94,12 @@ public class APIController {
 
     @GetMapping("/api/test/{id}")
     public String getTestJSON(@PathVariable String id) throws ExecutionException, InterruptedException {
-        Web3j web3 = Web3j.build(new HttpService(appConfig.getAlchemyURI()));  // defaults to http://localhost:8545/
-        BigInteger currentBlockNumber = web3.ethBlockNumber().sendAsync().get().getBlockNumber();
+        BigInteger currentBlockNumber = web3j.ethBlockNumber().sendAsync().get().getBlockNumber();
         EthFilter filter = new EthFilter(
                 DefaultBlockParameter.valueOf(currentBlockNumber.subtract(new BigInteger("5760"))),
                 DefaultBlockParameter.valueOf(currentBlockNumber), appConfig.getNftFactoryContractAddress()
         );
-        List<EthLog.LogResult> logs = web3.ethGetLogs(filter).sendAsync().get().getLogs();
+        List<EthLog.LogResult> logs = web3j.ethGetLogs(filter).sendAsync().get().getLogs();
         int size = logs.size();
         if (size == 0) {
             String output = "No events found";
