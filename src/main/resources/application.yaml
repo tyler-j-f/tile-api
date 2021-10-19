@@ -12,7 +12,8 @@ spring:
     gcp:
       sql:
         database-name: "db1"
-        instance-connection-name: "sql-1"
+        instance-connection-name: "dev-eth-api:us-east4:sql-1"
+
   datasource:
     continue-on-error: true
     initialization-mode: always
