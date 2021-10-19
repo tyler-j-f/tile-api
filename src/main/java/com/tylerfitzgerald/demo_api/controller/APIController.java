@@ -125,15 +125,21 @@ public class APIController {
         return "END";
     }
 
-    @GetMapping("/api/getTblTokens")
+    @GetMapping("/api/getAllTokens")
     public String getTblTokens() {
         return tokenRepository.read().toString();
     }
 
+
+    @GetMapping("/api/getToken/{id}")
+    public String getToken(@PathVariable String id) {
+        return tokenRepository.readById(Long.valueOf(id)).toString();
+    }
+
     @GetMapping("/api/createSqlTables")
     public String createSqlTables() {
-        String sql = "CREATE TABLE token(id int NOT NULL AUTO_INCREMENT, tokenId int, saleId int, PRIMARY KEY (id))";
-        this.jdbcTemplate.execute(sql);
+//        String sql = "CREATE TABLE token(id int NOT NULL AUTO_INCREMENT, tokenId int, saleId int, PRIMARY KEY (id))";
+//        this.jdbcTemplate.execute(sql);
         String sql2 = "INSERT INTO token VALUES (null , 1, 2)";
         this.jdbcTemplate.execute(sql2);
         String sql3 = "INSERT INTO token VALUES (null , 2, 5)";

@@ -14,20 +14,34 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
 
     private final String READ_SQL  = "SELECT * FROM token";
 
+    private final String READ_BY_ID_SQL  = "SELECT * FROM token WHERE tokenId = ?";
+
+
     public TokenRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public List<TokenDTO> read() {
-        Stream<TokenDTO> stream = jdbcTemplate.queryForStream(READ_SQL, new BeanPropertyRowMapper(TokenDTO.class));
+        Stream<TokenDTO> stream = jdbcTemplate.queryForStream(
+                READ_SQL,
+                new BeanPropertyRowMapper(TokenDTO.class)
+        );
         return stream.collect(Collectors.toList());
     }
 
     @Override
     public TokenDTO readById(Long id) {
-        String sql2 = "INSERT INTO token VALUES (null , 1, 2)";
-        return null;
+        Stream<TokenDTO> stream = jdbcTemplate.queryForStream(
+                READ_BY_ID_SQL,
+                new BeanPropertyRowMapper(TokenDTO.class),
+                id
+        );
+        List<TokenDTO> tokens = stream.collect(Collectors.toList());
+        if (tokens.size() == 0) {
+            return null;
+        }
+        return tokens.get(0);
     }
 
     @Override
