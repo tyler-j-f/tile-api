@@ -15,7 +15,7 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
     private final String READ_SQL        = "SELECT * FROM token";
     private final String READ_BY_ID_SQL  = "SELECT * FROM token WHERE tokenId = ?";
     private final String CREATE_SQL      = "INSERT INTO token VALUES (null , ?, ?)";
-
+    private final String UPDATE_SQL      = "UPDATE token set saleId = ?";
 
     public TokenRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -31,11 +31,15 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
     }
 
     @Override
-    public TokenDTO readById(Long id) {
+    public TokenDTO readById(Long tokenId) {
+        if (tokenId == 0) {
+            // TokenId starts at index 1
+            return null;
+        }
         Stream<TokenDTO> stream = jdbcTemplate.queryForStream(
                 READ_BY_ID_SQL,
                 new BeanPropertyRowMapper(TokenDTO.class),
-                id
+                tokenId
         );
         List<TokenDTO> tokens = stream.collect(Collectors.toList());
         if (tokens.size() == 0) {
@@ -46,7 +50,7 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
 
     @Override
     public TokenDTO create(TokenDTO entity) {
-        if (readById(entity.getTokenId()) != null) {
+        if (doesTokenIdExist(entity)) {
             return null;
         }
         int results = jdbcTemplate.update(
@@ -61,12 +65,29 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
     }
 
     @Override
+    /**
+     * NOTE: Only the sale id can be updated
+     */
     public TokenDTO update(TokenDTO entity) {
-        return null;
+        if (!doesTokenIdExist(entity)) {
+            return null;
+        }
+        int results = jdbcTemplate.update(
+                UPDATE_SQL,
+                entity.getSaleId()
+        );
+        if (results < 1) {
+            return null;
+        }
+        return readById(entity.getTokenId());
     }
 
     @Override
     public TokenDTO delete(TokenDTO entity) {
         return null;
+    }
+
+    private boolean doesTokenIdExist(TokenDTO entity) {
+        return readById(entity.getTokenId()) != null;
     }
 }

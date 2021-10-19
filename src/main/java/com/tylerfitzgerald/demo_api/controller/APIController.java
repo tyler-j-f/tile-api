@@ -151,6 +151,21 @@ public class APIController {
         return tokenDTO.toString();
     }
 
+
+    @GetMapping("/api/updateToken/{tokenId}/{saleId}")
+    public String updateToken(@PathVariable Long tokenId, @PathVariable Long saleId) {
+        TokenDTO tokenDTO = tokenRepository.update(
+                TokenDTO.builder().
+                        tokenId(tokenId).
+                        saleId(saleId).
+                        build()
+        );
+        if (tokenDTO == null) {
+            return "Cannot update tokenId: " + tokenId;
+        }
+        return tokenDTO.toString();
+    }
+
     @GetMapping("/api/createSqlTables")
     public String createSqlTables() {
 //        String sql = "CREATE TABLE token(id int NOT NULL AUTO_INCREMENT, tokenId int, saleId int, PRIMARY KEY (id))";
