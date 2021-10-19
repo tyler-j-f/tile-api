@@ -3,6 +3,7 @@ package com.tylerfitzgerald.demo_api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tylerfitzgerald.demo_api.config.TileNftConfig;
+import com.tylerfitzgerald.demo_api.token.TokenDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -122,15 +123,33 @@ public class APIController {
         return "END";
     }
 
-    @GetMapping("/api/test2/{id}")
-    public String getTestJSON2(@PathVariable String id) throws ExecutionException, InterruptedException {
+    @GetMapping("/api/getTblTokens")
+    public String getTblTokens() {
 //        String sql = "CREATE TABLE pet (name VARCHAR(20), owner VARCHAR(20))";
 //        this.jdbcTemplate.execute(sql);
 //        String sql2 = "INSERT INTO pet VALUES ('Garfield-Dog', 'Ronald')";
 //        this.jdbcTemplate.execute(sql2);
-        String sql3 = "SELECT * FROM pet";
-        Stream<Pet> stream = this.jdbcTemplate.queryForStream(sql3, new BeanPropertyRowMapper(Pet.class));
+        String sql = "SELECT * FROM token";
+        Stream<TokenDTO> stream = this.jdbcTemplate.queryForStream(sql, new BeanPropertyRowMapper(TokenDTO.class));
         return stream.collect(Collectors.toList()).toString();
+    }
+
+    @GetMapping("/api/createSqlTables")
+    public String createSqlTables() {
+        String sql = "CREATE TABLE token(id int NOT NULL AUTO_INCREMENT, tokenId int, saleId int, PRIMARY KEY (id))";
+        this.jdbcTemplate.execute(sql);
+        String sql2 = "INSERT INTO token VALUES (null , 1, 2)";
+        this.jdbcTemplate.execute(sql2);
+        String sql3 = "INSERT INTO token VALUES (null , 2, 5)";
+        this.jdbcTemplate.execute(sql3);
+        return "hahaha";
+    }
+
+    @GetMapping("/api/dropSqlTables")
+    public String dropSqlTables() {
+        String sql = "DROP TABLE token";
+        this.jdbcTemplate.execute(sql);
+        return "hahaha";
     }
 
 }
