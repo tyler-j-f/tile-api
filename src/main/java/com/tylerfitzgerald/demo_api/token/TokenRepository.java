@@ -12,9 +12,9 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private final String READ_SQL  = "SELECT * FROM token";
-
+    private final String READ_SQL        = "SELECT * FROM token";
     private final String READ_BY_ID_SQL  = "SELECT * FROM token WHERE tokenId = ?";
+    private final String CREATE_SQL      = "INSERT INTO token VALUES (null , ?, ?)";
 
 
     public TokenRepository(JdbcTemplate jdbcTemplate) {
@@ -46,7 +46,18 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
 
     @Override
     public TokenDTO create(TokenDTO entity) {
-        return null;
+        if (readById(entity.getTokenId()) != null) {
+            return null;
+        }
+        int results = jdbcTemplate.update(
+                CREATE_SQL,
+                entity.getTokenId(),
+                entity.getSaleId()
+        );
+        if (results != 1) {
+            return null;
+        }
+        return readById(entity.getTokenId());
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.tylerfitzgerald.demo_api.DisplayTypeTrait;
 import com.tylerfitzgerald.demo_api.MintEvent;
 import com.tylerfitzgerald.demo_api.Trait;
 import com.tylerfitzgerald.demo_api.config.EnvConfig;
+import com.tylerfitzgerald.demo_api.token.TokenDTO;
 import com.tylerfitzgerald.demo_api.token.TokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -132,8 +133,22 @@ public class APIController {
 
 
     @GetMapping("/api/getToken/{id}")
-    public String getToken(@PathVariable String id) {
-        return tokenRepository.readById(Long.valueOf(id)).toString();
+    public String getToken(@PathVariable Long id) {
+        return tokenRepository.readById(id).toString();
+    }
+
+    @GetMapping("/api/insertToken/{tokenId}/{saleId}")
+    public String insertToken(@PathVariable Long tokenId, @PathVariable Long saleId) {
+        TokenDTO tokenDTO = tokenRepository.create(
+                TokenDTO.builder().
+                        tokenId(tokenId).
+                        saleId(saleId).
+                        build()
+        );
+        if (tokenDTO == null) {
+            return "Cannot create tokenId: " + tokenId;
+        }
+        return tokenDTO.toString();
     }
 
     @GetMapping("/api/createSqlTables")
