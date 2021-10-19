@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tylerfitzgerald.demo_api.config.TileNftConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,15 +20,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 @RestController
 public class APIController {
+
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
     private Web3j web3j;
 
     @Autowired
     private TileNftConfig appConfig;
+
+    public APIController(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @GetMapping("/api/creature/{id}")
     public String getCreatureJSON(@PathVariable String id) throws JsonProcessingException {
@@ -110,6 +118,13 @@ public class APIController {
         System.out.println("event 2: " + events.get(1).toString());
         //System.out.println("event 3: " + events.get(2));
         return "END";
+    }
+
+    @GetMapping("/api/test2/{id}")
+    public List<String> getTestJSON2(@PathVariable String id) throws ExecutionException, InterruptedException {
+        return this.jdbcTemplate.queryForList("SELECT * FROM users").stream()
+                .map(m -> m.values().toString())
+                .collect(Collectors.toList());
     }
 
 }
