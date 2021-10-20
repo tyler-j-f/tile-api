@@ -2,10 +2,10 @@ package com.tylerfitzgerald.demo_api.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tylerfitzgerald.demo_api.Creature;
-import com.tylerfitzgerald.demo_api.DisplayTypeTrait;
-import com.tylerfitzgerald.demo_api.MintEvent;
-import com.tylerfitzgerald.demo_api.Trait;
+import com.tylerfitzgerald.demo_api.NFT;
+import com.tylerfitzgerald.demo_api.traits.DisplayTypeTrait;
+import com.tylerfitzgerald.demo_api.events.MintEvent;
+import com.tylerfitzgerald.demo_api.traits.Trait;
 import com.tylerfitzgerald.demo_api.config.EnvConfig;
 import com.tylerfitzgerald.demo_api.token.TokenDTO;
 import com.tylerfitzgerald.demo_api.token.TokenRepository;
@@ -60,7 +60,7 @@ public class APIController {
                         new DisplayTypeTrait("generation", "1", "number")
                 )
         );
-        Creature creature = new Creature(
+        NFT creature = new NFT(
                 traits,
                 "Friendly OpenSea Creature that enjoys long swims in the ocean.",
                 "https://example.com/?token_id=0",
@@ -83,7 +83,7 @@ public class APIController {
                         new Trait("number_inside", "1")
                 )
         );
-        Creature creature = new Creature(
+        NFT creature = new NFT(
                 traits,
                 "TESTING!!!! Friendly OpenSea Creature that enjoys long swims in the ocean.",
                 "https://example.com/?token_id=0",

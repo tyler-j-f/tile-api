@@ -1,6 +1,6 @@
 package com.tylerfitzgerald.demo_api.token;
 
-import com.tylerfitzgerald.demo_api.RepositoryInterface;
+import com.tylerfitzgerald.demo_api.sql.RepositoryInterface;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 

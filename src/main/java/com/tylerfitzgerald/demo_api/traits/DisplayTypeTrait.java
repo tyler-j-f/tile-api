@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api;
+package com.tylerfitzgerald.demo_api.traits;
 
 public class DisplayTypeTrait extends Trait {
 

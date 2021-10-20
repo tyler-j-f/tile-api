@@ -1,5 +1,6 @@
 package com.tylerfitzgerald.demo_api;
 
+import com.tylerfitzgerald.demo_api.traits.Trait;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 
 @Data
 @AllArgsConstructor
-public class Creature {
+public class NFT {
     private ArrayList<Trait> attributes;
     private String description;
     private String external_url;
