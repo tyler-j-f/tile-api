@@ -1,10 +1,9 @@
 package com.tylerfitzgerald.demo_api;
 
 import com.tylerfitzgerald.demo_api.traits.Trait;
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.ArrayList;
 
 @Data
 @AllArgsConstructor
