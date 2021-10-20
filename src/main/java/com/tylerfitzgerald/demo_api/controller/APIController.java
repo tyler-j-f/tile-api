@@ -3,6 +3,7 @@ package com.tylerfitzgerald.demo_api.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tylerfitzgerald.demo_api.NFT;
+import com.tylerfitzgerald.demo_api.token.TokenTable;
 import com.tylerfitzgerald.demo_api.traits.DisplayTypeTrait;
 import com.tylerfitzgerald.demo_api.events.MintEvent;
 import com.tylerfitzgerald.demo_api.traits.Trait;
@@ -10,7 +11,6 @@ import com.tylerfitzgerald.demo_api.config.EnvConfig;
 import com.tylerfitzgerald.demo_api.token.TokenDTO;
 import com.tylerfitzgerald.demo_api.token.TokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +29,8 @@ import java.util.concurrent.ExecutionException;
 @RestController
 public class APIController {
 
-    private final JdbcTemplate jdbcTemplate;
+    @Autowired
+    private TokenTable tokenTable;
 
     @Autowired
     private TokenRepository tokenRepository;
@@ -39,10 +40,6 @@ public class APIController {
 
     @Autowired
     private EnvConfig appConfig;
-
-    public APIController(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate    = jdbcTemplate;
-    }
 
     @GetMapping("/api/creature/{id}")
     public String getCreatureJSON(@PathVariable String id) throws JsonProcessingException {
@@ -181,20 +178,18 @@ public class APIController {
 
     @GetMapping("/api/createSqlTables")
     public String createSqlTables() {
-//        String sql = "CREATE TABLE token(id int NOT NULL AUTO_INCREMENT, tokenId int, saleId int, PRIMARY KEY (id))";
-//        this.jdbcTemplate.execute(sql);
-        String sql2 = "INSERT INTO token VALUES (null , 1, 2)";
-        this.jdbcTemplate.execute(sql2);
-        String sql3 = "INSERT INTO token VALUES (null , 2, 5)";
-        this.jdbcTemplate.execute(sql3);
-        return "hahaha";
+        if (tokenTable.delete()) {
+            return "Token table created successfully";
+        }
+        return "Token table failed to create";
     }
 
     @GetMapping("/api/dropSqlTables")
     public String dropSqlTables() {
-        String sql = "DROP TABLE token";
-        this.jdbcTemplate.execute(sql);
-        return "hahaha";
+       if (tokenTable.delete()) {
+            return "Token table deleted successfully";
+       }
+        return "Token table failed to delete";
     }
 
 }

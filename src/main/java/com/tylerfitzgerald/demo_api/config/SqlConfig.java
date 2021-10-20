@@ -1,6 +1,7 @@
 package com.tylerfitzgerald.demo_api.config;
 
 import com.tylerfitzgerald.demo_api.token.TokenRepository;
+import com.tylerfitzgerald.demo_api.token.TokenTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,5 +29,10 @@ public class SqlConfig {
     @Bean
     public Web3j web3j() {
         return Web3j.build(new HttpService(appConfig.getAlchemyURI()));
+    }
+
+    @Bean
+    public TokenTable tokenTable() {
+        return new TokenTable(jdbcTemplate);
     }
 }
