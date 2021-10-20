@@ -62,7 +62,7 @@ public class TokenTableController {
      * The token will still exist on the blockchain.
      */
     @GetMapping("delete/{tokenId}")
-    public String dropToken(@PathVariable Long tokenId) {
+    public String deleteToken(@PathVariable Long tokenId) {
         TokenDTO tokenDTO = tokenRepository.update(
                 TokenDTO.builder().
                         tokenId(tokenId).

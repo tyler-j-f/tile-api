@@ -24,11 +24,18 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
 
     @Override
     public List<TokenDTO> read() {
-        Stream<TokenDTO> stream = jdbcTemplate.queryForStream(
-                READ_SQL,
-                new BeanPropertyRowMapper(TokenDTO.class)
-        );
-        return stream.collect(Collectors.toList());
+        Stream<TokenDTO> stream = null;
+        try {
+            stream = jdbcTemplate.queryForStream(
+                    READ_SQL,
+                    new BeanPropertyRowMapper(TokenDTO.class)
+            );
+            return stream.collect(Collectors.toList());
+        } finally {
+            if (stream != null) {
+                stream.close();
+            }
+        }
     }
 
     @Override
