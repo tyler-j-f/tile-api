@@ -23,8 +23,8 @@ public class MintEvent {
     @Override
     public String toString() {
         return "MintEvent{" +
-                "saleOptionId=" + topics.get(2) + ", " +
                 "tokenId=" + topics.get(3) + ", " +
+                "saleOptionId=" + topics.get(2) + ", " +
                 "saleOptionSupplyPostMint=" + topics.get(1) + "," +
                 '}';
     }
