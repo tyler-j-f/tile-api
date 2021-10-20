@@ -178,7 +178,7 @@ public class APIController {
 
     @GetMapping("/api/createSqlTables")
     public String createSqlTables() {
-        if (tokenTable.delete()) {
+        if (tokenTable.create()) {
             return "Token table created successfully";
         }
         return "Token table failed to create";

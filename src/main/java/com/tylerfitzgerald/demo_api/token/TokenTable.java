@@ -23,6 +23,6 @@ public class TokenTable implements TableInterface {
     @Override
     public boolean delete() {
         this.jdbcTemplate.execute(DELETE_SQL);
-        return false;
+        return true;
     }
 }
