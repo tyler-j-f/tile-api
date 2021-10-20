@@ -22,7 +22,7 @@ public class EventsController {
     @GetMapping(
             value = {"mint/getAll/{numberOfBlocksAgo}", "mint/getAll"}
     )
-    public String getMintEvents(@PathVariable(required = false) String numberOfBlocksAgo) throws ExecutionException, InterruptedException {
+    public String getMintEventsAndAddToDB(@PathVariable(required = false) String numberOfBlocksAgo) throws ExecutionException, InterruptedException {
         if (numberOfBlocksAgo == null) {
             numberOfBlocksAgo = "5760";
         }
