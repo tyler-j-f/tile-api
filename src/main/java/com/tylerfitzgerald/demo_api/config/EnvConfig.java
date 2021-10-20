@@ -16,6 +16,8 @@ public class EnvConfig {
     private String nftContractAddress;
     private String nftFactoryContractAddress;
     private String mintEventHashSignature;
+    private String schedulerFixedRateMs;
+    private String schedulerNumberOfBlocksToLookBack;
 
     public String getAlchemyURI() {
         return alchemyBaseUrl + alchemyAPIKey;
