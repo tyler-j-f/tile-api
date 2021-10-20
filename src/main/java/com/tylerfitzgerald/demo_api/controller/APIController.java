@@ -3,7 +3,6 @@ package com.tylerfitzgerald.demo_api.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tylerfitzgerald.demo_api.NFT;
-import com.tylerfitzgerald.demo_api.token.TokenTable;
 import com.tylerfitzgerald.demo_api.events.MintEvent;
 import com.tylerfitzgerald.demo_api.config.EnvConfig;
 import com.tylerfitzgerald.demo_api.token.TokenDTO;
@@ -13,6 +12,7 @@ import com.tylerfitzgerald.demo_api.traits.Trait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
@@ -27,10 +27,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @RestController
+@RequestMapping(value = {"/api"})
 public class APIController {
-
-    @Autowired
-    private TokenTable tokenTable;
 
     @Autowired
     private TokenRepository tokenRepository;
@@ -41,7 +39,7 @@ public class APIController {
     @Autowired
     private EnvConfig appConfig;
 
-    @GetMapping("/api/creature/{id}")
+    @GetMapping("creature/{id}")
     public String getCreatureJSON(@PathVariable String id) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         ArrayList<Trait> traits = new ArrayList<Trait>(
@@ -67,7 +65,7 @@ public class APIController {
         return objectMapper.writeValueAsString(creature);
     }
 
-    @GetMapping("/api/sale/{id}")
+    @GetMapping("sale/{id}")
     public String getSaleJSON(@PathVariable String id) throws JsonProcessingException {
         int totalSaleOptions = appConfig.getTileCount() * appConfig.getBitsPerTile();
         if (Integer.parseInt(id) > (totalSaleOptions - 1)) {
@@ -90,7 +88,7 @@ public class APIController {
         return objectMapper.writeValueAsString(creature);
     }
 
-    @GetMapping("/api/test/{id}")
+    @GetMapping("test/{id}")
     public String getTestJSON(@PathVariable String id) throws ExecutionException, InterruptedException {
         BigInteger currentBlockNumber = web3j.ethBlockNumber().sendAsync().get().getBlockNumber();
         EthFilter filter = new EthFilter(
@@ -123,18 +121,18 @@ public class APIController {
         return "END";
     }
 
-    @GetMapping("/api/getAllTokens")
+    @GetMapping("getAllTokens")
     public String getTblTokens() {
         return tokenRepository.read().toString();
     }
 
 
-    @GetMapping("/api/getToken/{id}")
+    @GetMapping("getToken/{id}")
     public String getToken(@PathVariable Long id) {
         return tokenRepository.readById(id).toString();
     }
 
-    @GetMapping("/api/insertToken/{tokenId}/{saleId}")
+    @GetMapping("insertToken/{tokenId}/{saleId}")
     public String insertToken(@PathVariable Long tokenId, @PathVariable Long saleId) {
         TokenDTO tokenDTO = tokenRepository.create(
                 TokenDTO.builder().
@@ -149,7 +147,7 @@ public class APIController {
     }
 
 
-    @GetMapping("/api/updateToken/{tokenId}/{saleId}")
+    @GetMapping("updateToken/{tokenId}/{saleId}")
     public String updateToken(@PathVariable Long tokenId, @PathVariable Long saleId) {
         TokenDTO tokenDTO = tokenRepository.update(
                 TokenDTO.builder().
@@ -163,7 +161,7 @@ public class APIController {
         return tokenDTO.toString();
     }
 
-    @GetMapping("/api/deleteToken/{tokenId}")
+    @GetMapping("deleteToken/{tokenId}")
     public String dropToken(@PathVariable Long tokenId) {
         TokenDTO tokenDTO = tokenRepository.update(
                 TokenDTO.builder().
@@ -174,22 +172,6 @@ public class APIController {
             return "Could not delete tokenId: " + tokenId;
         }
         return "Deleted tokenId: " + tokenId;
-    }
-
-    @GetMapping("/api/createSqlTables")
-    public String createSqlTables() {
-        if (tokenTable.create()) {
-            return "Token table created successfully";
-        }
-        return "Token table failed to create";
-    }
-
-    @GetMapping("/api/dropSqlTables")
-    public String dropSqlTables() {
-       if (tokenTable.delete()) {
-            return "Token table deleted successfully";
-       }
-        return "Token table failed to delete";
     }
 
 }
