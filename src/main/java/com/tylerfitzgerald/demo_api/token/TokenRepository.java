@@ -33,20 +33,27 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
 
     @Override
     public TokenDTO readById(Long tokenId) {
-        if (tokenId == 0) {
-            // TokenId starts at index 1
-            return null;
+        Stream<TokenDTO> stream = null;
+        try {
+            if (tokenId == 0) {
+                // TokenId starts at index 1
+                return null;
+            }
+            stream = jdbcTemplate.queryForStream(
+                    READ_BY_ID_SQL,
+                    new BeanPropertyRowMapper(TokenDTO.class),
+                    tokenId
+            );
+            List<TokenDTO> tokens = stream.collect(Collectors.toList());
+            if (tokens.size() == 0) {
+                return null;
+            }
+            return tokens.get(0);
+        } finally {
+            if (stream != null) {
+                stream.close();
+            }
         }
-        Stream<TokenDTO> stream = jdbcTemplate.queryForStream(
-                READ_BY_ID_SQL,
-                new BeanPropertyRowMapper(TokenDTO.class),
-                tokenId
-        );
-        List<TokenDTO> tokens = stream.collect(Collectors.toList());
-        if (tokens.size() == 0) {
-            return null;
-        }
-        return tokens.get(0);
     }
 
     @Override
