@@ -12,11 +12,11 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private final String READ_SQL          = "SELECT * FROM token";
-    private final String READ_BY_ID_SQL    = "SELECT * FROM token WHERE tokenId = ?";
-    private final String CREATE_SQL        = "INSERT INTO token VALUES (null , ?, ?)";
-    private final String UPDATE_SQL        = "UPDATE token set saleId = ?";
-    private final String DELETE_BY_ID_SQL  = "DELETE FROM token WHERE tokenId = ?";
+    private static final String READ_SQL          = "SELECT * FROM token";
+    private static final String READ_BY_ID_SQL    = "SELECT * FROM token WHERE tokenId = ?";
+    private static final String CREATE_SQL        = "INSERT INTO token VALUES (null , ?, ?)";
+    private static final String UPDATE_SQL        = "UPDATE token set saleId = ?";
+    private static final String DELETE_BY_ID_SQL  = "DELETE FROM token WHERE tokenId = ?";
 
     public TokenRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

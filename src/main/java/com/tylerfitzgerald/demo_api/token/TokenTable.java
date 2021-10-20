@@ -5,8 +5,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public class TokenTable implements TableInterface {
 
-    private final String CREATE_SQL  = "CREATE TABLE token(id int NOT NULL AUTO_INCREMENT, tokenId int, saleId int, PRIMARY KEY (id))";
-    private final String DELETE_SQL  = "DROP TABLE token";
+    private static final String CREATE_SQL  = "CREATE TABLE token(id int NOT NULL AUTO_INCREMENT, tokenId int, saleId int, PRIMARY KEY (id))";
+    private static final String DELETE_SQL  = "DROP TABLE token";
 
     private final JdbcTemplate jdbcTemplate;
 
