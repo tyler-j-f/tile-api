@@ -1,5 +1,6 @@
 package com.tylerfitzgerald.demo_api.config;
 
+import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
 import com.tylerfitzgerald.demo_api.token.TokenRepository;
 import com.tylerfitzgerald.demo_api.token.TokenTable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +11,14 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
 
 @Configuration
-public class SqlConfig {
+public class AppConfig {
 
     @Autowired
     private EnvConfig appConfig;
 
     private final JdbcTemplate jdbcTemplate;
 
-    public SqlConfig(JdbcTemplate jdbcTemplate) {
+    public AppConfig(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -34,5 +35,10 @@ public class SqlConfig {
     @Bean
     public TokenTable tokenTable() {
         return new TokenTable(jdbcTemplate);
+    }
+
+    @Bean
+    public MintEventRetriever mintEventRetriever() {
+        return new MintEventRetriever();
     }
 }
