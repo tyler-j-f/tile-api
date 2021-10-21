@@ -10,6 +10,11 @@ spring:
     mintEventHashSignature: "0x070aa035fe0a09f0d9305bdc2d7a5d93cd4733db3b1ff869b4a7033c9501909a"
     schedulerFixedRateMs: 10000
     schedulerNumberOfBlocksToLookBack: 20000
+    nftName: "tileNFT"
+    nftExternalUrl: "http://tilenft.io/"
+    nftBaseImageUrl: "http://tilenft.io/image/"
+    nftDescription: "A TileNFT. Trade, customize, and level up your TileNFT!!!"
+
   cloud:
     gcp:
       sql:
