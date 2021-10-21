@@ -1,6 +1,7 @@
 package com.tylerfitzgerald.demo_api.config;
 
 import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
+import com.tylerfitzgerald.demo_api.sql.TraitsTable;
 import com.tylerfitzgerald.demo_api.token.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.TokenTable;
 import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeRepository;
@@ -45,11 +46,13 @@ public class AppConfig {
     }
 
     @Bean
-    public TraitTypesTable traitTypesTable() {
-        return new TraitTypesTable(jdbcTemplate);
-    }
+    public TraitTypesTable traitTypesTable() {return new TraitTypesTable(jdbcTemplate);}
+
     @Bean
     public TraitTypeRepository traitTypeRepository() {
         return new TraitTypeRepository(jdbcTemplate);
     }
+
+    @Bean
+    public TraitsTable traitsTable() {return new TraitsTable(jdbcTemplate);}
 }
