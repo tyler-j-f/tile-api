@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tylerfitzgerald.demo_api.NFT;
 import com.tylerfitzgerald.demo_api.config.EnvConfig;
-import com.tylerfitzgerald.demo_api.token.traits.TraitTypeRepository;
+import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeRepository;
 import com.tylerfitzgerald.demo_api.traits.DisplayTypeTrait;
 import com.tylerfitzgerald.demo_api.traits.Trait;
 import org.springframework.beans.factory.annotation.Autowired;

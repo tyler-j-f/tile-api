@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.token.traits;
+package com.tylerfitzgerald.demo_api.token.traitTypes;
 
 import com.tylerfitzgerald.demo_api.sql.RepositoryInterface;
 import com.tylerfitzgerald.demo_api.sql.TraitTypesTable;
