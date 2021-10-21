@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tylerfitzgerald.demo_api.NFT;
 import com.tylerfitzgerald.demo_api.config.EnvConfig;
+import com.tylerfitzgerald.demo_api.token.traits.TraitTypeRepository;
 import com.tylerfitzgerald.demo_api.traits.DisplayTypeTrait;
 import com.tylerfitzgerald.demo_api.traits.Trait;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class TestController {
 
     @Autowired
     private EnvConfig appConfig;
+
+    @Autowired
+    private TraitTypeRepository traitTypeRepository;
 
     @GetMapping("creature/{id}")
     public String getCreatureJSON(@PathVariable String id) throws JsonProcessingException {
@@ -69,6 +73,12 @@ public class TestController {
                 "Herbie Starbelly"
         );
         return objectMapper.writeValueAsString(creature);
+    }
+
+
+    @GetMapping("traitType/{traitTypeId}")
+    public String getTraitTypes(@PathVariable String traitTypeId) {
+        return traitTypeRepository.read().toString();
     }
 
 }

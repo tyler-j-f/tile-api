@@ -2,6 +2,7 @@ package com.tylerfitzgerald.demo_api.controller;
 
 import com.tylerfitzgerald.demo_api.token.TokenTable;
 
+import com.tylerfitzgerald.demo_api.token.traits.TraitTypesTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,20 +15,39 @@ public class SqlController {
     @Autowired
     private TokenTable tokenTable;
 
+    @Autowired
+    private TraitTypesTable traitTypesTable;
+
     @GetMapping("createSqlTables")
     public String createSqlTables() {
+        String output;
         if (tokenTable.create()) {
-            return "Token table created successfully";
+            output = "Token table created successfully";
+        } else {
+            output = "Token table failed to create";
         }
-        return "Token table failed to create";
+        if (traitTypesTable.create()) {
+            output = output + "\n" + "Trait types table created successfully";
+        } else {
+            output = output + "\n" + "Trait types table failed to create";
+        }
+        return output;
     }
 
     @GetMapping("dropSqlTables")
     public String dropSqlTables() {
+        String output;
         if (tokenTable.delete()) {
-            return "Token table deleted successfully";
+            output = "Token table deleted successfully";
+        } else {
+            output = "Token table failed to delete";
         }
-        return "Token table failed to delete";
+        if (traitTypesTable.delete()) {
+            output = output + "\n" + "Trait types table deleted successfully";
+        } else {
+            output = output + "\n" + "Trait types table failed to delete";
+        }
+        return output;
     }
 
 }

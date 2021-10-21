@@ -3,6 +3,8 @@ package com.tylerfitzgerald.demo_api.config;
 import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
 import com.tylerfitzgerald.demo_api.token.TokenRepository;
 import com.tylerfitzgerald.demo_api.token.TokenTable;
+import com.tylerfitzgerald.demo_api.token.traits.TraitTypeRepository;
+import com.tylerfitzgerald.demo_api.token.traits.TraitTypesTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,5 +42,14 @@ public class AppConfig {
     @Bean
     public MintEventRetriever mintEventRetriever() {
         return new MintEventRetriever();
+    }
+
+    @Bean
+    public TraitTypesTable traitTypesTable() {
+        return new TraitTypesTable(jdbcTemplate);
+    }
+    @Bean
+    public TraitTypeRepository traitTypeRepository() {
+        return new TraitTypeRepository(jdbcTemplate);
     }
 }
