@@ -25,7 +25,7 @@ public class TraitsController {
         return traitsRepository.readById(traitId).toString();
     }
 
-    @GetMapping({"insert/{traitId}/{traitTypeId}/{displayTypeValue}", "insert/{traitId}/{traitTypeId}/{value}/{displayTypeValue}"})
+    @GetMapping({"insert/{traitId}/{traitTypeId}/{value}", "insert/{traitId}/{traitTypeId}/{value}/{displayTypeValue}"})
     public String insertTraitType(
             @PathVariable Long traitId,
             @PathVariable Long traitTypeId,
