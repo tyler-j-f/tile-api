@@ -110,7 +110,7 @@ public class TraitsRepository implements RepositoryInterface<TraitDTO, Long> {
         }
         jdbcTemplate.update(
                 DELETE_BY_ID_SQL,
-                entity.getTraitTypeId()
+                entity.getTraitId()
         );
         return !doesTraitIdExist(entity);
     }
