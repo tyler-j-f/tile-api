@@ -2,9 +2,9 @@ package com.tylerfitzgerald.demo_api.config;
 
 import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
 import com.tylerfitzgerald.demo_api.token.TokenRepository;
-import com.tylerfitzgerald.demo_api.token.TokenTable;
+import com.tylerfitzgerald.demo_api.sql.TokenTable;
 import com.tylerfitzgerald.demo_api.token.traits.TraitTypeRepository;
-import com.tylerfitzgerald.demo_api.token.traits.TraitTypesTable;
+import com.tylerfitzgerald.demo_api.sql.TraitTypesTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

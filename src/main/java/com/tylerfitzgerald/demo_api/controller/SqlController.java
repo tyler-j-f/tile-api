@@ -1,8 +1,8 @@
 package com.tylerfitzgerald.demo_api.controller;
 
-import com.tylerfitzgerald.demo_api.token.TokenTable;
+import com.tylerfitzgerald.demo_api.sql.TokenTable;
 
-import com.tylerfitzgerald.demo_api.token.traits.TraitTypesTable;
+import com.tylerfitzgerald.demo_api.sql.TraitTypesTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
