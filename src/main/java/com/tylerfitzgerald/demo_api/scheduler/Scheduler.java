@@ -47,7 +47,7 @@ public class Scheduler {
              * If a tokenDTO exists, then we've already added this tokenID to tblToken.
              * Nothing more to do with this tokenID
              */
-            System.out.println("Token mint event has already been added to tblToken. tokenId: " + tokenId);
+            // System.out.println("Token mint event has already been added to tblToken. tokenId: " + tokenId);
             return;
         }
         TokenDTO tokenDTO = tokenRepository.create(

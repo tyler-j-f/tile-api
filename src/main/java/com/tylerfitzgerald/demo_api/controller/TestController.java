@@ -75,10 +75,4 @@ public class TestController {
         return objectMapper.writeValueAsString(creature);
     }
 
-
-    @GetMapping("traitType/{traitTypeId}")
-    public String getTraitTypes(@PathVariable String traitTypeId) {
-        return traitTypeRepository.read().toString();
-    }
-
 }
