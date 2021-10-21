@@ -1,6 +1,5 @@
 package com.tylerfitzgerald.demo_api.controller;
 
-import com.tylerfitzgerald.demo_api.config.EnvConfig;
 import com.tylerfitzgerald.demo_api.token.TokenDTO;
 import com.tylerfitzgerald.demo_api.token.TokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +15,11 @@ public class TokenTableController {
     @Autowired
     private TokenRepository tokenRepository;
 
-    @Autowired
-    private EnvConfig appConfig;
-
     @GetMapping("getAll")
     public String getAllTokens() {
         return tokenRepository.read().toString();
     }
+
 
     @GetMapping("get/{id}")
     public String getToken(@PathVariable Long id) {
@@ -35,10 +32,6 @@ public class TokenTableController {
                 TokenDTO.builder().
                         tokenId(tokenId).
                         saleId(saleId).
-                        name(appConfig.getNftName()).
-                        description(appConfig.getNftDescription()).
-                        externalUrl(appConfig.getNftExternalUrl()).
-                        imageUrl(appConfig.getNftBaseImageUrl()).
                         build()
         );
         if (tokenDTO == null) {
