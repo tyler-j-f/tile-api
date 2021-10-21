@@ -65,7 +65,6 @@ public class Scheduler {
     }
 
     private Long getLongFromHexString(String hexString) {
-        String char1 = hexString.split("0x")[1];
-        return Long.parseLong(char1, 16);
+        return Long.parseLong(hexString.split("0x")[1], 16);
     }
 }
