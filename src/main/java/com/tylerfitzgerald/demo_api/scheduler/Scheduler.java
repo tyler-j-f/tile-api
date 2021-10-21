@@ -51,10 +51,13 @@ public class Scheduler {
             return;
         }
         TokenDTO tokenDTO = tokenRepository.create(
-                TokenDTO.
-                        builder().
+                TokenDTO.builder().
                         tokenId(tokenId).
                         saleId(getLongFromHexString(event.getSaleOptionId())).
+                        name(appConfig.getNftName()).
+                        description(appConfig.getNftDescription()).
+                        externalUrl(appConfig.getNftExternalUrl()).
+                        imageUrl(appConfig.getNftBaseImageUrl()).
                         build()
         );
         if (tokenDTO == null) {

@@ -5,7 +5,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public class TokenTable implements TableInterface {
 
-    private static final String CREATE_SQL  = "CREATE TABLE token(id int NOT NULL AUTO_INCREMENT, tokenId int, saleId int, name NVCHAR(MAX), description NVCHAR(MAX), externalUrl NVCHAR(MAX), imageUrl NVCHAR(MAX), PRIMARY KEY (id))";
+    /*
+     * NOTE: 2083 is the max VARCHAR length for a URL on the internet explorer browser.
+     * So let's make the max string lengths equal to that (we will likely not need that long of strings anyways).
+     */
+    private static final String CREATE_SQL  = "CREATE TABLE token(id int NOT NULL AUTO_INCREMENT, tokenId int, saleId int, name VARCHAR(2083), description VARCHAR(2083), externalUrl VARCHAR(2083), imageUrl VARCHAR(2083), PRIMARY KEY (id))";
     private static final String DELETE_SQL  = "DROP TABLE token";
 
     private final JdbcTemplate jdbcTemplate;
