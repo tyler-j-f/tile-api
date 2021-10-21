@@ -40,8 +40,7 @@ public class Scheduler {
     }
 
     private void handleMintEvent(MintEvent event) {
-        String char1 = event.getTokenId().split("0x")[1];
-        Long tokenId = Long.parseLong(char1, 16);
+        Long tokenId = getLongFromHexString(event.getTokenId());
         TokenDTO existingTokenDTO = tokenRepository.readById(tokenId);
         if (existingTokenDTO != null) {
             /*
@@ -52,12 +51,21 @@ public class Scheduler {
             return;
         }
         TokenDTO tokenDTO = tokenRepository.create(
-                TokenDTO.builder().tokenId(tokenId).build()
+                TokenDTO.
+                        builder().
+                        tokenId(tokenId).
+                        saleId(getLongFromHexString(event.getSaleOptionId())).
+                        build()
         );
         if (tokenDTO == null) {
             System.out.println("Token mint event failed to add to tblToken. tokenId: " + tokenId);
             return;
         }
         System.out.println("Token mint event successfully added to tblToken. tokenId: " + tokenId);
+    }
+
+    private Long getLongFromHexString(String hexString) {
+        String char1 = hexString.split("0x")[1];
+        return Long.parseLong(char1, 16);
     }
 }
