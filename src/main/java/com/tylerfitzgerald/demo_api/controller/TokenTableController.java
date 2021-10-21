@@ -70,11 +70,7 @@ public class TokenTableController {
      */
     @GetMapping("delete/{tokenId}")
     public String deleteToken(@PathVariable Long tokenId) {
-        TokenDTO tokenDTO = tokenRepository.update(
-                TokenDTO.builder().
-                        tokenId(tokenId).
-                        build()
-        );
+        TokenDTO tokenDTO = tokenRepository.readById(tokenId);
         if (!tokenRepository.delete(tokenDTO)) {
             return "Could not delete tokenId: " + tokenId;
         }

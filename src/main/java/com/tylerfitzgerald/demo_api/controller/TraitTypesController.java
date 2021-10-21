@@ -57,11 +57,7 @@ public class TraitTypesController {
 
     @GetMapping("delete/{traitTypeId}")
     public String deleteToken(@PathVariable Long traitTypeId) {
-        TraitTypeDTO traitTypeDTO = traitTypeRepository.update(
-                TraitTypeDTO.builder().
-                        traitTypeId(traitTypeId).
-                        build()
-        );
+        TraitTypeDTO traitTypeDTO = traitTypeRepository.readById(traitTypeId);
         if (!traitTypeRepository.delete(traitTypeDTO)) {
             return "Could not delete traitTypeId: " + traitTypeId;
         }

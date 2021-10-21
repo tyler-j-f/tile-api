@@ -16,7 +16,7 @@ public class TraitTypeRepository implements RepositoryInterface<TraitTypeDTO, Lo
     private static final String READ_SQL          = "SELECT * FROM " + TraitTypesTable.TABLE_NAME;
     private static final String READ_BY_ID_SQL    = "SELECT * FROM " + TraitTypesTable.TABLE_NAME + " WHERE traitTypeId = ?";
     private static final String CREATE_SQL        = "INSERT INTO " + TraitTypesTable.TABLE_NAME + " VALUES (null, ?, ?, ?)";
-    private static final String UPDATE_SQL        = "UPDATE " + TraitTypesTable.TABLE_NAME + " set traitTypeId = ?, traitTypeName = ?, description = ?";
+    private static final String UPDATE_SQL        = "UPDATE " + TraitTypesTable.TABLE_NAME + " set traitTypeName = ?, description = ? WHERE traitTypeId = ?";
     private static final String DELETE_BY_ID_SQL  = "DELETE FROM " + TraitTypesTable.TABLE_NAME + " WHERE traitTypeId = ?";
 
     public TraitTypeRepository(JdbcTemplate jdbcTemplate) {
@@ -91,9 +91,9 @@ public class TraitTypeRepository implements RepositoryInterface<TraitTypeDTO, Lo
         }
         int results = jdbcTemplate.update(
                 UPDATE_SQL,
-                entity.getTraitTypeId(),
                 entity.getTraitTypeName(),
-                entity.getDescription()
+                entity.getDescription(),
+                entity.getTraitTypeId()
         );
         if (results < 1) {
             return null;
