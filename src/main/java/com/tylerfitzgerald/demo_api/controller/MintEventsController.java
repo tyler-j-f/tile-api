@@ -13,14 +13,14 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @RestController
-@RequestMapping(value = {"/api/events"})
-public class EventsController {
+@RequestMapping(value = {"/api/events/mint"})
+public class MintEventsController {
 
     @Autowired
     private MintEventRetriever mintEventRetriever;
 
     @GetMapping(
-            value = {"mint/getAll/{numberOfBlocksAgo}", "mint/getAll"}
+            value = {"getAll/{numberOfBlocksAgo}", "getAll"}
     )
     public String getMintEventsAndAddToDB(@PathVariable(required = false) String numberOfBlocksAgo) throws ExecutionException, InterruptedException {
         if (numberOfBlocksAgo == null) {
