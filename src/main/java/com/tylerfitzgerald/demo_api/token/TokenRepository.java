@@ -1,6 +1,7 @@
 package com.tylerfitzgerald.demo_api.token;
 
 import com.tylerfitzgerald.demo_api.sql.RepositoryInterface;
+import com.tylerfitzgerald.demo_api.sql.TokenTable;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -12,11 +13,11 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private static final String READ_SQL          = "SELECT * FROM token";
-    private static final String READ_BY_ID_SQL    = "SELECT * FROM token WHERE tokenId = ?";
-    private static final String CREATE_SQL        = "INSERT INTO token VALUES (null, ?, ?, ?, ?, ?, ?)";
-    private static final String UPDATE_SQL        = "UPDATE token set saleId = ?";
-    private static final String DELETE_BY_ID_SQL  = "DELETE FROM token WHERE tokenId = ?";
+    private static final String READ_SQL          = "SELECT * FROM " + TokenTable.TABLE_NAME;
+    private static final String READ_BY_ID_SQL    = "SELECT * FROM " + TokenTable.TABLE_NAME + " WHERE tokenId = ?";
+    private static final String CREATE_SQL        = "INSERT INTO " + TokenTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_SQL        = "UPDATE " + TokenTable.TABLE_NAME + " set saleId = ?";
+    private static final String DELETE_BY_ID_SQL  = "DELETE FROM " + TokenTable.TABLE_NAME + " WHERE tokenId = ?";
 
     public TokenRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

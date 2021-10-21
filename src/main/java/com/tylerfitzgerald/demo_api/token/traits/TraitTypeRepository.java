@@ -1,6 +1,7 @@
 package com.tylerfitzgerald.demo_api.token.traits;
 
 import com.tylerfitzgerald.demo_api.sql.RepositoryInterface;
+import com.tylerfitzgerald.demo_api.sql.TraitTypesTable;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -12,7 +13,7 @@ public class TraitTypeRepository implements RepositoryInterface<TraitTypeDTO, Lo
 
     private final JdbcTemplate jdbcTemplate;
 
-    private static final String READ_SQL          = "SELECT * FROM tblTraitTypes";
+    private static final String READ_SQL          = "SELECT * FROM " + TraitTypesTable.TABLE_NAME;
     private static final String READ_BY_ID_SQL    = "";
     private static final String CREATE_SQL        = "";
     private static final String UPDATE_SQL        = "";
