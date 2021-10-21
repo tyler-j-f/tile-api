@@ -95,7 +95,8 @@ public class TraitsRepository implements RepositoryInterface<TraitDTO, Long> {
                 UPDATE_SQL,
                 entity.getTraitTypeId(),
                 entity.getValue(),
-                entity.getDisplayTypeValue()
+                entity.getDisplayTypeValue(),
+                entity.getTraitId()
         );
         if (results < 1) {
             return null;
