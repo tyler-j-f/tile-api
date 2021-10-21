@@ -31,7 +31,7 @@ public class TraitTypesController {
                 TraitTypeDTO.builder().
                         traitTypeId(traitTypeId).
                         traitTypeName("Personality").
-                        description("Happy").
+                        description("Personality of the NFT").
                         build()
         );
         if (traitTypeDTO == null) {
@@ -46,7 +46,7 @@ public class TraitTypesController {
                 TraitTypeDTO.builder().
                         traitTypeId(traitTypeId).
                         traitTypeName("Mood").
-                        description("Angry").
+                        description("Mood of the NFT").
                         build()
         );
         if (traitTypeDTO == null) {
