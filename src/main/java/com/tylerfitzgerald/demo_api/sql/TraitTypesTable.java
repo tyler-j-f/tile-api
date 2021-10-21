@@ -1,9 +1,15 @@
 package com.tylerfitzgerald.demo_api.sql;
 
 import com.tylerfitzgerald.demo_api.sql.TableInterface;
+import com.tylerfitzgerald.demo_api.token.traits.TraitTypeDTO;
+import com.tylerfitzgerald.demo_api.token.traits.TraitTypeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class TraitTypesTable implements TableInterface {
+
+    @Autowired
+    private TraitTypeRepository traitTypeRepository;
 
     /*
      * NOTE: 2083 is the max VARCHAR length for a URL on the internet explorer browser.
@@ -28,6 +34,16 @@ public class TraitTypesTable implements TableInterface {
     @Override
     public boolean delete() {
         this.jdbcTemplate.execute(DELETE_SQL);
+        return true;
+    }
+
+    public boolean initialize() {
+        traitTypeRepository.create(
+                TraitTypeDTO.builder().traitTypeId(1L).traitTypeName("Color").description("Color of the sub-tiles").build()
+        );
+        traitTypeRepository.create(
+                TraitTypeDTO.builder().traitTypeId(2L).traitTypeName("Shape").description("Shape of the sub-tiles").build()
+        );
         return true;
     }
 }

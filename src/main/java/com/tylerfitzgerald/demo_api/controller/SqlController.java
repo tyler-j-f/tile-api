@@ -34,6 +34,12 @@ public class SqlController {
         return output;
     }
 
+    @GetMapping("initialTablesPopulate")
+    public String initialTablesPopulate() {
+        traitTypesTable.initialize();
+        return "Trait types table initialized with initial data successfully";
+    }
+
     @GetMapping("dropSqlTables")
     public String dropSqlTables() {
         String output;
