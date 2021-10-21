@@ -41,7 +41,7 @@ public class TraitTypesController {
     }
 
     @GetMapping("update/{traitTypeId}")
-    public String updateToken(@PathVariable Long traitTypeId) {
+    public String updateTraitType(@PathVariable Long traitTypeId) {
         TraitTypeDTO traitTypeDTO = traitTypeRepository.update(
                 TraitTypeDTO.builder().
                         traitTypeId(traitTypeId).
@@ -56,7 +56,7 @@ public class TraitTypesController {
     }
 
     @GetMapping("delete/{traitTypeId}")
-    public String deleteToken(@PathVariable Long traitTypeId) {
+    public String deleteTraitType(@PathVariable Long traitTypeId) {
         TraitTypeDTO traitTypeDTO = traitTypeRepository.readById(traitTypeId);
         if (!traitTypeRepository.delete(traitTypeDTO)) {
             return "Could not delete traitTypeId: " + traitTypeId;

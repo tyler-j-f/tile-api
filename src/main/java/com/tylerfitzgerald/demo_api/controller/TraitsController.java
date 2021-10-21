@@ -16,17 +16,17 @@ public class TraitsController {
     private TraitsRepository traitsRepository;
 
     @GetMapping("getAll")
-    public String getAllTraitTypes() {
+    public String getAllTraits() {
         return traitsRepository.read().toString();
     }
 
     @GetMapping("get/{traitId}")
-    public String getTraitType(@PathVariable Long traitId) {
+    public String getTrait(@PathVariable Long traitId) {
         return traitsRepository.readById(traitId).toString();
     }
 
     @GetMapping({"insert/{traitId}/{traitTypeId}/{value}", "insert/{traitId}/{traitTypeId}/{value}/{displayTypeValue}"})
-    public String insertTraitType(
+    public String insertTrait(
             @PathVariable Long traitId,
             @PathVariable Long traitTypeId,
             @PathVariable String value,
@@ -44,7 +44,7 @@ public class TraitsController {
     }
 
     @GetMapping({"update/{traitId}/{traitTypeId}/{displayTypeValue}", "update/{traitId}/{traitTypeId}/{value}/{displayTypeValue}"})
-    public String updateToken(
+    public String updateTrait(
             @PathVariable Long traitId,
             @PathVariable Long traitTypeId,
             @PathVariable String value,
@@ -62,7 +62,7 @@ public class TraitsController {
     }
 
     @GetMapping("delete/{traitId}")
-    public String deleteToken(@PathVariable Long traitId) {
+    public String deleteTrait(@PathVariable Long traitId) {
         TraitDTO traitDTO = traitsRepository.readById(traitId);
         if (!traitsRepository.delete(traitDTO)) {
             return "Could not delete traitId: " + traitId;
