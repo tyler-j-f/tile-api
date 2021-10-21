@@ -80,7 +80,7 @@ public class TraitsRepository implements RepositoryInterface<TraitDTO, Long> {
         if (results != 1) {
             return null;
         }
-        return readById(entity.getTraitTypeId());
+        return readById(entity.getTraitId());
     }
 
     @Override
@@ -100,7 +100,7 @@ public class TraitsRepository implements RepositoryInterface<TraitDTO, Long> {
         if (results < 1) {
             return null;
         }
-        return readById(entity.getTraitTypeId());
+        return readById(entity.getTraitId());
     }
 
     @Override
