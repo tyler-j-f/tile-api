@@ -14,8 +14,9 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
     private final JdbcTemplate jdbcTemplate;
 
     private static final String READ_SQL          = "SELECT * FROM " + TokenTable.TABLE_NAME;
-    private static final String READ_BY_ID_SQL    = "SELECT * FROM " + TokenTable.TABLE_NAME + " WHERE tokenId = ?";
+    // CRUD SQL
     private static final String CREATE_SQL        = "INSERT INTO " + TokenTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?, ?, ?)";
+    private static final String READ_BY_ID_SQL    = "SELECT * FROM " + TokenTable.TABLE_NAME + " WHERE tokenId = ?";
     private static final String UPDATE_SQL        = "UPDATE " + TokenTable.TABLE_NAME + " set saleId = ? WHERE tokenId = ?";
     private static final String DELETE_BY_ID_SQL  = "DELETE FROM " + TokenTable.TABLE_NAME + " WHERE tokenId = ?";
 

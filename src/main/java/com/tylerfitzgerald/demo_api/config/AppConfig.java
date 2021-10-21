@@ -6,6 +6,7 @@ import com.tylerfitzgerald.demo_api.token.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.TokenTable;
 import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeRepository;
 import com.tylerfitzgerald.demo_api.sql.TraitTypesTable;
+import com.tylerfitzgerald.demo_api.token.traits.TraitsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,4 +56,9 @@ public class AppConfig {
 
     @Bean
     public TraitsTable traitsTable() {return new TraitsTable(jdbcTemplate);}
+
+    @Bean
+    public TraitsRepository traitsRepository() {
+        return new TraitsRepository(jdbcTemplate);
+    }
 }
