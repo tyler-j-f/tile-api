@@ -45,10 +45,6 @@ public class TraitTypeRepository implements RepositoryInterface<TraitTypeDTO, Lo
     public TraitTypeDTO readById(Long traitId) {
         Stream<TraitTypeDTO> stream = null;
         try {
-            if (traitId == 0) {
-                // TokenId starts at index 1
-                return null;
-            }
             stream = jdbcTemplate.queryForStream(
                     READ_BY_ID_SQL,
                     new BeanPropertyRowMapper(TraitTypeDTO.class),

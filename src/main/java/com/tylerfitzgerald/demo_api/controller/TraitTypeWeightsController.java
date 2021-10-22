@@ -54,7 +54,7 @@ public class TraitTypeWeightsController {
     public String updateTraitTypeWeight(
             @PathVariable Long traitTypeWeightId,
             @RequestParam(required = false) Long traitTypeId,
-            @RequestParam Long likelihood,
+            @RequestParam(required = false) Long likelihood,
             @RequestParam(required = false) String value,
             @RequestParam(required = false) String displayTypeValue
     ) {

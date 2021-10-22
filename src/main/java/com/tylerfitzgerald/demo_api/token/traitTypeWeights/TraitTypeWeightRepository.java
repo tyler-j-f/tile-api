@@ -68,7 +68,7 @@ public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeW
 
     @Override
     public TraitTypeWeightDTO create(TraitTypeWeightDTO entity) {
-        if (doesTraitTypeIdExist(entity)) {
+        if (doesTraitTypeWeightIdExist(entity)) {
             return null;
         }
         int results = jdbcTemplate.update(
@@ -90,7 +90,7 @@ public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeW
      * NOTE: Only the sale id can be updated
      */
     public TraitTypeWeightDTO update(TraitTypeWeightDTO entity) {
-        if (!doesTraitTypeIdExist(entity)) {
+        if (!doesTraitTypeWeightIdExist(entity)) {
             return null;
         }
         List<Object> updateValuesList = new ArrayList<>();
@@ -100,11 +100,11 @@ public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeW
         boolean shouldUpdateTraitTypeId = traitTypeId != null;
         boolean isCommaNeededToAppend = false;
         if (shouldUpdateTraitTypeId) {
-            updateSQL = updateSQL + "traitTypeName = ?";
+            updateSQL = updateSQL + "traitTypeId = ?";
             updateValuesList.add(traitTypeId);
             isCommaNeededToAppend = true;
         }
-        // value
+        // likelihood
         Long likelihood = entity.getLikelihood();
         boolean shouldUpdateLikelihood = likelihood != null;
         if (shouldUpdateLikelihood) {
@@ -122,7 +122,7 @@ public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeW
             if (isCommaNeededToAppend) {
                 updateSQL = updateSQL + ", ";
             }
-            updateSQL = updateSQL + "description = ?";
+            updateSQL = updateSQL + "value = ?";
             updateValuesList.add(value);
             isCommaNeededToAppend = true;
         }
@@ -133,10 +133,10 @@ public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeW
             if (isCommaNeededToAppend) {
                 updateSQL = updateSQL + ", ";
             }
-            updateSQL = updateSQL + "description = ?";
+            updateSQL = updateSQL + "displayTypeValue = ?";
             updateValuesList.add(displayTypeValue);
         }
-        if (!shouldUpdateTraitTypeId && !shouldUpdateValue && !shouldUpdateDisplayTypeValue) {
+        if (!shouldUpdateTraitTypeId && !shouldUpdateLikelihood && !shouldUpdateValue && !shouldUpdateDisplayTypeValue) {
             // There's nothing to update from the inputted TraitTypeDTO
             return null;
         }
@@ -155,17 +155,17 @@ public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeW
 
     @Override
     public boolean delete(TraitTypeWeightDTO entity) {
-        if (!doesTraitTypeIdExist(entity)) {
+        if (!doesTraitTypeWeightIdExist(entity)) {
             return false;
         }
         jdbcTemplate.update(
                 DELETE_BY_ID_SQL,
                 entity.getTraitTypeId()
         );
-        return !doesTraitTypeIdExist(entity);
+        return !doesTraitTypeWeightIdExist(entity);
     }
 
-    private boolean doesTraitTypeIdExist(TraitTypeWeightDTO entity) {
+    private boolean doesTraitTypeWeightIdExist(TraitTypeWeightDTO entity) {
         return readById(entity.getTraitTypeWeightId()) != null;
     }
 
