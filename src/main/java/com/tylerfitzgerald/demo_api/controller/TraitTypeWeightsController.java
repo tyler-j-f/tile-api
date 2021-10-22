@@ -27,17 +27,19 @@ public class TraitTypeWeightsController {
     @GetMapping("insert/{traitTypeWeightId}")
     public String insertTraitTypeWeight(
             @PathVariable Long traitTypeWeightId,
-            @RequestParam(required = false) Long traitTypeId,
-            @RequestParam(required = false) String value,
-            @RequestParam(required = false) String displayTypeValue
+            @RequestParam Long traitTypeId,
+            @RequestParam Long likelihood,
+            @RequestParam String value,
+            @RequestParam String displayTypeValue
     ) {
-        if (traitTypeId == null || value == null || displayTypeValue == null) {
-            return "Please pass a 'traitTypeId', 'value', and 'displayTypeValue' to create a trait type weight";
+        if (traitTypeId == null ||  likelihood == null || value == null || displayTypeValue == null) {
+            return "Please pass a 'traitTypeId', 'likelihood', 'value', and 'displayTypeValue' to create a trait type weight";
         }
         TraitTypeWeightDTO traitWeightTypeDTO = traitTypeWeightRepository.create(
                 TraitTypeWeightDTO.builder().
                         traitTypeWeightId(traitTypeWeightId).
                         traitTypeId(traitTypeId).
+                        likelihood(likelihood).
                         value(value).
                         displayTypeValue(displayTypeValue).
                         build()
@@ -52,15 +54,19 @@ public class TraitTypeWeightsController {
     public String updateTraitTypeWeight(
             @PathVariable Long traitTypeWeightId,
             @RequestParam(required = false) Long traitTypeId,
+            @RequestParam Long likelihood,
             @RequestParam(required = false) String value,
             @RequestParam(required = false) String displayTypeValue
     ) {
         TraitTypeWeightDTO.TraitTypeWeightDTOBuilder traitTypeWeightDTOBuilder = TraitTypeWeightDTO.builder().traitTypeWeightId(traitTypeWeightId);
-        if (traitTypeId == null && value == null && displayTypeValue == null) {
-            return "Please pass a 'traitTypeId', 'value', or 'displayTypeValue' to update a trait type weight";
+        if (traitTypeId == null && likelihood == null && value == null && displayTypeValue == null) {
+            return "Please pass a 'traitTypeId', 'likelihood', 'value', or 'displayTypeValue' to update a trait type weight";
         }
         if (traitTypeId != null) {
             traitTypeWeightDTOBuilder = traitTypeWeightDTOBuilder.traitTypeId(traitTypeId);
+        }
+        if (likelihood != null) {
+            traitTypeWeightDTOBuilder = traitTypeWeightDTOBuilder.likelihood(likelihood);
         }
         if (value != null) {
             traitTypeWeightDTOBuilder = traitTypeWeightDTOBuilder.value(value);

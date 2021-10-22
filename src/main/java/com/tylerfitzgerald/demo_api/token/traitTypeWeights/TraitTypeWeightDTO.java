@@ -13,6 +13,7 @@ public class TraitTypeWeightDTO {
     private Long id;
     private Long traitTypeWeightId;
     private Long traitTypeId;
+    private Long likelihood;
     private String value;
     private String displayTypeValue;
 }

@@ -12,7 +12,7 @@ public class TraitTypeWeightsTable implements TableInterface {
      * So let's make the max string lengths equal to that (we will likely not need that long of strings anyways).
      */
     public static final String TABLE_NAME  = "tblTraitTypeWeights";
-    private static final String CREATE_SQL = "CREATE TABLE " + TABLE_NAME + "(id int NOT NULL AUTO_INCREMENT, traitTypeWeightId int, traitTypeId int, value VARCHAR(2083), displayTypeValue VARCHAR(2083), PRIMARY KEY (id))";
+    private static final String CREATE_SQL = "CREATE TABLE " + TABLE_NAME + "(id int NOT NULL AUTO_INCREMENT, traitTypeWeightId int, traitTypeId int, likelihood int, value VARCHAR(2083), displayTypeValue VARCHAR(2083), PRIMARY KEY (id))";
     private static final String DELETE_SQL = "DROP TABLE " + TABLE_NAME;
 
     private final JdbcTemplate jdbcTemplate;

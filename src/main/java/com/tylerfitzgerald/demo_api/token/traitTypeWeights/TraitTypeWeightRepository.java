@@ -16,7 +16,7 @@ public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeW
 
     private static final String READ_SQL          = "SELECT * FROM " + TraitTypeWeightsTable.TABLE_NAME;
     // CRUD SQL
-    private static final String CREATE_SQL        = "INSERT INTO " + TraitTypeWeightsTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?)";
+    private static final String CREATE_SQL        = "INSERT INTO " + TraitTypeWeightsTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?, ?)";
     private static final String READ_BY_ID_SQL    = "SELECT * FROM " + TraitTypeWeightsTable.TABLE_NAME + " WHERE traitTypeWeightId = ?";
     private static final String UPDATE_BASE_SQL        = "UPDATE " + TraitTypeWeightsTable.TABLE_NAME + " set ";
     private static final String DELETE_BY_ID_SQL  = "DELETE FROM " + TraitTypeWeightsTable.TABLE_NAME + " WHERE traitTypeWeightId = ?";
@@ -75,6 +75,7 @@ public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeW
                 CREATE_SQL,
                 entity.getTraitTypeWeightId(),
                 entity.getTraitTypeId(),
+                entity.getLikelihood(),
                 entity.getValue(),
                 entity.getDisplayTypeValue()
         );
@@ -94,6 +95,7 @@ public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeW
         }
         List<Object> updateValuesList = new ArrayList<>();
         String updateSQL  = UPDATE_BASE_SQL;
+        // traitTypeId
         Long traitTypeId = entity.getTraitTypeId();
         boolean shouldUpdateTraitTypeId = traitTypeId != null;
         boolean isCommaNeededToAppend = false;
@@ -102,6 +104,18 @@ public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeW
             updateValuesList.add(traitTypeId);
             isCommaNeededToAppend = true;
         }
+        // value
+        Long likelihood = entity.getLikelihood();
+        boolean shouldUpdateLikelihood = likelihood != null;
+        if (shouldUpdateLikelihood) {
+            if (isCommaNeededToAppend) {
+                updateSQL = updateSQL + ", ";
+            }
+            updateSQL = updateSQL + "likelihood = ?";
+            updateValuesList.add(likelihood);
+            isCommaNeededToAppend = true;
+        }
+        // value
         String value = entity.getValue();
         boolean shouldUpdateValue = value != null;
         if (shouldUpdateValue) {
@@ -112,6 +126,7 @@ public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeW
             updateValuesList.add(value);
             isCommaNeededToAppend = true;
         }
+        // displayTypeValue
         String displayTypeValue = entity.getDisplayTypeValue();
         boolean shouldUpdateDisplayTypeValue = displayTypeValue != null;
         if (shouldUpdateDisplayTypeValue) {
