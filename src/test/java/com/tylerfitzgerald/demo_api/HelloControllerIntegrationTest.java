@@ -17,9 +17,9 @@ public class HelloControllerIntegrationTest {
     @Autowired
     private TestRestTemplate template;
 
-//    @Test
-//    public void getHello() throws Exception {
-//        ResponseEntity<String> response = template.getForEntity("/", String.class);
-//        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-//    }
+    @Test
+    public void getHello() throws Exception {
+        ResponseEntity<String> response = template.getForEntity("/", String.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
 }
