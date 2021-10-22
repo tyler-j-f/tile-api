@@ -3,14 +3,13 @@ package com.tylerfitzgerald.demo_api.controller;
 import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeDTO;
 import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = {"/api/traitTypes"})
 public class TraitTypesController {
+
+    private static final String EMPTY_STRING = "";
 
     @Autowired
     private TraitTypeRepository traitTypeRepository;
@@ -41,13 +40,23 @@ public class TraitTypesController {
     }
 
     @GetMapping("update/{traitTypeId}")
-    public String updateTraitType(@PathVariable Long traitTypeId) {
+    public String updateTraitType(
+            @PathVariable Long traitTypeId,
+            @RequestParam(required = false) String traitTypeName,
+            @RequestParam(required = false) String description
+    ) {
+        TraitTypeDTO.TraitTypeDTOBuilder traitTypeDTOBuilder = TraitTypeDTO.builder().traitTypeId(traitTypeId);
+        if (traitTypeName == null && description == null) {
+            return "Please pass a 'traitTypeName' or 'description' value to update";
+        }
+        if (traitTypeName != null) {
+            traitTypeDTOBuilder = traitTypeDTOBuilder.traitTypeName(traitTypeName);
+        }
+        if (description != null) {
+            traitTypeDTOBuilder = traitTypeDTOBuilder.description(description);
+        }
         TraitTypeDTO traitTypeDTO = traitTypeRepository.update(
-                TraitTypeDTO.builder().
-                        traitTypeId(traitTypeId).
-                        traitTypeName("Mood").
-                        description("Mood of the NFT").
-                        build()
+                traitTypeDTOBuilder.build()
         );
         if (traitTypeDTO == null) {
             return "Cannot update traitTypeId: " + traitTypeId;

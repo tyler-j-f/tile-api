@@ -5,6 +5,7 @@ import com.tylerfitzgerald.demo_api.sql.TraitTypesTable;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -90,35 +91,44 @@ public class TraitTypeRepository implements RepositoryInterface<TraitTypeDTO, Lo
         if (!doesTraitTypeIdExist(entity)) {
             return null;
         }
+        Object[] updateValues = new Object[2];
+        int updateValuesLength = 0;
         String updateSQL  = UPDATE_BASE_SQL;
+        String traitTypeName = entity.getTraitTypeName();
+        boolean shouldUpdateTraitTypeName = traitTypeName != null;
         boolean isCommaNeededToAppend = false;
-        boolean shouldUpdateTraitTypeName = entity.getDescription() != null;
         if (shouldUpdateTraitTypeName) {
             updateSQL = updateSQL + "traitTypeName = ?";
+            updateValues[updateValuesLength] = traitTypeName;
+            updateValuesLength++;
             isCommaNeededToAppend = true;
         }
-        boolean shouldUpdateDescription = entity.getDescription() != null;
+        String description = entity.getDescription();
+        boolean shouldUpdateDescription = description != null;
         if (shouldUpdateDescription) {
             if (isCommaNeededToAppend) {
                 updateSQL = updateSQL + ", ";
             }
             updateSQL = updateSQL + "description = ?";
+            updateValues[updateValuesLength] = description;
+            updateValuesLength++;
         }
         if (!shouldUpdateTraitTypeName && !shouldUpdateDescription) {
             // There's nothing to update from the inputted TraitTypeDTO
             return null;
         }
+        Long traitTypeId = entity.getTraitTypeId();
+        updateValues[updateValuesLength] = traitTypeId;
+        updateValuesLength++;
         updateSQL = updateSQL + " WHERE traitTypeId = ?";
         int results = jdbcTemplate.update(
                 updateSQL,
-                entity.getTraitTypeName(),
-                entity.getDescription(),
-                entity.getTraitTypeId()
+                updateValues
         );
         if (results < 1) {
             return null;
         }
-        return readById(entity.getTraitTypeId());
+        return readById(traitTypeId);
     }
 
     @Override
