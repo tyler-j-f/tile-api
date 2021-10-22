@@ -5,6 +5,7 @@ import com.tylerfitzgerald.demo_api.sql.TraitsTable;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -15,9 +16,9 @@ public class TraitsRepository implements RepositoryInterface<TraitDTO, Long> {
 
     private static final String READ_SQL          = "SELECT * FROM " + TraitsTable.TABLE_NAME;
     // CRUD SQL
-    private static final String CREATE_SQL        = "INSERT INTO " + TraitsTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?)";
+    private static final String CREATE_SQL        = "INSERT INTO " + TraitsTable.TABLE_NAME + " VALUES (null, ?, ?, ?)";
     private static final String READ_BY_ID_SQL    = "SELECT * FROM " + TraitsTable.TABLE_NAME + " WHERE traitId = ?";
-    private static final String UPDATE_SQL        = "UPDATE " + TraitsTable.TABLE_NAME + " set traitTypeId = ?, value = ?, displayTypeValue = ? WHERE traitId = ?";
+    private static final String UPDATE_SQL_BASE        = "UPDATE " + TraitsTable.TABLE_NAME + " set traitTypeId = ?, traitTypeWeightId = ? WHERE traitId = ?";
     private static final String DELETE_BY_ID_SQL  = "DELETE FROM " + TraitsTable.TABLE_NAME + " WHERE traitId = ?";
 
     public TraitsRepository(JdbcTemplate jdbcTemplate) {
@@ -70,8 +71,7 @@ public class TraitsRepository implements RepositoryInterface<TraitDTO, Long> {
                 CREATE_SQL,
                 entity.getTraitId(),
                 entity.getTraitTypeId(),
-                entity.getValue(),
-                entity.getDisplayTypeValue()
+                entity.getTraitTypeWeightId()
         );
         if (results != 1) {
             return null;
@@ -87,12 +87,30 @@ public class TraitsRepository implements RepositoryInterface<TraitDTO, Long> {
         if (!doesTraitIdExist(entity)) {
             return null;
         }
+        List<Object> updateValuesList = new ArrayList<>();
+        String updateSQL  = UPDATE_SQL_BASE;
+        // traitTypeId
+        Long traitTypeId = entity.getTraitTypeId();
+        boolean shouldUpdateTraitTypeId = traitTypeId != null;
+        boolean isCommaNeededToAppend = false;
+        if (shouldUpdateTraitTypeId) {
+            updateSQL = updateSQL + "traitTypeId = ?";
+            updateValuesList.add(traitTypeId);
+            isCommaNeededToAppend = true;
+        }
+        // likelihood
+        Long traitTypeWeightId = entity.getTraitTypeWeightId();
+        boolean shouldUpdateTraitTypeWeightId = traitTypeWeightId != null;
+        if (shouldUpdateTraitTypeWeightId) {
+            if (isCommaNeededToAppend) {
+                updateSQL = updateSQL + ", ";
+            }
+            updateSQL = updateSQL + "traitTypeWeightId = ?";
+            updateValuesList.add(traitTypeWeightId);
+        }
         int results = jdbcTemplate.update(
-                UPDATE_SQL,
-                entity.getTraitTypeId(),
-                entity.getValue(),
-                entity.getDisplayTypeValue(),
-                entity.getTraitId()
+                updateSQL,
+                updateValuesList.toArray()
         );
         if (results < 1) {
             return null;

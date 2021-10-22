@@ -13,6 +13,5 @@ public class TraitDTO {
     private Long id;
     private Long traitId;
     private Long traitTypeId;
-    private String value;
-    private String displayTypeValue;
+    private Long traitTypeWeightId;
 }
