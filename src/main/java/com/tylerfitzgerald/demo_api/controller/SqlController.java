@@ -2,6 +2,7 @@ package com.tylerfitzgerald.demo_api.controller;
 
 import com.tylerfitzgerald.demo_api.sql.TokenTable;
 
+import com.tylerfitzgerald.demo_api.sql.TraitTypeWeightsTable;
 import com.tylerfitzgerald.demo_api.sql.TraitTypesTable;
 import com.tylerfitzgerald.demo_api.sql.TraitsTable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class SqlController {
     private TraitTypesTable traitTypesTable;
 
     @Autowired
+    private TraitTypeWeightsTable traitTypeWeightsTable;
+
+    @Autowired
     private TraitsTable traitsTable;
 
     @GetMapping("createSqlTables")
@@ -34,6 +38,11 @@ public class SqlController {
             output = output + "\n" + "Trait types table created successfully";
         } else {
             output = output + "\n" + "Trait types table failed to create";
+        }
+        if (traitTypeWeightsTable.create()) {
+            output = output + "\n" + "Trait type weights table created successfully";
+        } else {
+            output = output + "\n" + "Trait type weights table failed to create";
         }
         if (traitsTable.create()) {
             output = output + "\n" + "Traits table created successfully";
@@ -61,6 +70,11 @@ public class SqlController {
             output = output + "\n" + "Trait types table deleted successfully";
         } else {
             output = output + "\n" + "Trait types table failed to delete";
+        }
+        if (traitTypeWeightsTable.delete()) {
+            output = output + "\n" + "Trait type weights table deleted successfully";
+        } else {
+            output = output + "\n" + "Trait type weights table failed to delete";
         }
         if (traitsTable.delete()) {
             output = output + "\n" + "Traits table deleted successfully";
