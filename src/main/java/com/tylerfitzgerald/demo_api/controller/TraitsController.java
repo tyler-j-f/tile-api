@@ -45,7 +45,7 @@ public class TraitsController {
         return traitDTO.toString();
     }
 
-    @GetMapping({"update/{traitId}/{traitTypeId}/{displayTypeValue}", "update/{traitId}/{traitTypeId}/{value}/{displayTypeValue}"})
+    @GetMapping("update/{traitId}")
     public String updateTrait(
             @PathVariable Long traitId,
             @RequestParam(required = false) Long traitTypeId,

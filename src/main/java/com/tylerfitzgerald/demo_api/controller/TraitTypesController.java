@@ -25,12 +25,19 @@ public class TraitTypesController {
     }
 
     @GetMapping("insert/{traitTypeId}")
-    public String insertTraitType(@PathVariable Long traitTypeId) {
+    public String insertTraitType(
+            @PathVariable Long traitTypeId,
+            @RequestParam(required = false) String traitTypeName,
+            @RequestParam(required = false) String description
+    ) {
+        if (traitTypeName == null || description == null) {
+            return "Please pass a 'traitTypeName' and 'description' value to create a trait type";
+        }
         TraitTypeDTO traitTypeDTO = traitTypeRepository.create(
                 TraitTypeDTO.builder().
                         traitTypeId(traitTypeId).
-                        traitTypeName("Personality").
-                        description("Personality of the NFT").
+                        traitTypeName(traitTypeName).
+                        description(description).
                         build()
         );
         if (traitTypeDTO == null) {
@@ -47,7 +54,7 @@ public class TraitTypesController {
     ) {
         TraitTypeDTO.TraitTypeDTOBuilder traitTypeDTOBuilder = TraitTypeDTO.builder().traitTypeId(traitTypeId);
         if (traitTypeName == null && description == null) {
-            return "Please pass a 'traitTypeName' or 'description' value to update";
+            return "Please pass a 'traitTypeName' or 'description' value to update a trait type";
         }
         if (traitTypeName != null) {
             traitTypeDTOBuilder = traitTypeDTOBuilder.traitTypeName(traitTypeName);
