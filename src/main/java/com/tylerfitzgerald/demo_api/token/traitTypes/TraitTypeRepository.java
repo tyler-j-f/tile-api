@@ -17,7 +17,7 @@ public class TraitTypeRepository implements RepositoryInterface<TraitTypeDTO, Lo
     // CRUD SQL
     private static final String CREATE_SQL        = "INSERT INTO " + TraitTypesTable.TABLE_NAME + " VALUES (null, ?, ?, ?)";
     private static final String READ_BY_ID_SQL    = "SELECT * FROM " + TraitTypesTable.TABLE_NAME + " WHERE traitTypeId = ?";
-    private static final String UPDATE_SQL        = "UPDATE " + TraitTypesTable.TABLE_NAME + " set traitTypeName = ?, description = ? WHERE traitTypeId = ?";
+    private static final String UPDATE_BASE_SQL        = "UPDATE " + TraitTypesTable.TABLE_NAME + " set ";
     private static final String DELETE_BY_ID_SQL  = "DELETE FROM " + TraitTypesTable.TABLE_NAME + " WHERE traitTypeId = ?";
 
     public TraitTypeRepository(JdbcTemplate jdbcTemplate) {
@@ -90,8 +90,27 @@ public class TraitTypeRepository implements RepositoryInterface<TraitTypeDTO, Lo
         if (!doesTraitTypeIdExist(entity)) {
             return null;
         }
+        String updateSQL  = UPDATE_BASE_SQL;
+        boolean isCommaNeededToAppend = false;
+        boolean shouldUpdateTraitTypeName = entity.getDescription() != null;
+        if (shouldUpdateTraitTypeName) {
+            updateSQL = updateSQL + "traitTypeName = ?";
+            isCommaNeededToAppend = true;
+        }
+        boolean shouldUpdateDescription = entity.getDescription() != null;
+        if (shouldUpdateDescription) {
+            if (isCommaNeededToAppend) {
+                updateSQL = updateSQL + ", ";
+            }
+            updateSQL = updateSQL + "description = ?";
+        }
+        if (!shouldUpdateTraitTypeName && !shouldUpdateDescription) {
+            // There's nothing to update from the inputted TraitTypeDTO
+            return null;
+        }
+        updateSQL = updateSQL + " WHERE traitTypeId = ?";
         int results = jdbcTemplate.update(
-                UPDATE_SQL,
+                updateSQL,
                 entity.getTraitTypeName(),
                 entity.getDescription(),
                 entity.getTraitTypeId()
