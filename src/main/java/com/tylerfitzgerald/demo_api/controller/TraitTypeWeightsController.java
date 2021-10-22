@@ -33,7 +33,7 @@ public class TraitTypeWeightsController {
             @RequestParam String displayTypeValue
     ) {
         if (traitTypeId == null ||  likelihood == null || value == null || displayTypeValue == null) {
-            return "Please pass a 'traitTypeId', 'likelihood', 'value', and 'displayTypeValue' to create a trait type weight";
+            return "Please pass a 'traitTypeId', 'likelihood', 'value', AND 'displayTypeValue' to create a trait type weight";
         }
         TraitTypeWeightDTO traitWeightTypeDTO = traitTypeWeightRepository.create(
                 TraitTypeWeightDTO.builder().
@@ -59,7 +59,7 @@ public class TraitTypeWeightsController {
             @RequestParam(required = false) String displayTypeValue
     ) {
         if (traitTypeId == null && likelihood == null && value == null && displayTypeValue == null) {
-            return "Please pass a 'traitTypeId', 'likelihood', 'value', or 'displayTypeValue' to update a trait type weight";
+            return "Please pass a 'traitTypeId', 'likelihood', 'value', OR 'displayTypeValue' to update a trait type weight";
         }
         TraitTypeWeightDTO.TraitTypeWeightDTOBuilder traitTypeWeightDTOBuilder = TraitTypeWeightDTO.builder().traitTypeWeightId(traitTypeWeightId);
         if (traitTypeId != null) {

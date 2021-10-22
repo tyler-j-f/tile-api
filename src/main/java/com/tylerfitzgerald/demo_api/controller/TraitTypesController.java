@@ -31,7 +31,7 @@ public class TraitTypesController {
             @RequestParam(required = false) String description
     ) {
         if (traitTypeName == null || description == null) {
-            return "Please pass a 'traitTypeName' and 'description' value to create a trait type";
+            return "Please pass a 'traitTypeName' AND 'description' value to create a trait type";
         }
         TraitTypeDTO traitTypeDTO = traitTypeRepository.create(
                 TraitTypeDTO.builder().
@@ -54,7 +54,7 @@ public class TraitTypesController {
     ) {
         TraitTypeDTO.TraitTypeDTOBuilder traitTypeDTOBuilder = TraitTypeDTO.builder().traitTypeId(traitTypeId);
         if (traitTypeName == null && description == null) {
-            return "Please pass a 'traitTypeName' or 'description' value to update a trait type";
+            return "Please pass a 'traitTypeName' OR 'description' value to update a trait type";
         }
         if (traitTypeName != null) {
             traitTypeDTOBuilder = traitTypeDTOBuilder.traitTypeName(traitTypeName);

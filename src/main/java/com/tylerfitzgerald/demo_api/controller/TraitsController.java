@@ -29,7 +29,7 @@ public class TraitsController {
             @RequestParam Long traitTypeWeightId
     ) {
         if (traitTypeId == null ||  traitTypeWeightId == null) {
-            return "Please pass a 'traitTypeId' and 'traitTypeWeightId' to create a trait";
+            return "Please pass a 'traitTypeId' AND 'traitTypeWeightId' to create a trait";
         }
          TraitDTO traitDTO = traitsRepository.create(
                  TraitDTO.
@@ -52,7 +52,7 @@ public class TraitsController {
             @RequestParam(required = false) Long traitTypeWeightId
     ) {
         if (traitTypeId == null &&  traitTypeWeightId == null) {
-            return "Please pass a 'traitTypeId' or 'traitTypeWeightId' to update a trait";
+            return "Please pass a 'traitTypeId' OR 'traitTypeWeightId' to update a trait";
         }
         TraitDTO.TraitDTOBuilder traitDTOBuilder = TraitDTO.builder().traitId(traitId);
         if (traitTypeId != null) {
