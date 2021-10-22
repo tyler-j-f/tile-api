@@ -91,16 +91,14 @@ public class TraitTypeRepository implements RepositoryInterface<TraitTypeDTO, Lo
         if (!doesTraitTypeIdExist(entity)) {
             return null;
         }
-        Object[] updateValues = new Object[2];
-        int updateValuesLength = 0;
+        List<Object> updateValuesList = new ArrayList<>();
         String updateSQL  = UPDATE_BASE_SQL;
         String traitTypeName = entity.getTraitTypeName();
         boolean shouldUpdateTraitTypeName = traitTypeName != null;
         boolean isCommaNeededToAppend = false;
         if (shouldUpdateTraitTypeName) {
             updateSQL = updateSQL + "traitTypeName = ?";
-            updateValues[updateValuesLength] = traitTypeName;
-            updateValuesLength++;
+            updateValuesList.add(traitTypeName);
             isCommaNeededToAppend = true;
         }
         String description = entity.getDescription();
@@ -110,20 +108,18 @@ public class TraitTypeRepository implements RepositoryInterface<TraitTypeDTO, Lo
                 updateSQL = updateSQL + ", ";
             }
             updateSQL = updateSQL + "description = ?";
-            updateValues[updateValuesLength] = description;
-            updateValuesLength++;
+            updateValuesList.add(description);
         }
         if (!shouldUpdateTraitTypeName && !shouldUpdateDescription) {
             // There's nothing to update from the inputted TraitTypeDTO
             return null;
         }
         Long traitTypeId = entity.getTraitTypeId();
-        updateValues[updateValuesLength] = traitTypeId;
-        updateValuesLength++;
+        updateValuesList.add(traitTypeId);
         updateSQL = updateSQL + " WHERE traitTypeId = ?";
         int results = jdbcTemplate.update(
                 updateSQL,
-                updateValues
+                updateValuesList.toArray()
         );
         if (results < 1) {
             return null;
@@ -146,4 +142,5 @@ public class TraitTypeRepository implements RepositoryInterface<TraitTypeDTO, Lo
     private boolean doesTraitTypeIdExist(TraitTypeDTO entity) {
         return readById(entity.getTraitTypeId()) != null;
     }
+
 }
