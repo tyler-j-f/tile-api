@@ -13,24 +13,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TraitsRepositoryTest {
 
     private static JdbcTemplate jdbcTemplate;
+    private static BeanPropertyRowMapper beanPropertyRowMapper;
 
     @BeforeAll
     public static void setup() {
         TraitsRepositoryTest.jdbcTemplate = Mockito.mock(JdbcTemplate.class);
+        TraitsRepositoryTest.beanPropertyRowMapper =  new BeanPropertyRowMapper(TraitDTO.class);
     }
 
     @Test
     void testConstructor() {
-        assertThat(new TraitsRepository(jdbcTemplate, new BeanPropertyRowMapper(TraitDTO.class))).isInstanceOf(TraitsRepository.class);
+        assertThat(new TraitsRepository(jdbcTemplate, beanPropertyRowMapper)).isInstanceOf(TraitsRepository.class);
     }
 
     @Test
     void testRead() {
-        BeanPropertyRowMapper rowMapper = new BeanPropertyRowMapper(TraitDTO.class);
-        new TraitsRepository(jdbcTemplate, rowMapper).read();
+        new TraitsRepository(jdbcTemplate, beanPropertyRowMapper).read();
         Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
                 TraitsRepository.READ_SQL,
-                rowMapper
+                beanPropertyRowMapper
         );
     }
 
