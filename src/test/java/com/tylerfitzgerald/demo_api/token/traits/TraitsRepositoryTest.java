@@ -51,11 +51,17 @@ public class TraitsRepositoryTest {
 
     @Test
     void testRead() {
-        new TraitsRepository(jdbcTemplate, beanPropertyRowMapper).read();
+        TraitDTO traitDTO = TraitDTO.builder().id(ID).traitId(TRAIT_ID).traitTypeId(TRAIT_TYPE_ID).traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID).build();
+        Mockito.when(jdbcTemplate.queryForStream(
+                TraitsRepository.READ_SQL,
+                beanPropertyRowMapper
+        )).thenReturn(Stream.of(traitDTO));
+        List<TraitDTO> traits = new TraitsRepository(jdbcTemplate, beanPropertyRowMapper).read();
         Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
                 TraitsRepository.READ_SQL,
                 beanPropertyRowMapper
         );
+        assertThat(traits.get(0)).isEqualTo(traitDTO);
     }
 
     @Test
