@@ -8,10 +8,12 @@ import com.tylerfitzgerald.demo_api.sql.TokenTable;
 import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightRepository;
 import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeRepository;
 import com.tylerfitzgerald.demo_api.sql.TraitTypesTable;
+import com.tylerfitzgerald.demo_api.token.traits.TraitDTO;
 import com.tylerfitzgerald.demo_api.token.traits.TraitsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
@@ -69,6 +71,6 @@ public class AppConfig {
 
     @Bean
     public TraitsRepository traitsRepository() {
-        return new TraitsRepository(jdbcTemplate);
+        return new TraitsRepository(jdbcTemplate, new BeanPropertyRowMapper(TraitDTO.class));
     }
 }

@@ -13,16 +13,21 @@ import java.util.stream.Stream;
 public class TraitsRepository implements RepositoryInterface<TraitDTO, Long> {
 
     private final JdbcTemplate jdbcTemplate;
+    private final BeanPropertyRowMapper beanPropertyRowMapper;
 
-    private static final String READ_SQL          = "SELECT * FROM " + TraitsTable.TABLE_NAME;
+    public static final String READ_SQL          = "SELECT * FROM " + TraitsTable.TABLE_NAME;
     // CRUD SQL
-    private static final String CREATE_SQL        = "INSERT INTO " + TraitsTable.TABLE_NAME + " VALUES (null, ?, ?, ?)";
-    private static final String READ_BY_ID_SQL    = "SELECT * FROM " + TraitsTable.TABLE_NAME + " WHERE traitId = ?";
-    private static final String UPDATE_SQL_BASE        = "UPDATE " + TraitsTable.TABLE_NAME + " set traitTypeId = ?, traitTypeWeightId = ? WHERE traitId = ?";
-    private static final String DELETE_BY_ID_SQL  = "DELETE FROM " + TraitsTable.TABLE_NAME + " WHERE traitId = ?";
+    public static final String CREATE_SQL        = "INSERT INTO " + TraitsTable.TABLE_NAME + " VALUES (null, ?, ?, ?)";
+    public static final String READ_BY_ID_SQL    = "SELECT * FROM " + TraitsTable.TABLE_NAME + " WHERE traitId = ?";
+    public static final String UPDATE_SQL_BASE        = "UPDATE " + TraitsTable.TABLE_NAME + " set traitTypeId = ?, traitTypeWeightId = ? WHERE traitId = ?";
+    public static final String DELETE_BY_ID_SQL  = "DELETE FROM " + TraitsTable.TABLE_NAME + " WHERE traitId = ?";
 
-    public TraitsRepository(JdbcTemplate jdbcTemplate) {
+    public TraitsRepository(
+            JdbcTemplate jdbcTemplate,
+            BeanPropertyRowMapper beanPropertyRowMapper
+    ) {
         this.jdbcTemplate = jdbcTemplate;
+        this.beanPropertyRowMapper = beanPropertyRowMapper;
     }
 
     @Override
@@ -31,7 +36,7 @@ public class TraitsRepository implements RepositoryInterface<TraitDTO, Long> {
         try {
             stream = jdbcTemplate.queryForStream(
                     READ_SQL,
-                    new BeanPropertyRowMapper(TraitDTO.class)
+                    beanPropertyRowMapper
             );
             return stream.collect(Collectors.toList());
         } finally {
@@ -47,7 +52,7 @@ public class TraitsRepository implements RepositoryInterface<TraitDTO, Long> {
         try {
             stream = jdbcTemplate.queryForStream(
                     READ_BY_ID_SQL,
-                    new BeanPropertyRowMapper(TraitDTO.class),
+                    beanPropertyRowMapper,
                     traitId
             );
             List<TraitDTO> traitTypes = stream.collect(Collectors.toList());
