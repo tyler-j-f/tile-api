@@ -78,4 +78,26 @@ public class TraitsRepositoryTest {
                 TRAIT_TYPE_WEIGHT_ID
         );
     }
+
+    @Test
+    void testUpdateNonExistingEntry() {
+        TraitDTO traitDTO = TraitDTO.builder().id(ID).traitId(TRAIT_ID).traitTypeId(TRAIT_TYPE_ID).traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID).build();
+        // Return a Stream.empty() from the read by id call to imitate a non-existing entry.
+        Mockito.when(jdbcTemplate.queryForStream(
+                TraitsRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_ID
+        )).thenReturn(Stream.empty());
+        new TraitsRepository(jdbcTemplate, beanPropertyRowMapper).update(traitDTO);
+        Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
+                TraitsRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_ID
+        );
+        Mockito.verify(jdbcTemplate, Mockito.times(0)).update(
+                TraitsRepository.UPDATE_SQL,
+                TRAIT_TYPE_ID,
+                TRAIT_TYPE_WEIGHT_ID
+        );
+    }
 }
