@@ -9,7 +9,7 @@ import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightReposi
 import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeRepository;
 import com.tylerfitzgerald.demo_api.sql.TraitTypesTable;
 import com.tylerfitzgerald.demo_api.token.traits.TraitDTO;
-import com.tylerfitzgerald.demo_api.token.traits.TraitsRepository;
+import com.tylerfitzgerald.demo_api.token.traits.TraitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -70,7 +70,7 @@ public class AppConfig {
     public TraitsTable traitsTable() {return new TraitsTable(jdbcTemplate);}
 
     @Bean
-    public TraitsRepository traitsRepository() {
-        return new TraitsRepository(jdbcTemplate, new BeanPropertyRowMapper(TraitDTO.class));
+    public TraitRepository traitsRepository() {
+        return new TraitRepository(jdbcTemplate, new BeanPropertyRowMapper(TraitDTO.class));
     }
 }

@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-public class TraitsRepositoryTest {
+public class TraitRepositoryTest {
 
     private JdbcTemplate jdbcTemplate;
     private BeanPropertyRowMapper beanPropertyRowMapper;
@@ -31,33 +31,33 @@ public class TraitsRepositoryTest {
 
     @Test
     void testConstructor() {
-        assertThat(new TraitsRepository(jdbcTemplate, beanPropertyRowMapper)).isInstanceOf(TraitsRepository.class);
+        assertThat(new TraitRepository(jdbcTemplate, beanPropertyRowMapper)).isInstanceOf(TraitRepository.class);
     }
 
     @Test
     void testCreateNonExisting() {
         TraitDTO traitDTO = TraitDTO.builder().id(ID).traitId(TRAIT_ID).traitTypeId(TRAIT_TYPE_ID).traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID).build();
         Mockito.when(jdbcTemplate.queryForStream(
-                TraitsRepository.READ_BY_ID_SQL,
+                TraitRepository.READ_BY_ID_SQL,
                 beanPropertyRowMapper,
                 TRAIT_ID
         )).thenReturn(Stream.empty(), Stream.of(traitDTO));
         Mockito.when(jdbcTemplate.update(
-                TraitsRepository.CREATE_SQL,
+                TraitRepository.CREATE_SQL,
                 TRAIT_ID,
                 TRAIT_TYPE_ID,
                 TRAIT_TYPE_WEIGHT_ID
         )).thenReturn(1);
-        TraitDTO traitDTOResult = new TraitsRepository(jdbcTemplate, beanPropertyRowMapper).create(
+        TraitDTO traitDTOResult = new TraitRepository(jdbcTemplate, beanPropertyRowMapper).create(
                 traitDTO
         );
         Mockito.verify(jdbcTemplate, Mockito.times(2)).queryForStream(
-                TraitsRepository.READ_BY_ID_SQL,
+                TraitRepository.READ_BY_ID_SQL,
                 beanPropertyRowMapper,
                 TRAIT_ID
         );
         Mockito.verify(jdbcTemplate, Mockito.times(1)).update(
-                TraitsRepository.CREATE_SQL,
+                TraitRepository.CREATE_SQL,
                 TRAIT_ID,
                 TRAIT_TYPE_ID,
                 TRAIT_TYPE_WEIGHT_ID
@@ -70,20 +70,20 @@ public class TraitsRepositoryTest {
     void testCreateExisting() {
         TraitDTO traitDTO = TraitDTO.builder().id(ID).traitId(TRAIT_ID).traitTypeId(TRAIT_TYPE_ID).traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID).build();
         Mockito.when(jdbcTemplate.queryForStream(
-                TraitsRepository.READ_BY_ID_SQL,
+                TraitRepository.READ_BY_ID_SQL,
                 beanPropertyRowMapper,
                 TRAIT_ID
         )).thenReturn(Stream.of(traitDTO));
-        TraitDTO traitDTOResult = new TraitsRepository(jdbcTemplate, beanPropertyRowMapper).create(
+        TraitDTO traitDTOResult = new TraitRepository(jdbcTemplate, beanPropertyRowMapper).create(
                 traitDTO
         );
         Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
-                TraitsRepository.READ_BY_ID_SQL,
+                TraitRepository.READ_BY_ID_SQL,
                 beanPropertyRowMapper,
                 TRAIT_ID
         );
         Mockito.verify(jdbcTemplate, Mockito.times(0)).update(
-                TraitsRepository.CREATE_SQL,
+                TraitRepository.CREATE_SQL,
                 TRAIT_ID,
                 TRAIT_TYPE_ID,
                 TRAIT_TYPE_WEIGHT_ID
@@ -95,12 +95,12 @@ public class TraitsRepositoryTest {
     void testRead() {
         TraitDTO traitDTO = TraitDTO.builder().id(ID).traitId(TRAIT_ID).traitTypeId(TRAIT_TYPE_ID).traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID).build();
         Mockito.when(jdbcTemplate.queryForStream(
-                TraitsRepository.READ_SQL,
+                TraitRepository.READ_SQL,
                 beanPropertyRowMapper
         )).thenReturn(Stream.of(traitDTO));
-        List<TraitDTO> traits = new TraitsRepository(jdbcTemplate, beanPropertyRowMapper).read();
+        List<TraitDTO> traits = new TraitRepository(jdbcTemplate, beanPropertyRowMapper).read();
         Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
-                TraitsRepository.READ_SQL,
+                TraitRepository.READ_SQL,
                 beanPropertyRowMapper
         );
         assertThat(traits.get(0)).isEqualTo(traitDTO);
@@ -110,24 +110,24 @@ public class TraitsRepositoryTest {
     void testUpdateExistingEntry() {
         TraitDTO traitDTO = TraitDTO.builder().id(ID).traitId(TRAIT_ID).traitTypeId(TRAIT_TYPE_ID).traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID).build();
         Mockito.when(jdbcTemplate.queryForStream(
-                TraitsRepository.READ_BY_ID_SQL,
+                TraitRepository.READ_BY_ID_SQL,
                 beanPropertyRowMapper,
                 TRAIT_ID
         )).thenReturn(Stream.of(traitDTO), Stream.of(traitDTO));
         Mockito.when(jdbcTemplate.update(
-                TraitsRepository.UPDATE_SQL,
+                TraitRepository.UPDATE_SQL,
                 TRAIT_TYPE_ID,
                 TRAIT_TYPE_WEIGHT_ID,
                 TRAIT_ID
         )).thenReturn(1);
-        TraitDTO traitDTOResults = new TraitsRepository(jdbcTemplate, beanPropertyRowMapper).update(traitDTO);
+        TraitDTO traitDTOResults = new TraitRepository(jdbcTemplate, beanPropertyRowMapper).update(traitDTO);
         Mockito.verify(jdbcTemplate, Mockito.times(2)).queryForStream(
-                TraitsRepository.READ_BY_ID_SQL,
+                TraitRepository.READ_BY_ID_SQL,
                 beanPropertyRowMapper,
                 TRAIT_ID
         );
         Mockito.verify(jdbcTemplate, Mockito.times(1)).update(
-                TraitsRepository.UPDATE_SQL,
+                TraitRepository.UPDATE_SQL,
                 TRAIT_TYPE_ID,
                 TRAIT_TYPE_WEIGHT_ID,
                 TRAIT_ID
@@ -140,18 +140,18 @@ public class TraitsRepositoryTest {
         TraitDTO traitDTO = TraitDTO.builder().id(ID).traitId(TRAIT_ID).traitTypeId(TRAIT_TYPE_ID).traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID).build();
         // Return a Stream.empty() from the read by id call to imitate a non-existing entry.
         Mockito.when(jdbcTemplate.queryForStream(
-                TraitsRepository.READ_BY_ID_SQL,
+                TraitRepository.READ_BY_ID_SQL,
                 beanPropertyRowMapper,
                 TRAIT_ID
         )).thenReturn(Stream.empty());
-        TraitDTO traitDTOResults = new TraitsRepository(jdbcTemplate, beanPropertyRowMapper).update(traitDTO);
+        TraitDTO traitDTOResults = new TraitRepository(jdbcTemplate, beanPropertyRowMapper).update(traitDTO);
         Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
-                TraitsRepository.READ_BY_ID_SQL,
+                TraitRepository.READ_BY_ID_SQL,
                 beanPropertyRowMapper,
                 TRAIT_ID
         );
         Mockito.verify(jdbcTemplate, Mockito.times(0)).update(
-                TraitsRepository.UPDATE_SQL,
+                TraitRepository.UPDATE_SQL,
                 TRAIT_TYPE_ID,
                 TRAIT_TYPE_WEIGHT_ID
         );
@@ -162,19 +162,19 @@ public class TraitsRepositoryTest {
     void testDeleteExistingEntry() {
         TraitDTO traitDTO = TraitDTO.builder().id(ID).traitId(TRAIT_ID).traitTypeId(TRAIT_TYPE_ID).traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID).build();
         Mockito.when(jdbcTemplate.queryForStream(
-                TraitsRepository.READ_BY_ID_SQL,
+                TraitRepository.READ_BY_ID_SQL,
                 beanPropertyRowMapper,
                 TRAIT_ID
         )).thenReturn(Stream.of(traitDTO), Stream.empty());
-        boolean isDeletedSuccessfully = new TraitsRepository(jdbcTemplate, beanPropertyRowMapper).delete(traitDTO);
+        boolean isDeletedSuccessfully = new TraitRepository(jdbcTemplate, beanPropertyRowMapper).delete(traitDTO);
         // Read by id is called twice. Once at the start of the delete method and once at the end of the delete method.
         Mockito.verify(jdbcTemplate, Mockito.times(2)).queryForStream(
-                TraitsRepository.READ_BY_ID_SQL,
+                TraitRepository.READ_BY_ID_SQL,
                 beanPropertyRowMapper,
                 TRAIT_ID
         );
         Mockito.verify(jdbcTemplate, Mockito.times(1)).update(
-                TraitsRepository.DELETE_BY_ID_SQL,
+                TraitRepository.DELETE_BY_ID_SQL,
                 TRAIT_ID
         );
         assertThat(isDeletedSuccessfully).isEqualTo(true);
@@ -184,13 +184,13 @@ public class TraitsRepositoryTest {
     void testDeleteNonExistingEntry() {
         TraitDTO traitDTO = TraitDTO.builder().id(ID).traitId(TRAIT_ID).traitTypeId(TRAIT_TYPE_ID).traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID).build();
         Mockito.when(jdbcTemplate.queryForStream(
-                TraitsRepository.READ_BY_ID_SQL,
+                TraitRepository.READ_BY_ID_SQL,
                 beanPropertyRowMapper,
                 TRAIT_ID
         )).thenReturn(Stream.empty());
-        boolean isDeletedSuccessfully = new TraitsRepository(jdbcTemplate, beanPropertyRowMapper).delete(traitDTO);
+        boolean isDeletedSuccessfully = new TraitRepository(jdbcTemplate, beanPropertyRowMapper).delete(traitDTO);
         Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
-                TraitsRepository.READ_BY_ID_SQL,
+                TraitRepository.READ_BY_ID_SQL,
                 beanPropertyRowMapper,
                 TRAIT_ID
         );

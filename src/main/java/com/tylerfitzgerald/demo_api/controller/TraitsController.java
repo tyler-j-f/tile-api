@@ -1,7 +1,7 @@
 package com.tylerfitzgerald.demo_api.controller;
 
 import com.tylerfitzgerald.demo_api.token.traits.TraitDTO;
-import com.tylerfitzgerald.demo_api.token.traits.TraitsRepository;
+import com.tylerfitzgerald.demo_api.token.traits.TraitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.*;
 public class TraitsController extends BaseController {
 
     @Autowired
-    private TraitsRepository traitsRepository;
+    private TraitRepository traitRepository;
 
     @GetMapping("getAll")
     public String getAllTraits() {
-        return traitsRepository.read().toString();
+        return traitRepository.read().toString();
     }
 
     @GetMapping("get/{traitId}")
     public String getTrait(@PathVariable Long traitId) {
-        return traitsRepository.readById(traitId).toString();
+        return traitRepository.readById(traitId).toString();
     }
 
     @GetMapping("insert/{traitId}")
@@ -31,7 +31,7 @@ public class TraitsController extends BaseController {
         if (traitTypeId == null ||  traitTypeWeightId == null) {
             return "Please pass a 'traitTypeId' AND 'traitTypeWeightId' to create a trait";
         }
-         TraitDTO traitDTO = traitsRepository.create(
+         TraitDTO traitDTO = traitRepository.create(
                  TraitDTO.
                          builder().
                          traitId(traitId).
@@ -61,7 +61,7 @@ public class TraitsController extends BaseController {
         if (traitTypeWeightId != null) {
             traitDTOBuilder = traitDTOBuilder.traitTypeWeightId(traitTypeWeightId);
         }
-        TraitDTO traitDTO = traitsRepository.update(
+        TraitDTO traitDTO = traitRepository.update(
                 traitDTOBuilder.build()
         );
         if (traitDTO == null) {
@@ -72,8 +72,8 @@ public class TraitsController extends BaseController {
 
     @GetMapping("delete/{traitId}")
     public String deleteTrait(@PathVariable Long traitId) {
-        TraitDTO traitDTO = traitsRepository.readById(traitId);
-        if (!traitsRepository.delete(traitDTO)) {
+        TraitDTO traitDTO = traitRepository.readById(traitId);
+        if (!traitRepository.delete(traitDTO)) {
             return "Could not delete traitId: " + traitId;
         }
         return "Deleted traitId: " + traitId;

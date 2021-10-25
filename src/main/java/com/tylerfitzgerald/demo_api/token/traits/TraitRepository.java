@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class TraitsRepository implements RepositoryInterface<TraitDTO, Long> {
+public class TraitRepository implements RepositoryInterface<TraitDTO, Long> {
 
     private final JdbcTemplate jdbcTemplate;
     private final BeanPropertyRowMapper beanPropertyRowMapper;
@@ -23,7 +23,7 @@ public class TraitsRepository implements RepositoryInterface<TraitDTO, Long> {
     public static final String UPDATE_SQL        = "UPDATE " + TraitsTable.TABLE_NAME + " set traitTypeId = ?, traitTypeWeightId = ? WHERE traitId = ?";
     public static final String DELETE_BY_ID_SQL  = "DELETE FROM " + TraitsTable.TABLE_NAME + " WHERE traitId = ?";
 
-    public TraitsRepository(
+    public TraitRepository(
             JdbcTemplate jdbcTemplate,
             BeanPropertyRowMapper beanPropertyRowMapper
     ) {
