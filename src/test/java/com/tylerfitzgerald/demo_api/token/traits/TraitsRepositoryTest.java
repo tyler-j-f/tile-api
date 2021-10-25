@@ -123,4 +123,21 @@ public class TraitsRepositoryTest {
         assertThat(isDeletedSuccessfully).isEqualTo(true);
     }
 
+    @Test
+    void testDeleteNonExistingEntry() {
+        TraitDTO traitDTO = TraitDTO.builder().id(ID).traitId(TRAIT_ID).traitTypeId(TRAIT_TYPE_ID).traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID).build();
+        Mockito.when(jdbcTemplate.queryForStream(
+                TraitsRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_ID
+        )).thenReturn(Stream.empty());
+        boolean isDeletedSuccessfully = new TraitsRepository(jdbcTemplate, beanPropertyRowMapper).delete(traitDTO);
+        Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
+                TraitsRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_ID
+        );
+        assertThat(isDeletedSuccessfully).isEqualTo(false);
+    }
+
 }
