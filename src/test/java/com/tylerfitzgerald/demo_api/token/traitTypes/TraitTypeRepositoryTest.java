@@ -1,5 +1,7 @@
 package com.tylerfitzgerald.demo_api.token.traitTypes;
 
+import com.tylerfitzgerald.demo_api.token.traits.TraitDTO;
+import com.tylerfitzgerald.demo_api.token.traits.TraitRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -171,6 +173,30 @@ public class TraitTypeRepositoryTest {
                 TRAIT_TYPE_ID
         );
         assertThat(traitTypeDTOResults).isEqualTo(traitTypeDTO);
+    }
+
+    @Test
+    void testUpdateNonExistingEntry() {
+        TraitTypeDTO traitTypeDTO = TraitTypeDTO.builder().id(ID).traitTypeId(TRAIT_TYPE_ID).traitTypeName(TRAIT_TYPE_NAME).description(DESCRIPTION).build();
+        // Return a Stream.empty() from the read by id call to imitate a non-existing entry.
+        Mockito.when(jdbcTemplate.queryForStream(
+                TraitTypeRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_TYPE_ID
+        )).thenReturn(Stream.empty());
+        TraitTypeDTO traitTypeDTOResults = new TraitTypeRepository(jdbcTemplate, beanPropertyRowMapper).update(traitTypeDTO);
+        Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
+                TraitTypeRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_TYPE_ID
+        );
+        Mockito.verify(jdbcTemplate, Mockito.times(0)).update(
+                TraitTypeRepository.UPDATE_SQL,
+                TRAIT_TYPE_NAME,
+                DESCRIPTION,
+                TRAIT_TYPE_ID
+        );
+        assertThat(traitTypeDTOResults).isEqualTo(null);
     }
 
 }
