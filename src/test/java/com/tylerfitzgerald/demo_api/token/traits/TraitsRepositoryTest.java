@@ -1,9 +1,7 @@
 package com.tylerfitzgerald.demo_api.token.traits;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -16,6 +14,11 @@ public class TraitsRepositoryTest {
 
     private JdbcTemplate jdbcTemplate;
     private BeanPropertyRowMapper beanPropertyRowMapper;
+    // Value set 1
+    private final static Long ID = 1L;
+    private final static Long TRAIT_ID = 2L;
+    private final static Long TRAIT_TYPE_ID = 3L;
+    private final static Long TRAIT_TYPE_WEIGHT_ID = 4L;
 
     @BeforeEach
     public void setup() {
@@ -26,6 +29,20 @@ public class TraitsRepositoryTest {
     @Test
     void testConstructor() {
         assertThat(new TraitsRepository(jdbcTemplate, beanPropertyRowMapper)).isInstanceOf(TraitsRepository.class);
+    }
+
+    @Test
+    void testCreate() {
+        TraitDTO traitDTO = TraitDTO.builder().id(ID).traitId(TRAIT_ID).traitTypeId(TRAIT_TYPE_ID).traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID).build();
+        new TraitsRepository(jdbcTemplate, beanPropertyRowMapper).create(
+                traitDTO
+        );
+        Mockito.verify(jdbcTemplate, Mockito.times(1)).update(
+                TraitsRepository.CREATE_SQL,
+                TRAIT_ID,
+                TRAIT_TYPE_ID,
+                TRAIT_TYPE_WEIGHT_ID
+        );
     }
 
     @Test
