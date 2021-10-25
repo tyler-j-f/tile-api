@@ -56,4 +56,22 @@ public class TraitTypeDTOTest {
         assertThat(traitTypeDTO.getDescription()).isEqualTo(DESCRIPTION_2);
     }
 
+    @Test
+    void testBuilder() {
+        TraitTypeDTO.TraitTypeDTOBuilder builder = TraitTypeDTO.
+                builder().
+                id(ID).
+                traitTypeId(TRAIT_TYPE_ID).
+                traitTypeName(TRAIT_TYPE_NAME).
+                description(DESCRIPTION);
+        assertThat(builder).isInstanceOf(TraitTypeDTO.TraitTypeDTOBuilder.class);
+        TraitTypeDTO traitTypeDTO = builder.build();
+        assertThat(traitTypeDTO).isInstanceOf(TraitTypeDTO.class);
+        // Assert that getters return value set 1.
+        assertThat(traitTypeDTO.getId()).isEqualTo(ID);
+        assertThat(traitTypeDTO.getTraitTypeId()).isEqualTo(TRAIT_TYPE_ID);
+        assertThat(traitTypeDTO.getTraitTypeName()).isEqualTo(TRAIT_TYPE_NAME);
+        assertThat(traitTypeDTO.getDescription()).isEqualTo(DESCRIPTION);
+    }
+
 }
