@@ -114,9 +114,15 @@ public class TraitsRepositoryTest {
                 TraitsRepository.READ_BY_ID_SQL,
                 beanPropertyRowMapper,
                 TRAIT_ID
-        )).thenReturn(Stream.of(traitDTO));
-        new TraitsRepository(jdbcTemplate, beanPropertyRowMapper).update(traitDTO);
-        Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
+        )).thenReturn(Stream.of(traitDTO), Stream.of(traitDTO));
+        Mockito.when(jdbcTemplate.update(
+                TraitsRepository.UPDATE_SQL,
+                TRAIT_TYPE_ID,
+                TRAIT_TYPE_WEIGHT_ID,
+                TRAIT_ID
+        )).thenReturn(1);
+        TraitDTO traitDTOResults = new TraitsRepository(jdbcTemplate, beanPropertyRowMapper).update(traitDTO);
+        Mockito.verify(jdbcTemplate, Mockito.times(2)).queryForStream(
                 TraitsRepository.READ_BY_ID_SQL,
                 beanPropertyRowMapper,
                 TRAIT_ID
@@ -124,8 +130,10 @@ public class TraitsRepositoryTest {
         Mockito.verify(jdbcTemplate, Mockito.times(1)).update(
                 TraitsRepository.UPDATE_SQL,
                 TRAIT_TYPE_ID,
-                TRAIT_TYPE_WEIGHT_ID
+                TRAIT_TYPE_WEIGHT_ID,
+                TRAIT_ID
         );
+        assertThat(traitDTOResults).isEqualTo(traitDTO);
     }
 
     @Test

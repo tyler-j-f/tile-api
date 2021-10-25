@@ -115,6 +115,7 @@ public class TraitsRepository implements RepositoryInterface<TraitDTO, Long> {
             updateValuesList.add(traitTypeWeightId);
         }
         updateSQL = updateSQL + " WHERE traitId = ?";
+        updateValuesList.add(entity.getTraitId());
         int results = jdbcTemplate.update(
                 updateSQL,
                 updateValuesList.toArray()
