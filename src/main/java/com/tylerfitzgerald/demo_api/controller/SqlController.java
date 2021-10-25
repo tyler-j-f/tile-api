@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = {"/api/sql"})
-public class SqlController {
+public class SqlController extends BaseController {
 
     @Autowired
     private TokenTable tokenTable;

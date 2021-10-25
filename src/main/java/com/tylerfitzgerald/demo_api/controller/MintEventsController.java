@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping(value = {"/api/events/mint"})
-public class MintEventsController {
+public class MintEventsController extends BaseController {
 
     @Autowired
     private MintEventRetriever mintEventRetriever;

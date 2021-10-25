@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = {"/api/traits"})
-public class TraitsController {
+public class TraitsController extends BaseController {
 
     @Autowired
     private TraitsRepository traitsRepository;

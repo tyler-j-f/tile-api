@@ -18,7 +18,7 @@ import java.util.Arrays;
 
 @RestController
 @RequestMapping(value = {"/api"})
-public class TestController {
+public class TestController extends BaseController {
 
     @Autowired
     private EnvConfig appConfig;

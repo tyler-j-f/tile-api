@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = {"/api/traitTypeWeights"})
-public class TraitTypeWeightsController {
+public class TraitTypeWeightsController extends BaseController {
 
     private static final String EMPTY_STRING = "";
 

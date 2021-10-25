@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = {"/api/tokens"})
-public class TokensController {
+public class TokensController extends BaseController {
 
     @Autowired
     private TokenRepository tokenRepository;
