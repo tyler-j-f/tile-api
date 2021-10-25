@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,6 +23,11 @@ public class TraitTypeRepositoryTest {
     private final static Long TRAIT_TYPE_ID     = 2L;
     private final static String TRAIT_TYPE_NAME = "STRING_A";
     private final static String DESCRIPTION     = "STRING_B";
+    // Value set 2
+    private final static Long ID_2                = 3L;
+    private final static Long TRAIT_TYPE_ID_2     = 4L;
+    private final static String TRAIT_TYPE_NAME_2 = "STRING_C";
+    private final static String DESCRIPTION_2     = "STRING_D";
 
     @BeforeEach
     public void setup() {
@@ -88,6 +94,38 @@ public class TraitTypeRepositoryTest {
                 DESCRIPTION
         );
         assertThat(traitTypeDTOResult).isEqualTo(null);
+    }
+
+    @Test
+    void testRead() {
+        TraitTypeDTO traitTypeDTO = TraitTypeDTO.builder().id(ID).traitTypeId(TRAIT_TYPE_ID).traitTypeName(TRAIT_TYPE_NAME).description(DESCRIPTION).build();
+        TraitTypeDTO traitTypeDTO2 = TraitTypeDTO.builder().id(ID_2).traitTypeId(TRAIT_TYPE_ID_2).traitTypeName(TRAIT_TYPE_NAME_2).description(DESCRIPTION_2).build();
+        Mockito.when(jdbcTemplate.queryForStream(
+                TraitTypeRepository.READ_SQL,
+                beanPropertyRowMapper
+        )).thenReturn(Stream.of(traitTypeDTO, traitTypeDTO2));
+        List<TraitTypeDTO> traits = new TraitTypeRepository(jdbcTemplate, beanPropertyRowMapper).read();
+        Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
+                TraitTypeRepository.READ_SQL,
+                beanPropertyRowMapper
+        );
+        assertThat(traits.get(0)).isEqualTo(traitTypeDTO);
+        assertThat(traits.get(1)).isEqualTo(traitTypeDTO2);
+    }
+
+
+    @Test
+    void testReadEmptyTable() {
+        Mockito.when(jdbcTemplate.queryForStream(
+                TraitTypeRepository.READ_SQL,
+                beanPropertyRowMapper
+        )).thenReturn(Stream.empty());
+        List<TraitTypeDTO> traits = new TraitTypeRepository(jdbcTemplate, beanPropertyRowMapper).read();
+        Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
+                TraitTypeRepository.READ_SQL,
+                beanPropertyRowMapper
+        );
+        assertThat(traits.isEmpty()).isEqualTo(true);
     }
 
 }

@@ -114,7 +114,6 @@ public class TraitRepositoryTest {
 
     @Test
     void testReadEmptyTable() {
-        TraitDTO traitDTO = TraitDTO.builder().id(ID).traitId(TRAIT_ID).traitTypeId(TRAIT_TYPE_ID).traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID).build();
         Mockito.when(jdbcTemplate.queryForStream(
                 TraitRepository.READ_SQL,
                 beanPropertyRowMapper
