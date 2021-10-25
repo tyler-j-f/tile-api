@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -145,7 +144,7 @@ public class TraitsRepositoryTest {
                 beanPropertyRowMapper,
                 TRAIT_ID
         )).thenReturn(Stream.empty());
-        new TraitsRepository(jdbcTemplate, beanPropertyRowMapper).update(traitDTO);
+        TraitDTO traitDTOResults = new TraitsRepository(jdbcTemplate, beanPropertyRowMapper).update(traitDTO);
         Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
                 TraitsRepository.READ_BY_ID_SQL,
                 beanPropertyRowMapper,
@@ -156,6 +155,7 @@ public class TraitsRepositoryTest {
                 TRAIT_TYPE_ID,
                 TRAIT_TYPE_WEIGHT_ID
         );
+        assertThat(traitDTOResults).isEqualTo(null);
     }
 
     @Test
