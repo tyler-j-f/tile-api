@@ -1,6 +1,5 @@
 package com.tylerfitzgerald.demo_api.token.traitTypes;
 
-import com.tylerfitzgerald.demo_api.token.traits.TraitRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -126,6 +125,23 @@ public class TraitTypeRepositoryTest {
                 beanPropertyRowMapper
         );
         assertThat(traits.isEmpty()).isEqualTo(true);
+    }
+
+    @Test
+    void testReadExistingById() {
+        TraitTypeDTO traitTypeDTO = TraitTypeDTO.builder().id(ID).traitTypeId(TRAIT_TYPE_ID).traitTypeName(TRAIT_TYPE_NAME).description(DESCRIPTION).build();
+        Mockito.when(jdbcTemplate.queryForStream(
+                TraitTypeRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                ID
+        )).thenReturn(Stream.of(traitTypeDTO));
+        TraitTypeDTO traitDTOResult = new TraitTypeRepository(jdbcTemplate, beanPropertyRowMapper).readById(ID);
+        Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
+                TraitTypeRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                ID
+        );
+        assertThat(traitDTOResult).isEqualTo(traitTypeDTO);
     }
 
 }
