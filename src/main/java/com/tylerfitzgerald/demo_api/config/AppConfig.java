@@ -5,7 +5,9 @@ import com.tylerfitzgerald.demo_api.sql.TraitTypeWeightsTable;
 import com.tylerfitzgerald.demo_api.sql.TraitsTable;
 import com.tylerfitzgerald.demo_api.token.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.TokenTable;
+import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightRepository;
+import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeDTO;
 import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeRepository;
 import com.tylerfitzgerald.demo_api.sql.TraitTypesTable;
 import com.tylerfitzgerald.demo_api.token.traits.TraitDTO;
@@ -55,7 +57,7 @@ public class AppConfig {
 
     @Bean
     public TraitTypeRepository traitTypeRepository() {
-        return new TraitTypeRepository(jdbcTemplate, new BeanPropertyRowMapper(TraitDTO.class));
+        return new TraitTypeRepository(jdbcTemplate, new BeanPropertyRowMapper(TraitTypeDTO.class));
     }
 
     @Bean
@@ -63,14 +65,16 @@ public class AppConfig {
 
     @Bean
     public TraitTypeWeightRepository traitTypeWeightRepository() {
-        return new TraitTypeWeightRepository(jdbcTemplate, new BeanPropertyRowMapper(TraitDTO.class));
+        return new TraitTypeWeightRepository(jdbcTemplate, new BeanPropertyRowMapper(TraitTypeWeightDTO.class));
     }
 
     @Bean
-    public TraitsTable traitsTable() {return new TraitsTable(jdbcTemplate);}
+    public TraitsTable traitsTable() {
+        return new TraitsTable(jdbcTemplate);
+    }
 
     @Bean
-    public TraitRepository traitsRepository() {
+    public TraitRepository traitRepository() {
         return new TraitRepository(jdbcTemplate, new BeanPropertyRowMapper(TraitDTO.class));
     }
 }
