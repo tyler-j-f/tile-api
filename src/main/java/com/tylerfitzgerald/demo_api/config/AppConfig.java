@@ -55,7 +55,7 @@ public class AppConfig {
 
     @Bean
     public TraitTypeRepository traitTypeRepository() {
-        return new TraitTypeRepository(jdbcTemplate);
+        return new TraitTypeRepository(jdbcTemplate, new BeanPropertyRowMapper(TraitDTO.class));
     }
 
     @Bean

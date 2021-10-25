@@ -32,6 +32,23 @@ public class TraitRepository implements RepositoryInterface<TraitDTO, Long> {
     }
 
     @Override
+    public TraitDTO create(TraitDTO entity) {
+        if (doesTraitIdExist(entity)) {
+            return null;
+        }
+        int results = jdbcTemplate.update(
+                CREATE_SQL,
+                entity.getTraitId(),
+                entity.getTraitTypeId(),
+                entity.getTraitTypeWeightId()
+        );
+        if (results != 1) {
+            return null;
+        }
+        return readById(entity.getTraitId());
+    }
+
+    @Override
     public List<TraitDTO> read() {
         Stream<TraitDTO> stream = null;
         try {
@@ -66,23 +83,6 @@ public class TraitRepository implements RepositoryInterface<TraitDTO, Long> {
                 stream.close();
             }
         }
-    }
-
-    @Override
-    public TraitDTO create(TraitDTO entity) {
-        if (doesTraitIdExist(entity)) {
-            return null;
-        }
-        int results = jdbcTemplate.update(
-                CREATE_SQL,
-                entity.getTraitId(),
-                entity.getTraitTypeId(),
-                entity.getTraitTypeWeightId()
-        );
-        if (results != 1) {
-            return null;
-        }
-        return readById(entity.getTraitId());
     }
 
     @Override

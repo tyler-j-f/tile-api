@@ -25,6 +25,26 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
     }
 
     @Override
+    public TokenDTO create(TokenDTO entity) {
+        if (doesTokenIdExist(entity)) {
+            return null;
+        }
+        int results = jdbcTemplate.update(
+                CREATE_SQL,
+                entity.getTokenId(),
+                entity.getSaleId(),
+                entity.getName(),
+                entity.getDescription(),
+                entity.getExternalUrl(),
+                entity.getImageUrl()
+        );
+        if (results != 1) {
+            return null;
+        }
+        return readById(entity.getTokenId());
+    }
+
+    @Override
     public List<TokenDTO> read() {
         Stream<TokenDTO> stream = null;
         try {
@@ -63,26 +83,6 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
                 stream.close();
             }
         }
-    }
-
-    @Override
-    public TokenDTO create(TokenDTO entity) {
-        if (doesTokenIdExist(entity)) {
-            return null;
-        }
-        int results = jdbcTemplate.update(
-                CREATE_SQL,
-                entity.getTokenId(),
-                entity.getSaleId(),
-                entity.getName(),
-                entity.getDescription(),
-                entity.getExternalUrl(),
-                entity.getImageUrl()
-        );
-        if (results != 1) {
-            return null;
-        }
-        return readById(entity.getTokenId());
     }
 
     @Override

@@ -13,53 +13,21 @@ import java.util.stream.Stream;
 public class TraitTypeRepository implements RepositoryInterface<TraitTypeDTO, Long> {
 
     private final JdbcTemplate jdbcTemplate;
+    private final BeanPropertyRowMapper beanPropertyRowMapper;
 
-    private static final String READ_SQL          = "SELECT * FROM " + TraitTypesTable.TABLE_NAME;
+    public static final String READ_SQL          = "SELECT * FROM " + TraitTypesTable.TABLE_NAME;
     // CRUD SQL
-    private static final String CREATE_SQL        = "INSERT INTO " + TraitTypesTable.TABLE_NAME + " VALUES (null, ?, ?, ?)";
-    private static final String READ_BY_ID_SQL    = "SELECT * FROM " + TraitTypesTable.TABLE_NAME + " WHERE traitTypeId = ?";
-    private static final String UPDATE_BASE_SQL        = "UPDATE " + TraitTypesTable.TABLE_NAME + " set ";
-    private static final String DELETE_BY_ID_SQL  = "DELETE FROM " + TraitTypesTable.TABLE_NAME + " WHERE traitTypeId = ?";
+    public static final String CREATE_SQL        = "INSERT INTO " + TraitTypesTable.TABLE_NAME + " VALUES (null, ?, ?, ?)";
+    public static final String READ_BY_ID_SQL    = "SELECT * FROM " + TraitTypesTable.TABLE_NAME + " WHERE traitTypeId = ?";
+    public static final String UPDATE_BASE_SQL        = "UPDATE " + TraitTypesTable.TABLE_NAME + " set ";
+    public static final String DELETE_BY_ID_SQL  = "DELETE FROM " + TraitTypesTable.TABLE_NAME + " WHERE traitTypeId = ?";
 
-    public TraitTypeRepository(JdbcTemplate jdbcTemplate) {
+    public TraitTypeRepository(
+            JdbcTemplate jdbcTemplate,
+            BeanPropertyRowMapper beanPropertyRowMapper
+    ) {
         this.jdbcTemplate = jdbcTemplate;
-    }
-
-    @Override
-    public List<TraitTypeDTO> read() {
-        Stream<TraitTypeDTO> stream = null;
-        try {
-            stream = jdbcTemplate.queryForStream(
-                    READ_SQL,
-                    new BeanPropertyRowMapper(TraitTypeDTO.class)
-            );
-            return stream.collect(Collectors.toList());
-        } finally {
-            if (stream != null) {
-                stream.close();
-            }
-        }
-    }
-
-    @Override
-    public TraitTypeDTO readById(Long traitId) {
-        Stream<TraitTypeDTO> stream = null;
-        try {
-            stream = jdbcTemplate.queryForStream(
-                    READ_BY_ID_SQL,
-                    new BeanPropertyRowMapper(TraitTypeDTO.class),
-                    traitId
-            );
-            List<TraitTypeDTO> traitTypes = stream.collect(Collectors.toList());
-            if (traitTypes.size() == 0) {
-                return null;
-            }
-            return traitTypes.get(0);
-        } finally {
-            if (stream != null) {
-                stream.close();
-            }
-        }
+        this.beanPropertyRowMapper = beanPropertyRowMapper;
     }
 
     @Override
@@ -77,6 +45,43 @@ public class TraitTypeRepository implements RepositoryInterface<TraitTypeDTO, Lo
             return null;
         }
         return readById(entity.getTraitTypeId());
+    }
+
+    @Override
+    public List<TraitTypeDTO> read() {
+        Stream<TraitTypeDTO> stream = null;
+        try {
+            stream = jdbcTemplate.queryForStream(
+                    READ_SQL,
+                    beanPropertyRowMapper
+            );
+            return stream.collect(Collectors.toList());
+        } finally {
+            if (stream != null) {
+                stream.close();
+            }
+        }
+    }
+
+    @Override
+    public TraitTypeDTO readById(Long traitId) {
+        Stream<TraitTypeDTO> stream = null;
+        try {
+            stream = jdbcTemplate.queryForStream(
+                    READ_BY_ID_SQL,
+                    beanPropertyRowMapper,
+                    traitId
+            );
+            List<TraitTypeDTO> traitTypes = stream.collect(Collectors.toList());
+            if (traitTypes.size() == 0) {
+                return null;
+            }
+            return traitTypes.get(0);
+        } finally {
+            if (stream != null) {
+                stream.close();
+            }
+        }
     }
 
     @Override
