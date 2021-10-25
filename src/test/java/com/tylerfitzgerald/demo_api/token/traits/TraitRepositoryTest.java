@@ -248,6 +248,10 @@ public class TraitRepositoryTest {
                 beanPropertyRowMapper,
                 TRAIT_ID
         );
+        Mockito.verify(jdbcTemplate, Mockito.times(0)).update(
+                TraitRepository.DELETE_BY_ID_SQL,
+                TRAIT_ID
+        );
         assertThat(isDeletedSuccessfully).isEqualTo(false);
     }
 

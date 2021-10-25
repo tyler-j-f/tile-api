@@ -1,6 +1,5 @@
 package com.tylerfitzgerald.demo_api.token.traitTypes;
 
-import com.tylerfitzgerald.demo_api.token.traits.TraitDTO;
 import com.tylerfitzgerald.demo_api.token.traits.TraitRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -199,4 +198,47 @@ public class TraitTypeRepositoryTest {
         assertThat(traitTypeDTOResults).isEqualTo(null);
     }
 
+    @Test
+    void testDeleteExistingEntry() {
+        TraitTypeDTO traitTypeDTO = TraitTypeDTO.builder().id(ID).traitTypeId(TRAIT_TYPE_ID).traitTypeName(TRAIT_TYPE_NAME).description(DESCRIPTION).build();
+        Mockito.when(jdbcTemplate.queryForStream(
+                TraitTypeRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_TYPE_ID
+        )).thenReturn(Stream.of(traitTypeDTO), Stream.empty());
+        boolean isDeletedSuccessfully = new TraitTypeRepository(jdbcTemplate, beanPropertyRowMapper).delete(traitTypeDTO);
+        // Read by id is called twice. Once at the start of the delete method and once at the end of the delete method.
+        Mockito.verify(jdbcTemplate, Mockito.times(2)).queryForStream(
+                TraitTypeRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_TYPE_ID
+        );
+        Mockito.verify(jdbcTemplate, Mockito.times(1)).update(
+                TraitTypeRepository.DELETE_BY_ID_SQL,
+                TRAIT_TYPE_ID
+        );
+        assertThat(isDeletedSuccessfully).isEqualTo(true);
+    }
+
+    @Test
+    void testDeleteNonExistingEntry() {
+        TraitTypeDTO traitTypeDTO = TraitTypeDTO.builder().id(ID).traitTypeId(TRAIT_TYPE_ID).traitTypeName(TRAIT_TYPE_NAME).description(DESCRIPTION).build();
+        Mockito.when(jdbcTemplate.queryForStream(
+                TraitTypeRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_TYPE_ID
+        )).thenReturn(Stream.empty());
+        boolean isDeletedSuccessfully = new TraitTypeRepository(jdbcTemplate, beanPropertyRowMapper).delete(traitTypeDTO);
+        // Read by id is called twice. Once at the start of the delete method and once at the end of the delete method.
+        Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
+                TraitTypeRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_TYPE_ID
+        );
+        Mockito.verify(jdbcTemplate, Mockito.times(0)).update(
+                TraitTypeRepository.DELETE_BY_ID_SQL,
+                TRAIT_TYPE_ID
+        );
+        assertThat(isDeletedSuccessfully).isEqualTo(false);
+    }
 }
