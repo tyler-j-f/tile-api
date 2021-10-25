@@ -65,6 +65,31 @@ public class TraitsRepositoryTest {
         );
     }
 
+
+    @Test
+    void testCreateExisting() {
+        TraitDTO traitDTO = TraitDTO.builder().id(ID).traitId(TRAIT_ID).traitTypeId(TRAIT_TYPE_ID).traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID).build();
+        Mockito.when(jdbcTemplate.queryForStream(
+                TraitsRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_ID
+        )).thenReturn(Stream.of(traitDTO));
+        new TraitsRepository(jdbcTemplate, beanPropertyRowMapper).create(
+                traitDTO
+        );
+        Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
+                TraitsRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_ID
+        );
+        Mockito.verify(jdbcTemplate, Mockito.times(0)).update(
+                TraitsRepository.CREATE_SQL,
+                TRAIT_ID,
+                TRAIT_TYPE_ID,
+                TRAIT_TYPE_WEIGHT_ID
+        );
+    }
+
     @Test
     void testRead() {
         TraitDTO traitDTO = TraitDTO.builder().id(ID).traitId(TRAIT_ID).traitTypeId(TRAIT_TYPE_ID).traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID).build();
