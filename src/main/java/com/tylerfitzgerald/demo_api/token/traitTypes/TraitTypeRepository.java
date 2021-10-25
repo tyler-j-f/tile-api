@@ -19,7 +19,7 @@ public class TraitTypeRepository implements RepositoryInterface<TraitTypeDTO, Lo
     // CRUD SQL
     public static final String CREATE_SQL        = "INSERT INTO " + TraitTypesTable.TABLE_NAME + " VALUES (null, ?, ?, ?)";
     public static final String READ_BY_ID_SQL    = "SELECT * FROM " + TraitTypesTable.TABLE_NAME + " WHERE traitTypeId = ?";
-    public static final String UPDATE_SQL        = "UPDATE tblTraitTypes set traitTypeName = ?, description = ? WHERE traitTypeId = ?";
+    public static final String UPDATE_SQL        = "UPDATE " + TraitTypesTable.TABLE_NAME + " set traitTypeName = ?, description = ? WHERE traitTypeId = ?";
     public static final String UPDATE_BASE_SQL   = "UPDATE " + TraitTypesTable.TABLE_NAME + " set ";
     public static final String DELETE_BY_ID_SQL  = "DELETE FROM " + TraitTypesTable.TABLE_NAME + " WHERE traitTypeId = ?";
 
