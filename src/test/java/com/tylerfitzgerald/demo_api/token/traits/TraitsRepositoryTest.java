@@ -36,10 +36,26 @@ public class TraitsRepositoryTest {
     }
 
     @Test
-    void testCreate() {
+    void testCreateNonExisting() {
         TraitDTO traitDTO = TraitDTO.builder().id(ID).traitId(TRAIT_ID).traitTypeId(TRAIT_TYPE_ID).traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID).build();
+        Mockito.when(jdbcTemplate.queryForStream(
+                TraitsRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_ID
+        )).thenReturn(Stream.empty(), Stream.of(traitDTO));
+        Mockito.when(jdbcTemplate.update(
+                TraitsRepository.CREATE_SQL,
+                TRAIT_ID,
+                TRAIT_TYPE_ID,
+                TRAIT_TYPE_WEIGHT_ID
+        )).thenReturn(1);
         new TraitsRepository(jdbcTemplate, beanPropertyRowMapper).create(
                 traitDTO
+        );
+        Mockito.verify(jdbcTemplate, Mockito.times(2)).queryForStream(
+                TraitsRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_ID
         );
         Mockito.verify(jdbcTemplate, Mockito.times(1)).update(
                 TraitsRepository.CREATE_SQL,
