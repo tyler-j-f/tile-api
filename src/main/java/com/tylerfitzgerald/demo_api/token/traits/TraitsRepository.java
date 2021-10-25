@@ -19,7 +19,8 @@ public class TraitsRepository implements RepositoryInterface<TraitDTO, Long> {
     // CRUD SQL
     public static final String CREATE_SQL        = "INSERT INTO " + TraitsTable.TABLE_NAME + " VALUES (null, ?, ?, ?)";
     public static final String READ_BY_ID_SQL    = "SELECT * FROM " + TraitsTable.TABLE_NAME + " WHERE traitId = ?";
-    public static final String UPDATE_SQL_BASE        = "UPDATE " + TraitsTable.TABLE_NAME + " set traitTypeId = ?, traitTypeWeightId = ? WHERE traitId = ?";
+    public static final String UPDATE_SQL_BASE   = "UPDATE " + TraitsTable.TABLE_NAME + " set ";
+    public static final String UPDATE_SQL        = "UPDATE " + TraitsTable.TABLE_NAME + " set traitTypeId = ?, traitTypeWeightId = ? WHERE traitId = ?";
     public static final String DELETE_BY_ID_SQL  = "DELETE FROM " + TraitsTable.TABLE_NAME + " WHERE traitId = ?";
 
     public TraitsRepository(
@@ -113,6 +114,7 @@ public class TraitsRepository implements RepositoryInterface<TraitDTO, Long> {
             updateSQL = updateSQL + "traitTypeWeightId = ?";
             updateValuesList.add(traitTypeWeightId);
         }
+        updateSQL = updateSQL + " WHERE traitId = ?";
         int results = jdbcTemplate.update(
                 updateSQL,
                 updateValuesList.toArray()

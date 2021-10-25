@@ -7,6 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -54,4 +58,24 @@ public class TraitsRepositoryTest {
         );
     }
 
+    @Test
+    void testUpdateExistingEntry() {
+        TraitDTO traitDTO = TraitDTO.builder().id(ID).traitId(TRAIT_ID).traitTypeId(TRAIT_TYPE_ID).traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID).build();
+        Mockito.when(jdbcTemplate.queryForStream(
+                TraitsRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_ID
+        )).thenReturn(Stream.of(traitDTO));
+        new TraitsRepository(jdbcTemplate, beanPropertyRowMapper).update(traitDTO);
+        Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
+                TraitsRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_ID
+        );
+        Mockito.verify(jdbcTemplate, Mockito.times(1)).update(
+                TraitsRepository.UPDATE_SQL,
+                TRAIT_TYPE_ID,
+                TRAIT_TYPE_WEIGHT_ID
+        );
+    }
 }
