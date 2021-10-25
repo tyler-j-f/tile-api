@@ -65,4 +65,29 @@ public class TraitTypeRepositoryTest {
         assertThat(traitTypeDTOResult).isEqualTo(traitTypeDTO);
     }
 
+    @Test
+    void testCreateExisting() {
+        TraitTypeDTO traitTypeDTO = TraitTypeDTO.builder().id(ID).traitTypeId(TRAIT_TYPE_ID).traitTypeName(TRAIT_TYPE_NAME).description(DESCRIPTION).build();
+        Mockito.when(jdbcTemplate.queryForStream(
+                TraitTypeRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_TYPE_ID
+        )).thenReturn(Stream.of(traitTypeDTO));
+        TraitTypeDTO traitTypeDTOResult = new TraitTypeRepository(jdbcTemplate, beanPropertyRowMapper).create(
+                traitTypeDTO
+        );
+        Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
+                TraitTypeRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_TYPE_ID
+        );
+        Mockito.verify(jdbcTemplate, Mockito.times(0)).update(
+                TraitTypeRepository.CREATE_SQL,
+                TRAIT_TYPE_ID,
+                TRAIT_TYPE_NAME,
+                DESCRIPTION
+        );
+        assertThat(traitTypeDTOResult).isEqualTo(null);
+    }
+
 }
