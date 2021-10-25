@@ -16,8 +16,8 @@ public class TraitTypeDTOTest {
     // Value set 2
     private final static Long ID_2 = 3L;
     private final static Long TRAIT_TYPE_ID_2 = 4L;
-    private final static String TRAIT_TYPE_NAME_2 = "STRING_A";
-    private final static String DESCRIPTION_2 = "STRING_B";
+    private final static String TRAIT_TYPE_NAME_2 = "STRING_C";
+    private final static String DESCRIPTION_2 = "STRING_D";
 
     @Test
     void testConstructor() {
