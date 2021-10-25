@@ -8,8 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class TileApiApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(TileApiApplication.class, args);
-	}
-
+  public static void main(String[] args) {
+    SpringApplication.run(TileApiApplication.class, args);
+  }
 }

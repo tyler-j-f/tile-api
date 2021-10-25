@@ -16,26 +16,23 @@ import java.util.concurrent.ExecutionException;
 @RequestMapping(value = {"/api/events/mint"})
 public class MintEventsController extends BaseController {
 
-    @Autowired
-    private MintEventRetriever mintEventRetriever;
+  @Autowired private MintEventRetriever mintEventRetriever;
 
-    @GetMapping(
-            value = {"getAll/{numberOfBlocksAgo}", "getAll"}
-    )
-    public String getMintEventsAndAddToDB(@PathVariable(required = false) String numberOfBlocksAgo) throws ExecutionException, InterruptedException {
-        if (numberOfBlocksAgo == null) {
-            numberOfBlocksAgo = "5760";
-        }
-        List<MintEvent> events = mintEventRetriever.getMintEvents(new BigInteger(numberOfBlocksAgo));
-        String output;
-        if (events.size() == 0) {
-            output = "No events found";
-            System.out.println(output);
-            return output;
-        }
-        output = events.toString();
-        System.out.println(output);
-        return output;
+  @GetMapping(value = {"getAll/{numberOfBlocksAgo}", "getAll"})
+  public String getMintEventsAndAddToDB(@PathVariable(required = false) String numberOfBlocksAgo)
+      throws ExecutionException, InterruptedException {
+    if (numberOfBlocksAgo == null) {
+      numberOfBlocksAgo = "5760";
     }
-
+    List<MintEvent> events = mintEventRetriever.getMintEvents(new BigInteger(numberOfBlocksAgo));
+    String output;
+    if (events.size() == 0) {
+      output = "No events found";
+      System.out.println(output);
+      return output;
+    }
+    output = events.toString();
+    System.out.println(output);
+    return output;
+  }
 }

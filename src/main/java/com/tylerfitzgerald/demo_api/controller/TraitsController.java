@@ -9,74 +9,67 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = {"/api/traits"})
 public class TraitsController extends BaseController {
 
-    @Autowired
-    private TraitRepository traitRepository;
+  @Autowired private TraitRepository traitRepository;
 
-    @GetMapping("getAll")
-    public String getAllTraits() {
-        return traitRepository.read().toString();
+  @GetMapping("getAll")
+  public String getAllTraits() {
+    return traitRepository.read().toString();
+  }
+
+  @GetMapping("get/{traitId}")
+  public String getTrait(@PathVariable Long traitId) {
+    return traitRepository.readById(traitId).toString();
+  }
+
+  @GetMapping("insert/{traitId}")
+  public String insertTrait(
+      @PathVariable Long traitId,
+      @RequestParam Long traitTypeId,
+      @RequestParam Long traitTypeWeightId) {
+    if (traitTypeId == null || traitTypeWeightId == null) {
+      return "Please pass a 'traitTypeId' AND 'traitTypeWeightId' to create a trait";
     }
-
-    @GetMapping("get/{traitId}")
-    public String getTrait(@PathVariable Long traitId) {
-        return traitRepository.readById(traitId).toString();
+    TraitDTO traitDTO =
+        traitRepository.create(
+            TraitDTO.builder()
+                .traitId(traitId)
+                .traitTypeId(traitTypeId)
+                .traitTypeWeightId(traitTypeWeightId)
+                .build());
+    if (traitDTO == null) {
+      return "Cannot create traitId: " + traitId;
     }
+    return traitDTO.toString();
+  }
 
-    @GetMapping("insert/{traitId}")
-    public String insertTrait(
-            @PathVariable Long traitId,
-            @RequestParam Long traitTypeId,
-            @RequestParam Long traitTypeWeightId
-    ) {
-        if (traitTypeId == null ||  traitTypeWeightId == null) {
-            return "Please pass a 'traitTypeId' AND 'traitTypeWeightId' to create a trait";
-        }
-         TraitDTO traitDTO = traitRepository.create(
-                 TraitDTO.
-                         builder().
-                         traitId(traitId).
-                         traitTypeId(traitTypeId).
-                         traitTypeWeightId(traitTypeWeightId).
-                         build()
-         );
-        if (traitDTO == null) {
-            return "Cannot create traitId: " + traitId;
-        }
-        return traitDTO.toString();
+  @GetMapping("update/{traitId}")
+  public String updateTrait(
+      @PathVariable Long traitId,
+      @RequestParam(required = false) Long traitTypeId,
+      @RequestParam(required = false) Long traitTypeWeightId) {
+    if (traitTypeId == null && traitTypeWeightId == null) {
+      return "Please pass a 'traitTypeId' OR 'traitTypeWeightId' to update a trait";
     }
-
-    @GetMapping("update/{traitId}")
-    public String updateTrait(
-            @PathVariable Long traitId,
-            @RequestParam(required = false) Long traitTypeId,
-            @RequestParam(required = false) Long traitTypeWeightId
-    ) {
-        if (traitTypeId == null &&  traitTypeWeightId == null) {
-            return "Please pass a 'traitTypeId' OR 'traitTypeWeightId' to update a trait";
-        }
-        TraitDTO.TraitDTOBuilder traitDTOBuilder = TraitDTO.builder().traitId(traitId);
-        if (traitTypeId != null) {
-            traitDTOBuilder = traitDTOBuilder.traitTypeId(traitTypeId);
-        }
-        if (traitTypeWeightId != null) {
-            traitDTOBuilder = traitDTOBuilder.traitTypeWeightId(traitTypeWeightId);
-        }
-        TraitDTO traitDTO = traitRepository.update(
-                traitDTOBuilder.build()
-        );
-        if (traitDTO == null) {
-            return "Cannot update traitId: " + traitId;
-        }
-        return traitDTO.toString();
+    TraitDTO.TraitDTOBuilder traitDTOBuilder = TraitDTO.builder().traitId(traitId);
+    if (traitTypeId != null) {
+      traitDTOBuilder = traitDTOBuilder.traitTypeId(traitTypeId);
     }
-
-    @GetMapping("delete/{traitId}")
-    public String deleteTrait(@PathVariable Long traitId) {
-        TraitDTO traitDTO = traitRepository.readById(traitId);
-        if (!traitRepository.delete(traitDTO)) {
-            return "Could not delete traitId: " + traitId;
-        }
-        return "Deleted traitId: " + traitId;
+    if (traitTypeWeightId != null) {
+      traitDTOBuilder = traitDTOBuilder.traitTypeWeightId(traitTypeWeightId);
     }
+    TraitDTO traitDTO = traitRepository.update(traitDTOBuilder.build());
+    if (traitDTO == null) {
+      return "Cannot update traitId: " + traitId;
+    }
+    return traitDTO.toString();
+  }
 
+  @GetMapping("delete/{traitId}")
+  public String deleteTrait(@PathVariable Long traitId) {
+    TraitDTO traitDTO = traitRepository.readById(traitId);
+    if (!traitRepository.delete(traitDTO)) {
+      return "Could not delete traitId: " + traitId;
+    }
+    return "Deleted traitId: " + traitId;
+  }
 }

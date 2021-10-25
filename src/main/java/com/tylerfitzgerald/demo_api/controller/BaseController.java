@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class BaseController {
-    @ExceptionHandler(Exception.class)
-    public String handleException(HttpServletRequest request, Exception e){
-        return e.toString();
-    }
+  @ExceptionHandler(Exception.class)
+  public String handleException(HttpServletRequest request, Exception e) {
+    return e.toString();
+  }
 }

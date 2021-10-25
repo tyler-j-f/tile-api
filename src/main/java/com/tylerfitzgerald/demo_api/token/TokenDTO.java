@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class TokenDTO {
-    private Long id;
-    private Long tokenId;
-    private Long saleId;
-    private String name;
-    private String description;
-    private String externalUrl;
-    private String imageUrl;
+  private Long id;
+  private Long tokenId;
+  private Long saleId;
+  private String name;
+  private String description;
+  private String externalUrl;
+  private String imageUrl;
 }

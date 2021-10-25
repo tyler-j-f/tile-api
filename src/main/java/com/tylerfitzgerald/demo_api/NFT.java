@@ -8,9 +8,9 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class NFT {
-    private ArrayList<Trait> attributes;
-    private String description;
-    private String external_url;
-    private String image;
-    private String name;
+  private ArrayList<Trait> attributes;
+  private String description;
+  private String external_url;
+  private String image;
+  private String name;
 }

@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class TraitTypeDTO {
-    private Long id;
-    private Long traitTypeId;
-    private String traitTypeName;
-    private String description;
+  private Long id;
+  private Long traitTypeId;
+  private String traitTypeName;
+  private String description;
 }
