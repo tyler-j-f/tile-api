@@ -22,6 +22,11 @@ public class TraitRepositoryTest {
     private final static Long TRAIT_ID = 2L;
     private final static Long TRAIT_TYPE_ID = 3L;
     private final static Long TRAIT_TYPE_WEIGHT_ID = 4L;
+    // Value set 2
+    private final static Long ID_2 = 5L;
+    private final static Long TRAIT_ID_2 = 6L;
+    private final static Long TRAIT_TYPE_ID_2 = 7L;
+    private final static Long TRAIT_TYPE_WEIGHT_ID_2 = 8L;
 
     @BeforeEach
     public void setup() {
@@ -93,16 +98,67 @@ public class TraitRepositoryTest {
     @Test
     void testRead() {
         TraitDTO traitDTO = TraitDTO.builder().id(ID).traitId(TRAIT_ID).traitTypeId(TRAIT_TYPE_ID).traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID).build();
+        TraitDTO traitDTO2 = TraitDTO.builder().id(ID_2).traitId(TRAIT_ID_2).traitTypeId(TRAIT_TYPE_ID_2).traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID_2).build();
         Mockito.when(jdbcTemplate.queryForStream(
                 TraitRepository.READ_SQL,
                 beanPropertyRowMapper
-        )).thenReturn(Stream.of(traitDTO));
+        )).thenReturn(Stream.of(traitDTO, traitDTO2));
         List<TraitDTO> traits = new TraitRepository(jdbcTemplate, beanPropertyRowMapper).read();
         Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
                 TraitRepository.READ_SQL,
                 beanPropertyRowMapper
         );
         assertThat(traits.get(0)).isEqualTo(traitDTO);
+        assertThat(traits.get(1)).isEqualTo(traitDTO2);
+    }
+
+    @Test
+    void testReadEmptyTable() {
+        TraitDTO traitDTO = TraitDTO.builder().id(ID).traitId(TRAIT_ID).traitTypeId(TRAIT_TYPE_ID).traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID).build();
+        Mockito.when(jdbcTemplate.queryForStream(
+                TraitRepository.READ_SQL,
+                beanPropertyRowMapper
+        )).thenReturn(Stream.empty());
+        List<TraitDTO> traits = new TraitRepository(jdbcTemplate, beanPropertyRowMapper).read();
+        Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
+                TraitRepository.READ_SQL,
+                beanPropertyRowMapper
+        );
+        assertThat(traits.isEmpty()).isEqualTo(true);
+    }
+
+    @Test
+    void testReadExistingById() {
+        TraitDTO traitDTO = TraitDTO.builder().id(ID).traitId(TRAIT_ID).traitTypeId(TRAIT_TYPE_ID).traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID).build();
+        Mockito.when(jdbcTemplate.queryForStream(
+                TraitRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                ID
+        )).thenReturn(Stream.of(traitDTO));
+        TraitDTO traitDTOResult = new TraitRepository(jdbcTemplate, beanPropertyRowMapper).readById(ID);
+        Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
+                TraitRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                ID
+        );
+        assertThat(traitDTOResult).isEqualTo(traitDTO);
+    }
+
+    @Test
+    void testReadNonExistingById() {
+        TraitDTO traitDTO = TraitDTO.builder().id(ID).traitId(TRAIT_ID).traitTypeId(TRAIT_TYPE_ID).traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID).build();
+        Mockito.when(jdbcTemplate.queryForStream(
+                TraitRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                ID
+        )).thenReturn(Stream.empty());
+        TraitDTO traitDTOResult = new TraitRepository(jdbcTemplate, beanPropertyRowMapper).readById(ID);
+        Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
+                TraitRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                ID
+        );
+        assertThat(traitDTOResult).isEqualTo(null);
     }
 
     @Test
