@@ -13,16 +13,21 @@ import java.util.stream.Stream;
 public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeWeightDTO, Long> {
 
     private final JdbcTemplate jdbcTemplate;
+    private final BeanPropertyRowMapper beanPropertyRowMapper;
 
-    private static final String READ_SQL          = "SELECT * FROM " + TraitTypeWeightsTable.TABLE_NAME;
+    public static final String READ_SQL          = "SELECT * FROM " + TraitTypeWeightsTable.TABLE_NAME;
     // CRUD SQL
-    private static final String CREATE_SQL        = "INSERT INTO " + TraitTypeWeightsTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?, ?)";
-    private static final String READ_BY_ID_SQL    = "SELECT * FROM " + TraitTypeWeightsTable.TABLE_NAME + " WHERE traitTypeWeightId = ?";
-    private static final String UPDATE_BASE_SQL        = "UPDATE " + TraitTypeWeightsTable.TABLE_NAME + " set ";
-    private static final String DELETE_BY_ID_SQL  = "DELETE FROM " + TraitTypeWeightsTable.TABLE_NAME + " WHERE traitTypeWeightId = ?";
+    public static final String CREATE_SQL        = "INSERT INTO " + TraitTypeWeightsTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?, ?)";
+    public static final String READ_BY_ID_SQL    = "SELECT * FROM " + TraitTypeWeightsTable.TABLE_NAME + " WHERE traitTypeWeightId = ?";
+    public static final String UPDATE_BASE_SQL        = "UPDATE " + TraitTypeWeightsTable.TABLE_NAME + " set ";
+    public static final String DELETE_BY_ID_SQL  = "DELETE FROM " + TraitTypeWeightsTable.TABLE_NAME + " WHERE traitTypeWeightId = ?";
 
-    public TraitTypeWeightRepository(JdbcTemplate jdbcTemplate) {
+    public TraitTypeWeightRepository(
+            JdbcTemplate jdbcTemplate,
+            BeanPropertyRowMapper beanPropertyRowMapper
+    ) {
         this.jdbcTemplate = jdbcTemplate;
+        this.beanPropertyRowMapper = beanPropertyRowMapper;
     }
 
     @Override
@@ -31,7 +36,7 @@ public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeW
         try {
             stream = jdbcTemplate.queryForStream(
                     READ_SQL,
-                    new BeanPropertyRowMapper(TraitTypeWeightDTO.class)
+                   beanPropertyRowMapper
             );
             return stream.collect(Collectors.toList());
         } finally {
@@ -51,7 +56,7 @@ public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeW
             }
             stream = jdbcTemplate.queryForStream(
                     READ_BY_ID_SQL,
-                    new BeanPropertyRowMapper(TraitTypeWeightDTO.class),
+                   beanPropertyRowMapper,
                     traitTypeWeightId
             );
             List<TraitTypeWeightDTO> traitTypeWeights = stream.collect(Collectors.toList());

@@ -63,7 +63,7 @@ public class AppConfig {
 
     @Bean
     public TraitTypeWeightRepository traitTypeWeightRepository() {
-        return new TraitTypeWeightRepository(jdbcTemplate);
+        return new TraitTypeWeightRepository(jdbcTemplate, new BeanPropertyRowMapper(TraitDTO.class));
     }
 
     @Bean
