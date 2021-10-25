@@ -1,7 +1,9 @@
 package com.tylerfitzgerald.demo_api.token.traits;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -12,13 +14,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class TraitsRepositoryTest {
 
-    private static JdbcTemplate jdbcTemplate;
-    private static BeanPropertyRowMapper beanPropertyRowMapper;
+    private JdbcTemplate jdbcTemplate;
+    private BeanPropertyRowMapper beanPropertyRowMapper;
 
-    @BeforeAll
-    public static void setup() {
-        TraitsRepositoryTest.jdbcTemplate = Mockito.mock(JdbcTemplate.class);
-        TraitsRepositoryTest.beanPropertyRowMapper =  new BeanPropertyRowMapper(TraitDTO.class);
+    @BeforeEach
+    public void setup() {
+        this.jdbcTemplate          = Mockito.mock(JdbcTemplate.class);
+        this.beanPropertyRowMapper =  new BeanPropertyRowMapper(TraitDTO.class);
     }
 
     @Test
