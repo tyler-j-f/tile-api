@@ -1,8 +1,5 @@
-package com.tylerfitzgerald.demo_api.token.traitTypes;
+package com.tylerfitzgerald.demo_api.token.traitTypeWeights;
 
-import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightDTO;
-import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightRepository;
-import com.tylerfitzgerald.demo_api.token.traits.TraitRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -10,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -87,5 +83,39 @@ public class TraitTypeWeightRepositoryTest {
         );
         assertThat(traitTypeDTOResult).isEqualTo(traitWeightTypeDTO);
     }
+
+    void testCreateExisting() {
+        TraitTypeWeightDTO traitWeightTypeDTO = TraitTypeWeightDTO.builder().
+                id(ID).
+                traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID).
+                traitTypeId(TRAIT_TYPE_ID).
+                likelihood(LIKELIHOOD).
+                value(VALUE).
+                displayTypeValue(DISPLAY_TYPE_VALUE).
+                build();
+        Mockito.when(jdbcTemplate.queryForStream(
+                TraitTypeWeightRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_TYPE_WEIGHT_ID
+        )).thenReturn(Stream.of(traitWeightTypeDTO));
+        TraitTypeWeightDTO traitTypeWeightDTOResult = new TraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper).create(
+                traitWeightTypeDTO
+        );
+        Mockito.verify(jdbcTemplate, Mockito.times(1)).queryForStream(
+                TraitTypeWeightRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_TYPE_WEIGHT_ID
+        );
+        Mockito.verify(jdbcTemplate, Mockito.times(0)).update(
+                TraitTypeWeightRepository.CREATE_SQL,
+                TRAIT_TYPE_WEIGHT_ID,
+                TRAIT_TYPE_ID,
+                LIKELIHOOD,
+                VALUE,
+                DISPLAY_TYPE_VALUE
+        );
+        assertThat(traitTypeWeightDTOResult).isEqualTo(null);
+    }
+
 
 }
