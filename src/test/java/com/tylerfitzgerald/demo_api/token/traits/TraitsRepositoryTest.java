@@ -100,4 +100,27 @@ public class TraitsRepositoryTest {
                 TRAIT_TYPE_WEIGHT_ID
         );
     }
+
+    @Test
+    void testDeleteExistingEntry() {
+        TraitDTO traitDTO = TraitDTO.builder().id(ID).traitId(TRAIT_ID).traitTypeId(TRAIT_TYPE_ID).traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID).build();
+        Mockito.when(jdbcTemplate.queryForStream(
+                TraitsRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_ID
+        )).thenReturn(Stream.of(traitDTO), Stream.empty());
+        boolean isDeletedSuccessfully = new TraitsRepository(jdbcTemplate, beanPropertyRowMapper).delete(traitDTO);
+        // Read by id is called twice. Once at the start of the delete method and once at the end of the delete method.
+        Mockito.verify(jdbcTemplate, Mockito.times(2)).queryForStream(
+                TraitsRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_ID
+        );
+        Mockito.verify(jdbcTemplate, Mockito.times(1)).update(
+                TraitsRepository.DELETE_BY_ID_SQL,
+                TRAIT_ID
+        );
+        assertThat(isDeletedSuccessfully).isEqualTo(true);
+    }
+
 }
