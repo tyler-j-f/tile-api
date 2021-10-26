@@ -1,5 +1,6 @@
 package com.tylerfitzgerald.demo_api.token.traitTypeWeights;
 
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -118,5 +119,36 @@ public class TraitTypeWeightRepositoryTest {
             VALUE,
             DISPLAY_TYPE_VALUE);
     assertThat(traitTypeWeightDTOResult).isEqualTo(null);
+  }
+
+  @Test
+  void testRead() {
+    TraitTypeWeightDTO traitTypeWeightDTO =
+        TraitTypeWeightDTO.builder()
+            .id(ID)
+            .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
+            .traitTypeId(TRAIT_TYPE_ID)
+            .likelihood(LIKELIHOOD)
+            .value(VALUE)
+            .displayTypeValue(DISPLAY_TYPE_VALUE)
+            .build();
+    TraitTypeWeightDTO traitTypeDTO2 =
+        TraitTypeWeightDTO.builder()
+            .id(ID_2)
+            .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID_2)
+            .traitTypeId(TRAIT_TYPE_ID_2)
+            .likelihood(LIKELIHOOD_2)
+            .value(VALUE_2)
+            .displayTypeValue(DISPLAY_TYPE_VALUE_2)
+            .build();
+    Mockito.when(
+            jdbcTemplate.queryForStream(TraitTypeWeightRepository.READ_SQL, beanPropertyRowMapper))
+        .thenReturn(Stream.of(traitTypeWeightDTO, traitTypeDTO2));
+    List<TraitTypeWeightDTO> traits =
+        new TraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper).read();
+    Mockito.verify(jdbcTemplate, Mockito.times(1))
+        .queryForStream(TraitTypeWeightRepository.READ_SQL, beanPropertyRowMapper);
+    assertThat(traits.get(0)).isEqualTo(traitTypeWeightDTO);
+    assertThat(traits.get(1)).isEqualTo(traitTypeDTO2);
   }
 }
