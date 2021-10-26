@@ -86,6 +86,7 @@ public class TraitTypeWeightRepositoryTest {
     assertThat(traitTypeDTOResult).isEqualTo(traitWeightTypeDTO);
   }
 
+  @Test
   void testCreateExisting() {
     TraitTypeWeightDTO traitWeightTypeDTO =
         TraitTypeWeightDTO.builder()
