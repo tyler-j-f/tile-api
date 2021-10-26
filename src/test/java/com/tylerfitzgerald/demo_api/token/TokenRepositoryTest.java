@@ -183,4 +183,15 @@ public class TokenRepositoryTest {
         .queryForStream(TokenRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID);
     assertThat(tokenDTOResult).isEqualTo(tokenDTO);
   }
+
+  @Test
+  void testReadNonExistingById() {
+    Mockito.when(
+            jdbcTemplate.queryForStream(TokenRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID))
+        .thenReturn(Stream.empty());
+    TokenDTO tokenDTOResult = new TokenRepository(jdbcTemplate, beanPropertyRowMapper).readById(ID);
+    Mockito.verify(jdbcTemplate, Mockito.times(1))
+        .queryForStream(TokenRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID);
+    assertThat(tokenDTOResult).isEqualTo(null);
+  }
 }
