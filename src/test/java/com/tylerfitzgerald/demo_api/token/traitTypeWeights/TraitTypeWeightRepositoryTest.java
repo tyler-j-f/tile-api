@@ -1,5 +1,7 @@
 package com.tylerfitzgerald.demo_api.token.traitTypeWeights;
 
+import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeDTO;
+import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeRepository;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -285,5 +287,35 @@ public class TraitTypeWeightRepositoryTest {
             DISPLAY_TYPE_VALUE_2,
             TRAIT_TYPE_WEIGHT_ID);
     assertThat(traitTypeDTOResults).isEqualTo(null);
+  }
+
+  @Test
+  void testDeleteExistingEntry() {
+    TraitTypeWeightDTO traitTypeWeightDTO =
+        TraitTypeWeightDTO.builder()
+            .id(ID)
+            .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
+            .traitTypeId(TRAIT_TYPE_ID)
+            .likelihood(LIKELIHOOD)
+            .value(VALUE)
+            .displayTypeValue(DISPLAY_TYPE_VALUE)
+            .build();
+    Mockito.when(
+            jdbcTemplate.queryForStream(
+                TraitTypeWeightRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_TYPE_WEIGHT_ID))
+        .thenReturn(Stream.of(traitTypeWeightDTO), Stream.empty());
+    boolean isDeletedSuccessfully =
+        new TraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper)
+            .delete(traitTypeWeightDTO);
+    // Read by id is called twice. Once at the start of the delete method and once at the end of the
+    // delete method.
+    Mockito.verify(jdbcTemplate, Mockito.times(2))
+        .queryForStream(
+            TraitTypeWeightRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TRAIT_TYPE_WEIGHT_ID);
+    Mockito.verify(jdbcTemplate, Mockito.times(1))
+        .update(TraitTypeWeightRepository.DELETE_BY_ID_SQL, TRAIT_TYPE_WEIGHT_ID);
+    assertThat(isDeletedSuccessfully).isEqualTo(true);
   }
 }

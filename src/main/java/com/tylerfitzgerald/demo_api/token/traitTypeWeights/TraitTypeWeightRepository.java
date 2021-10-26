@@ -161,7 +161,7 @@ public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeW
     if (!doesTraitTypeWeightIdExist(entity)) {
       return false;
     }
-    jdbcTemplate.update(DELETE_BY_ID_SQL, entity.getTraitTypeId());
+    jdbcTemplate.update(DELETE_BY_ID_SQL, entity.getTraitTypeWeightId());
     return !doesTraitTypeWeightIdExist(entity);
   }
 
