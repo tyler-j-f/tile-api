@@ -11,5 +11,5 @@ import org.springframework.context.annotation.Configuration;
 @Data
 public class TraitsConfig {
   private TraitTypeDTO[] types;
-  private TraitTypeWeightDTO[] weights;
+  private TraitTypeWeightDTO[] traitWeights;
 }
