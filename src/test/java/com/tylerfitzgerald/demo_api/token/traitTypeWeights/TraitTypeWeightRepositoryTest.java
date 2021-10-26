@@ -1,6 +1,5 @@
 package com.tylerfitzgerald.demo_api.token.traitTypeWeights;
 
-import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeDTO;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -200,47 +199,57 @@ public class TraitTypeWeightRepositoryTest {
     assertThat(traitDTOResult).isEqualTo(null);
   }
 
-  //  @Test
-  //  void testUpdateExistingEntry() {
-  //    TraitTypeWeightDTO traitTypeWeightDTO =
-  //        TraitTypeWeightDTO.builder()
-  //            .id(ID)
-  //            .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
-  //            .traitTypeId(TRAIT_TYPE_ID)
-  //            .likelihood(LIKELIHOOD)
-  //            .value(VALUE)
-  //            .displayTypeValue(DISPLAY_TYPE_VALUE)
-  //            .build();
-  //    Mockito.when(
-  //            jdbcTemplate.queryForStream(
-  //                TraitTypeWeightRepository.READ_BY_ID_SQL,
-  //                beanPropertyRowMapper,
-  //                TRAIT_TYPE_WEIGHT_ID))
-  //        .thenReturn(Stream.of(traitTypeWeightDTO));
-  //    Mockito.when(
-  //            jdbcTemplate.update(
-  //                TraitTypeWeightRepository.UPDATE_SQL,
-  //                TRAIT_TYPE_ID,
-  //                LIKELIHOOD,
-  //                VALUE,
-  //                DISPLAY_TYPE_VALUE,
-  //                TRAIT_TYPE_WEIGHT_ID))
-  //        .thenReturn(1);
-  //    TraitTypeWeightDTO traitTypeWeightDTOResults =
-  //        new TraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper)
-  //            .update(traitTypeWeightDTO);
-  //    Mockito.verify(jdbcTemplate, Mockito.times(2))
-  //        .queryForStream(
-  //            TraitTypeWeightRepository.READ_BY_ID_SQL, beanPropertyRowMapper,
-  // TRAIT_TYPE_WEIGHT_ID);
-  //    Mockito.verify(jdbcTemplate, Mockito.times(1))
-  //        .update(
-  //            TraitTypeWeightRepository.UPDATE_SQL,
-  //            TRAIT_TYPE_ID,
-  //            LIKELIHOOD,
-  //            VALUE,
-  //            DISPLAY_TYPE_VALUE,
-  //            TRAIT_TYPE_WEIGHT_ID);
-  //    assertThat(traitTypeWeightDTOResults).isEqualTo(traitTypeWeightDTO);
-  //  }
+  @Test
+  void testUpdateExistingEntry() {
+    TraitTypeWeightDTO traitTypeWeightDTO =
+        TraitTypeWeightDTO.builder()
+            .id(ID)
+            .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
+            .traitTypeId(TRAIT_TYPE_ID)
+            .likelihood(LIKELIHOOD)
+            .value(VALUE)
+            .displayTypeValue(DISPLAY_TYPE_VALUE)
+            .build();
+
+    // traitTypeWeightDTO2 Will have the same id and trait type weight id as traitTypeWeightDTO
+    TraitTypeWeightDTO traitTypeWeightDTO2 =
+        TraitTypeWeightDTO.builder()
+            .id(ID)
+            .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
+            .traitTypeId(TRAIT_TYPE_ID_2)
+            .likelihood(LIKELIHOOD_2)
+            .value(VALUE_2)
+            .displayTypeValue(DISPLAY_TYPE_VALUE_2)
+            .build();
+    Mockito.when(
+            jdbcTemplate.queryForStream(
+                TraitTypeWeightRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                TRAIT_TYPE_WEIGHT_ID))
+        .thenReturn(Stream.of(traitTypeWeightDTO), Stream.of(traitTypeWeightDTO2));
+    Mockito.when(
+            jdbcTemplate.update(
+                TraitTypeWeightRepository.UPDATE_SQL,
+                TRAIT_TYPE_ID_2,
+                LIKELIHOOD_2,
+                VALUE_2,
+                DISPLAY_TYPE_VALUE_2,
+                TRAIT_TYPE_WEIGHT_ID))
+        .thenReturn(1);
+    TraitTypeWeightDTO traitTypeDTOResults =
+        new TraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper)
+            .update(traitTypeWeightDTO2);
+    Mockito.verify(jdbcTemplate, Mockito.times(2))
+        .queryForStream(
+            TraitTypeWeightRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TRAIT_TYPE_WEIGHT_ID);
+    Mockito.verify(jdbcTemplate, Mockito.times(1))
+        .update(
+            TraitTypeWeightRepository.UPDATE_SQL,
+            TRAIT_TYPE_ID_2,
+            LIKELIHOOD_2,
+            VALUE_2,
+            DISPLAY_TYPE_VALUE_2,
+            TRAIT_TYPE_WEIGHT_ID);
+    assertThat(traitTypeDTOResults).isEqualTo(traitTypeWeightDTO2);
+  }
 }
