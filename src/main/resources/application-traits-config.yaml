@@ -2,9 +2,8 @@ spring:
   application:
     traits-config:
       types:
-        - color
-        - shape
-        - mood
+        - {id: null, traitTypeId: 1, traitTypeName: shape, description: "Shape of the sub-tile"}
+        - {id: null, traitTypeId: 1, traitTypeName: color, description: "Color of the sub-tile"}
       weights:
         - {id: null, traitTypeWeightId: 1, traitTypeId: 3, likelihood: 4, value: foo, displayTypeValue: bar}
         - {id: null, traitTypeWeightId: 2, traitTypeId: 3, likelihood: 4, value: foo, displayTypeValue: bar}
