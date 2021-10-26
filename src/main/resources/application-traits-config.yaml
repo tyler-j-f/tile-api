@@ -6,6 +6,5 @@ spring:
         - shape
         - mood
       weights:
-        - color
-        - shape
-        - mood
+        - {id: null, traitTypeWeightId: 1, traitTypeId: 3, likelihood: 4, value: foo, displayTypeValue: bar}
+        - {id: null, traitTypeWeightId: 2, traitTypeId: 3, likelihood: 4, value: foo, displayTypeValue: bar}
