@@ -150,7 +150,7 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
     }
     Long tokenId = entity.getTokenId();
     updateValuesList.add(tokenId);
-    updateSQL = updateSQL + " WHERE traitTypeWeightId = ?";
+    updateSQL = updateSQL + " WHERE tokenId = ?";
     int results = jdbcTemplate.update(updateSQL, updateValuesList.toArray());
     if (results < 1) {
       return null;

@@ -1,6 +1,5 @@
 package com.tylerfitzgerald.demo_api.token;
 
-import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightRepository;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -187,11 +186,66 @@ public class TokenRepositoryTest {
   @Test
   void testReadNonExistingById() {
     Mockito.when(
-            jdbcTemplate.queryForStream(TokenRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID))
+            jdbcTemplate.queryForStream(
+                TokenRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TOKEN_ID))
         .thenReturn(Stream.empty());
-    TokenDTO tokenDTOResult = new TokenRepository(jdbcTemplate, beanPropertyRowMapper).readById(ID);
+    TokenDTO tokenDTOResult =
+        new TokenRepository(jdbcTemplate, beanPropertyRowMapper).readById(TOKEN_ID);
     Mockito.verify(jdbcTemplate, Mockito.times(1))
-        .queryForStream(TokenRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID);
+        .queryForStream(TokenRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TOKEN_ID);
     assertThat(tokenDTOResult).isEqualTo(null);
+  }
+
+  @Test
+  void testUpdateExistingEntry() {
+    TokenDTO tokenDTO =
+        TokenDTO.builder()
+            .id(ID)
+            .tokenId(TOKEN_ID)
+            .saleId(SALE_ID)
+            .name(NAME)
+            .description(DESCRIPTION)
+            .externalUrl(EXTERNAL_URL)
+            .imageUrl(IMAGE_URL)
+            .build();
+    // tokenDTO2 Will have the same id and token id as tokenDTO
+    TokenDTO tokenDTO2 =
+        TokenDTO.builder()
+            .id(ID_2)
+            .tokenId(TOKEN_ID_2)
+            .saleId(SALE_ID_2)
+            .name(NAME_2)
+            .description(DESCRIPTION_2)
+            .externalUrl(EXTERNAL_URL_2)
+            .imageUrl(IMAGE_URL_2)
+            .build();
+    Mockito.when(
+            jdbcTemplate.queryForStream(
+                TokenRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TOKEN_ID_2))
+        .thenReturn(Stream.of(tokenDTO), Stream.of(tokenDTO2));
+    Mockito.when(
+            jdbcTemplate.update(
+                TokenRepository.UPDATE_SQL,
+                SALE_ID,
+                NAME,
+                DESCRIPTION,
+                EXTERNAL_URL,
+                IMAGE_URL,
+                TOKEN_ID))
+        .thenReturn(1);
+    TokenDTO tokenDTOResults =
+        new TokenRepository(jdbcTemplate, beanPropertyRowMapper).update(tokenDTO2);
+    Mockito.verify(jdbcTemplate, Mockito.times(2))
+        .queryForStream(TokenRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TOKEN_ID);
+    Mockito.verify(jdbcTemplate, Mockito.times(1))
+        .update(
+            TokenRepository.UPDATE_SQL,
+            SALE_ID_2,
+            NAME_2,
+            DESCRIPTION_2,
+            EXTERNAL_URL_2,
+            IMAGE_URL_2,
+            TOKEN_ID);
+    assertThat(tokenDTOResults).isEqualTo(tokenDTO2);
   }
 }
