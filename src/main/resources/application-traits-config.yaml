@@ -1,2 +1,7 @@
-traits-config:
-      testing: 777
+spring:
+  application:
+    traits-config:
+      types:
+        - color
+        - shape
+        - mood

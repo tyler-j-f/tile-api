@@ -5,8 +5,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "traits-config")
+@ConfigurationProperties(prefix = "spring.application.traits-config")
 @Data
 public class TraitsConfig {
-  private String testing;
+  private String[] types;
 }
