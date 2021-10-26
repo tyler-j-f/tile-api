@@ -5,3 +5,7 @@ spring:
         - color
         - shape
         - mood
+      weights:
+        - color
+        - shape
+        - mood
