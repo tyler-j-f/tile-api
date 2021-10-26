@@ -6,6 +6,6 @@ spring:
         - {id: null, traitTypeId: 2, traitTypeName: color, description: "Color of the sub-tile"}
       typeWeights:
         - {id: null, traitTypeWeightId: 1, traitTypeId: 1, likelihood: 90, value: circle, displayTypeValue: null}
-        - {id: null, traitTypeWeightId: 1, traitTypeId: 1, likelihood: 10, value: square, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 2, traitTypeId: 1, likelihood: 10, value: square, displayTypeValue: null}
         - {id: null, traitTypeWeightId: 3, traitTypeId: 2, likelihood: 80, value: red, displayTypeValue: null}
         - {id: null, traitTypeWeightId: 4, traitTypeId: 2, likelihood: 20, value: blue, displayTypeValue: null}

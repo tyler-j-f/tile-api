@@ -10,7 +10,7 @@ public class TraitTypesTable implements TableInterface {
 
   @Autowired private TraitsConfig traitsConfig;
 
-  @Autowired private TraitTypeRepository traitTypeRepository;
+  @Autowired private TraitTypeRepository traitTypeWeightRepository;
 
   /*
    * NOTE: 2083 is the max VARCHAR length for a URL on the internet explorer browser.
@@ -44,7 +44,7 @@ public class TraitTypesTable implements TableInterface {
   public boolean initialize() {
     TraitTypeDTO[] traitTypes = traitsConfig.getTypes();
     for (TraitTypeDTO traitType : traitTypes) {
-      TraitTypeDTO createResultTraitTypeDTO = traitTypeRepository.create(traitType);
+      TraitTypeDTO createResultTraitTypeDTO = traitTypeWeightRepository.create(traitType);
       if (createResultTraitTypeDTO == null) {
         System.out.println(
             "Failed to insert trait type into "

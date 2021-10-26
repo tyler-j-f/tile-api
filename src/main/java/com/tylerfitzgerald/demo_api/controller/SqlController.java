@@ -51,6 +51,7 @@ public class SqlController extends BaseController {
   @GetMapping("initialTablesPopulate")
   public String initialTablesPopulate() {
     traitTypesTable.initialize();
+    traitTypeWeightsTable.initialize();
     return "Trait types table initialized with initial data successfully";
   }
 
