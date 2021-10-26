@@ -282,4 +282,31 @@ public class TokenRepositoryTest {
             TOKEN_ID);
     assertThat(tokenDTOResults).isEqualTo(null);
   }
+
+  @Test
+  void testDeleteExistingEntry() {
+    TokenDTO tokenDTO =
+        TokenDTO.builder()
+            .id(ID)
+            .tokenId(TOKEN_ID)
+            .saleId(SALE_ID)
+            .name(NAME)
+            .description(DESCRIPTION)
+            .externalUrl(EXTERNAL_URL)
+            .imageUrl(IMAGE_URL)
+            .build();
+    Mockito.when(
+            jdbcTemplate.queryForStream(
+                TokenRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TOKEN_ID))
+        .thenReturn(Stream.of(tokenDTO), Stream.empty());
+    boolean isDeletedSuccessfully =
+        new TokenRepository(jdbcTemplate, beanPropertyRowMapper).delete(tokenDTO);
+    // Read by id is called twice. Once at the start of the delete method and once at the end of the
+    // delete method.
+    Mockito.verify(jdbcTemplate, Mockito.times(2))
+        .queryForStream(TokenRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TOKEN_ID);
+    Mockito.verify(jdbcTemplate, Mockito.times(1))
+        .update(TokenRepository.DELETE_BY_ID_SQL, TOKEN_ID);
+    assertThat(isDeletedSuccessfully).isEqualTo(true);
+  }
 }
