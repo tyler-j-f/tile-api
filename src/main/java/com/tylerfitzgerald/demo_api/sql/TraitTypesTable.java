@@ -1,11 +1,14 @@
 package com.tylerfitzgerald.demo_api.sql;
 
+import com.tylerfitzgerald.demo_api.config.TraitsConfig;
 import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeDTO;
 import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class TraitTypesTable implements TableInterface {
+
+  @Autowired private TraitsConfig traitsConfig;
 
   @Autowired private TraitTypeRepository traitTypeRepository;
 
@@ -39,18 +42,20 @@ public class TraitTypesTable implements TableInterface {
   }
 
   public boolean initialize() {
-    traitTypeRepository.create(
-        TraitTypeDTO.builder()
-            .traitTypeId(1L)
-            .traitTypeName("Color")
-            .description("Color of the sub-tiles")
-            .build());
-    traitTypeRepository.create(
-        TraitTypeDTO.builder()
-            .traitTypeId(2L)
-            .traitTypeName("Shape")
-            .description("Shape of the sub-tiles")
-            .build());
+    TraitTypeDTO[] traits = traitsConfig.getTypes();
+    for (TraitTypeDTO trait : traits) {
+      TraitTypeDTO createResultTraitTypeDTO = traitTypeRepository.create(trait);
+      if (createResultTraitTypeDTO == null) {
+        System.out.println(
+            "Failed to insert trait into " + TABLE_NAME + ".\nFailed trait: " + trait.toString());
+      } else {
+        System.out.println(
+            "Inserted trait into "
+                + TABLE_NAME
+                + ".\nTrait: "
+                + createResultTraitTypeDTO.toString());
+      }
+    }
     return true;
   }
 }

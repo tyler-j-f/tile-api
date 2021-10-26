@@ -72,7 +72,7 @@ public class Scheduler {
     return Long.parseLong(hexString.split("0x")[1], 16);
   }
 
-  @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
+  //  @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   public void test() throws ExecutionException, InterruptedException {
     System.out.println("\nDEBUG:\n" + traitsConfig.toString());
   }
