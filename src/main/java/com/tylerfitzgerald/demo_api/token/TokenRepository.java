@@ -2,6 +2,7 @@ package com.tylerfitzgerald.demo_api.token;
 
 import com.tylerfitzgerald.demo_api.sql.RepositoryInterface;
 import com.tylerfitzgerald.demo_api.sql.TokenTable;
+import java.util.ArrayList;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -20,6 +21,7 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
       "INSERT INTO " + TokenTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?, ?, ?)";
   public static final String READ_BY_ID_SQL =
       "SELECT * FROM " + TokenTable.TABLE_NAME + " WHERE tokenId = ?";
+  public static final String UPDATE_BASE_SQL = "UPDATE " + TokenTable.TABLE_NAME + " set ";
   public static final String UPDATE_SQL =
       "UPDATE "
           + TokenTable.TABLE_NAME
@@ -87,20 +89,69 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
   }
 
   @Override
-  /** NOTE: Only the sale id can be updated */
   public TokenDTO update(TokenDTO entity) {
     if (!doesTokenIdExist(entity)) {
       return null;
     }
-    int results =
-        jdbcTemplate.update(
-            UPDATE_SQL,
-            entity.getSaleId(),
-            entity.getName(),
-            entity.getDescription(),
-            entity.getExternalUrl(),
-            entity.getImageUrl(),
-            entity.getTokenId());
+    List<Object> updateValuesList = new ArrayList<>();
+    String updateSQL = UPDATE_BASE_SQL;
+    // saleId
+    Long saleId = entity.getSaleId();
+    boolean shouldUpdateSaleId = saleId != null;
+    boolean isCommaNeededToAppend = false;
+    if (shouldUpdateSaleId) {
+      updateSQL = updateSQL + "saleId = ?";
+      updateValuesList.add(saleId);
+      isCommaNeededToAppend = true;
+    }
+    // name
+    String name = entity.getName();
+    boolean shouldUpdateName = name != null;
+    if (shouldUpdateName) {
+      if (isCommaNeededToAppend) {
+        updateSQL = updateSQL + ", ";
+      }
+      updateSQL = updateSQL + "name = ?";
+      updateValuesList.add(name);
+      isCommaNeededToAppend = true;
+    }
+    // description
+    String description = entity.getDescription();
+    boolean shouldUpdateDescription = description != null;
+    if (shouldUpdateDescription) {
+      if (isCommaNeededToAppend) {
+        updateSQL = updateSQL + ", ";
+      }
+      updateSQL = updateSQL + "description = ?";
+      updateValuesList.add(description);
+      isCommaNeededToAppend = true;
+    }
+    // externalUrl
+    String externalUrl = entity.getExternalUrl();
+    boolean shouldUpdateExternalUrl = externalUrl != null;
+    if (shouldUpdateExternalUrl) {
+      if (isCommaNeededToAppend) {
+        updateSQL = updateSQL + ", ";
+      }
+      updateSQL = updateSQL + "externalUrl = ?";
+      updateValuesList.add(externalUrl);
+      isCommaNeededToAppend = true;
+    }
+    // imageUrl
+    String imageUrl = entity.getImageUrl();
+    boolean shouldUpdateImageUrl = imageUrl != null;
+    if (shouldUpdateImageUrl) {
+      if (isCommaNeededToAppend) {
+        updateSQL = updateSQL + ", ";
+      }
+      updateSQL = updateSQL + "imageUrl = ?";
+      updateValuesList.add(imageUrl);
+      isCommaNeededToAppend = true;
+    }
+    Long tokenId = entity.getTokenId();
+    updateValuesList.add(tokenId);
+    updateSQL = updateSQL + " WHERE traitTypeWeightId = ?";
+    int results = jdbcTemplate.update(updateSQL, updateValuesList.toArray());
     if (results < 1) {
       return null;
     }
