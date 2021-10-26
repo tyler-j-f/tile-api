@@ -163,4 +163,26 @@ public class TraitTypeWeightRepositoryTest {
         .queryForStream(TraitTypeWeightRepository.READ_SQL, beanPropertyRowMapper);
     assertThat(traits.isEmpty()).isEqualTo(true);
   }
+
+  @Test
+  void testReadExistingById() {
+    TraitTypeWeightDTO traitTypeWeightDTO =
+        TraitTypeWeightDTO.builder()
+            .id(ID)
+            .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
+            .traitTypeId(TRAIT_TYPE_ID)
+            .likelihood(LIKELIHOOD)
+            .value(VALUE)
+            .displayTypeValue(DISPLAY_TYPE_VALUE)
+            .build();
+    Mockito.when(
+            jdbcTemplate.queryForStream(
+                TraitTypeWeightRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID))
+        .thenReturn(Stream.of(traitTypeWeightDTO));
+    TraitTypeWeightDTO traitTypeWeightDTOResult =
+        new TraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper).readById(ID);
+    Mockito.verify(jdbcTemplate, Mockito.times(1))
+        .queryForStream(TraitTypeWeightRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID);
+    assertThat(traitTypeWeightDTOResult).isEqualTo(traitTypeWeightDTO);
+  }
 }
