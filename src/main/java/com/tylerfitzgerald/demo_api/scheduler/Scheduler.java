@@ -1,6 +1,7 @@
 package com.tylerfitzgerald.demo_api.scheduler;
 
 import com.tylerfitzgerald.demo_api.config.EnvConfig;
+import com.tylerfitzgerald.demo_api.config.TraitsConfig;
 import com.tylerfitzgerald.demo_api.events.MintEvent;
 import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
 import com.tylerfitzgerald.demo_api.token.TokenDTO;
@@ -22,7 +23,9 @@ public class Scheduler {
 
   @Autowired private EnvConfig appConfig;
 
-  @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
+  @Autowired private TraitsConfig traitsConfig;
+
+  // @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   public void getMintEvents() throws ExecutionException, InterruptedException {
     List<MintEvent> events =
         mintEventRetriever.getMintEvents(
@@ -67,5 +70,10 @@ public class Scheduler {
 
   private Long getLongFromHexString(String hexString) {
     return Long.parseLong(hexString.split("0x")[1], 16);
+  }
+
+  @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
+  public void test() throws ExecutionException, InterruptedException {
+    System.out.println("\nDEBUG:\n" + traitsConfig.toString());
   }
 }
