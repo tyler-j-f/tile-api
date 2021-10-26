@@ -3,6 +3,7 @@ package com.tylerfitzgerald.demo_api.config;
 import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
 import com.tylerfitzgerald.demo_api.sql.TraitTypeWeightsTable;
 import com.tylerfitzgerald.demo_api.sql.TraitsTable;
+import com.tylerfitzgerald.demo_api.token.TokenDTO;
 import com.tylerfitzgerald.demo_api.token.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.TokenTable;
 import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightDTO;
@@ -33,7 +34,7 @@ public class AppConfig {
 
   @Bean
   public TokenRepository tokenRepository() {
-    return new TokenRepository(jdbcTemplate);
+    return new TokenRepository(jdbcTemplate, new BeanPropertyRowMapper(TokenDTO.class));
   }
 
   @Bean

@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
 
   private final JdbcTemplate jdbcTemplate;
+  private final BeanPropertyRowMapper beanPropertyRowMapper;
 
   private static final String READ_SQL = "SELECT * FROM " + TokenTable.TABLE_NAME;
   // CRUD SQL
@@ -26,8 +27,9 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
   private static final String DELETE_BY_ID_SQL =
       "DELETE FROM " + TokenTable.TABLE_NAME + " WHERE tokenId = ?";
 
-  public TokenRepository(JdbcTemplate jdbcTemplate) {
+  public TokenRepository(JdbcTemplate jdbcTemplate, BeanPropertyRowMapper beanPropertyRowMapper) {
     this.jdbcTemplate = jdbcTemplate;
+    this.beanPropertyRowMapper = beanPropertyRowMapper;
   }
 
   @Override
@@ -54,7 +56,7 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
   public List<TokenDTO> read() {
     Stream<TokenDTO> stream = null;
     try {
-      stream = jdbcTemplate.queryForStream(READ_SQL, new BeanPropertyRowMapper(TokenDTO.class));
+      stream = jdbcTemplate.queryForStream(READ_SQL, beanPropertyRowMapper);
       return stream.collect(Collectors.toList());
     } finally {
       if (stream != null) {
@@ -71,9 +73,7 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
         // TokenId starts at index 1
         return null;
       }
-      stream =
-          jdbcTemplate.queryForStream(
-              READ_BY_ID_SQL, new BeanPropertyRowMapper(TokenDTO.class), tokenId);
+      stream = jdbcTemplate.queryForStream(READ_BY_ID_SQL, beanPropertyRowMapper, tokenId);
       List<TokenDTO> tokens = stream.collect(Collectors.toList());
       if (tokens.size() == 0) {
         return null;
