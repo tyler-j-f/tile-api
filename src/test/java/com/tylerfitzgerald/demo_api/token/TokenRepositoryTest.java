@@ -162,4 +162,25 @@ public class TokenRepositoryTest {
         .queryForStream(TokenRepository.READ_SQL, beanPropertyRowMapper);
     assertThat(tokens.isEmpty()).isEqualTo(true);
   }
+
+  @Test
+  void testReadExistingById() {
+    TokenDTO tokenDTO =
+        TokenDTO.builder()
+            .id(ID)
+            .tokenId(TOKEN_ID)
+            .saleId(SALE_ID)
+            .name(NAME)
+            .description(DESCRIPTION)
+            .externalUrl(EXTERNAL_URL)
+            .imageUrl(IMAGE_URL)
+            .build();
+    Mockito.when(
+            jdbcTemplate.queryForStream(TokenRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID))
+        .thenReturn(Stream.of(tokenDTO));
+    TokenDTO tokenDTOResult = new TokenRepository(jdbcTemplate, beanPropertyRowMapper).readById(ID);
+    Mockito.verify(jdbcTemplate, Mockito.times(1))
+        .queryForStream(TokenRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID);
+    assertThat(tokenDTOResult).isEqualTo(tokenDTO);
+  }
 }
