@@ -143,13 +143,6 @@ public class TraitRepositoryTest {
 
   @Test
   void testReadNonExistingById() {
-    TraitDTO traitDTO =
-        TraitDTO.builder()
-            .id(ID)
-            .traitId(TRAIT_ID)
-            .traitTypeId(TRAIT_TYPE_ID)
-            .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
-            .build();
     Mockito.when(
             jdbcTemplate.queryForStream(TraitRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID))
         .thenReturn(Stream.empty());
