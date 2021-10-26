@@ -21,6 +21,10 @@ public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeW
       "INSERT INTO " + TraitTypeWeightsTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?, ?)";
   public static final String READ_BY_ID_SQL =
       "SELECT * FROM " + TraitTypeWeightsTable.TABLE_NAME + " WHERE traitTypeWeightId = ?";
+  public static final String UPDATE_SQL =
+      "UPDATE "
+          + TraitTypeWeightsTable.TABLE_NAME
+          + " set traitTypeId = ?, likelihood = ?, value = ?, displayTypeValue = ? WHERE traitTypeWeightId = ?";
   public static final String UPDATE_BASE_SQL =
       "UPDATE " + TraitTypeWeightsTable.TABLE_NAME + " set ";
   public static final String DELETE_BY_ID_SQL =

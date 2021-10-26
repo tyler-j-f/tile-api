@@ -165,21 +165,29 @@ public class TraitTypeRepositoryTest {
             .traitTypeName(TRAIT_TYPE_NAME)
             .description(DESCRIPTION)
             .build();
+    // traitTypeDTO2 Will have the same id and trait type id as traitTypeDTO
+    TraitTypeDTO traitTypeDTO2 =
+        TraitTypeDTO.builder()
+            .id(ID)
+            .traitTypeId(TRAIT_TYPE_ID)
+            .traitTypeName(TRAIT_TYPE_NAME_2)
+            .description(DESCRIPTION_2)
+            .build();
     Mockito.when(
             jdbcTemplate.queryForStream(
                 TraitTypeRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TRAIT_TYPE_ID))
-        .thenReturn(Stream.of(traitTypeDTO), Stream.of(traitTypeDTO));
+        .thenReturn(Stream.of(traitTypeDTO), Stream.of(traitTypeDTO2));
     Mockito.when(
             jdbcTemplate.update(
-                TraitTypeRepository.UPDATE_SQL, TRAIT_TYPE_NAME, DESCRIPTION, TRAIT_TYPE_ID))
+                TraitTypeRepository.UPDATE_SQL, TRAIT_TYPE_NAME_2, DESCRIPTION_2, TRAIT_TYPE_ID))
         .thenReturn(1);
     TraitTypeDTO traitTypeDTOResults =
-        new TraitTypeRepository(jdbcTemplate, beanPropertyRowMapper).update(traitTypeDTO);
+        new TraitTypeRepository(jdbcTemplate, beanPropertyRowMapper).update(traitTypeDTO2);
     Mockito.verify(jdbcTemplate, Mockito.times(2))
         .queryForStream(TraitTypeRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TRAIT_TYPE_ID);
     Mockito.verify(jdbcTemplate, Mockito.times(1))
-        .update(TraitTypeRepository.UPDATE_SQL, TRAIT_TYPE_NAME, DESCRIPTION, TRAIT_TYPE_ID);
-    assertThat(traitTypeDTOResults).isEqualTo(traitTypeDTO);
+        .update(TraitTypeRepository.UPDATE_SQL, TRAIT_TYPE_NAME_2, DESCRIPTION_2, TRAIT_TYPE_ID);
+    assertThat(traitTypeDTOResults).isEqualTo(traitTypeDTO2);
   }
 
   @Test

@@ -1,5 +1,6 @@
 package com.tylerfitzgerald.demo_api.token.traitTypeWeights;
 
+import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeDTO;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -132,7 +133,7 @@ public class TraitTypeWeightRepositoryTest {
             .value(VALUE)
             .displayTypeValue(DISPLAY_TYPE_VALUE)
             .build();
-    TraitTypeWeightDTO traitTypeDTO2 =
+    TraitTypeWeightDTO traitTypeWeightDTO2 =
         TraitTypeWeightDTO.builder()
             .id(ID_2)
             .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID_2)
@@ -143,13 +144,13 @@ public class TraitTypeWeightRepositoryTest {
             .build();
     Mockito.when(
             jdbcTemplate.queryForStream(TraitTypeWeightRepository.READ_SQL, beanPropertyRowMapper))
-        .thenReturn(Stream.of(traitTypeWeightDTO, traitTypeDTO2));
+        .thenReturn(Stream.of(traitTypeWeightDTO, traitTypeWeightDTO2));
     List<TraitTypeWeightDTO> traits =
         new TraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper).read();
     Mockito.verify(jdbcTemplate, Mockito.times(1))
         .queryForStream(TraitTypeWeightRepository.READ_SQL, beanPropertyRowMapper);
     assertThat(traits.get(0)).isEqualTo(traitTypeWeightDTO);
-    assertThat(traits.get(1)).isEqualTo(traitTypeDTO2);
+    assertThat(traits.get(1)).isEqualTo(traitTypeWeightDTO2);
   }
 
   @Test
@@ -198,4 +199,48 @@ public class TraitTypeWeightRepositoryTest {
         .queryForStream(TraitTypeWeightRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID);
     assertThat(traitDTOResult).isEqualTo(null);
   }
+
+  //  @Test
+  //  void testUpdateExistingEntry() {
+  //    TraitTypeWeightDTO traitTypeWeightDTO =
+  //        TraitTypeWeightDTO.builder()
+  //            .id(ID)
+  //            .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
+  //            .traitTypeId(TRAIT_TYPE_ID)
+  //            .likelihood(LIKELIHOOD)
+  //            .value(VALUE)
+  //            .displayTypeValue(DISPLAY_TYPE_VALUE)
+  //            .build();
+  //    Mockito.when(
+  //            jdbcTemplate.queryForStream(
+  //                TraitTypeWeightRepository.READ_BY_ID_SQL,
+  //                beanPropertyRowMapper,
+  //                TRAIT_TYPE_WEIGHT_ID))
+  //        .thenReturn(Stream.of(traitTypeWeightDTO));
+  //    Mockito.when(
+  //            jdbcTemplate.update(
+  //                TraitTypeWeightRepository.UPDATE_SQL,
+  //                TRAIT_TYPE_ID,
+  //                LIKELIHOOD,
+  //                VALUE,
+  //                DISPLAY_TYPE_VALUE,
+  //                TRAIT_TYPE_WEIGHT_ID))
+  //        .thenReturn(1);
+  //    TraitTypeWeightDTO traitTypeWeightDTOResults =
+  //        new TraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper)
+  //            .update(traitTypeWeightDTO);
+  //    Mockito.verify(jdbcTemplate, Mockito.times(2))
+  //        .queryForStream(
+  //            TraitTypeWeightRepository.READ_BY_ID_SQL, beanPropertyRowMapper,
+  // TRAIT_TYPE_WEIGHT_ID);
+  //    Mockito.verify(jdbcTemplate, Mockito.times(1))
+  //        .update(
+  //            TraitTypeWeightRepository.UPDATE_SQL,
+  //            TRAIT_TYPE_ID,
+  //            LIKELIHOOD,
+  //            VALUE,
+  //            DISPLAY_TYPE_VALUE,
+  //            TRAIT_TYPE_WEIGHT_ID);
+  //    assertThat(traitTypeWeightDTOResults).isEqualTo(traitTypeWeightDTO);
+  //  }
 }
