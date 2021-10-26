@@ -1,5 +1,7 @@
 package com.tylerfitzgerald.demo_api.token;
 
+import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightDTO;
+import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -85,5 +87,37 @@ public class TokenRepositoryTest {
             EXTERNAL_URL,
             IMAGE_URL);
     assertThat(tokenDTOResult).isEqualTo(tokenDTO);
+  }
+
+  @Test
+  void testCreateExisting() {
+    TokenDTO tokenDTO =
+        TokenDTO.builder()
+            .id(ID)
+            .tokenId(TOKEN_ID)
+            .saleId(SALE_ID)
+            .name(NAME)
+            .description(DESCRIPTION)
+            .externalUrl(EXTERNAL_URL)
+            .imageUrl(IMAGE_URL)
+            .build();
+    Mockito.when(
+            jdbcTemplate.queryForStream(
+                TokenRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TOKEN_ID))
+        .thenReturn(Stream.of(tokenDTO));
+    TokenDTO traitTypeWeightDTOResult =
+        new TokenRepository(jdbcTemplate, beanPropertyRowMapper).create(tokenDTO);
+    Mockito.verify(jdbcTemplate, Mockito.times(1))
+        .queryForStream(TokenRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TOKEN_ID);
+    Mockito.verify(jdbcTemplate, Mockito.times(0))
+        .update(
+            TokenRepository.CREATE_SQL,
+            TOKEN_ID,
+            SALE_ID,
+            NAME,
+            DESCRIPTION,
+            EXTERNAL_URL,
+            IMAGE_URL);
+    assertThat(traitTypeWeightDTOResult).isEqualTo(null);
   }
 }
