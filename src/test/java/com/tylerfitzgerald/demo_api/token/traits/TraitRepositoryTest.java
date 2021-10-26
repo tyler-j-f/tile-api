@@ -1,5 +1,6 @@
 package com.tylerfitzgerald.demo_api.token.traits;
 
+import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -161,21 +162,29 @@ public class TraitRepositoryTest {
             .traitTypeId(TRAIT_TYPE_ID)
             .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
             .build();
+    // traitDTO2 Will have the same id and trait id as traitDTO
+    TraitDTO traitDTO2 =
+        TraitDTO.builder()
+            .id(ID)
+            .traitId(TRAIT_ID)
+            .traitTypeId(TRAIT_TYPE_ID_2)
+            .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID_2)
+            .build();
     Mockito.when(
             jdbcTemplate.queryForStream(
                 TraitRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TRAIT_ID))
-        .thenReturn(Stream.of(traitDTO), Stream.of(traitDTO));
+        .thenReturn(Stream.of(traitDTO), Stream.of(traitDTO2));
     Mockito.when(
             jdbcTemplate.update(
-                TraitRepository.UPDATE_SQL, TRAIT_TYPE_ID, TRAIT_TYPE_WEIGHT_ID, TRAIT_ID))
+                TraitRepository.UPDATE_SQL, TRAIT_TYPE_ID_2, TRAIT_TYPE_WEIGHT_ID_2, TRAIT_ID))
         .thenReturn(1);
     TraitDTO traitDTOResults =
-        new TraitRepository(jdbcTemplate, beanPropertyRowMapper).update(traitDTO);
+        new TraitRepository(jdbcTemplate, beanPropertyRowMapper).update(traitDTO2);
     Mockito.verify(jdbcTemplate, Mockito.times(2))
         .queryForStream(TraitRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TRAIT_ID);
     Mockito.verify(jdbcTemplate, Mockito.times(1))
-        .update(TraitRepository.UPDATE_SQL, TRAIT_TYPE_ID, TRAIT_TYPE_WEIGHT_ID, TRAIT_ID);
-    assertThat(traitDTOResults).isEqualTo(traitDTO);
+        .update(TraitRepository.UPDATE_SQL, TRAIT_TYPE_ID_2, TRAIT_TYPE_WEIGHT_ID_2, TRAIT_ID);
+    assertThat(traitDTOResults).isEqualTo(traitDTO2);
   }
 
   @Test
