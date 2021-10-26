@@ -146,12 +146,12 @@ public class TraitTypeWeightRepositoryTest {
     Mockito.when(
             jdbcTemplate.queryForStream(TraitTypeWeightRepository.READ_SQL, beanPropertyRowMapper))
         .thenReturn(Stream.of(traitTypeWeightDTO, traitTypeWeightDTO2));
-    List<TraitTypeWeightDTO> traits =
+    List<TraitTypeWeightDTO> traitTypeWeights =
         new TraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper).read();
     Mockito.verify(jdbcTemplate, Mockito.times(1))
         .queryForStream(TraitTypeWeightRepository.READ_SQL, beanPropertyRowMapper);
-    assertThat(traits.get(0)).isEqualTo(traitTypeWeightDTO);
-    assertThat(traits.get(1)).isEqualTo(traitTypeWeightDTO2);
+    assertThat(traitTypeWeights.get(0)).isEqualTo(traitTypeWeightDTO);
+    assertThat(traitTypeWeights.get(1)).isEqualTo(traitTypeWeightDTO2);
   }
 
   @Test
@@ -159,11 +159,11 @@ public class TraitTypeWeightRepositoryTest {
     Mockito.when(
             jdbcTemplate.queryForStream(TraitTypeWeightRepository.READ_SQL, beanPropertyRowMapper))
         .thenReturn(Stream.empty());
-    List<TraitTypeWeightDTO> traits =
+    List<TraitTypeWeightDTO> traitTypeWeights =
         new TraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper).read();
     Mockito.verify(jdbcTemplate, Mockito.times(1))
         .queryForStream(TraitTypeWeightRepository.READ_SQL, beanPropertyRowMapper);
-    assertThat(traits.isEmpty()).isEqualTo(true);
+    assertThat(traitTypeWeights.isEmpty()).isEqualTo(true);
   }
 
   @Test

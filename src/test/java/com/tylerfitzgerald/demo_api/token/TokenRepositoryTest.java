@@ -1,5 +1,7 @@
 package com.tylerfitzgerald.demo_api.token;
 
+import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightDTO;
+import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightRepository;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -149,5 +151,15 @@ public class TokenRepositoryTest {
         .queryForStream(TokenRepository.READ_SQL, beanPropertyRowMapper);
     assertThat(tokens.get(0)).isEqualTo(tokenDTO);
     assertThat(tokens.get(1)).isEqualTo(tokenDTO2);
+  }
+
+  @Test
+  void testReadEmptyTable() {
+    Mockito.when(jdbcTemplate.queryForStream(TokenRepository.READ_SQL, beanPropertyRowMapper))
+        .thenReturn(Stream.empty());
+    List<TokenDTO> tokens = new TokenRepository(jdbcTemplate, beanPropertyRowMapper).read();
+    Mockito.verify(jdbcTemplate, Mockito.times(1))
+        .queryForStream(TokenRepository.READ_SQL, beanPropertyRowMapper);
+    assertThat(tokens.isEmpty()).isEqualTo(true);
   }
 }

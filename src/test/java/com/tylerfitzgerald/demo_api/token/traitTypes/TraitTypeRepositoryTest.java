@@ -106,21 +106,23 @@ public class TraitTypeRepositoryTest {
             .build();
     Mockito.when(jdbcTemplate.queryForStream(TraitTypeRepository.READ_SQL, beanPropertyRowMapper))
         .thenReturn(Stream.of(traitTypeDTO, traitTypeDTO2));
-    List<TraitTypeDTO> traits = new TraitTypeRepository(jdbcTemplate, beanPropertyRowMapper).read();
+    List<TraitTypeDTO> traitTypes =
+        new TraitTypeRepository(jdbcTemplate, beanPropertyRowMapper).read();
     Mockito.verify(jdbcTemplate, Mockito.times(1))
         .queryForStream(TraitTypeRepository.READ_SQL, beanPropertyRowMapper);
-    assertThat(traits.get(0)).isEqualTo(traitTypeDTO);
-    assertThat(traits.get(1)).isEqualTo(traitTypeDTO2);
+    assertThat(traitTypes.get(0)).isEqualTo(traitTypeDTO);
+    assertThat(traitTypes.get(1)).isEqualTo(traitTypeDTO2);
   }
 
   @Test
   void testReadEmptyTable() {
     Mockito.when(jdbcTemplate.queryForStream(TraitTypeRepository.READ_SQL, beanPropertyRowMapper))
         .thenReturn(Stream.empty());
-    List<TraitTypeDTO> traits = new TraitTypeRepository(jdbcTemplate, beanPropertyRowMapper).read();
+    List<TraitTypeDTO> traitTypes =
+        new TraitTypeRepository(jdbcTemplate, beanPropertyRowMapper).read();
     Mockito.verify(jdbcTemplate, Mockito.times(1))
         .queryForStream(TraitTypeRepository.READ_SQL, beanPropertyRowMapper);
-    assertThat(traits.isEmpty()).isEqualTo(true);
+    assertThat(traitTypes.isEmpty()).isEqualTo(true);
   }
 
   @Test
