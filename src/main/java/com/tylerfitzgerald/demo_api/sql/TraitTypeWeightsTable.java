@@ -1,11 +1,17 @@
 package com.tylerfitzgerald.demo_api.sql;
 
+import com.tylerfitzgerald.demo_api.config.TraitsConfig;
+import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightRepository;
-import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeRepository;
+import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class TraitTypeWeightsTable implements TableInterface {
+
+  @Autowired private TraitsConfig traitsConfig;
+
+  @Autowired private TraitTypeWeightRepository traitTypeWeightRepository;
 
   /*
    * NOTE: 2083 is the max VARCHAR length for a URL on the internet explorer browser.
@@ -33,6 +39,28 @@ public class TraitTypeWeightsTable implements TableInterface {
   @Override
   public boolean delete() {
     this.jdbcTemplate.execute(DELETE_SQL);
+    return true;
+  }
+
+  public boolean initialize() {
+    TraitTypeWeightDTO[] traitTypeWeights = traitsConfig.getTypeWeights();
+    for (TraitTypeWeightDTO traitTypeWeight : traitTypeWeights) {
+      TraitTypeWeightDTO createResultTraitTypeWeightDTO =
+          traitTypeWeightRepository.create(traitTypeWeight);
+      if (createResultTraitTypeWeightDTO == null) {
+        System.out.println(
+            "Failed to insert trait type weight into "
+                + TABLE_NAME
+                + ".\nFailed trait type weight: "
+                + traitTypeWeight.toString());
+      } else {
+        System.out.println(
+            "Inserted trait type weight into "
+                + TABLE_NAME
+                + ".\nTrait: "
+                + createResultTraitTypeWeightDTO.toString());
+      }
+    }
     return true;
   }
 }

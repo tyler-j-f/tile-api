@@ -42,15 +42,18 @@ public class TraitTypesTable implements TableInterface {
   }
 
   public boolean initialize() {
-    TraitTypeDTO[] traits = traitsConfig.getTypes();
-    for (TraitTypeDTO trait : traits) {
-      TraitTypeDTO createResultTraitTypeDTO = traitTypeRepository.create(trait);
+    TraitTypeDTO[] traitTypes = traitsConfig.getTypes();
+    for (TraitTypeDTO traitType : traitTypes) {
+      TraitTypeDTO createResultTraitTypeDTO = traitTypeRepository.create(traitType);
       if (createResultTraitTypeDTO == null) {
         System.out.println(
-            "Failed to insert trait into " + TABLE_NAME + ".\nFailed trait: " + trait.toString());
+            "Failed to insert trait type into "
+                + TABLE_NAME
+                + ".\nFailed trait type: "
+                + traitType.toString());
       } else {
         System.out.println(
-            "Inserted trait into "
+            "Inserted trait type into "
                 + TABLE_NAME
                 + ".\nTrait: "
                 + createResultTraitTypeDTO.toString());
