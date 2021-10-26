@@ -14,17 +14,17 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
   private final JdbcTemplate jdbcTemplate;
   private final BeanPropertyRowMapper beanPropertyRowMapper;
 
-  private static final String READ_SQL = "SELECT * FROM " + TokenTable.TABLE_NAME;
+  public static final String READ_SQL = "SELECT * FROM " + TokenTable.TABLE_NAME;
   // CRUD SQL
-  private static final String CREATE_SQL =
+  public static final String CREATE_SQL =
       "INSERT INTO " + TokenTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?, ?, ?)";
-  private static final String READ_BY_ID_SQL =
+  public static final String READ_BY_ID_SQL =
       "SELECT * FROM " + TokenTable.TABLE_NAME + " WHERE tokenId = ?";
-  private static final String UPDATE_SQL =
+  public static final String UPDATE_SQL =
       "UPDATE "
           + TokenTable.TABLE_NAME
           + " set saleId = ?, name = ?, description = ?, externalUrl = ?, imageUrl = ? WHERE tokenId = ?";
-  private static final String DELETE_BY_ID_SQL =
+  public static final String DELETE_BY_ID_SQL =
       "DELETE FROM " + TokenTable.TABLE_NAME + " WHERE tokenId = ?";
 
   public TokenRepository(JdbcTemplate jdbcTemplate, BeanPropertyRowMapper beanPropertyRowMapper) {
