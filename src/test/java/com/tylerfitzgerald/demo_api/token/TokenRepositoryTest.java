@@ -1,7 +1,6 @@
 package com.tylerfitzgerald.demo_api.token;
 
-import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightDTO;
-import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightRepository;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -119,5 +118,36 @@ public class TokenRepositoryTest {
             EXTERNAL_URL,
             IMAGE_URL);
     assertThat(traitTypeWeightDTOResult).isEqualTo(null);
+  }
+
+  @Test
+  void testRead() {
+    TokenDTO tokenDTO =
+        TokenDTO.builder()
+            .id(ID)
+            .tokenId(TOKEN_ID)
+            .saleId(SALE_ID)
+            .name(NAME)
+            .description(DESCRIPTION)
+            .externalUrl(EXTERNAL_URL)
+            .imageUrl(IMAGE_URL)
+            .build();
+    TokenDTO tokenDTO2 =
+        TokenDTO.builder()
+            .id(ID_2)
+            .tokenId(TOKEN_ID_2)
+            .saleId(SALE_ID_2)
+            .name(NAME_2)
+            .description(DESCRIPTION_2)
+            .externalUrl(EXTERNAL_URL_2)
+            .imageUrl(IMAGE_URL_2)
+            .build();
+    Mockito.when(jdbcTemplate.queryForStream(TokenRepository.READ_SQL, beanPropertyRowMapper))
+        .thenReturn(Stream.of(tokenDTO, tokenDTO2));
+    List<TokenDTO> tokens = new TokenRepository(jdbcTemplate, beanPropertyRowMapper).read();
+    Mockito.verify(jdbcTemplate, Mockito.times(1))
+        .queryForStream(TokenRepository.READ_SQL, beanPropertyRowMapper);
+    assertThat(tokens.get(0)).isEqualTo(tokenDTO);
+    assertThat(tokens.get(1)).isEqualTo(tokenDTO2);
   }
 }
