@@ -1,5 +1,6 @@
 package com.tylerfitzgerald.demo_api.token;
 
+import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightRepository;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -221,7 +222,7 @@ public class TokenRepositoryTest {
             .build();
     Mockito.when(
             jdbcTemplate.queryForStream(
-                TokenRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TOKEN_ID_2))
+                TokenRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TOKEN_ID))
         .thenReturn(Stream.of(tokenDTO), Stream.of(tokenDTO2));
     Mockito.when(
             jdbcTemplate.update(
@@ -247,5 +248,38 @@ public class TokenRepositoryTest {
             IMAGE_URL_2,
             TOKEN_ID);
     assertThat(tokenDTOResults).isEqualTo(tokenDTO2);
+  }
+
+  @Test
+  void testUpdateNonExistingEntry() {
+    TokenDTO tokenDTO =
+        TokenDTO.builder()
+            .id(ID)
+            .tokenId(TOKEN_ID)
+            .saleId(SALE_ID)
+            .name(NAME)
+            .description(DESCRIPTION)
+            .externalUrl(EXTERNAL_URL)
+            .imageUrl(IMAGE_URL)
+            .build();
+    // Return a Stream.empty() from the read by id call to imitate a non-existing entry.
+    Mockito.when(
+            jdbcTemplate.queryForStream(
+                TokenRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TOKEN_ID))
+        .thenReturn(Stream.empty());
+    TokenDTO tokenDTOResults =
+        new TokenRepository(jdbcTemplate, beanPropertyRowMapper).update(tokenDTO);
+    Mockito.verify(jdbcTemplate, Mockito.times(1))
+        .queryForStream(TokenRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TOKEN_ID);
+    Mockito.verify(jdbcTemplate, Mockito.times(0))
+        .update(
+            TokenRepository.UPDATE_SQL,
+            SALE_ID_2,
+            NAME_2,
+            DESCRIPTION_2,
+            EXTERNAL_URL_2,
+            IMAGE_URL_2,
+            TOKEN_ID);
+    assertThat(tokenDTOResults).isEqualTo(null);
   }
 }
