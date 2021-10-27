@@ -47,12 +47,15 @@ public class NFTInitializer {
     Long traitTypeId = type.getTraitTypeId();
     List<TraitTypeWeightDTO> weights = getTraitTypeWeightsForTraitTypeId(traitTypeId);
     TraitTypeWeightDTO traitTypeWeight = getRandomTraitTypeWeightFromList(weights);
-    System.out.println(
-        "DEBUG traitType: "
-            + traitTypeId
-            + "\nRandom traitTypeWeight: "
-            + traitTypeWeight.toString());
-    return TraitDTO.builder().traitId(1L).traitTypeId(traitTypeId).build();
+    TraitDTO trait =
+        TraitDTO.builder()
+            .id(null)
+            .traitId(null)
+            .traitTypeId(traitTypeId)
+            .traitTypeWeightId(traitTypeWeight.getTraitTypeWeightId())
+            .build();
+    System.out.println("trait to make: " + trait.toString());
+    return trait;
   }
 
   private List<TraitTypeWeightDTO> getTraitTypeWeightsForTraitTypeId(Long traitTypeId) {
@@ -61,7 +64,7 @@ public class NFTInitializer {
         .collect(Collectors.toList());
   }
 
-    private TraitTypeWeightDTO getRandomTraitTypeWeightFromList(
+  private TraitTypeWeightDTO getRandomTraitTypeWeightFromList(
       List<TraitTypeWeightDTO> traitTypeWeights) {
     Long randomNumber = Long.valueOf(ThreadLocalRandom.current().nextInt(1, 100));
     Long count = 0L;
