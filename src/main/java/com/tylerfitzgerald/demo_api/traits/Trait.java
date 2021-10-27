@@ -1,8 +1,10 @@
 package com.tylerfitzgerald.demo_api.traits;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class Trait {
   private String trait_type;
   private String value;
