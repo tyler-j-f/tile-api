@@ -11,6 +11,7 @@ import com.tylerfitzgerald.demo_api.token.traits.TraitDTO;
 import com.tylerfitzgerald.demo_api.token.traits.TraitRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,6 @@ public class NFTInitializer {
     for (TraitTypeDTO type : traitsConfig.getTypes()) {
       traits.add(createTrait(type));
     }
-    // System.out.println("initialize debug:\ntraits: " + traits.toString());
     return NFTFacadeDTO.builder()
         .tokenDTO(tokenDTO)
         .traits(traits)
@@ -45,31 +45,37 @@ public class NFTInitializer {
 
   private TraitDTO createTrait(TraitTypeDTO type) {
     Long traitTypeId = type.getTraitTypeId();
-    //    System.out.println(
-    //        "DEBUG:\ntypeId: "
-    //            + type.getTraitTypeId()
-    //            + "\ntraitTypes: "
-    //            + traitTypes.toString()
-    //            + "\ntraitTypeWeights: "
-    //            + traitTypeWeights.toString());
-    List<TraitTypeWeightDTO> weights =
-        traitTypeWeights.stream()
-            .filter(typeWeight -> typeWeight.getTraitTypeId().equals(traitTypeId))
-            .collect(Collectors.toList());
+    List<TraitTypeWeightDTO> weights = getTraitTypeWeightsForTraitTypeId(traitTypeId);
+    TraitTypeWeightDTO traitTypeWeight = getRandomTraitTypeWeightFromList(weights);
     System.out.println(
-        "createTrait debug:\ntraitTypeId: "
-            + traitTypeId.toString()
-            + "\nweights: "
-            + weights.toString()
-            + "\n");
-    Long traitId = Long.valueOf(traitRepository.read().size()) + 1l;
-    //    return traitRepository.create(
-    //        TraitDTO
-    //            .builder()
-    //            .traitId(traitId)
-    //            .traitTypeId(traitTypeId)
-    //            .build()
-    //    );
-    return TraitDTO.builder().traitId(traitId).traitTypeId(traitTypeId).build();
+        "DEBUG traitType: "
+            + traitTypeId
+            + "\nRandom traitTypeWeight: "
+            + traitTypeWeight.toString());
+    return TraitDTO.builder().traitId(1L).traitTypeId(traitTypeId).build();
+  }
+
+  private List<TraitTypeWeightDTO> getTraitTypeWeightsForTraitTypeId(Long traitTypeId) {
+    return traitTypeWeights.stream()
+        .filter(typeWeight -> typeWeight.getTraitTypeId().equals(traitTypeId))
+        .collect(Collectors.toList());
+  }
+
+    private TraitTypeWeightDTO getRandomTraitTypeWeightFromList(
+      List<TraitTypeWeightDTO> traitTypeWeights) {
+    Long randomNumber = Long.valueOf(ThreadLocalRandom.current().nextInt(1, 100));
+    Long count = 0L;
+    for (TraitTypeWeightDTO traitTypeWeight : traitTypeWeights) {
+      Long likelihood = traitTypeWeight.getLikelihood();
+      count = count + likelihood;
+      if (count >= randomNumber) {
+        return traitTypeWeight;
+      }
+    }
+    /**
+     * We should never return null. If we get here: DB values for trait type weights (for a
+     * particular trait type) are misconfigured.
+     */
+    return null;
   }
 }
