@@ -6,6 +6,7 @@ import com.tylerfitzgerald.demo_api.sql.TraitsTable;
 import com.tylerfitzgerald.demo_api.token.TokenDTO;
 import com.tylerfitzgerald.demo_api.token.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.TokenTable;
+import com.tylerfitzgerald.demo_api.token.nft.NFTInitializer;
 import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightRepository;
 import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeDTO;
@@ -81,5 +82,10 @@ public class AppConfig {
   @Bean
   public TraitRepository traitRepository() {
     return new TraitRepository(jdbcTemplate, new BeanPropertyRowMapper(TraitDTO.class));
+  }
+
+  @Bean
+  public NFTInitializer nftInitializer() {
+    return new NFTInitializer();
   }
 }

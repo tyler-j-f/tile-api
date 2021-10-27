@@ -6,6 +6,7 @@ import com.tylerfitzgerald.demo_api.events.MintEvent;
 import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
 import com.tylerfitzgerald.demo_api.token.TokenDTO;
 import com.tylerfitzgerald.demo_api.token.TokenRepository;
+import com.tylerfitzgerald.demo_api.token.nft.NFTInitializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,8 @@ public class Scheduler {
   @Autowired private EnvConfig appConfig;
 
   @Autowired private TraitsConfig traitsConfig;
+
+  @Autowired private NFTInitializer nftInitializer;
 
   // @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   public void getMintEvents() throws ExecutionException, InterruptedException {
@@ -75,5 +78,10 @@ public class Scheduler {
   //  @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   public void test() throws ExecutionException, InterruptedException {
     System.out.println("\nDEBUG:\n" + traitsConfig.toString());
+  }
+
+  @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
+  public void testTwo() throws ExecutionException, InterruptedException {
+    System.out.println("\nDEBUG:\n" + nftInitializer.initialize(21L));
   }
 }
