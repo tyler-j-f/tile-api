@@ -6,6 +6,7 @@ import com.tylerfitzgerald.demo_api.events.MintEvent;
 import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
 import com.tylerfitzgerald.demo_api.token.TokenDTO;
 import com.tylerfitzgerald.demo_api.token.TokenRepository;
+import com.tylerfitzgerald.demo_api.token.nft.NFTFacade;
 import com.tylerfitzgerald.demo_api.token.nft.NFTFacadeDTO;
 import com.tylerfitzgerald.demo_api.token.nft.NFTInitializer;
 import com.tylerfitzgerald.demo_api.token.nft.NFTRetriever;
@@ -104,6 +105,6 @@ public class Scheduler {
       System.out.println("\nDEBUG: nftInitializer->get failed. tokenId: " + tokenId.toString());
       return;
     }
-    System.out.println("\nDEBUG:\nnft: " + nft.toString());
+    System.out.println("\nDEBUG:\nNFTFacade: " + new NFTFacade(nft).buildNFTData().toString());
   }
 }
