@@ -69,8 +69,7 @@ public class NFTInitializer {
     Long randomNumber = Long.valueOf(ThreadLocalRandom.current().nextInt(1, 100));
     Long count = 0L;
     for (TraitTypeWeightDTO traitTypeWeight : traitTypeWeights) {
-      Long likelihood = traitTypeWeight.getLikelihood();
-      count = count + likelihood;
+      count = count + traitTypeWeight.getLikelihood();
       if (count >= randomNumber) {
         return traitTypeWeight;
       }
