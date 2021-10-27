@@ -48,9 +48,9 @@ public class NFTInitializer {
   private NFTFacadeDTO buildNFTFacade() {
     return NFTFacadeDTO.builder()
         .tokenDTO(tokenDTO)
-        .traits(tokenTraits)
-        .traitTypes(availableTraitTypes)
-        .traitTypeWeights(availableTraitTypeWeights)
+        .tokenTraits(tokenTraits)
+        .availableTraitTypes(availableTraitTypes)
+        .availableTraitTypeWeights(availableTraitTypeWeights)
         .build();
   }
 
@@ -69,7 +69,10 @@ public class NFTInitializer {
   private List<TraitDTO> createTraits() {
     List<TraitDTO> traits = new ArrayList<>();
     for (TraitTypeDTO type : traitsConfig.getTypes()) {
-      traits.add(createTrait(type));
+      TraitDTO trait = createTrait(type);
+      if (trait != null) {
+        traits.add(trait);
+      }
     }
     return traits;
   }
@@ -78,15 +81,13 @@ public class NFTInitializer {
     Long traitTypeId = type.getTraitTypeId();
     List<TraitTypeWeightDTO> weights = getTraitTypeWeightsForTraitTypeId(traitTypeId);
     TraitTypeWeightDTO traitTypeWeight = getRandomTraitTypeWeightFromList(weights);
-    TraitDTO trait =
+    return traitRepository.create(
         TraitDTO.builder()
             .id(null)
             .traitId(null)
             .traitTypeId(traitTypeId)
             .traitTypeWeightId(traitTypeWeight.getTraitTypeWeightId())
-            .build();
-    System.out.println("trait to make: " + trait.toString());
-    return trait;
+            .build());
   }
 
   private List<TraitTypeWeightDTO> getTraitTypeWeightsForTraitTypeId(Long traitTypeId) {

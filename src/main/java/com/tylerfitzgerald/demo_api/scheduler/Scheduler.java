@@ -6,6 +6,7 @@ import com.tylerfitzgerald.demo_api.events.MintEvent;
 import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
 import com.tylerfitzgerald.demo_api.token.TokenDTO;
 import com.tylerfitzgerald.demo_api.token.TokenRepository;
+import com.tylerfitzgerald.demo_api.token.nft.NFTFacadeDTO;
 import com.tylerfitzgerald.demo_api.token.nft.NFTInitializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -82,7 +83,7 @@ public class Scheduler {
 
   @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   public void testTwo() throws ExecutionException, InterruptedException {
-    nftInitializer.initialize(21L);
-    // System.out.println("\nDEBUG:\n" + nftInitializer.initialize(21L));
+    NFTFacadeDTO nft = nftInitializer.initialize(221L);
+    System.out.println("\nDEBUG:\nnft: " + nft.toString());
   }
 }

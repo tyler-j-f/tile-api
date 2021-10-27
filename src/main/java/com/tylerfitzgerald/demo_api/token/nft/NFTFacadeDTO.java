@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class NFTFacadeDTO {
   private TokenDTO tokenDTO;
-  private List<TraitTypeDTO> traitTypes;
-  private List<TraitTypeWeightDTO> traitTypeWeights;
-  private List<TraitDTO> traits;
+  private List<TraitDTO> tokenTraits;
+  private List<TraitTypeDTO> availableTraitTypes;
+  private List<TraitTypeWeightDTO> availableTraitTypeWeights;
 }
