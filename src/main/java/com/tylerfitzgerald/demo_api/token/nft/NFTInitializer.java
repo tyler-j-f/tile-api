@@ -45,11 +45,17 @@ public class NFTInitializer {
 
   private TraitDTO createTrait(TraitTypeDTO type) {
     Long traitTypeId = type.getTraitTypeId();
+    //    System.out.println(
+    //        "DEBUG:\ntypeId: "
+    //            + type.getTraitTypeId()
+    //            + "\ntraitTypes: "
+    //            + traitTypes.toString()
+    //            + "\ntraitTypeWeights: "
+    //            + traitTypeWeights.toString());
     List<TraitTypeWeightDTO> weights =
         traitTypeWeights.stream()
             .filter(typeWeight -> typeWeight.getTraitTypeId().equals(traitTypeId))
             .collect(Collectors.toList());
-    ;
     System.out.println(
         "createTrait debug:\ntraitTypeId: "
             + traitTypeId.toString()
