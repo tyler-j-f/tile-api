@@ -8,6 +8,7 @@ import com.tylerfitzgerald.demo_api.token.TokenDTO;
 import com.tylerfitzgerald.demo_api.token.TokenRepository;
 import com.tylerfitzgerald.demo_api.token.nft.NFTFacadeDTO;
 import com.tylerfitzgerald.demo_api.token.nft.NFTInitializer;
+import com.tylerfitzgerald.demo_api.token.nft.NFTRetriever;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,8 @@ public class Scheduler {
   @Autowired private TraitsConfig traitsConfig;
 
   @Autowired private NFTInitializer nftInitializer;
+
+  @Autowired private NFTRetriever nftRetriever;
 
   // @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   public void getMintEvents() throws ExecutionException, InterruptedException {
@@ -81,13 +84,24 @@ public class Scheduler {
     System.out.println("\nDEBUG:\n" + traitsConfig.toString());
   }
 
-  @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
+  // @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   public void testTwo() throws ExecutionException, InterruptedException {
     Long tokenId = 221L;
     NFTFacadeDTO nft = nftInitializer.initialize(tokenId);
     if (nft == null) {
       System.out.println(
           "\nDEBUG: nftInitializer->initialize failed. tokenId: " + tokenId.toString());
+      return;
+    }
+    System.out.println("\nDEBUG:\nnft: " + nft.toString());
+  }
+
+  // @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
+  public void testThree() throws ExecutionException, InterruptedException {
+    Long tokenId = 221L;
+    NFTFacadeDTO nft = nftRetriever.get(tokenId);
+    if (nft == null) {
+      System.out.println("\nDEBUG: nftInitializer->get failed. tokenId: " + tokenId.toString());
       return;
     }
     System.out.println("\nDEBUG:\nnft: " + nft.toString());

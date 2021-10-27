@@ -21,6 +21,8 @@ public class TraitRepository implements RepositoryInterface<TraitDTO, Long> {
       "INSERT INTO " + TraitsTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?)";
   public static final String READ_BY_ID_SQL =
       "SELECT * FROM " + TraitsTable.TABLE_NAME + " WHERE traitId = ?";
+  public static final String READ_BY_TOKEN_ID_SQL =
+      "SELECT * FROM " + TraitsTable.TABLE_NAME + " WHERE tokenId = ?";
   public static final String UPDATE_SQL_BASE = "UPDATE " + TraitsTable.TABLE_NAME + " set ";
   public static final String UPDATE_SQL =
       "UPDATE "
@@ -70,11 +72,27 @@ public class TraitRepository implements RepositoryInterface<TraitDTO, Long> {
     Stream<TraitDTO> stream = null;
     try {
       stream = jdbcTemplate.queryForStream(READ_BY_ID_SQL, beanPropertyRowMapper, traitId);
-      List<TraitDTO> traitTypes = stream.collect(Collectors.toList());
-      if (traitTypes.size() == 0) {
+      List<TraitDTO> traits = stream.collect(Collectors.toList());
+      if (traits.size() == 0) {
         return null;
       }
-      return traitTypes.get(0);
+      return traits.get(0);
+    } finally {
+      if (stream != null) {
+        stream.close();
+      }
+    }
+  }
+
+  public List<TraitDTO> readByTokenId(Long tokenId) {
+    Stream<TraitDTO> stream = null;
+    try {
+      stream = jdbcTemplate.queryForStream(READ_BY_TOKEN_ID_SQL, beanPropertyRowMapper, tokenId);
+      List<TraitDTO> traits = stream.collect(Collectors.toList());
+      if (traits.size() == 0) {
+        return null;
+      }
+      return traits;
     } finally {
       if (stream != null) {
         stream.close();
