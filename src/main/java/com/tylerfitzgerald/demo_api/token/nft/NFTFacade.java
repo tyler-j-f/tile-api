@@ -33,5 +33,4 @@ public class NFTFacade {
   public List<TraitTypeWeightDTO> getAvailableTraitTypeWeights() {
     return nftFacadeDTO.getAvailableTraitTypeWeights();
   }
-
 }

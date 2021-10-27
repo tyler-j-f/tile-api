@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api;
+package com.tylerfitzgerald.demo_api.response;
 
 import com.tylerfitzgerald.demo_api.traits.Trait;
 import java.util.ArrayList;
