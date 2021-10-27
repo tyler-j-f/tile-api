@@ -1,13 +1,13 @@
-package com.tylerfitzgerald.demo_api.response;
+package com.tylerfitzgerald.demo_api.nft;
 
-import com.tylerfitzgerald.demo_api.traits.Trait;
+import com.tylerfitzgerald.demo_api.nft.traits.Trait;
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class NFT {
+public class NFTData {
   private ArrayList<Trait> attributes;
   private String description;
   private String external_url;
