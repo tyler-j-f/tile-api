@@ -13,10 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class NFTInitializer {
+
+  private static final String NFT_NAME = "Tile";
+  private static final String NFT_DESCRIPTION =
+      "Tile NFT. Buy a tile and customize it yourself!!! Each tile will be generated with unique traits that decide how rare your Tile is.";
+  private static final String NFT_EXTERNAL_URL = "http://tilenft.io/api/nft";
+  private static final String NFT_IMG_URL_BASE = "http://tilenft.io/api/img/";
 
   @Autowired private TokenRepository tokenRepository;
   @Autowired private TraitRepository traitRepository;
@@ -24,23 +29,49 @@ public class NFTInitializer {
   @Autowired private TraitTypeWeightRepository traitTypeWeightRepository;
   @Autowired private TraitsConfig traitsConfig;
 
-  private TokenDTO tokenDTO = null;
-  private List<TraitDTO> traits = new ArrayList<>();
-  private List<TraitTypeDTO> traitTypes = new ArrayList<>();
-  private List<TraitTypeWeightDTO> traitTypeWeights = new ArrayList<>();
+  private List<TraitTypeDTO> availableTraitTypes = new ArrayList<>();
+  private List<TraitTypeWeightDTO> availableTraitTypeWeights = new ArrayList<>();
+  private List<TraitDTO> tokenTraits = new ArrayList<>();
+  private TokenDTO tokenDTO;
 
   public NFTFacadeDTO initialize(Long tokenId) {
-    traitTypeWeights = traitTypeWeightRepository.read();
-    traitTypes = traitTypeRepository.read();
+    availableTraitTypeWeights = traitTypeWeightRepository.read();
+    availableTraitTypes = traitTypeRepository.read();
+    tokenDTO = createToken(tokenId);
+    if (tokenDTO == null) {
+      System.out.println("NFTInitializer failed to initialize the token with tokenId: " + tokenId);
+    }
+    tokenTraits = createTraits();
+    return buildNFTFacade();
+  }
+
+  private NFTFacadeDTO buildNFTFacade() {
+    return NFTFacadeDTO.builder()
+        .tokenDTO(tokenDTO)
+        .traits(tokenTraits)
+        .traitTypes(availableTraitTypes)
+        .traitTypeWeights(availableTraitTypeWeights)
+        .build();
+  }
+
+  private TokenDTO createToken(Long tokenId) {
+    return tokenRepository.create(
+        TokenDTO.builder()
+            .tokenId(tokenId)
+            .saleId(1L)
+            .name(NFT_NAME)
+            .description(NFT_DESCRIPTION)
+            .externalUrl(NFT_EXTERNAL_URL)
+            .imageUrl(NFT_IMG_URL_BASE + tokenId)
+            .build());
+  }
+
+  private List<TraitDTO> createTraits() {
+    List<TraitDTO> traits = new ArrayList<>();
     for (TraitTypeDTO type : traitsConfig.getTypes()) {
       traits.add(createTrait(type));
     }
-    return NFTFacadeDTO.builder()
-        .tokenDTO(tokenDTO)
-        .traits(traits)
-        .traitTypes(traitTypes)
-        .traitTypeWeights(traitTypeWeights)
-        .build();
+    return traits;
   }
 
   private TraitDTO createTrait(TraitTypeDTO type) {
@@ -59,7 +90,7 @@ public class NFTInitializer {
   }
 
   private List<TraitTypeWeightDTO> getTraitTypeWeightsForTraitTypeId(Long traitTypeId) {
-    return traitTypeWeights.stream()
+    return availableTraitTypeWeights.stream()
         .filter(typeWeight -> typeWeight.getTraitTypeId().equals(traitTypeId))
         .collect(Collectors.toList());
   }
