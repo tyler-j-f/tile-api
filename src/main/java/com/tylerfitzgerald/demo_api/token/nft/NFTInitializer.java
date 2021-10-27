@@ -40,6 +40,7 @@ public class NFTInitializer {
     tokenDTO = createToken(tokenId);
     if (tokenDTO == null) {
       System.out.println("NFTInitializer failed to initialize the token with tokenId: " + tokenId);
+      return null;
     }
     tokenTraits = createTraits();
     return buildNFTFacade();
@@ -81,10 +82,12 @@ public class NFTInitializer {
     Long traitTypeId = type.getTraitTypeId();
     List<TraitTypeWeightDTO> weights = getTraitTypeWeightsForTraitTypeId(traitTypeId);
     TraitTypeWeightDTO traitTypeWeight = getRandomTraitTypeWeightFromList(weights);
+    Long traitId = traitRepository.read().size() + 1L;
     return traitRepository.create(
         TraitDTO.builder()
             .id(null)
-            .traitId(null)
+            .traitId(traitId)
+            .tokenId(tokenDTO.getTokenId())
             .traitTypeId(traitTypeId)
             .traitTypeWeightId(traitTypeWeight.getTraitTypeWeightId())
             .build());

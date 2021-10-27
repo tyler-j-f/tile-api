@@ -81,9 +81,15 @@ public class Scheduler {
     System.out.println("\nDEBUG:\n" + traitsConfig.toString());
   }
 
-  @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
+  // @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   public void testTwo() throws ExecutionException, InterruptedException {
-    NFTFacadeDTO nft = nftInitializer.initialize(221L);
+    Long tokenId = 221L;
+    NFTFacadeDTO nft = nftInitializer.initialize(tokenId);
+    if (nft == null) {
+      System.out.println(
+          "\nDEBUG: nftInitializer->initialize failed. tokenId: " + tokenId.toString());
+      return;
+    }
     System.out.println("\nDEBUG:\nnft: " + nft.toString());
   }
 }
