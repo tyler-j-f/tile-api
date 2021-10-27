@@ -9,7 +9,9 @@ import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeDTO;
 import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeRepository;
 import com.tylerfitzgerald.demo_api.token.traits.TraitDTO;
 import com.tylerfitzgerald.demo_api.token.traits.TraitRepository;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,9 +24,9 @@ public class NFTInitializer {
   @Autowired private TraitsConfig traitsConfig;
 
   private TokenDTO tokenDTO = null;
-  private List<TraitDTO> traits = null;
-  private List<TraitTypeDTO> traitTypes = null;
-  private List<TraitTypeWeightDTO> traitTypeWeights = null;
+  private List<TraitDTO> traits = new ArrayList<>();
+  private List<TraitTypeDTO> traitTypes = new ArrayList<>();
+  private List<TraitTypeWeightDTO> traitTypeWeights = new ArrayList<>();
 
   public NFTFacadeDTO initialize(Long tokenId) {
     traitTypeWeights = traitTypeWeightRepository.read();
@@ -32,9 +34,10 @@ public class NFTInitializer {
     for (TraitTypeDTO type : traitsConfig.getTypes()) {
       traits.add(createTrait(type));
     }
-    System.out.println("initialize debug:\ntraits: " + traits.toString());
+    // System.out.println("initialize debug:\ntraits: " + traits.toString());
     return NFTFacadeDTO.builder()
         .tokenDTO(tokenDTO)
+        .traits(traits)
         .traitTypes(traitTypes)
         .traitTypeWeights(traitTypeWeights)
         .build();
@@ -42,14 +45,17 @@ public class NFTInitializer {
 
   private TraitDTO createTrait(TraitTypeDTO type) {
     Long traitTypeId = type.getTraitTypeId();
-    Stream<TraitTypeWeightDTO> weights =
+    List<TraitTypeWeightDTO> weights =
         traitTypeWeights.stream()
-            .filter(typeWeight -> typeWeight.getTraitTypeId().equals(traitTypeId));
+            .filter(typeWeight -> typeWeight.getTraitTypeId().equals(traitTypeId))
+            .collect(Collectors.toList());
+    ;
     System.out.println(
         "createTrait debug:\ntraitTypeId: "
             + traitTypeId.toString()
             + "\nweights: "
-            + weights.toString());
+            + weights.toString()
+            + "\n");
     Long traitId = Long.valueOf(traitRepository.read().size()) + 1l;
     //    return traitRepository.create(
     //        TraitDTO

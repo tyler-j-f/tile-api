@@ -82,6 +82,7 @@ public class Scheduler {
 
   @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   public void testTwo() throws ExecutionException, InterruptedException {
-    System.out.println("\nDEBUG:\n" + nftInitializer.initialize(21L));
+    nftInitializer.initialize(21L);
+    // System.out.println("\nDEBUG:\n" + nftInitializer.initialize(21L));
   }
 }
