@@ -15,7 +15,7 @@ public class TraitsTable implements TableInterface {
   private static final String CREATE_SQL =
       "CREATE TABLE "
           + TABLE_NAME
-          + "(id int NOT NULL AUTO_INCREMENT, traitId int, traitTypeId int, traitTypeWeightId int, PRIMARY KEY (id))";
+          + "(id int NOT NULL AUTO_INCREMENT, traitId int, tokenId int, traitTypeId int, traitTypeWeightId int, PRIMARY KEY (id))";
   private static final String DELETE_SQL = "DROP TABLE " + TABLE_NAME;
 
   private final JdbcTemplate jdbcTemplate;

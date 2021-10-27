@@ -24,15 +24,17 @@ public class TraitsController extends BaseController {
   @GetMapping("insert/{traitId}")
   public String insertTrait(
       @PathVariable Long traitId,
+      @RequestParam Long tokenId,
       @RequestParam Long traitTypeId,
       @RequestParam Long traitTypeWeightId) {
-    if (traitTypeId == null || traitTypeWeightId == null) {
-      return "Please pass a 'traitTypeId' AND 'traitTypeWeightId' to create a trait";
+    if (tokenId == null || traitTypeId == null || traitTypeWeightId == null) {
+      return "Please pass a 'tokenId', 'traitTypeId', AND 'traitTypeWeightId' to create a trait";
     }
     TraitDTO traitDTO =
         traitRepository.create(
             TraitDTO.builder()
                 .traitId(traitId)
+                .tokenId(tokenId)
                 .traitTypeId(traitTypeId)
                 .traitTypeWeightId(traitTypeWeightId)
                 .build());
@@ -45,12 +47,16 @@ public class TraitsController extends BaseController {
   @GetMapping("update/{traitId}")
   public String updateTrait(
       @PathVariable Long traitId,
+      @RequestParam(required = false) Long tokenId,
       @RequestParam(required = false) Long traitTypeId,
       @RequestParam(required = false) Long traitTypeWeightId) {
     if (traitTypeId == null && traitTypeWeightId == null) {
-      return "Please pass a 'traitTypeId' OR 'traitTypeWeightId' to update a trait";
+      return "Please pass a 'tokenId', 'traitTypeId', OR 'traitTypeWeightId' to update a trait";
     }
     TraitDTO.TraitDTOBuilder traitDTOBuilder = TraitDTO.builder().traitId(traitId);
+    if (tokenId != null) {
+      traitDTOBuilder = traitDTOBuilder.tokenId(tokenId);
+    }
     if (traitTypeId != null) {
       traitDTOBuilder = traitDTOBuilder.traitTypeId(traitTypeId);
     }

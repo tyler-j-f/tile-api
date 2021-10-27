@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class TraitDTO {
   private Long id;
   private Long traitId;
+  private Long tokenId;
   private Long traitTypeId;
   private Long traitTypeWeightId;
 }

@@ -18,14 +18,14 @@ public class TraitRepository implements RepositoryInterface<TraitDTO, Long> {
   public static final String READ_SQL = "SELECT * FROM " + TraitsTable.TABLE_NAME;
   // CRUD SQL
   public static final String CREATE_SQL =
-      "INSERT INTO " + TraitsTable.TABLE_NAME + " VALUES (null, ?, ?, ?)";
+      "INSERT INTO " + TraitsTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?)";
   public static final String READ_BY_ID_SQL =
       "SELECT * FROM " + TraitsTable.TABLE_NAME + " WHERE traitId = ?";
   public static final String UPDATE_SQL_BASE = "UPDATE " + TraitsTable.TABLE_NAME + " set ";
   public static final String UPDATE_SQL =
       "UPDATE "
           + TraitsTable.TABLE_NAME
-          + " set traitTypeId = ?, traitTypeWeightId = ? WHERE traitId = ?";
+          + " set tokenId = ?, traitTypeId = ?, traitTypeWeightId = ? WHERE traitId = ?";
   public static final String DELETE_BY_ID_SQL =
       "DELETE FROM " + TraitsTable.TABLE_NAME + " WHERE traitId = ?";
 
@@ -43,6 +43,7 @@ public class TraitRepository implements RepositoryInterface<TraitDTO, Long> {
         jdbcTemplate.update(
             CREATE_SQL,
             entity.getTraitId(),
+            entity.getTokenId(),
             entity.getTraitTypeId(),
             entity.getTraitTypeWeightId());
     if (results != 1) {
@@ -89,11 +90,22 @@ public class TraitRepository implements RepositoryInterface<TraitDTO, Long> {
     }
     List<Object> updateValuesList = new ArrayList<>();
     String updateSQL = UPDATE_SQL_BASE;
+    // tokenId
+    Long tokenId = entity.getTokenId();
+    boolean shouldUpdateTokenId = tokenId != null;
+    boolean isCommaNeededToAppend = false;
+    if (shouldUpdateTokenId) {
+      updateSQL = updateSQL + "tokenId = ?";
+      updateValuesList.add(tokenId);
+      isCommaNeededToAppend = true;
+    }
     // traitTypeId
     Long traitTypeId = entity.getTraitTypeId();
     boolean shouldUpdateTraitTypeId = traitTypeId != null;
-    boolean isCommaNeededToAppend = false;
     if (shouldUpdateTraitTypeId) {
+      if (isCommaNeededToAppend) {
+        updateSQL = updateSQL + ", ";
+      }
       updateSQL = updateSQL + "traitTypeId = ?";
       updateValuesList.add(traitTypeId);
       isCommaNeededToAppend = true;

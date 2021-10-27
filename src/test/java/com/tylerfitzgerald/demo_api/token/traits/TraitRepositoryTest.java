@@ -21,13 +21,15 @@ public class TraitRepositoryTest {
   // Value set 1
   private static final Long ID = 1L;
   private static final Long TRAIT_ID = 2L;
-  private static final Long TRAIT_TYPE_ID = 3L;
-  private static final Long TRAIT_TYPE_WEIGHT_ID = 4L;
+  private static final Long TOKEN_ID = 3L;
+  private static final Long TRAIT_TYPE_ID = 4L;
+  private static final Long TRAIT_TYPE_WEIGHT_ID = 5L;
   // Value set 2
-  private static final Long ID_2 = 5L;
-  private static final Long TRAIT_ID_2 = 6L;
-  private static final Long TRAIT_TYPE_ID_2 = 7L;
-  private static final Long TRAIT_TYPE_WEIGHT_ID_2 = 8L;
+  private static final Long ID_2 = 6L;
+  private static final Long TRAIT_ID_2 = 7L;
+  private static final Long TOKEN_ID_2 = 8L;
+  private static final Long TRAIT_TYPE_ID_2 = 9L;
+  private static final Long TRAIT_TYPE_WEIGHT_ID_2 = 10L;
 
   @BeforeEach
   public void setup() {
@@ -47,6 +49,7 @@ public class TraitRepositoryTest {
         TraitDTO.builder()
             .id(ID)
             .traitId(TRAIT_ID)
+            .tokenId(TOKEN_ID)
             .traitTypeId(TRAIT_TYPE_ID)
             .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
             .build();
@@ -73,6 +76,7 @@ public class TraitRepositoryTest {
         TraitDTO.builder()
             .id(ID)
             .traitId(TRAIT_ID)
+            .tokenId(TOKEN_ID)
             .traitTypeId(TRAIT_TYPE_ID)
             .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
             .build();
@@ -95,6 +99,7 @@ public class TraitRepositoryTest {
         TraitDTO.builder()
             .id(ID)
             .traitId(TRAIT_ID)
+            .tokenId(TOKEN_ID)
             .traitTypeId(TRAIT_TYPE_ID)
             .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
             .build();
@@ -102,6 +107,7 @@ public class TraitRepositoryTest {
         TraitDTO.builder()
             .id(ID_2)
             .traitId(TRAIT_ID_2)
+            .tokenId(TOKEN_ID)
             .traitTypeId(TRAIT_TYPE_ID_2)
             .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID_2)
             .build();
@@ -130,6 +136,7 @@ public class TraitRepositoryTest {
         TraitDTO.builder()
             .id(ID)
             .traitId(TRAIT_ID)
+            .tokenId(TOKEN_ID)
             .traitTypeId(TRAIT_TYPE_ID)
             .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
             .build();
@@ -159,6 +166,7 @@ public class TraitRepositoryTest {
         TraitDTO.builder()
             .id(ID)
             .traitId(TRAIT_ID)
+            .tokenId(TOKEN_ID)
             .traitTypeId(TRAIT_TYPE_ID)
             .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
             .build();
@@ -193,6 +201,7 @@ public class TraitRepositoryTest {
         TraitDTO.builder()
             .id(ID)
             .traitId(TRAIT_ID)
+            .tokenId(TOKEN_ID)
             .traitTypeId(TRAIT_TYPE_ID)
             .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
             .build();
@@ -216,6 +225,7 @@ public class TraitRepositoryTest {
         TraitDTO.builder()
             .id(ID)
             .traitId(TRAIT_ID)
+            .tokenId(TOKEN_ID)
             .traitTypeId(TRAIT_TYPE_ID)
             .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
             .build();
@@ -240,6 +250,7 @@ public class TraitRepositoryTest {
         TraitDTO.builder()
             .id(ID)
             .traitId(TRAIT_ID)
+            .tokenId(TOKEN_ID)
             .traitTypeId(TRAIT_TYPE_ID)
             .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
             .build();
