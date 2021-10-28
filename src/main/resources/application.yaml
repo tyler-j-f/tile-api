@@ -19,6 +19,7 @@ spring:
     include:
       - default
       - traits-config
+      - traits-config
 
   cloud:
     gcp:
