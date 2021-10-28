@@ -10,7 +10,7 @@ import lombok.Data;
 @AllArgsConstructor
 @Builder
 public class TokenDataDTO {
-  private ArrayList<Trait> attributes;
+  private ArrayList<Object> attributes;
   private String description;
   private String external_url;
   private String image;

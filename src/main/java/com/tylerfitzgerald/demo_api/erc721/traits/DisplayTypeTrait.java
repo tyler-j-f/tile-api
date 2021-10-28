@@ -1,11 +1,16 @@
 package com.tylerfitzgerald.demo_api.erc721.traits;
 
-public class DisplayTypeTrait extends Trait {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-  public String display_type;
-
-  public DisplayTypeTrait(String trait_type, String value, String display_type) {
-    super(trait_type, value);
-    this.display_type = display_type;
-  }
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class DisplayTypeTrait {
+  private String trait_type;
+  private String value;
+  private String display_type;
 }

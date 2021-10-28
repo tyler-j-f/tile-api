@@ -1,5 +1,6 @@
 package com.tylerfitzgerald.demo_api.erc721.token;
 
+import com.tylerfitzgerald.demo_api.erc721.traits.DisplayTypeTrait;
 import com.tylerfitzgerald.demo_api.erc721.traits.Trait;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
@@ -48,16 +49,15 @@ public class TokenFacade {
         .build();
   }
 
-  private ArrayList<Trait> buildAttributes() {
-    ArrayList<Trait> traits = new ArrayList<>();
+  private ArrayList<Object> buildAttributes() {
     List<TraitDTO> tokenTraitDTOs = getTokenTraits();
     TraitTypeWeightDTO weight;
     TraitTypeDTO type;
     String traitType, traitValue, displayType;
     List<TraitTypeWeightDTO> traitWeightDTOs = getAvailableTraitTypeWeights();
     List<TraitTypeDTO> traitTypeDTOs = getAvailableTraitTypes();
+    ArrayList<Object> traits = new ArrayList<>();
     for (TraitDTO traitDTO : tokenTraitDTOs) {
-      Long traitId = traitDTO.getTraitTypeId();
       weight = getTraitWeightForTraitDTO(traitWeightDTOs, traitDTO);
       type = getTraitTypeForTraitDTO(traitTypeDTOs, traitDTO);
       traitType = type.getTraitTypeName();
@@ -65,9 +65,9 @@ public class TokenFacade {
       displayType = weight.getDisplayTypeValue();
       if (displayType == null) {
         traits.add(Trait.builder().trait_type(traitType).value(traitValue).build());
-        return traits;
+      } else {
+        traits.add(DisplayTypeTrait.builder().trait_type(traitType).value(traitValue).build());
       }
-      traits.add(Trait.builder().trait_type(traitType).value(traitValue).build());
     }
     return traits;
   }
