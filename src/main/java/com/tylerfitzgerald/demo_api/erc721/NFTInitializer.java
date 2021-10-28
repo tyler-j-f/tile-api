@@ -1,8 +1,9 @@
-package com.tylerfitzgerald.demo_api.token.nft;
+package com.tylerfitzgerald.demo_api.erc721;
 
 import com.tylerfitzgerald.demo_api.config.TraitsConfig;
 import com.tylerfitzgerald.demo_api.token.TokenDTO;
 import com.tylerfitzgerald.demo_api.token.TokenRepository;
+import com.tylerfitzgerald.demo_api.token.nft.NFTFacadeDTO;
 import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightRepository;
 import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeDTO;

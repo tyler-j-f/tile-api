@@ -1,6 +1,6 @@
-package com.tylerfitzgerald.demo_api.nft;
+package com.tylerfitzgerald.demo_api.erc721;
 
-import com.tylerfitzgerald.demo_api.nft.traits.Trait;
+import com.tylerfitzgerald.demo_api.erc721.traits.Trait;
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

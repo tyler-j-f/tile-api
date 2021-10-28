@@ -1,7 +1,7 @@
 package com.tylerfitzgerald.demo_api.token.nft;
 
-import com.tylerfitzgerald.demo_api.nft.NFTData;
-import com.tylerfitzgerald.demo_api.nft.traits.Trait;
+import com.tylerfitzgerald.demo_api.erc721.NFTData;
+import com.tylerfitzgerald.demo_api.erc721.traits.Trait;
 import com.tylerfitzgerald.demo_api.token.TokenDTO;
 import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeDTO;

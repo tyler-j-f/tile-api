@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.nft.traits;
+package com.tylerfitzgerald.demo_api.erc721.traits;
 
 public class DisplayTypeTrait extends Trait {
 

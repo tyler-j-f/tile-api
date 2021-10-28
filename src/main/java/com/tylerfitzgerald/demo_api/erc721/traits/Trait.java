@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.nft.traits;
+package com.tylerfitzgerald.demo_api.erc721.traits;
 
 import lombok.Builder;
 import lombok.Data;

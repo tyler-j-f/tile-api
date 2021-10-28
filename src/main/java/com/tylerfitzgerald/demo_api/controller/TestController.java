@@ -2,11 +2,11 @@ package com.tylerfitzgerald.demo_api.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tylerfitzgerald.demo_api.nft.NFTData;
+import com.tylerfitzgerald.demo_api.erc721.NFTData;
 import com.tylerfitzgerald.demo_api.config.EnvConfig;
 import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeRepository;
-import com.tylerfitzgerald.demo_api.nft.traits.DisplayTypeTrait;
-import com.tylerfitzgerald.demo_api.nft.traits.Trait;
+import com.tylerfitzgerald.demo_api.erc721.traits.DisplayTypeTrait;
+import com.tylerfitzgerald.demo_api.erc721.traits.Trait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

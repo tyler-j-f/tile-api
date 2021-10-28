@@ -8,10 +8,9 @@ import com.tylerfitzgerald.demo_api.token.TokenDTO;
 import com.tylerfitzgerald.demo_api.token.TokenRepository;
 import com.tylerfitzgerald.demo_api.token.nft.NFTFacade;
 import com.tylerfitzgerald.demo_api.token.nft.NFTFacadeDTO;
-import com.tylerfitzgerald.demo_api.token.nft.NFTInitializer;
-import com.tylerfitzgerald.demo_api.token.nft.NFTRetriever;
+import com.tylerfitzgerald.demo_api.erc721.NFTInitializer;
+import com.tylerfitzgerald.demo_api.erc721.NFTRetriever;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
