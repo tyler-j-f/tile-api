@@ -9,7 +9,6 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 
 public class HandleMintEventsAndCreateDBTokensTask implements TaskInterface {
 
@@ -20,7 +19,6 @@ public class HandleMintEventsAndCreateDBTokensTask implements TaskInterface {
   @Autowired private EnvConfig appConfig;
 
   @Override
-  @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   public void execute() throws ExecutionException, InterruptedException {
     getMintEvents();
   }
