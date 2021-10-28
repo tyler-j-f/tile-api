@@ -30,7 +30,7 @@ public class Scheduler {
 
   @Autowired private TokenInitializer tokenInitializer;
 
-  @Autowired private TokenRetriever nftRetriever;
+  @Autowired private TokenRetriever tokenRetriever;
 
   // @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   public void getMintEvents() throws ExecutionException, InterruptedException {
@@ -99,7 +99,7 @@ public class Scheduler {
   // @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   public void testThree() throws ExecutionException, InterruptedException {
     Long tokenId = 221L;
-    TokenFacadeDTO nft = nftRetriever.get(tokenId);
+    TokenFacadeDTO nft = tokenRetriever.get(tokenId);
     if (nft == null) {
       System.out.println("\nDEBUG: nftInitializer->get failed. tokenId: " + tokenId.toString());
       return;

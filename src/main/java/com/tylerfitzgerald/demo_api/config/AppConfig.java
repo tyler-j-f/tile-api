@@ -91,7 +91,7 @@ public class AppConfig {
   }
 
   @Bean
-  public TokenRetriever nftRetriever() {
+  public TokenRetriever tokenRetriever() {
     return new TokenRetriever();
   }
 }
