@@ -56,7 +56,7 @@ public class TokenInitializer {
         TokenDTO.builder()
             .tokenId(tokenId)
             .saleId(1L)
-            .name(tokenConfig.getName())
+            .name(tokenConfig.getBase_name() + " " + tokenId.toString())
             .description(tokenConfig.getDescription())
             .externalUrl(tokenConfig.getBase_external_url() + tokenId)
             .imageUrl(tokenConfig.getBase_external_url() + tokenId)

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "spring.application.token-config")
 @Data
 public class TokenConfig {
-  private String name;
+  private String base_name;
   private String description;
   private String base_image_url;
   private String base_external_url;
