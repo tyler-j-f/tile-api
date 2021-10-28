@@ -1,5 +1,6 @@
 package com.tylerfitzgerald.demo_api.erc721.token;
 
+import com.tylerfitzgerald.demo_api.config.TokenConfig;
 import com.tylerfitzgerald.demo_api.config.TraitsConfig;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
@@ -27,7 +28,9 @@ public class TokenInitializer {
   @Autowired private TraitRepository traitRepository;
   @Autowired private TraitTypeRepository traitTypeRepository;
   @Autowired private TraitTypeWeightRepository traitTypeWeightRepository;
+  @Autowired private TokenConfig tokenConfig;
   @Autowired private TraitsConfig traitsConfig;
+
 
   private List<TraitTypeDTO> availableTraitTypes = new ArrayList<>();
   private List<TraitTypeWeightDTO> availableTraitTypeWeights = new ArrayList<>();
@@ -60,10 +63,10 @@ public class TokenInitializer {
         TokenDTO.builder()
             .tokenId(tokenId)
             .saleId(1L)
-            .name(NFT_NAME)
-            .description(NFT_DESCRIPTION)
-            .externalUrl(NFT_EXTERNAL_URL)
-            .imageUrl(NFT_IMG_URL_BASE + tokenId)
+            .name(tokenConfig.getName())
+            .description(tokenConfig.getDescription())
+            .externalUrl(tokenConfig.getBase_external_url() + tokenId)
+            .imageUrl(tokenConfig.getBase_external_url() + tokenId)
             .build());
   }
 

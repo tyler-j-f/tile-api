@@ -4,10 +4,10 @@ spring:
   application:
     token-config:
       name: a
-      description: b
-      image_data: c
-      external_url: d
-      background_color: null
-      animation_url: null
-      youtube_url: null
+      description: "This is the description"
+      base_image_url: "This is the base_image_url"
+      base_external_url: "This is the base_external_url"
+      background_color: null # maybe we should add a background_color?
+      base_animation_url: null
+      base_youtube_url: null
       # attributes key will be decided by *token-config.yaml
