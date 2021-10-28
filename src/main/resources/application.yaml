@@ -8,7 +8,7 @@ spring:
     nftContractAddress: "0x29502a8DE72Ad5A33C26E2e407c8E1e0E3a5a3F7"
     nftFactoryContractAddress: "0x1b78Cd0aa89a34B865231eaaDd86E9b13cC97064"
     mintEventHashSignature: "0x070aa035fe0a09f0d9305bdc2d7a5d93cd4733db3b1ff869b4a7033c9501909a"
-    schedulerFixedRateMs: 5000
+    schedulerFixedRateMs: 20000
     schedulerNumberOfBlocksToLookBack: 200000
     nftName: "tileNFT"
     nftExternalUrl: "http://tilenft.io/"

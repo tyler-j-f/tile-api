@@ -7,6 +7,8 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
 import com.tylerfitzgerald.demo_api.events.MintEvent;
 import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
+import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
+import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.concurrent.ExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class HandleMintEventsAndCreateDBTokensTask implements TaskInterface {
+
+  @Autowired private TokenRepository tokenRepository;
 
   @Autowired private TokenInitializer tokenInitializer;
 
@@ -47,12 +51,22 @@ public class HandleMintEventsAndCreateDBTokensTask implements TaskInterface {
     Long tokenId;
     for (MintEvent event : events) {
       tokenId = getLongFromHexString(event.getTokenId());
+      TokenDTO existingTokenDTO = tokenRepository.readById(tokenId);
+      if (existingTokenDTO != null) {
+        System.out.println(
+            "Token from mint event was already previously added to the token DB. \ntokenId: "
+                + tokenId
+                + "\nexistingTokenDTO: "
+                + existingTokenDTO.toString());
+        continue;
+      }
       TokenDataDTO token = addTokenToDB(tokenId);
       if (token == null) {
-        System.out.println("Error adding mint event to token DB. TokenId: " + tokenId);
+        System.out.println("Error adding token from mint event to token DB. TokenId: " + tokenId);
         continue;
       }
       tokens.add(token);
+      System.out.println("Added token from mint event to token DB. TokenId: " + tokenId);
     }
     return tokens;
   }
