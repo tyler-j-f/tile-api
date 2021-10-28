@@ -6,10 +6,10 @@ import com.tylerfitzgerald.demo_api.events.MintEvent;
 import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
-import com.tylerfitzgerald.demo_api.sql.nft.NFTFacade;
-import com.tylerfitzgerald.demo_api.sql.nft.NFTFacadeDTO;
-import com.tylerfitzgerald.demo_api.sql.nft.NFTInitializer;
-import com.tylerfitzgerald.demo_api.erc721.NFTDataRetriever;
+import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
+import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
+import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
+import com.tylerfitzgerald.demo_api.erc721.TokenDataRetriever;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,9 +28,9 @@ public class Scheduler {
 
   @Autowired private TraitsConfig traitsConfig;
 
-  @Autowired private NFTInitializer nftInitializer;
+  @Autowired private TokenInitializer tokenInitializer;
 
-  @Autowired private NFTDataRetriever nftRetriever;
+  @Autowired private TokenDataRetriever nftRetriever;
 
   // @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   public void getMintEvents() throws ExecutionException, InterruptedException {
@@ -87,7 +87,7 @@ public class Scheduler {
   // @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   public void testTwo() throws ExecutionException, InterruptedException {
     Long tokenId = 221L;
-    NFTFacadeDTO nft = nftInitializer.initialize(tokenId);
+    TokenFacadeDTO nft = tokenInitializer.initialize(tokenId);
     if (nft == null) {
       System.out.println(
           "\nDEBUG: nftInitializer->initialize failed. tokenId: " + tokenId.toString());
@@ -99,11 +99,11 @@ public class Scheduler {
   // @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   public void testThree() throws ExecutionException, InterruptedException {
     Long tokenId = 221L;
-    NFTFacadeDTO nft = nftRetriever.get(tokenId);
+    TokenFacadeDTO nft = nftRetriever.get(tokenId);
     if (nft == null) {
       System.out.println("\nDEBUG: nftInitializer->get failed. tokenId: " + tokenId.toString());
       return;
     }
-    System.out.println("\nDEBUG:\nNFTFacade: " + new NFTFacade(nft).buildNFTData().toString());
+    System.out.println("\nDEBUG:\nNFTFacade: " + new TokenFacade(nft).buildNFTData().toString());
   }
 }

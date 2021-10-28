@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.sql.nft;
+package com.tylerfitzgerald.demo_api.erc721.token;
 
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class NFTFacadeDTO {
+public class TokenFacadeDTO {
   private TokenDTO tokenDTO;
   private List<TraitDTO> tokenTraits;
   private List<TraitTypeDTO> availableTraitTypes;

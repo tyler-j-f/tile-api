@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.sql.nft;
+package com.tylerfitzgerald.demo_api.erc721.token;
 
 import com.tylerfitzgerald.demo_api.config.TraitsConfig;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
@@ -15,7 +15,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class NFTInitializer {
+public class TokenInitializer {
 
   private static final String NFT_NAME = "Tile";
   private static final String NFT_DESCRIPTION =
@@ -34,7 +34,7 @@ public class NFTInitializer {
   private List<TraitDTO> tokenTraits = new ArrayList<>();
   private TokenDTO tokenDTO;
 
-  public NFTFacadeDTO initialize(Long tokenId) {
+  public TokenFacadeDTO initialize(Long tokenId) {
     availableTraitTypeWeights = traitTypeWeightRepository.read();
     availableTraitTypes = traitTypeRepository.read();
     tokenDTO = createToken(tokenId);
@@ -46,8 +46,8 @@ public class NFTInitializer {
     return buildNFTFacade();
   }
 
-  private NFTFacadeDTO buildNFTFacade() {
-    return NFTFacadeDTO.builder()
+  private TokenFacadeDTO buildNFTFacade() {
+    return TokenFacadeDTO.builder()
         .tokenDTO(tokenDTO)
         .tokenTraits(tokenTraits)
         .availableTraitTypes(availableTraitTypes)

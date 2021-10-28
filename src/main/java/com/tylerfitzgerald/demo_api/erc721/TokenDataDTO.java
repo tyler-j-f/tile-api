@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
-public class NFTData {
+public class TokenDataDTO {
   private ArrayList<Trait> attributes;
   private String description;
   private String external_url;

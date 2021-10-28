@@ -2,7 +2,7 @@ package com.tylerfitzgerald.demo_api.erc721;
 
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
-import com.tylerfitzgerald.demo_api.sql.nft.NFTFacadeDTO;
+import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightRepository;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeDTO;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class NFTDataRetriever {
+public class TokenDataRetriever {
 
   @Autowired private TokenRepository tokenRepository;
   @Autowired private TraitRepository traitRepository;
@@ -25,7 +25,7 @@ public class NFTDataRetriever {
   private List<TraitDTO> tokenTraits = new ArrayList<>();
   private TokenDTO tokenDTO;
 
-  public NFTFacadeDTO get(Long tokenId) {
+  public TokenFacadeDTO get(Long tokenId) {
     availableTraitTypeWeights = traitTypeWeightRepository.read();
     availableTraitTypes = traitTypeRepository.read();
     tokenDTO = getToken(tokenId);
@@ -37,8 +37,8 @@ public class NFTDataRetriever {
     return buildNFTFacade();
   }
 
-  private NFTFacadeDTO buildNFTFacade() {
-    return NFTFacadeDTO.builder()
+  private TokenFacadeDTO buildNFTFacade() {
+    return TokenFacadeDTO.builder()
         .tokenDTO(tokenDTO)
         .tokenTraits(tokenTraits)
         .availableTraitTypes(availableTraitTypes)

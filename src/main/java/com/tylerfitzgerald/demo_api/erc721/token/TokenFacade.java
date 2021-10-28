@@ -1,6 +1,6 @@
-package com.tylerfitzgerald.demo_api.sql.nft;
+package com.tylerfitzgerald.demo_api.erc721.token;
 
-import com.tylerfitzgerald.demo_api.erc721.NFTData;
+import com.tylerfitzgerald.demo_api.erc721.TokenDataDTO;
 import com.tylerfitzgerald.demo_api.erc721.traits.Trait;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
@@ -15,9 +15,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class NFTFacade {
+public class TokenFacade {
 
-  private NFTFacadeDTO nftFacadeDTO;
+  private TokenFacadeDTO nftFacadeDTO;
 
   public TokenDTO getToken() {
     return nftFacadeDTO.getTokenDTO();
@@ -35,12 +35,12 @@ public class NFTFacade {
     return nftFacadeDTO.getAvailableTraitTypeWeights();
   }
 
-  public NFTData buildNFTData() {
+  public TokenDataDTO buildNFTData() {
     TokenDTO tokenDTO = getToken();
     if (tokenDTO == null) {
       return null;
     }
-    return NFTData.builder()
+    return TokenDataDTO.builder()
         .attributes(buildAttributes())
         .description(tokenDTO.getDescription())
         .external_url(tokenDTO.getExternalUrl())

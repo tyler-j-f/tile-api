@@ -6,8 +6,8 @@ import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitsTable;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenTable;
-import com.tylerfitzgerald.demo_api.sql.nft.NFTInitializer;
-import com.tylerfitzgerald.demo_api.erc721.NFTDataRetriever;
+import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
+import com.tylerfitzgerald.demo_api.erc721.TokenDataRetriever;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightRepository;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeDTO;
@@ -86,12 +86,12 @@ public class AppConfig {
   }
 
   @Bean
-  public NFTInitializer nftInitializer() {
-    return new NFTInitializer();
+  public TokenInitializer nftInitializer() {
+    return new TokenInitializer();
   }
 
   @Bean
-  public NFTDataRetriever nftRetriever() {
-    return new NFTDataRetriever();
+  public TokenDataRetriever nftRetriever() {
+    return new TokenDataRetriever();
   }
 }
