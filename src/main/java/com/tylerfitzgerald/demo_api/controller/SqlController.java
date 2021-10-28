@@ -1,10 +1,10 @@
 package com.tylerfitzgerald.demo_api.controller;
 
-import com.tylerfitzgerald.demo_api.sql.tables.TokenTable;
+import com.tylerfitzgerald.demo_api.sql.tblToken.TokenTable;
 
-import com.tylerfitzgerald.demo_api.sql.tables.TraitTypeWeightsTable;
-import com.tylerfitzgerald.demo_api.sql.tables.TraitTypesTable;
-import com.tylerfitzgerald.demo_api.sql.tables.TraitsTable;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightsTable;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypesTable;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitsTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

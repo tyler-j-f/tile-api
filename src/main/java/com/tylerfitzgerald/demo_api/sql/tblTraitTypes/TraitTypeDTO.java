@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.sql.traitTypes;
+package com.tylerfitzgerald.demo_api.sql.tblTraitTypes;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

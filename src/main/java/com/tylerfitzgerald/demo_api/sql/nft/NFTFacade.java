@@ -2,10 +2,10 @@ package com.tylerfitzgerald.demo_api.sql.nft;
 
 import com.tylerfitzgerald.demo_api.erc721.NFTData;
 import com.tylerfitzgerald.demo_api.erc721.traits.Trait;
-import com.tylerfitzgerald.demo_api.sql.tokens.TokenDTO;
-import com.tylerfitzgerald.demo_api.sql.traitTypeWeights.TraitTypeWeightDTO;
-import com.tylerfitzgerald.demo_api.sql.traitTypes.TraitTypeDTO;
-import com.tylerfitzgerald.demo_api.sql.traits.TraitDTO;
+import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;

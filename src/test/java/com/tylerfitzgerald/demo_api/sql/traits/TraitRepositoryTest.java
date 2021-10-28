@@ -1,5 +1,7 @@
 package com.tylerfitzgerald.demo_api.sql.traits;
 
+import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

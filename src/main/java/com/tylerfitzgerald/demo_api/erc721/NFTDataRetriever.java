@@ -1,14 +1,14 @@
 package com.tylerfitzgerald.demo_api.erc721;
 
-import com.tylerfitzgerald.demo_api.sql.tokens.TokenDTO;
-import com.tylerfitzgerald.demo_api.sql.tokens.TokenRepository;
+import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
+import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.nft.NFTFacadeDTO;
-import com.tylerfitzgerald.demo_api.sql.traitTypeWeights.TraitTypeWeightDTO;
-import com.tylerfitzgerald.demo_api.sql.traitTypeWeights.TraitTypeWeightRepository;
-import com.tylerfitzgerald.demo_api.sql.traitTypes.TraitTypeDTO;
-import com.tylerfitzgerald.demo_api.sql.traitTypes.TraitTypeRepository;
-import com.tylerfitzgerald.demo_api.sql.traits.TraitDTO;
-import com.tylerfitzgerald.demo_api.sql.traits.TraitRepository;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightRepository;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeRepository;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

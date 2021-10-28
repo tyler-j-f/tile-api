@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.sql.tokens;
+package com.tylerfitzgerald.demo_api.sql.tblToken;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
