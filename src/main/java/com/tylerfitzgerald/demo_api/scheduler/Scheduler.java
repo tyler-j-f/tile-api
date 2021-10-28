@@ -97,7 +97,7 @@ public class Scheduler {
     System.out.println("\nDEBUG:\nnft: " + nft.toString());
   }
 
-  @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
+  // @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   public void testThree() throws ExecutionException, InterruptedException {
     Long tokenId = 221L;
     NFTFacadeDTO nft = nftRetriever.get(tokenId);
