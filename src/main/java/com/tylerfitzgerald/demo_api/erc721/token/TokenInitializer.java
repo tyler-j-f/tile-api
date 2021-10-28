@@ -18,19 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class TokenInitializer {
 
-  private static final String NFT_NAME = "Tile";
-  private static final String NFT_DESCRIPTION =
-      "Tile NFT. Buy a tile and customize it yourself!!! Each tile will be generated with unique traits that decide how rare your Tile is.";
-  private static final String NFT_EXTERNAL_URL = "http://tilenft.io/api/nft";
-  private static final String NFT_IMG_URL_BASE = "http://tilenft.io/api/img/";
-
   @Autowired private TokenRepository tokenRepository;
   @Autowired private TraitRepository traitRepository;
   @Autowired private TraitTypeRepository traitTypeRepository;
   @Autowired private TraitTypeWeightRepository traitTypeWeightRepository;
   @Autowired private TokenConfig tokenConfig;
   @Autowired private TraitsConfig traitsConfig;
-
 
   private List<TraitTypeDTO> availableTraitTypes = new ArrayList<>();
   private List<TraitTypeWeightDTO> availableTraitTypeWeights = new ArrayList<>();

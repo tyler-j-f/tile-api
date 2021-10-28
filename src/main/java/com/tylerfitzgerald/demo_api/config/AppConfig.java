@@ -1,7 +1,7 @@
 package com.tylerfitzgerald.demo_api.config;
 
 import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
-import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEventsAndCreateDBTokensTask;
+import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEvents;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightsTable;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitsTable;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
@@ -97,7 +97,7 @@ public class AppConfig {
   }
 
   @Bean
-  public HandleMintEventsAndCreateDBTokensTask handleMintEventsAndCreateDBTokensTask() {
-    return new HandleMintEventsAndCreateDBTokensTask();
+  public HandleMintEvents handleMintEventsAndCreateDBTokensTask() {
+    return new HandleMintEvents();
   }
 }

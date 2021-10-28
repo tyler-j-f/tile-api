@@ -2,7 +2,7 @@ package com.tylerfitzgerald.demo_api.scheduler;
 
 import com.tylerfitzgerald.demo_api.config.ContractConfig;
 import com.tylerfitzgerald.demo_api.config.TokenConfig;
-import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEventsAndCreateDBTokensTask;
+import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEvents;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import java.util.concurrent.ExecutionException;
 @Component
 public class Scheduler {
 
-  @Autowired private HandleMintEventsAndCreateDBTokensTask handleMintEventsAndCreateDBTokensTask;
+  @Autowired private HandleMintEvents handleMintEventsAndCreateDBTokensTask;
   @Autowired private ContractConfig contractConfig;
   @Autowired private TokenConfig tokenConfig;
 
