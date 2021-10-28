@@ -5,8 +5,9 @@ spring:
     token-config:
       name: a
       description: b
-      image: c
+      image_data: c
       external_url: d
       background_color: null
       animation_url: null
       youtube_url: null
+      # attributes key will be decided by *token-config.yaml

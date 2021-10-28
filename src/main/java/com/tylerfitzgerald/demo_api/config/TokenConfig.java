@@ -12,9 +12,10 @@ import org.springframework.context.annotation.Configuration;
 public class TokenConfig {
   private String name;
   private String description;
-  private String image;
+  private String image_data;
   private String external_url;
   private String background_color;
   private String animation_url;
   private String youtube_url;
+  // 'attributes' key decided by TraitsConfig
 }

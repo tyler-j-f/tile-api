@@ -1,5 +1,7 @@
 package com.tylerfitzgerald.demo_api.scheduler;
 
+import com.tylerfitzgerald.demo_api.config.ContractConfig;
+import com.tylerfitzgerald.demo_api.config.TokenConfig;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEventsAndCreateDBTokensTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -11,6 +13,8 @@ import java.util.concurrent.ExecutionException;
 public class Scheduler {
 
   @Autowired private HandleMintEventsAndCreateDBTokensTask handleMintEventsAndCreateDBTokensTask;
+  @Autowired private ContractConfig contractConfig;
+  @Autowired private TokenConfig tokenConfig;
 
   /**
    * Execute tasks every schedulerFixedRateMs If you would like to execute tasks on a different
@@ -22,5 +26,7 @@ public class Scheduler {
   @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   public void executeTasks() throws ExecutionException, InterruptedException {
     handleMintEventsAndCreateDBTokensTask.execute();
+    System.out.println(contractConfig.toString());
+    System.out.println(tokenConfig.toString());
   }
 }

@@ -15,7 +15,5 @@ public class ContractConfig {
   private String image;
   private String external_link;
   private String seller_fee_basis_points;
-  private String background_color;
-  private String animation_url;
-  private String youtube_url;
+  private String fee_recipient;
 }
