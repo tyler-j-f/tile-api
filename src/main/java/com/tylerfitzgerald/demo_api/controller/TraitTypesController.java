@@ -1,7 +1,7 @@
 package com.tylerfitzgerald.demo_api.controller;
 
-import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeDTO;
-import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeRepository;
+import com.tylerfitzgerald.demo_api.sql.TraitTypeDTO;
+import com.tylerfitzgerald.demo_api.sql.TraitTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

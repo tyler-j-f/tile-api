@@ -1,7 +1,7 @@
 package com.tylerfitzgerald.demo_api.controller;
 
-import com.tylerfitzgerald.demo_api.token.TokenDTO;
-import com.tylerfitzgerald.demo_api.token.TokenRepository;
+import com.tylerfitzgerald.demo_api.sql.TokenDTO;
+import com.tylerfitzgerald.demo_api.sql.TokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

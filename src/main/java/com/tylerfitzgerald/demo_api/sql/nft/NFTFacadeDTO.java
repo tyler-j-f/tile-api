@@ -1,9 +1,9 @@
-package com.tylerfitzgerald.demo_api.token.nft;
+package com.tylerfitzgerald.demo_api.sql.nft;
 
-import com.tylerfitzgerald.demo_api.token.TokenDTO;
-import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightDTO;
-import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeDTO;
-import com.tylerfitzgerald.demo_api.token.traits.TraitDTO;
+import com.tylerfitzgerald.demo_api.sql.TokenDTO;
+import com.tylerfitzgerald.demo_api.sql.TraitTypeWeightDTO;
+import com.tylerfitzgerald.demo_api.sql.TraitTypeDTO;
+import com.tylerfitzgerald.demo_api.sql.traits.TraitDTO;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

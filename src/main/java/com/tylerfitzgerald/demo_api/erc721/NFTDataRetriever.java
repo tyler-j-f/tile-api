@@ -1,19 +1,19 @@
 package com.tylerfitzgerald.demo_api.erc721;
 
-import com.tylerfitzgerald.demo_api.token.TokenDTO;
-import com.tylerfitzgerald.demo_api.token.TokenRepository;
-import com.tylerfitzgerald.demo_api.token.nft.NFTFacadeDTO;
-import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightDTO;
-import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightRepository;
-import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeDTO;
-import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeRepository;
-import com.tylerfitzgerald.demo_api.token.traits.TraitDTO;
-import com.tylerfitzgerald.demo_api.token.traits.TraitRepository;
+import com.tylerfitzgerald.demo_api.sql.TokenDTO;
+import com.tylerfitzgerald.demo_api.sql.TokenRepository;
+import com.tylerfitzgerald.demo_api.sql.nft.NFTFacadeDTO;
+import com.tylerfitzgerald.demo_api.sql.TraitTypeWeightDTO;
+import com.tylerfitzgerald.demo_api.sql.TraitTypeWeightRepository;
+import com.tylerfitzgerald.demo_api.sql.TraitTypeDTO;
+import com.tylerfitzgerald.demo_api.sql.TraitTypeRepository;
+import com.tylerfitzgerald.demo_api.sql.traits.TraitDTO;
+import com.tylerfitzgerald.demo_api.sql.traits.TraitRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class NFTRetriever {
+public class NFTDataRetriever {
 
   @Autowired private TokenRepository tokenRepository;
   @Autowired private TraitRepository traitRepository;

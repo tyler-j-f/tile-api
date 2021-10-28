@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.token.traitTypes;
+package com.tylerfitzgerald.demo_api.sql;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TraitTypeDTO {
+public class TokenDTO {
   private Long id;
-  private Long traitTypeId;
-  private String traitTypeName;
+  private Long tokenId;
+  private Long saleId;
+  private String name;
   private String description;
+  private String externalUrl;
+  private String imageUrl;
 }

@@ -1,8 +1,5 @@
 package com.tylerfitzgerald.demo_api.sql;
 
-import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeDTO;
-import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class TraitsTable implements TableInterface {

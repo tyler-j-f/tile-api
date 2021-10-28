@@ -4,12 +4,12 @@ import com.tylerfitzgerald.demo_api.config.EnvConfig;
 import com.tylerfitzgerald.demo_api.config.TraitsConfig;
 import com.tylerfitzgerald.demo_api.events.MintEvent;
 import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
-import com.tylerfitzgerald.demo_api.token.TokenDTO;
-import com.tylerfitzgerald.demo_api.token.TokenRepository;
-import com.tylerfitzgerald.demo_api.token.nft.NFTFacade;
-import com.tylerfitzgerald.demo_api.token.nft.NFTFacadeDTO;
-import com.tylerfitzgerald.demo_api.erc721.NFTInitializer;
-import com.tylerfitzgerald.demo_api.erc721.NFTRetriever;
+import com.tylerfitzgerald.demo_api.sql.TokenDTO;
+import com.tylerfitzgerald.demo_api.sql.TokenRepository;
+import com.tylerfitzgerald.demo_api.sql.nft.NFTFacade;
+import com.tylerfitzgerald.demo_api.sql.nft.NFTFacadeDTO;
+import com.tylerfitzgerald.demo_api.sql.nft.NFTInitializer;
+import com.tylerfitzgerald.demo_api.erc721.NFTDataRetriever;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +30,7 @@ public class Scheduler {
 
   @Autowired private NFTInitializer nftInitializer;
 
-  @Autowired private NFTRetriever nftRetriever;
+  @Autowired private NFTDataRetriever nftRetriever;
 
   // @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   public void getMintEvents() throws ExecutionException, InterruptedException {

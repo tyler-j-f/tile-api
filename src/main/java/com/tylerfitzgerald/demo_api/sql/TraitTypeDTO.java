@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.token.traitTypeWeights;
+package com.tylerfitzgerald.demo_api.sql;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TraitTypeWeightDTO {
+public class TraitTypeDTO {
   private Long id;
-  private Long traitTypeWeightId;
   private Long traitTypeId;
-  private Long likelihood;
-  private String value;
-  private String displayTypeValue;
+  private String traitTypeName;
+  private String description;
 }
