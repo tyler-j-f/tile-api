@@ -7,8 +7,6 @@ spring:
       description: b
       image: c
       external_url: d
-      seller_fee_basis_points: 100 # Indicates a 1% seller fee.
-      # attributes (traits) are metadata as well. See traits config YML for what will map to the attributes key
       background_color: null
       animation_url: null
       youtube_url: null
