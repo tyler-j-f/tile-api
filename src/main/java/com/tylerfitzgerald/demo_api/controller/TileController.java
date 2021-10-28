@@ -24,8 +24,6 @@ public class TileController extends BaseController {
   public String createTileNFT(@PathVariable Long tokenId) throws JsonProcessingException {
     TokenFacadeDTO nft = tokenInitializer.initialize(tokenId);
     if (nft == null) {
-      System.out.println(
-          "\nDEBUG: nftInitializer->initialize failed. tokenId: " + tokenId.toString());
       return "Could not create tokenId: " + tokenId;
     }
     return new ObjectMapper().writeValueAsString(new TokenFacade(nft).buildTokenDataDTO());
@@ -35,7 +33,6 @@ public class TileController extends BaseController {
   public String getTileJSON(@PathVariable Long tokenId) throws JsonProcessingException {
     TokenFacadeDTO nft = tokenRetriever.get(tokenId);
     if (nft == null) {
-      System.out.println("\nDEBUG: nftInitializer->get failed. tokenId: " + tokenId.toString());
       return "Could not find tokenId: " + tokenId;
     }
     return new ObjectMapper().writeValueAsString(new TokenFacade(nft).buildTokenDataDTO());

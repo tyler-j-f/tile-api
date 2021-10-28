@@ -1,6 +1,5 @@
 package com.tylerfitzgerald.demo_api.erc721.token;
 
-import com.tylerfitzgerald.demo_api.erc721.traits.Trait;
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
