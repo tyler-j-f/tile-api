@@ -2,7 +2,7 @@
 //
 // import com.fasterxml.jackson.core.JsonProcessingException;
 // import com.fasterxml.jackson.databind.ObjectMapper;
-// import com.tylerfitzgerald.demo_api.erc721.TokenDataDTO;
+// import com.tylerfitzgerald.demo_api.erc721.token.TokenDataDTO;
 // import com.tylerfitzgerald.demo_api.config.EnvConfig;
 // import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeRepository;
 // import com.tylerfitzgerald.demo_api.erc721.traits.DisplayTypeTrait;

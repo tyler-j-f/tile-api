@@ -9,7 +9,7 @@ import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
-import com.tylerfitzgerald.demo_api.erc721.TokenDataRetriever;
+import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +30,7 @@ public class Scheduler {
 
   @Autowired private TokenInitializer tokenInitializer;
 
-  @Autowired private TokenDataRetriever nftRetriever;
+  @Autowired private TokenRetriever nftRetriever;
 
   // @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   public void getMintEvents() throws ExecutionException, InterruptedException {
@@ -104,6 +104,7 @@ public class Scheduler {
       System.out.println("\nDEBUG: nftInitializer->get failed. tokenId: " + tokenId.toString());
       return;
     }
-    System.out.println("\nDEBUG:\nNFTFacade: " + new TokenFacade(nft).buildNFTData().toString());
+    System.out.println(
+        "\nDEBUG:\nNFTFacade: " + new TokenFacade(nft).buildTokenDataDTO().toString());
   }
 }

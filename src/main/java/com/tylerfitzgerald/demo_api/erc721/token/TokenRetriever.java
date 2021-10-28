@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.erc721;
+package com.tylerfitzgerald.demo_api.erc721.token;
 
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class TokenDataRetriever {
+public class TokenRetriever {
 
   @Autowired private TokenRepository tokenRepository;
   @Autowired private TraitRepository traitRepository;

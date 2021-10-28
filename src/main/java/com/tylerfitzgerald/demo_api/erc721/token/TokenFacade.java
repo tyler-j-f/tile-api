@@ -1,6 +1,5 @@
 package com.tylerfitzgerald.demo_api.erc721.token;
 
-import com.tylerfitzgerald.demo_api.erc721.TokenDataDTO;
 import com.tylerfitzgerald.demo_api.erc721.traits.Trait;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
@@ -35,7 +34,7 @@ public class TokenFacade {
     return nftFacadeDTO.getAvailableTraitTypeWeights();
   }
 
-  public TokenDataDTO buildNFTData() {
+  public TokenDataDTO buildTokenDataDTO() {
     TokenDTO tokenDTO = getToken();
     if (tokenDTO == null) {
       return null;

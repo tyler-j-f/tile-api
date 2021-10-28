@@ -7,7 +7,7 @@ import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenTable;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
-import com.tylerfitzgerald.demo_api.erc721.TokenDataRetriever;
+import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightRepository;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeDTO;
@@ -91,7 +91,7 @@ public class AppConfig {
   }
 
   @Bean
-  public TokenDataRetriever nftRetriever() {
-    return new TokenDataRetriever();
+  public TokenRetriever nftRetriever() {
+    return new TokenRetriever();
   }
 }
