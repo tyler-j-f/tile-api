@@ -19,7 +19,8 @@ spring:
     include:
       - default
       - traits-config
-      - traits-config
+      - token-config
+      - contract-config
 
   cloud:
     gcp:
