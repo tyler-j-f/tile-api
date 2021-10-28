@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tylerfitzgerald.demo_api.erc721.NFTData;
 import com.tylerfitzgerald.demo_api.config.EnvConfig;
-import com.tylerfitzgerald.demo_api.sql.TraitTypeRepository;
+import com.tylerfitzgerald.demo_api.sql.traitTypes.TraitTypeRepository;
 import com.tylerfitzgerald.demo_api.erc721.traits.DisplayTypeTrait;
 import com.tylerfitzgerald.demo_api.erc721.traits.Trait;
 import org.springframework.beans.factory.annotation.Autowired;

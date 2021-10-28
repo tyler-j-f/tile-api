@@ -1,8 +1,7 @@
-package com.tylerfitzgerald.demo_api.sql;
+package com.tylerfitzgerald.demo_api.sql.tokens;
 
 import com.tylerfitzgerald.demo_api.sql.RepositoryInterface;
-import com.tylerfitzgerald.demo_api.sql.TokenDTO;
-import com.tylerfitzgerald.demo_api.sql.TokenTable;
+import com.tylerfitzgerald.demo_api.sql.tables.TokenTable;
 import java.util.ArrayList;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

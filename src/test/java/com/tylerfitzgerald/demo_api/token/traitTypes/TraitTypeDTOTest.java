@@ -1,6 +1,6 @@
 package com.tylerfitzgerald.demo_api.token.traitTypes;
 
-import com.tylerfitzgerald.demo_api.sql.TraitTypeDTO;
+import com.tylerfitzgerald.demo_api.sql.traitTypes.TraitTypeDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

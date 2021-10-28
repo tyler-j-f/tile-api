@@ -1,7 +1,7 @@
 package com.tylerfitzgerald.demo_api.token.traitTypeWeights;
 
-import com.tylerfitzgerald.demo_api.sql.TraitTypeWeightDTO;
-import com.tylerfitzgerald.demo_api.sql.TraitTypeWeightRepository;
+import com.tylerfitzgerald.demo_api.sql.traitTypeWeights.TraitTypeWeightDTO;
+import com.tylerfitzgerald.demo_api.sql.traitTypeWeights.TraitTypeWeightRepository;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

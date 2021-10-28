@@ -1,7 +1,7 @@
 package com.tylerfitzgerald.demo_api.sql.traits;
 
 import com.tylerfitzgerald.demo_api.sql.RepositoryInterface;
-import com.tylerfitzgerald.demo_api.sql.TraitsTable;
+import com.tylerfitzgerald.demo_api.sql.tables.TraitsTable;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 

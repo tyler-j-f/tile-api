@@ -1,6 +1,6 @@
 package com.tylerfitzgerald.demo_api.token;
 
-import com.tylerfitzgerald.demo_api.sql.TokenDTO;
+import com.tylerfitzgerald.demo_api.sql.tokens.TokenDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

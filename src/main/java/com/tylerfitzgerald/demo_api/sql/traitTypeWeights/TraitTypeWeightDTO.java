@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.sql;
+package com.tylerfitzgerald.demo_api.sql.traitTypeWeights;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

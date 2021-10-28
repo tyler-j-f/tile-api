@@ -1,8 +1,7 @@
-package com.tylerfitzgerald.demo_api.sql;
+package com.tylerfitzgerald.demo_api.sql.traitTypeWeights;
 
 import com.tylerfitzgerald.demo_api.sql.RepositoryInterface;
-import com.tylerfitzgerald.demo_api.sql.TraitTypeWeightDTO;
-import com.tylerfitzgerald.demo_api.sql.TraitTypeWeightsTable;
+import com.tylerfitzgerald.demo_api.sql.tables.TraitTypeWeightsTable;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 

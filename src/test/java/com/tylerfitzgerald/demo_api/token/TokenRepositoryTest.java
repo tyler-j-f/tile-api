@@ -1,7 +1,7 @@
 package com.tylerfitzgerald.demo_api.token;
 
-import com.tylerfitzgerald.demo_api.sql.TokenDTO;
-import com.tylerfitzgerald.demo_api.sql.TokenRepository;
+import com.tylerfitzgerald.demo_api.sql.tokens.TokenDTO;
+import com.tylerfitzgerald.demo_api.sql.tokens.TokenRepository;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

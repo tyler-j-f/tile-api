@@ -1,7 +1,7 @@
 package com.tylerfitzgerald.demo_api.token.traitTypes;
 
-import com.tylerfitzgerald.demo_api.sql.TraitTypeDTO;
-import com.tylerfitzgerald.demo_api.sql.TraitTypeRepository;
+import com.tylerfitzgerald.demo_api.sql.traitTypes.TraitTypeDTO;
+import com.tylerfitzgerald.demo_api.sql.traitTypes.TraitTypeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
