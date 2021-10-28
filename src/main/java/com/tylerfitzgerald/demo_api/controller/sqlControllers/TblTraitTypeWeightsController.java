@@ -1,5 +1,6 @@
-package com.tylerfitzgerald.demo_api.controller;
+package com.tylerfitzgerald.demo_api.controller.sqlControllers;
 
+import com.tylerfitzgerald.demo_api.controller.BaseController;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = {"/api/traitTypeWeights"})
-public class TraitTypeWeightsController extends BaseController {
+public class TblTraitTypeWeightsController extends BaseController {
 
   private static final String EMPTY_STRING = "";
 

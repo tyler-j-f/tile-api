@@ -1,5 +1,6 @@
-package com.tylerfitzgerald.demo_api.controller;
+package com.tylerfitzgerald.demo_api.controller.sqlControllers;
 
+import com.tylerfitzgerald.demo_api.controller.BaseController;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = {"/api/traits"})
-public class TraitsController extends BaseController {
+public class TblTraitsController extends BaseController {
 
   @Autowired private TraitRepository traitRepository;
 

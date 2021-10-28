@@ -1,5 +1,6 @@
-package com.tylerfitzgerald.demo_api.controller;
+package com.tylerfitzgerald.demo_api.controller.sqlControllers;
 
+import com.tylerfitzgerald.demo_api.controller.BaseController;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = {"/api/tokens"})
-public class TokensController extends BaseController {
+public class TblTokenController extends BaseController {
 
   @Autowired private TokenRepository tokenRepository;
 

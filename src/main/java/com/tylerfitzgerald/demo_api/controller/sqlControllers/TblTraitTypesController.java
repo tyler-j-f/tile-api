@@ -1,5 +1,6 @@
-package com.tylerfitzgerald.demo_api.controller;
+package com.tylerfitzgerald.demo_api.controller.sqlControllers;
 
+import com.tylerfitzgerald.demo_api.controller.BaseController;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = {"/api/traitTypes"})
-public class TraitTypesController extends BaseController {
+public class TblTraitTypesController extends BaseController {
 
   private static final String EMPTY_STRING = "";
 
