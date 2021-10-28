@@ -63,8 +63,7 @@ public class TokenFacade {
       traitType = type.getTraitTypeName();
       traitValue = weight.getValue();
       displayType = weight.getDisplayTypeValue();
-      System.out.println("DEBUG displayType: " + displayType.toString());
-      if (displayType == null) {
+      if (displayType.equals("")) {
         System.out.println("DEBUG adding Trait");
         traits.add(Trait.builder().trait_type(traitType).value(traitValue).build());
       } else {
