@@ -1,18 +1,21 @@
 package com.tylerfitzgerald.demo_api.config;
 
 import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
-import com.tylerfitzgerald.demo_api.sql.TraitTypeWeightsTable;
-import com.tylerfitzgerald.demo_api.sql.TraitsTable;
-import com.tylerfitzgerald.demo_api.token.TokenDTO;
-import com.tylerfitzgerald.demo_api.token.TokenRepository;
-import com.tylerfitzgerald.demo_api.sql.TokenTable;
-import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightDTO;
-import com.tylerfitzgerald.demo_api.token.traitTypeWeights.TraitTypeWeightRepository;
-import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeDTO;
-import com.tylerfitzgerald.demo_api.token.traitTypes.TraitTypeRepository;
-import com.tylerfitzgerald.demo_api.sql.TraitTypesTable;
-import com.tylerfitzgerald.demo_api.token.traits.TraitDTO;
-import com.tylerfitzgerald.demo_api.token.traits.TraitRepository;
+import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEventsAndCreateDBTokensTask;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightsTable;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitsTable;
+import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
+import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
+import com.tylerfitzgerald.demo_api.sql.tblToken.TokenTable;
+import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
+import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightRepository;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeRepository;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypesTable;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -81,5 +84,20 @@ public class AppConfig {
   @Bean
   public TraitRepository traitRepository() {
     return new TraitRepository(jdbcTemplate, new BeanPropertyRowMapper(TraitDTO.class));
+  }
+
+  @Bean
+  public TokenInitializer nftInitializer() {
+    return new TokenInitializer();
+  }
+
+  @Bean
+  public TokenRetriever tokenRetriever() {
+    return new TokenRetriever();
+  }
+
+  @Bean
+  public HandleMintEventsAndCreateDBTokensTask handleMintEventsAndCreateDBTokensTask() {
+    return new HandleMintEventsAndCreateDBTokensTask();
   }
 }

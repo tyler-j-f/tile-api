@@ -2,10 +2,16 @@ spring:
   application:
     traits-config:
       types:
-        - {id: null, traitTypeId: 1, traitTypeName: shape, description: "Shape of the sub-tile"}
-        - {id: null, traitTypeId: 2, traitTypeName: color, description: "Color of the sub-tile"}
+        - {id: null, traitTypeId: 1, traitTypeName: Shape, description: "Shape of the sub-tile"}
+        - {id: null, traitTypeId: 2, traitTypeName: Color, description: "Color of the sub-tile"}
+        - { id: null, traitTypeId: 3, traitTypeName: Multiplier, description: "Multiplier of the sub-tile" }
       typeWeights:
-        - {id: null, traitTypeWeightId: 1, traitTypeId: 1, likelihood: 90, value: circle, displayTypeValue: null}
-        - {id: null, traitTypeWeightId: 2, traitTypeId: 1, likelihood: 10, value: square, displayTypeValue: null}
-        - {id: null, traitTypeWeightId: 3, traitTypeId: 2, likelihood: 80, value: red, displayTypeValue: null}
-        - {id: null, traitTypeWeightId: 4, traitTypeId: 2, likelihood: 20, value: blue, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 1, traitTypeId: 1, likelihood: 50, value: circle, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 2, traitTypeId: 1, likelihood: 30, value: square, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 3, traitTypeId: 1, likelihood: 20, value: triangle, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 4, traitTypeId: 2, likelihood: 50, value: red, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 5, traitTypeId: 2, likelihood: 30, value: blue, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 6, traitTypeId: 2, likelihood: 20, value: green, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 7, traitTypeId: 3, likelihood: 60, value: 1, displayTypeValue: boost_number}
+        - {id: null, traitTypeWeightId: 8, traitTypeId: 3, likelihood: 30, value: 2, displayTypeValue: boost_number}
+        - {id: null, traitTypeWeightId: 9, traitTypeId: 3, likelihood: 10, value: 3, displayTypeValue: boost_number}
