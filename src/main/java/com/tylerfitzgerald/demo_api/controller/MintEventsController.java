@@ -72,10 +72,12 @@ public class MintEventsController extends BaseController {
 
   private List<TokenDataDTO> addTokensToDB(List<MintEvent> events) {
     List<TokenDataDTO> tokens = new ArrayList<>();
+    Long tokenId;
     for (MintEvent event : events) {
-      TokenDataDTO token = addTokenToDB(event);
+      tokenId = getLongFromHexString(event.getTokenId());
+      TokenDataDTO token = addTokenToDB(tokenId);
       if (token == null) {
-        System.out.println("Error adding mint event to token DB. TokenId: " + event.getTokenId());
+        System.out.println("Error adding mint event to token DB. TokenId: " + tokenId);
         continue;
       }
       tokens.add(token);
@@ -83,11 +85,15 @@ public class MintEventsController extends BaseController {
     return tokens;
   }
 
-  private TokenDataDTO addTokenToDB(MintEvent event) {
-    TokenFacadeDTO token = tokenInitializer.initialize(Long.valueOf(event.getTokenId()));
+  private TokenDataDTO addTokenToDB(Long tokenId) {
+    TokenFacadeDTO token = tokenInitializer.initialize(tokenId);
     if (token == null) {
       return null;
     }
     return new TokenFacade(token).buildTokenDataDTO();
+  }
+
+  private Long getLongFromHexString(String hexString) {
+    return Long.parseLong(hexString.split("0x")[1], 16);
   }
 }
