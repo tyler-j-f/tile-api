@@ -4,7 +4,7 @@ spring:
       types:
         - {id: null, traitTypeId: 1, traitTypeName: Shape, description: "Shape of the sub-tile"}
         - {id: null, traitTypeId: 2, traitTypeName: Color, description: "Color of the sub-tile"}
-        - { id: null, traitTypeId: 2, traitTypeName: Multiplier, description: "Multiplier of the sub-tile" }
+        - { id: null, traitTypeId: 3, traitTypeName: Multiplier, description: "Multiplier of the sub-tile" }
       typeWeights:
         - {id: null, traitTypeWeightId: 1, traitTypeId: 1, likelihood: 50, value: circle, displayTypeValue: null}
         - {id: null, traitTypeWeightId: 2, traitTypeId: 1, likelihood: 30, value: square, displayTypeValue: null}
