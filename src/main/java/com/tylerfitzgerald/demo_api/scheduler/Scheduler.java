@@ -3,7 +3,9 @@ package com.tylerfitzgerald.demo_api.scheduler;
 import com.google.api.gax.paging.Page;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.Bucket;
+import com.google.cloud.storage.BucketInfo;
 import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageClass;
 import com.google.common.collect.Lists;
 import com.tylerfitzgerald.demo_api.config.ContractConfig;
 import com.tylerfitzgerald.demo_api.config.SalesConfig;
@@ -35,22 +37,25 @@ public class Scheduler {
     handleMintEventsAndCreateDBTokensTask.execute();
   }
 
-  @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
-  static void authExplicit() throws IOException {
-    // You can specify a credential file by providing a path to GoogleCredentials.
-    // Otherwise credentials are read from the GOOGLE_APPLICATION_CREDENTIALS environment
-    // variable.
-    GoogleCredentials credentials =
-        GoogleCredentials.fromStream(
-            new FileInputStream("src/main/resources/service-account-1-dev-eth-api-key-file.json"));
-    Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-
-    System.out.println("Buckets:");
-    Page<Bucket> buckets = storage.list();
-    for (Bucket bucket : buckets.iterateAll()) {
-      System.out.println(bucket.toString());
-    }
-  }
+  //  @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
+  //  static void authExplicit() throws IOException {
+  //    // You can specify a credential file by providing a path to GoogleCredentials.
+  //    // Otherwise credentials are read from the GOOGLE_APPLICATION_CREDENTIALS environment
+  //    // variable.
+  //    GoogleCredentials credentials =
+  //        GoogleCredentials.fromStream(
+  //                new FileInputStream(
+  //                    "src/main/resources/service-account-1-dev-eth-api-key-file.json"))
+  //            .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
+  //    Storage storage =
+  // StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+  //
+  //    System.out.println("Buckets:");
+  //    Page<Bucket> buckets = storage.list();
+  //    for (Bucket bucket : buckets.iterateAll()) {
+  //      System.out.println(bucket.toString());
+  //    }
+  //  }
 
   //  @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   //  static void authImplicit() {
@@ -64,4 +69,5 @@ public class Scheduler {
   //      System.out.println(bucket.toString());
   //    }
   //  }
+
 }
