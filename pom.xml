@@ -82,7 +82,7 @@
 						<phase>validate</phase>
 						<configuration>
 							<configLocation>google_checks.xml</configLocation>
-							<suppressionsLocation>suppressions.xml
+							<suppressionsLocation>src/main/resources/suppressions.xml
 							</suppressionsLocation>
 							<encoding>UTF-8</encoding>
 							<failsOnError>true</failsOnError>
@@ -107,8 +107,6 @@
 						<configuration>
 							<includeStale>false</includeStale>
 							<style>GOOGLE</style>
-							<formatMain>true</formatMain>
-							<formatTest>true</formatTest>
 							<filterModified>false</filterModified>
 							<skip>false</skip>
 							<fixImports>false</fixImports>
