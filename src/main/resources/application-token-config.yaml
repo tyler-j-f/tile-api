@@ -3,10 +3,10 @@ application-traits-config:
 spring:
   application:
     token-config:
-      base_name: "Tile "
+      base_name: "Tile #"
       description: "Tile NFT. Buy a tile and customize it yourself!!! Each tile will be generated with unique traits that decide how rare your Tile is."
-      base_external_url: "http://tilenft.io/api/tiles/"
-      base_image_url: "http://tilenft.io/api/tiles/image/"
+      base_external_url: "http://tilenft.io/api/tiles/get/"
+      base_image_url: "http://tilenft.io/api/tiles/image/get/"
       background_color: null # maybe we should add a background_color?
       base_animation_url: null
       base_youtube_url: null

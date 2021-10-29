@@ -59,7 +59,7 @@ public class TokenInitializer {
             .name(tokenConfig.getBase_name() + " " + tokenId.toString())
             .description(tokenConfig.getDescription())
             .externalUrl(tokenConfig.getBase_external_url() + tokenId)
-            .imageUrl(tokenConfig.getBase_external_url() + tokenId)
+            .imageUrl(tokenConfig.getBase_image_url() + tokenId)
             .build());
   }
 
