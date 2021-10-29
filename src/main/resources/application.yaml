@@ -21,6 +21,7 @@ spring:
       - traits-config
       - token-config
       - contract-config
+      - sales-config
 
   cloud:
     gcp:

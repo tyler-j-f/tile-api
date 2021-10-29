@@ -13,19 +13,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = {"/api/tiles/image"})
+@RequestMapping(value = {"/api/image"})
 public class ImageController extends BaseController {
 
   @Autowired private TokenRetriever tokenRetriever;
 
   @Autowired private TokenInitializer tokenInitializer;
 
-  @GetMapping("create/{tokenId}")
+  @GetMapping("token/create/{tokenId}")
   public String createTokenImage(@PathVariable Long tokenId) throws JsonProcessingException {
     return "createTokenImage";
   }
 
-  @GetMapping("get/{tokenId}")
+  @GetMapping("token/get/{tokenId}")
   public String getTokenImage(@PathVariable Long tokenId) throws JsonProcessingException {
     return "getTokenImage";
   }
@@ -33,6 +33,11 @@ public class ImageController extends BaseController {
   @GetMapping("contractImage/get/{contractImageId}")
   public String getContractImage(@PathVariable Long contractImageId)
       throws JsonProcessingException {
+    return "getContractImage";
+  }
+
+  @GetMapping("saleImage/get/{saleImageId}")
+  public String getSaleImage(@PathVariable Long saleImageId) throws JsonProcessingException {
     return "getContractImage";
   }
 }

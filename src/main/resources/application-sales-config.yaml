@@ -1,0 +1,8 @@
+spring:
+  application:
+    sales-config:
+      attributes: null
+      description: "When you purchase this option, you will receive one Tile NFT. Hopefully it's rare! Enjoy and customize your tile!"
+      external_url: ""
+      image: "http://tilenft.io/api/image/saleImage/get/1"
+      name: "Tile NFT Sale"
