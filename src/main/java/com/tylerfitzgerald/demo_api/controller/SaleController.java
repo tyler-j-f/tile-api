@@ -26,6 +26,14 @@ public class SaleController extends BaseController {
 
   @GetMapping("get/{id}")
   public String getSaleJSON(@PathVariable String id) throws JsonProcessingException {
-    return new ObjectMapper().writeValueAsString(salesConfig);
+    return new ObjectMapper()
+        .writeValueAsString(
+            SaleDTO.builder()
+                .attributes(salesConfig.getAttributes())
+                .description(salesConfig.getDescription())
+                .external_url(salesConfig.getExternal_url())
+                .image(salesConfig.getImage())
+                .name(salesConfig.getName())
+                .build());
   }
 }

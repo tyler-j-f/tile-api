@@ -14,9 +14,6 @@ import java.util.concurrent.ExecutionException;
 public class Scheduler {
 
   @Autowired private HandleMintEvents handleMintEventsAndCreateDBTokensTask;
-  @Autowired private ContractConfig contractConfig;
-  @Autowired private TokenConfig tokenConfig;
-  @Autowired private SalesConfig salesConfig;
 
   /**
    * Execute tasks every schedulerFixedRateMs If you would like to execute tasks on a different
@@ -28,12 +25,5 @@ public class Scheduler {
   @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   public void executeTasks() throws ExecutionException, InterruptedException {
     handleMintEventsAndCreateDBTokensTask.execute();
-    System.out.println("\n");
-    System.out.println(contractConfig.toString());
-    System.out.println("\n");
-    System.out.println(tokenConfig.toString());
-    System.out.println("\n");
-    System.out.println(salesConfig.toString());
-    System.out.println("\n");
   }
 }

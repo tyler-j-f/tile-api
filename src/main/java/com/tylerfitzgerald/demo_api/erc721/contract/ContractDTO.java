@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class ContractDTO {
   private String name;
   private String description;
