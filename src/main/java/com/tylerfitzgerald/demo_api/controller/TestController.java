@@ -7,7 +7,13 @@ import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageClass;
 import com.google.cloud.storage.StorageOptions;
 import com.tylerfitzgerald.demo_api.config.ContractConfig;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -70,5 +76,20 @@ public class TestController extends BaseController {
       System.out.println(bucket.toString());
     }
     return output;
+  }
+
+  @GetMapping("three")
+  public String three() throws IOException {
+    String out = "";
+    Resource resource = new ClassPathResource("classpath:dev-eth-api-d91a5dc6df11.json");
+    InputStream inputStream = resource.getInputStream();
+    try {
+      byte[] bdata = FileCopyUtils.copyToByteArray(inputStream);
+      String data = new String(bdata, StandardCharsets.UTF_8);
+      out = data.toString();
+    } catch (IOException e) {
+      out = e.toString();
+    }
+    return out;
   }
 }
