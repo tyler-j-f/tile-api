@@ -26,6 +26,16 @@ spec:
       labels:
         app: hello-app
     spec:
+      volumes:
+      - name: google-cloud-key
+        secret:
+          secretName: hello-app-key
       containers:
-        - name: hello-app
-          image: us-east4-docker.pkg.dev/dev-eth-api/hello-repo/hello-app:v3
+      - name: hello-app
+        image: us-east4-docker.pkg.dev/dev-eth-api/hello-repo/hello-app:v3
+        volumeMounts:
+        - name: google-cloud-key
+          mountPath: /var/secrets/google
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/key.json
