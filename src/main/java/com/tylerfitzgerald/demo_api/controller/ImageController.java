@@ -6,7 +6,13 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
+import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +34,13 @@ public class ImageController extends BaseController {
   @GetMapping("token/get/{tokenId}")
   public String getTokenImage(@PathVariable Long tokenId) throws JsonProcessingException {
     return "getTokenImage";
+  }
+
+  @GetMapping(value = "test", produces = MediaType.IMAGE_PNG_VALUE)
+  public void getImage(HttpServletResponse response) throws IOException {
+    ClassPathResource imgFile = new ClassPathResource("images/one.jpeg");
+    response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+    StreamUtils.copy(imgFile.getInputStream(), response.getOutputStream());
   }
 
   @GetMapping("contractImage/get/{contractImageId}")
