@@ -5,8 +5,8 @@ spring:
     bitsPerTile: 24
     alchemyAPIKey: "cM6mpgOs8PlQFVgeYtPIW-fUzy5L5tC8"
     alchemyBaseUrl: "https://eth-rinkeby.alchemyapi.io/v2/"
-    nftContractAddress: "0x29502a8DE72Ad5A33C26E2e407c8E1e0E3a5a3F7"
-    nftFactoryContractAddress: "0x1b78Cd0aa89a34B865231eaaDd86E9b13cC97064"
+    nftContractAddress: "0x4aDA40511688d551630B353bAec821F7289A3Dd5"
+    nftFactoryContractAddress: "0xD6cC4672310D823186874da35616AD9619c63971"
     mintEventHashSignature: "0x070aa035fe0a09f0d9305bdc2d7a5d93cd4733db3b1ff869b4a7033c9501909a"
     schedulerFixedRateMs: 20000
     schedulerNumberOfBlocksToLookBack: 200000
