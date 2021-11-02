@@ -38,6 +38,6 @@ public class ImageController extends BaseController {
 
   @GetMapping("saleImage/get/{saleImageId}")
   public String getSaleImage(@PathVariable Long saleImageId) throws JsonProcessingException {
-    return "getContractImage";
+    return "getSaleImage";
   }
 }
