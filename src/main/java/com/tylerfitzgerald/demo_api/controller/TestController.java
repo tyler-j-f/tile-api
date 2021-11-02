@@ -9,6 +9,8 @@ import com.google.cloud.storage.StorageClass;
 import com.google.cloud.storage.StorageOptions;
 import com.google.common.collect.Lists;
 import com.tylerfitzgerald.demo_api.config.ContractConfig;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,6 +21,7 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.StandardCharsets;
+import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -138,5 +141,57 @@ public class TestController extends BaseController {
       out = e.toString();
     }
     return out;
+  }
+
+  @GetMapping("five")
+  public String five() throws IOException, URISyntaxException {
+
+    Resource resource = new ClassPathResource("classpath:dev-eth-api-d91a5dc6df11.json");
+    InputStream inputStream = resource.getInputStream();
+    // You can specify a credential file by providing a path to GoogleCredentials.
+    // Otherwise credentials are read from the GOOGLE_APPLICATION_CREDENTIALS environment variable.
+    String jsonPath = "classpath:dev-eth-api-d91a5dc6df11.json";
+    GoogleCredentials credentials =
+        GoogleCredentials.fromStream(inputStream)
+            .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
+    Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+
+    // Note: For Java users, the Cloud SQL JDBC Socket Factory can provide authenticated connections
+    // which is preferred to using the Cloud SQL Proxy with Unix sockets.
+    // See https://github.com/GoogleCloudPlatform/cloud-sql-jdbc-socket-factory for details.
+
+    // The configuration object specifies behaviors for the connection pool.
+    HikariConfig config = new HikariConfig();
+
+    // The following URL is equivalent to setting the config options below:
+    // jdbc:mysql:///<DB_NAME>?cloudSqlInstance=<INSTANCE_CONNECTION_NAME>&
+    // socketFactory=com.google.cloud.sql.mysql.SocketFactory&user=<DB_USER>&password=<DB_PASS>
+    // See the link below for more info on building a JDBC URL for the Cloud SQL JDBC Socket Factory
+    // https://github.com/GoogleCloudPlatform/cloud-sql-jdbc-socket-factory#creating-the-jdbc-url
+
+    String DB_NAME = "db1";
+    String DB_USER = "testing123";
+    String DB_PASS = "testing123";
+    String INSTANCE_CONNECTION_NAME = "dev-eth-api:us-east4:sql-1";
+
+    // Configure which instance and what database user to connect with.
+    config.setJdbcUrl(String.format("jdbc:mysql:///%s", DB_NAME));
+    config.setUsername(DB_USER); // e.g. "root", "mysql"
+    config.setPassword(DB_PASS); // e.g. "my-password"
+
+    config.addDataSourceProperty("socketFactory", "com.google.cloud.sql.mysql.SocketFactory");
+    config.addDataSourceProperty("cloudSqlInstance", INSTANCE_CONNECTION_NAME);
+
+    // The ipTypes argument can be used to specify a comma delimited list of preferred IP types
+    // for connecting to a Cloud SQL instance. The argument ipTypes=PRIVATE will force the
+    // SocketFactory to connect with an instance's associated private IP.
+    config.addDataSourceProperty("ipTypes", "PUBLIC,PRIVATE");
+
+    // ... Specify additional connection properties here.
+    // ...
+
+    // Initialize the connection pool using the configuration object.
+    DataSource pool = new HikariDataSource(config);
+    return "test";
   }
 }
