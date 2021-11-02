@@ -2,6 +2,7 @@ package com.tylerfitzgerald.demo_api.scheduler;
 
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEvents;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ExecutionException;
@@ -18,7 +19,7 @@ public class Scheduler {
    * @throws ExecutionException
    * @throws InterruptedException
    */
-  // @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
+  @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   public void executeTasks() throws ExecutionException, InterruptedException {
     handleMintEventsAndCreateDBTokensTask.execute();
   }

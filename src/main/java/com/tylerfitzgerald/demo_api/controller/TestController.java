@@ -186,4 +186,9 @@ public class TestController extends BaseController {
     DataSource pool = new HikariDataSource(config);
     return "test";
   }
+
+  @GetMapping("six")
+  public String six() {
+    return "Testing the new NFT contract";
+  }
 }
