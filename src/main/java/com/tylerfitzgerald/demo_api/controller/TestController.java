@@ -3,23 +3,15 @@ package com.tylerfitzgerald.demo_api.controller;
 import com.google.api.gax.paging.Page;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.Bucket;
-import com.google.cloud.storage.BucketInfo;
 import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageClass;
 import com.google.cloud.storage.StorageOptions;
 import com.google.common.collect.Lists;
 import com.tylerfitzgerald.demo_api.config.ContractConfig;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.StandardCharsets;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,11 +69,11 @@ public class TestController extends BaseController {
   @GetMapping("auth")
   public String authExplicit() throws IOException {
     String out = "";
-    Resource resource = new ClassPathResource("classpath:dev-eth-api-d91a5dc6df11.json");
+    Resource resource = new ClassPathResource("classpath:old-dev-eth-api-d91a5dc6df11.json");
     InputStream inputStream = resource.getInputStream();
     // You can specify a credential file by providing a path to GoogleCredentials.
     // Otherwise credentials are read from the GOOGLE_APPLICATION_CREDENTIALS environment variable.
-    String jsonPath = "classpath:dev-eth-api-d91a5dc6df11.json";
+    String jsonPath = "classpath:old-dev-eth-api-d91a5dc6df11.json";
     GoogleCredentials credentials =
         GoogleCredentials.fromStream(inputStream)
             .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
@@ -116,7 +108,7 @@ public class TestController extends BaseController {
   @GetMapping("three")
   public String three() throws IOException {
     String out = "";
-    Resource resource = new ClassPathResource("classpath:dev-eth-api-d91a5dc6df11.json");
+    Resource resource = new ClassPathResource("classpath:old-dev-eth-api-d91a5dc6df11.json");
     InputStream inputStream = resource.getInputStream();
     try {
       byte[] bdata = FileCopyUtils.copyToByteArray(inputStream);
@@ -131,7 +123,7 @@ public class TestController extends BaseController {
   @GetMapping("four")
   public String four() throws IOException, URISyntaxException {
     String out = "";
-    Resource resource = new ClassPathResource("classpath:dev-eth-api-d91a5dc6df11.json");
+    Resource resource = new ClassPathResource("classpath:old-dev-eth-api-d91a5dc6df11.json");
     InputStream inputStream = resource.getInputStream();
     try {
       byte[] bdata = FileCopyUtils.copyToByteArray(inputStream);
@@ -146,11 +138,11 @@ public class TestController extends BaseController {
   @GetMapping("five")
   public String five() throws IOException, URISyntaxException {
 
-    Resource resource = new ClassPathResource("classpath:dev-eth-api-d91a5dc6df11.json");
+    Resource resource = new ClassPathResource("classpath:old-dev-eth-api-d91a5dc6df11.json");
     InputStream inputStream = resource.getInputStream();
     // You can specify a credential file by providing a path to GoogleCredentials.
     // Otherwise credentials are read from the GOOGLE_APPLICATION_CREDENTIALS environment variable.
-    String jsonPath = "classpath:dev-eth-api-d91a5dc6df11.json";
+    String jsonPath = "classpath:old-dev-eth-api-d91a5dc6df11.json";
     GoogleCredentials credentials =
         GoogleCredentials.fromStream(inputStream)
             .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));

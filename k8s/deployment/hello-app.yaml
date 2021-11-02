@@ -15,16 +15,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pubsub
+  name: hello-app
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: pubsub
+      app: hello-app
   template:
     metadata:
       labels:
-        app: pubsub
+        app: hello-app
     spec:
       containers:
-        - name: subscriber
-          image: us-docker.pkg.dev/google-samples/containers/gke/pubsub-sample:v1
+        - name: hello-app
+          image: us-east4-docker.pkg.dev/dev-eth-api/hello-repo/hello-app:v3
