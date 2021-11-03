@@ -4,6 +4,8 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+import org.opencv.core.Mat;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
@@ -45,9 +47,24 @@ public class ImageController extends BaseController {
     return;
   }
 
+  @GetMapping(value = "test")
+  public void test() {
+    return;
+  }
+
   private void writeImageToOutput(HttpServletResponse response) throws IOException {
     ClassPathResource imgFile = new ClassPathResource("images/one.jpeg");
     response.setContentType(MediaType.IMAGE_JPEG_VALUE);
     StreamUtils.copy(imgFile.getInputStream(), response.getOutputStream());
+  }
+
+  public static Mat loadImage(String imagePath) {
+    Imgcodecs imageCodecs = new Imgcodecs();
+    return imageCodecs.imread(imagePath);
+  }
+
+  public static void saveImage(Mat imageMatrix, String targetPath) {
+    Imgcodecs imgcodecs = new Imgcodecs();
+    imgcodecs.imwrite(targetPath, imageMatrix);
   }
 }
