@@ -4,8 +4,12 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
 import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
@@ -49,16 +53,11 @@ public class ImageController extends BaseController {
 
   @GetMapping(value = "test")
   public void test() {
-    String path;
-    path = "src/main/resources/images/two.jpeg";
-    //    path = "resources/images/two.jpeg";
-    //    path = "images/two.jpeg";
-    Mat mat = loadImage(path);
-    String savePath;
-    savePath = "src/main/resources/images/two_saved.jpeg";
-    //    savePath = "resources/images/two.jpeg";
-    //    savePath = "images/two.jpeg";
-    saveImage(mat, savePath);
+    //    String path = "src/main/resources/images/two.jpeg";
+    Mat mat = new Mat(400, 400, CvType.CV_8U);
+    mat.setTo(new Scalar(0));
+    Imgproc.circle(mat, new Point(200, 200), 20, new Scalar(100), -1);
+    saveImage(mat, "src/main/resources/images/test_circle.jpeg");
     return;
   }
 
