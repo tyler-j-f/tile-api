@@ -49,6 +49,16 @@ public class ImageController extends BaseController {
 
   @GetMapping(value = "test")
   public void test() {
+    String path;
+    path = "src/main/resources/images/two.jpeg";
+    //    path = "resources/images/two.jpeg";
+    //    path = "images/two.jpeg";
+    Mat mat = loadImage(path);
+    String savePath;
+    savePath = "src/main/resources/images/two_saved.jpeg";
+    //    savePath = "resources/images/two.jpeg";
+    //    savePath = "images/two.jpeg";
+    saveImage(mat, savePath);
     return;
   }
 
