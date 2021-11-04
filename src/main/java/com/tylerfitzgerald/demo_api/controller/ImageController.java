@@ -33,7 +33,7 @@ public class ImageController extends BaseController {
     return;
   }
 
-  @GetMapping(value = "token/get/{tokenId}", produces = MediaType.IMAGE_PNG_VALUE)
+  @GetMapping(value = "tile/get/{tokenId}", produces = MediaType.IMAGE_PNG_VALUE)
   public void getTokenImage(HttpServletResponse response, @PathVariable Long tokenId)
       throws IOException {
     test(response);
