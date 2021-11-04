@@ -5,7 +5,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import org.opencv.core.CvType;
@@ -57,15 +56,20 @@ public class ImageController extends BaseController {
 
   @GetMapping(value = "test")
   public void test(HttpServletResponse response) throws IOException {
-    //    String path = "src/main/resources/images/two.jpeg";
-    Mat mat = new Mat(400, 400, CvType.CV_8U);
-    mat.setTo(new Scalar(0));
-    Imgproc.circle(mat, new Point(200, 200), 20, new Scalar(100), -1);
+    Mat mat = drawImageMat();
     // Create an empty image in matching format
-    BufferedImage bufferedImage = getMat2BufferedImage(mat);
+    BufferedImage bufferedImage = getBufferedImageFromMat(mat);
     // saveBufferedImage(bufferedImage);
     writeBufferedImageToOutput(bufferedImage, response);
     return;
+  }
+
+  private Mat drawImageMat() {
+    Mat mat = new Mat(400, 400, CvType.CV_8UC3);
+    mat.setTo(new Scalar(0));
+    Imgproc.rectangle(mat, new Point(0, 0), new Point(200, 200), new Scalar(255, 0, 0), -1);
+    Imgproc.circle(mat, new Point(200, 200), 20, new Scalar(100), -1);
+    return mat;
   }
 
   private void writeBufferedImageToOutput(BufferedImage bufferedImage, HttpServletResponse response)
@@ -81,22 +85,7 @@ public class ImageController extends BaseController {
     StreamUtils.copy(imgFile.getInputStream(), response.getOutputStream());
   }
 
-  public Mat loadImageAsMat(String imagePath) {
-    Imgcodecs imageCodecs = new Imgcodecs();
-    return imageCodecs.imread(imagePath);
-  }
-
-  public void saveMatAsImage(Mat imageMatrix, String targetPath) {
-    Imgcodecs imgcodecs = new Imgcodecs();
-    imgcodecs.imwrite(targetPath, imageMatrix);
-  }
-
-  public void saveBufferedImage(BufferedImage bufferedImage) throws IOException {
-    File outputfile = new File("src/main/resources/images/test_buffered_image.jpeg");
-    ImageIO.write(bufferedImage, "jpeg", outputfile);
-  }
-
-  public BufferedImage getMat2BufferedImage(Mat matrix) throws IOException {
+  public BufferedImage getBufferedImageFromMat(Mat matrix) throws IOException {
     MatOfByte mob = new MatOfByte();
     Imgcodecs.imencode(".jpg", matrix, mob);
     byte ba[] = mob.toArray();
@@ -111,4 +100,18 @@ public class ImageController extends BaseController {
   //    mat.get(0, 0, data);
   // saveMatAsImage(mat, "src/main/resources/images/test_circle.jpeg");
 
+  public Mat loadImageAsMat(String imagePath) {
+    Imgcodecs imageCodecs = new Imgcodecs();
+    return imageCodecs.imread(imagePath);
+  }
+
+  public void saveMatAsImage(Mat imageMatrix, String targetPath) {
+    Imgcodecs imgcodecs = new Imgcodecs();
+    imgcodecs.imwrite(targetPath, imageMatrix);
+  }
+
+  public void saveBufferedImage(BufferedImage bufferedImage) throws IOException {
+    File outputfile = new File("src/main/resources/images/test_buffered_image.jpeg");
+    ImageIO.write(bufferedImage, "jpeg", outputfile);
+  }
 }
