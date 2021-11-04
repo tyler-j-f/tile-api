@@ -2,10 +2,16 @@ package com.tylerfitzgerald.demo_api.controller;
 
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfByte;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -52,12 +58,19 @@ public class ImageController extends BaseController {
   }
 
   @GetMapping(value = "test")
-  public void test() {
+  public void test() throws IOException {
     //    String path = "src/main/resources/images/two.jpeg";
     Mat mat = new Mat(400, 400, CvType.CV_8U);
     mat.setTo(new Scalar(0));
     Imgproc.circle(mat, new Point(200, 200), 20, new Scalar(100), -1);
-    saveImage(mat, "src/main/resources/images/test_circle.jpeg");
+    // Create an empty image in matching format
+    BufferedImage bufferedImage = getMat2BufferedImage(mat);
+    saveBufferedImage(bufferedImage);
+    // System.out.println(bufferedImage);
+    // Get the BufferedImage's backing array and copy the pixels directly into it
+    //    byte[] data = ((DataBufferByte) gray.getRaster().getDataBuffer()).getData();
+    //    mat.get(0, 0, data);
+    // saveMatAsImage(mat, "src/main/resources/images/test_circle.jpeg");
     return;
   }
 
@@ -67,13 +80,27 @@ public class ImageController extends BaseController {
     StreamUtils.copy(imgFile.getInputStream(), response.getOutputStream());
   }
 
-  public static Mat loadImage(String imagePath) {
+  public Mat loadImageAsMat(String imagePath) {
     Imgcodecs imageCodecs = new Imgcodecs();
     return imageCodecs.imread(imagePath);
   }
 
-  public static void saveImage(Mat imageMatrix, String targetPath) {
+  public void saveMatAsImage(Mat imageMatrix, String targetPath) {
     Imgcodecs imgcodecs = new Imgcodecs();
     imgcodecs.imwrite(targetPath, imageMatrix);
+  }
+
+  public void saveBufferedImage(BufferedImage bufferedImage) throws IOException {
+    File outputfile = new File("src/main/resources/images/test_buffered_image.jpeg");
+    ImageIO.write(bufferedImage, "jpeg", outputfile);
+  }
+
+  public BufferedImage getMat2BufferedImage(Mat matrix) throws IOException {
+    MatOfByte mob = new MatOfByte();
+    Imgcodecs.imencode(".jpg", matrix, mob);
+    byte ba[] = mob.toArray();
+
+    BufferedImage bi = ImageIO.read(new ByteArrayInputStream(ba));
+    return bi;
   }
 }
