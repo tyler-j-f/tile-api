@@ -67,8 +67,15 @@ public class ImageController extends BaseController {
   private Mat drawImageMat() {
     Mat mat = new Mat(400, 400, CvType.CV_8UC3);
     mat.setTo(new Scalar(0));
+    // Top left square, blue
     Imgproc.rectangle(mat, new Point(0, 0), new Point(200, 200), new Scalar(255, 0, 0), -1);
-    Imgproc.circle(mat, new Point(200, 200), 20, new Scalar(100), -1);
+    // Top right square, green
+    Imgproc.rectangle(mat, new Point(200, 0), new Point(400, 200), new Scalar(0, 102, 0), -1);
+    // Bottom left square, red
+    Imgproc.rectangle(mat, new Point(0, 200), new Point(200, 400), new Scalar(0, 0, 255), -1);
+    // Bottom right square, yellow
+    Imgproc.rectangle(mat, new Point(200, 200), new Point(400, 400), new Scalar(102, 255, 255), -1);
+    // Imgproc.circle(mat, new Point(200, 200), 20, new Scalar(100), -1);
     return mat;
   }
 
