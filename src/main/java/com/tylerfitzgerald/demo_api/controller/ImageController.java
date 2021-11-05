@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
+import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
@@ -56,27 +57,31 @@ public class ImageController extends BaseController {
 
   @GetMapping(value = "test")
   public void test(HttpServletResponse response) throws IOException {
-    Mat mat = drawImageMat();
+    Mat tiles = drawTiles();
     // Create an empty image in matching format
-    BufferedImage bufferedImage = getBufferedImageFromMat(mat);
+    BufferedImage bufferedImage = getBufferedImageFromMat(tiles);
     // saveBufferedImage(bufferedImage);
     writeBufferedImageToOutput(bufferedImage, response);
     return;
   }
 
-  private Mat drawImageMat() {
-    Mat mat = new Mat(400, 400, CvType.CV_8UC3);
-    mat.setTo(new Scalar(0));
+  private Mat drawTiles() {
+    Mat src = new Mat(500, 400, CvType.CV_8UC3);
+    // Draw title
+    Point textOrg = new Point((src.cols() - src.width()) / 2, (src.rows() + src.height()) / 2);
+    src.setTo(new Scalar(255, 255, 255));
     // Top left square, blue
-    Imgproc.rectangle(mat, new Point(0, 0), new Point(200, 200), new Scalar(255, 0, 0), -1);
+    Imgproc.rectangle(src, new Point(0, 100), new Point(200, 300), new Scalar(255, 0, 0), -1);
     // Top right square, green
-    Imgproc.rectangle(mat, new Point(200, 0), new Point(400, 200), new Scalar(0, 102, 0), -1);
+    Imgproc.rectangle(src, new Point(200, 100), new Point(400, 300), new Scalar(0, 102, 0), -1);
     // Bottom left square, red
-    Imgproc.rectangle(mat, new Point(0, 200), new Point(200, 400), new Scalar(0, 0, 255), -1);
+    Imgproc.rectangle(src, new Point(0, 300), new Point(200, 500), new Scalar(0, 0, 255), -1);
     // Bottom right square, yellow
-    Imgproc.rectangle(mat, new Point(200, 200), new Point(400, 400), new Scalar(102, 255, 255), -1);
-    // Imgproc.circle(mat, new Point(200, 200), 20, new Scalar(100), -1);
-    return mat;
+    Imgproc.rectangle(src, new Point(200, 300), new Point(400, 500), new Scalar(102, 255, 255), -1);
+    // Draw title
+    Imgproc.putText(
+        src, "Tile #" + 1, new Point(20, 50), Core.FONT_HERSHEY_COMPLEX, 1, new Scalar(0, 0, 0));
+    return src;
   }
 
   private void writeBufferedImageToOutput(BufferedImage bufferedImage, HttpServletResponse response)
