@@ -60,13 +60,23 @@ public class ImageController extends BaseController {
   public void test(HttpServletResponse response, Long tokenId) throws IOException {
     response.setContentType(MediaType.IMAGE_JPEG_VALUE);
     Mat tiles = drawTiles(tokenId);
-    BufferedImage emoji = loadEmoji("images/1F9D7-1F3FF.png");
-    byte[] pixels = ((DataBufferByte) emoji.getRaster().getDataBuffer()).getData();
-    tiles.put(125, 87, pixels);
+    Mat emoji = bufferedImage2Mat(loadEmoji("images/1F9D7-1F3FF.png"), "png");
+    emoji.copyTo(tiles.rowRange(0, 72).colRange(0, 72));
     // Create an empty image in matching format
     BufferedImage bufferedImage = getBufferedImageFromMat(tiles);
     writeBufferedImageToOutput(bufferedImage, response);
     return;
+  }
+
+  public Mat bufferedImage2Mat(BufferedImage image, String fileType) throws IOException {
+    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+    ImageIO.write(image, fileType, byteArrayOutputStream);
+    byteArrayOutputStream.flush();
+    Mat output = new Mat(72, 72, CvType.CV_8UC3);
+    output =
+        Imgcodecs.imdecode(
+            new MatOfByte(byteArrayOutputStream.toByteArray()), Imgcodecs.CV_LOAD_IMAGE_COLOR);
+    return output;
   }
 
   private BufferedImage loadEmoji(String filePath) throws IOException {
