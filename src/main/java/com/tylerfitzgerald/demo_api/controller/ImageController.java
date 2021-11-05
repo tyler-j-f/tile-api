@@ -37,7 +37,7 @@ public class ImageController extends BaseController {
   @GetMapping(value = "tile/get/{tokenId}", produces = MediaType.IMAGE_PNG_VALUE)
   public void getTokenImage(HttpServletResponse response, @PathVariable Long tokenId)
       throws IOException {
-    test(response);
+    test(response, tokenId);
     return;
   }
 
@@ -56,8 +56,8 @@ public class ImageController extends BaseController {
   }
 
   @GetMapping(value = "test")
-  public void test(HttpServletResponse response) throws IOException {
-    Mat tiles = drawTiles();
+  public void test(HttpServletResponse response, Long tokenId) throws IOException {
+    Mat tiles = drawTiles(tokenId);
     // Create an empty image in matching format
     BufferedImage bufferedImage = getBufferedImageFromMat(tiles);
     // saveBufferedImage(bufferedImage);
@@ -65,7 +65,7 @@ public class ImageController extends BaseController {
     return;
   }
 
-  private Mat drawTiles() {
+  private Mat drawTiles(Long tokenId) {
     Mat src = new Mat(500, 400, CvType.CV_8UC3);
     // Draw title
     Point textOrg = new Point((src.cols() - src.width()) / 2, (src.rows() + src.height()) / 2);
@@ -80,7 +80,12 @@ public class ImageController extends BaseController {
     Imgproc.rectangle(src, new Point(200, 300), new Point(400, 500), new Scalar(102, 255, 255), -1);
     // Draw title
     Imgproc.putText(
-        src, "Tile #" + 1, new Point(20, 50), Core.FONT_HERSHEY_COMPLEX, 1, new Scalar(0, 0, 0));
+        src,
+        "Tile #" + tokenId,
+        new Point(20, 50),
+        Core.FONT_HERSHEY_COMPLEX,
+        1,
+        new Scalar(0, 0, 0));
     return src;
   }
 
