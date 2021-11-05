@@ -59,10 +59,12 @@ public class ImageController extends BaseController {
   public void test(HttpServletResponse response, Long tokenId) throws IOException {
     response.setContentType(MediaType.IMAGE_JPEG_VALUE);
 
-    Mat tiles = drawTiles(tokenId);
-    // Create an empty image in matching format
-    BufferedImage bufferedImage = getBufferedImageFromMat(tiles);
-    // saveBufferedImage(bufferedImage);
+    //    Mat tiles = drawTiles(tokenId);
+    //    // Create an empty image in matching format
+    //    BufferedImage bufferedImage = getBufferedImageFromMat(tiles);
+    //    // saveBufferedImage(bufferedImage);
+    ClassPathResource imgFile = new ClassPathResource("images/1F9D7-1F3FF.png");
+    BufferedImage bufferedImage = ImageIO.read(imgFile.getInputStream());
     writeBufferedImageToOutput(bufferedImage, response);
     return;
   }
@@ -94,7 +96,7 @@ public class ImageController extends BaseController {
   private void writeBufferedImageToOutput(BufferedImage bufferedImage, HttpServletResponse response)
       throws IOException {
     ByteArrayOutputStream os = new ByteArrayOutputStream();
-    ImageIO.write(bufferedImage, "jpeg", os);
+    ImageIO.write(bufferedImage, "png", os);
     StreamUtils.copy(new ByteArrayInputStream(os.toByteArray()), response.getOutputStream());
   }
 
