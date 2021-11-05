@@ -37,7 +37,7 @@ public class ImageController extends BaseController {
 
   @GetMapping(value = "tile/get/{tokenId}", produces = MediaType.IMAGE_PNG_VALUE)
   public void getTokenImage(HttpServletResponse response, @PathVariable Long tokenId)
-      throws IOException {
+      throws Exception {
     test(response, tokenId);
     return;
   }
@@ -57,15 +57,37 @@ public class ImageController extends BaseController {
   }
 
   @GetMapping(value = "test")
-  public void test(HttpServletResponse response, Long tokenId) throws IOException {
+  public void test(HttpServletResponse response, Long tokenId) throws Exception {
     response.setContentType(MediaType.IMAGE_JPEG_VALUE);
     Mat tiles = drawTiles(tokenId);
     Mat emoji = bufferedImage2Mat(loadEmoji("images/1F9D7-1F3FF.png"), "png");
-    emoji.copyTo(tiles.rowRange(0, 72).colRange(0, 72));
+    drawEmojiOnTile(1, tiles, emoji);
+    drawEmojiOnTile(2, tiles, emoji);
+    drawEmojiOnTile(3, tiles, emoji);
+    drawEmojiOnTile(4, tiles, emoji);
     // Create an empty image in matching format
     BufferedImage bufferedImage = getBufferedImageFromMat(tiles);
     writeBufferedImageToOutput(bufferedImage, response);
     return;
+  }
+
+  private void drawEmojiOnTile(int tileIndex, Mat destImage, Mat emojiSource) throws Exception {
+    switch (tileIndex) {
+      case 1:
+        emojiSource.copyTo(destImage.rowRange(89, 161).colRange(52, 124));
+        break;
+      case 2:
+        emojiSource.copyTo(destImage.rowRange(89, 161).colRange(226, 298));
+        break;
+      case 3:
+        emojiSource.copyTo(destImage.rowRange(239, 311).colRange(52, 124));
+        break;
+      case 4:
+        emojiSource.copyTo(destImage.rowRange(239, 311).colRange(226, 298));
+        break;
+      default:
+        throw new Exception("Invalid tile index passed to drawEmojiOnTile");
+    }
   }
 
   public Mat bufferedImage2Mat(BufferedImage image, String fileType) throws IOException {
