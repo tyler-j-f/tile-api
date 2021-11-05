@@ -1,6 +1,7 @@
 package com.tylerfitzgerald.demo_api.controller;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -58,21 +59,24 @@ public class ImageController extends BaseController {
   @GetMapping(value = "test")
   public void test(HttpServletResponse response, Long tokenId) throws IOException {
     response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-
-    //    Mat tiles = drawTiles(tokenId);
-    //    // Create an empty image in matching format
-    //    BufferedImage bufferedImage = getBufferedImageFromMat(tiles);
-    //    // saveBufferedImage(bufferedImage);
-    ClassPathResource imgFile = new ClassPathResource("images/1F9D7-1F3FF.png");
-    BufferedImage bufferedImage = ImageIO.read(imgFile.getInputStream());
+    Mat tiles = drawTiles(tokenId);
+    BufferedImage emoji = loadEmoji("images/1F9D7-1F3FF.png");
+    byte[] pixels = ((DataBufferByte) emoji.getRaster().getDataBuffer()).getData();
+    tiles.put(125, 87, pixels);
+    // Create an empty image in matching format
+    BufferedImage bufferedImage = getBufferedImageFromMat(tiles);
     writeBufferedImageToOutput(bufferedImage, response);
     return;
+  }
+
+  private BufferedImage loadEmoji(String filePath) throws IOException {
+    ClassPathResource imgFile = new ClassPathResource(filePath);
+    return ImageIO.read(imgFile.getInputStream());
   }
 
   private Mat drawTiles(Long tokenId) {
     Mat src = new Mat(350, 350, CvType.CV_8UC3);
     // Draw title
-    Point textOrg = new Point((src.cols() - src.width()) / 2, (src.rows() + src.height()) / 2);
     src.setTo(new Scalar(255, 255, 255));
     // Top left square, blue
     Imgproc.rectangle(src, new Point(0, 50), new Point(175, 200), new Scalar(255, 0, 0), -1);
