@@ -57,6 +57,7 @@ public class ImageController extends BaseController {
 
   @GetMapping(value = "test")
   public void test(HttpServletResponse response, Long tokenId) throws IOException {
+    response.setContentType(MediaType.IMAGE_JPEG_VALUE);
     Mat tiles = drawTiles(tokenId);
     // Create an empty image in matching format
     BufferedImage bufferedImage = getBufferedImageFromMat(tiles);
