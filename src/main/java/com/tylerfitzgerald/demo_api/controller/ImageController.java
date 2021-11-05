@@ -58,6 +58,7 @@ public class ImageController extends BaseController {
   @GetMapping(value = "test")
   public void test(HttpServletResponse response, Long tokenId) throws IOException {
     response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+
     Mat tiles = drawTiles(tokenId);
     // Create an empty image in matching format
     BufferedImage bufferedImage = getBufferedImageFromMat(tiles);
@@ -67,23 +68,23 @@ public class ImageController extends BaseController {
   }
 
   private Mat drawTiles(Long tokenId) {
-    Mat src = new Mat(500, 400, CvType.CV_8UC3);
+    Mat src = new Mat(350, 350, CvType.CV_8UC3);
     // Draw title
     Point textOrg = new Point((src.cols() - src.width()) / 2, (src.rows() + src.height()) / 2);
     src.setTo(new Scalar(255, 255, 255));
     // Top left square, blue
-    Imgproc.rectangle(src, new Point(0, 100), new Point(200, 300), new Scalar(255, 0, 0), -1);
+    Imgproc.rectangle(src, new Point(0, 50), new Point(175, 200), new Scalar(255, 0, 0), -1);
     // Top right square, green
-    Imgproc.rectangle(src, new Point(200, 100), new Point(400, 300), new Scalar(0, 102, 0), -1);
+    Imgproc.rectangle(src, new Point(175, 50), new Point(350, 200), new Scalar(0, 102, 0), -1);
     // Bottom left square, red
-    Imgproc.rectangle(src, new Point(0, 300), new Point(200, 500), new Scalar(0, 0, 255), -1);
+    Imgproc.rectangle(src, new Point(0, 200), new Point(175, 350), new Scalar(0, 0, 255), -1);
     // Bottom right square, yellow
-    Imgproc.rectangle(src, new Point(200, 300), new Point(400, 500), new Scalar(102, 255, 255), -1);
+    Imgproc.rectangle(src, new Point(175, 200), new Point(350, 350), new Scalar(102, 255, 255), -1);
     // Draw title
     Imgproc.putText(
         src,
         "Tile #" + tokenId,
-        new Point(20, 50),
+        new Point(20, 30),
         Core.FONT_HERSHEY_COMPLEX,
         1,
         new Scalar(0, 0, 0));
