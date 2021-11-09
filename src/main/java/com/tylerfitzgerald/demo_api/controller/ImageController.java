@@ -58,19 +58,11 @@ public class ImageController extends BaseController {
 
   @GetMapping(value = "test")
   public void test(HttpServletResponse response, Long tokenId) throws Exception {
-    response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+    response.setContentType(MediaType.IMAGE_PNG_VALUE);
     Mat tiles = drawTiles(tokenId);
-    drawEmojiOnTile(1, tiles, bufferedImage2Mat(loadEmoji("images/1F9D7-1F3FF.png"), "png"));
-    drawEmojiOnTile(
-        2,
-        tiles,
-        bufferedImage2Mat(
-            loadEmoji("images/1F469-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FD.png"), "png"));
-    drawEmojiOnTile(
-        3, tiles, bufferedImage2Mat(loadEmoji("images/1F926-1F3FE-200D-2642-FE0F.png"), "png"));
-    drawEmojiOnTile(4, tiles, bufferedImage2Mat(loadEmoji("images/E329.png"), "png"));
     // Create an empty image in matching format
-    BufferedImage bufferedImage = getBufferedImageFromMat(tiles);
+    BufferedImage bufferedImage =
+        getBufferedImageFromMat(bufferedImage2Mat(loadEmoji("images/1F9D7-1F3FF.png"), "png"));
     writeBufferedImageToOutput(bufferedImage, response);
     return;
   }
@@ -98,10 +90,10 @@ public class ImageController extends BaseController {
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     ImageIO.write(image, fileType, byteArrayOutputStream);
     byteArrayOutputStream.flush();
-    Mat output = new Mat(72, 72, CvType.CV_8UC3);
+    Mat output = new Mat(72, 72, CvType.CV_8UC4);
     output =
         Imgcodecs.imdecode(
-            new MatOfByte(byteArrayOutputStream.toByteArray()), Imgcodecs.CV_LOAD_IMAGE_COLOR);
+            new MatOfByte(byteArrayOutputStream.toByteArray()), Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
     return output;
   }
 
@@ -148,7 +140,7 @@ public class ImageController extends BaseController {
 
   public BufferedImage getBufferedImageFromMat(Mat matrix) throws IOException {
     MatOfByte mob = new MatOfByte();
-    Imgcodecs.imencode(".jpg", matrix, mob);
+    Imgcodecs.imencode(".png", matrix, mob);
     byte ba[] = mob.toArray();
 
     BufferedImage bi = ImageIO.read(new ByteArrayInputStream(ba));
