@@ -92,11 +92,8 @@ public class ImageController extends BaseController {
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     ImageIO.write(image, fileType, byteArrayOutputStream);
     byteArrayOutputStream.flush();
-    Mat output = new Mat(72, 72, CvType.CV_8UC4);
-    output =
-        Imgcodecs.imdecode(
-            new MatOfByte(byteArrayOutputStream.toByteArray()), Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
-    return output;
+    return Imgcodecs.imdecode(
+        new MatOfByte(byteArrayOutputStream.toByteArray()), Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
   }
 
   private BufferedImage loadEmoji(String filePath) throws IOException {
@@ -109,13 +106,14 @@ public class ImageController extends BaseController {
     // Draw title
     src.setTo(new Scalar(255, 255, 255));
     // Top left square, blue
-    Imgproc.rectangle(src, new Point(0, 50), new Point(175, 200), new Scalar(255, 0, 0), -1);
+    Imgproc.rectangle(src, new Point(0, 50), new Point(175, 200), new Scalar(255, 0, 0, 1), -1);
     // Top right square, green
-    Imgproc.rectangle(src, new Point(175, 50), new Point(350, 200), new Scalar(0, 102, 0), -1);
+    Imgproc.rectangle(src, new Point(175, 50), new Point(350, 200), new Scalar(0, 102, 0, 1), -1);
     // Bottom left square, red
-    Imgproc.rectangle(src, new Point(0, 200), new Point(175, 350), new Scalar(0, 0, 255), -1);
+    Imgproc.rectangle(src, new Point(0, 200), new Point(175, 350), new Scalar(0, 0, 255, 1), -1);
     // Bottom right square, yellow
-    Imgproc.rectangle(src, new Point(175, 200), new Point(350, 350), new Scalar(102, 255, 255), -1);
+    Imgproc.rectangle(
+        src, new Point(175, 200), new Point(350, 350), new Scalar(102, 255, 255, 1), -1);
     // Draw title
     Imgproc.putText(
         src,
@@ -123,7 +121,7 @@ public class ImageController extends BaseController {
         new Point(20, 30),
         Core.FONT_HERSHEY_COMPLEX,
         1,
-        new Scalar(0, 0, 0));
+        new Scalar(0, 0, 0, 1));
     return src;
   }
 
@@ -142,7 +140,7 @@ public class ImageController extends BaseController {
 
   public BufferedImage getBufferedImageFromMat(Mat matrix) throws IOException {
     MatOfByte mob = new MatOfByte();
-    Imgcodecs.imencode(".jpg", matrix, mob);
+    Imgcodecs.imencode(".png", matrix, mob);
     byte ba[] = mob.toArray();
 
     BufferedImage bi = ImageIO.read(new ByteArrayInputStream(ba));
