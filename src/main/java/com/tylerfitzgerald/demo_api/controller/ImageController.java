@@ -60,9 +60,8 @@ public class ImageController extends BaseController {
   public void test(HttpServletResponse response, Long tokenId) throws Exception {
     response.setContentType(MediaType.IMAGE_PNG_VALUE);
     Mat tiles = drawTiles(tokenId);
-    // Create an empty image in matching format
-    BufferedImage bufferedImage =
-        getBufferedImageFromMat(bufferedImage2Mat(loadEmoji("images/1F9D7-1F3FF.png"), "png"));
+    drawEmojiOnTile(1, tiles, bufferedImage2Mat(loadEmoji("images/1F9D7-1F3FF.png"), "png"));
+    BufferedImage bufferedImage = getBufferedImageFromMat(tiles);
     writeBufferedImageToOutput(bufferedImage, response);
     return;
   }
@@ -103,7 +102,7 @@ public class ImageController extends BaseController {
   }
 
   private Mat drawTiles(Long tokenId) {
-    Mat src = new Mat(350, 350, CvType.CV_8UC3);
+    Mat src = new Mat(350, 350, CvType.CV_8UC4);
     // Draw title
     src.setTo(new Scalar(255, 255, 255));
     // Top left square, blue
