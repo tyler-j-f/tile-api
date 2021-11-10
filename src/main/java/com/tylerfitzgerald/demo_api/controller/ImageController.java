@@ -62,7 +62,7 @@ public class ImageController extends BaseController {
   public void test(HttpServletResponse response, Long tokenId) throws Exception {
     response.setContentType(MediaType.IMAGE_PNG_VALUE);
     Mat tiles = drawTiles(tokenId);
-    drawEmojiOnTile(1, tiles, bufferedImage2Mat(loadEmoji("images/1F9D7-1F3FF.png"), "png"));
+    drawEmojiOnTile(1, tiles, bufferedImage2Mat(loadEmoji("images/noun_Smiley_2199314.png"), "png"));
     BufferedImage bufferedImage = getBufferedImageFromMat(tiles);
     writeBufferedImageToOutput(bufferedImage, response);
     return;
