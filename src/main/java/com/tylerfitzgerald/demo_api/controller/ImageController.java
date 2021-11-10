@@ -1,5 +1,6 @@
 package com.tylerfitzgerald.demo_api.controller;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.ByteArrayInputStream;
@@ -64,7 +65,7 @@ public class ImageController extends BaseController {
     Mat tiles = drawTiles(tokenId);
     drawEmojiOnTile(
         1, tiles, bufferedImage2Mat(loadEmoji("images/output-onlinepngtools.png"), "png"));
-    BufferedImage bufferedImage = getBufferedImageFromMat(tiles);
+    byte[] bufferedImage = getBufferedImageFromMat(tiles);
     writeBufferedImageToOutput(bufferedImage, response);
     return;
   }
@@ -125,11 +126,9 @@ public class ImageController extends BaseController {
     return src;
   }
 
-  private void writeBufferedImageToOutput(BufferedImage bufferedImage, HttpServletResponse response)
+  private void writeBufferedImageToOutput(byte[] pixelArray, HttpServletResponse response)
       throws IOException {
-    ByteArrayOutputStream os = new ByteArrayOutputStream();
-    ImageIO.write(bufferedImage, "png", os);
-    StreamUtils.copy(new ByteArrayInputStream(os.toByteArray()), response.getOutputStream());
+    response.getOutputStream().write(pixelArray);
   }
 
   private void writeImageFileToOutput(HttpServletResponse response) throws IOException {
@@ -138,20 +137,12 @@ public class ImageController extends BaseController {
     StreamUtils.copy(imgFile.getInputStream(), response.getOutputStream());
   }
 
-  public BufferedImage getBufferedImageFromMat(Mat matrix) throws IOException {
-    MatOfByte mob = new MatOfByte();
-    Imgcodecs.imencode(".jpg", matrix, mob);
-    byte ba[] = mob.toArray();
-
-    BufferedImage bi = ImageIO.read(new ByteArrayInputStream(ba));
-    return bi;
+  public byte[] getBufferedImageFromMat(Mat matrix) throws IOException {
+    MatOfByte bytemat = new MatOfByte();
+    Imgcodecs.imencode(".png", matrix, bytemat);
+    byte ba[] = bytemat.toArray();
+    return ba;
   }
-
-  // System.out.println(bufferedImage);
-  // Get the BufferedImage's backing array and copy the pixels directly into it
-  //    byte[] data = ((DataBufferByte) gray.getRaster().getDataBuffer()).getData();
-  //    mat.get(0, 0, data);
-  // saveMatAsImage(mat, "src/main/resources/images/test_circle.jpeg");
 
   public Mat loadImageAsMat(String imagePath) {
     Imgcodecs imageCodecs = new Imgcodecs();
