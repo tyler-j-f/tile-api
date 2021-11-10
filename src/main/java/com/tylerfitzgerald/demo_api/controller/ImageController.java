@@ -111,16 +111,20 @@ public class ImageController extends BaseController {
 
   private Mat drawTiles(Long tokenId) {
     Mat src = new Mat(350, 350, CvType.CV_8UC4);
-    // src.setTo(new Scalar(255, 255, 255, 0));
+    src.setTo(new Scalar(255, 255, 255, 0));
     // Top left square, blue
     Imgproc.rectangle(src, new Point(0, 50), new Point(175, 200), new Scalar(255, 0, 0, 255), -1);
+    Imgproc.rectangle(src, new Point(0, 50), new Point(175, 200), new Scalar(0, 0, 0, 255), 3);
     // Top right square, green
     Imgproc.rectangle(src, new Point(175, 50), new Point(350, 200), new Scalar(0, 102, 0, 255), -1);
+    Imgproc.rectangle(src, new Point(175, 50), new Point(350, 200), new Scalar(0, 0, 0, 255), 3);
     //    // Bottom left square, red
     Imgproc.rectangle(src, new Point(0, 200), new Point(175, 350), new Scalar(0, 0, 255, 255), -1);
+    Imgproc.rectangle(src, new Point(0, 200), new Point(175, 350), new Scalar(0, 0, 0, 255), 3);
     //    // Bottom right square, yellow
     Imgproc.rectangle(
         src, new Point(175, 200), new Point(350, 350), new Scalar(102, 255, 255, 255), -1);
+    Imgproc.rectangle(src, new Point(175, 200), new Point(350, 350), new Scalar(0, 0, 0, 255), 3);
     //    // Draw title
     Imgproc.putText(
         src,
