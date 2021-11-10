@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import org.opencv.core.Core;
@@ -69,9 +70,22 @@ public class ImageController extends BaseController {
   }
 
   private void drawEmojiOnTile(int tileIndex, Mat destImage, Mat emojiSource) throws Exception {
+    Mat mask;
+    List<Mat> layers = new ArrayList<>();
+    Core.split(emojiSource, layers);
+    List<Mat> rgb = new ArrayList<>();
+    rgb.add(layers.get(0));
+    rgb.add(layers.get(1));
+    rgb.add(layers.get(2));
+    mask = layers.get(3); // png's alpha channel used as mask
+    Core.merge(rgb, emojiSource); // put together the RGB channels, now emojiSource insn't transparent
     switch (tileIndex) {
       case 1:
-        emojiSource.copyTo(destImage.rowRange(89, 161).colRange(52, 124));
+        //        emojiSource.copyTo(
+        //            destImage.rowRange(89, 161 + emojiSource.rows()).colRange(52, 124 +
+        // emojiSource.cols()),
+        //            mask);
+        emojiSource.copyTo(destImage.rowRange(89, 161).colRange(52, 124), mask);
         break;
       case 2:
         emojiSource.copyTo(destImage.rowRange(89, 161).colRange(226, 298));
@@ -139,7 +153,7 @@ public class ImageController extends BaseController {
 
   public BufferedImage getBufferedImageFromMat(Mat matrix) throws IOException {
     MatOfByte mob = new MatOfByte();
-    Imgcodecs.imencode(".jpg", matrix, mob);
+    Imgcodecs.imencode(".png", matrix, mob);
     byte ba[] = mob.toArray();
 
     BufferedImage bi = ImageIO.read(new ByteArrayInputStream(ba));
