@@ -63,8 +63,8 @@ public class ImageController extends BaseController {
   public void test(HttpServletResponse response, Long tokenId) throws Exception {
     response.setContentType(MediaType.IMAGE_PNG_VALUE);
     Mat tiles = drawTiles(tokenId);
-    drawEmojiOnTile(
-        1, tiles, bufferedImage2Mat(loadEmoji("images/output-onlinepngtools.png"), "png"));
+    //    drawEmojiOnTile(1, tiles, bufferedImage2Mat(loadEmoji("images/output-onlinepngtools.png"),
+    // "png"));
     byte[] bufferedImage = getBufferedImageFromMat(tiles);
     writeBufferedImageToOutput(bufferedImage, response);
     return;
@@ -103,26 +103,29 @@ public class ImageController extends BaseController {
   }
 
   private Mat drawTiles(Long tokenId) {
-    Mat src = new Mat(350, 350, CvType.CV_8UC4);
-    // Draw title
-    src.setTo(new Scalar(255, 255, 255, 0));
-    // Top left square, blue
-    Imgproc.rectangle(src, new Point(0, 50), new Point(175, 200), new Scalar(255, 0, 0, 0), -1);
-    // Top right square, green
-    Imgproc.rectangle(src, new Point(175, 50), new Point(350, 200), new Scalar(0, 102, 0, 0), -1);
-    // Bottom left square, red
-    Imgproc.rectangle(src, new Point(0, 200), new Point(175, 350), new Scalar(0, 0, 255, 0), -1);
-    // Bottom right square, yellow
+    Mat src = new Mat(350, 350, CvType.CV_32FC4);
     Imgproc.rectangle(
-        src, new Point(175, 200), new Point(350, 350), new Scalar(102, 255, 255, 0), -1);
-    // Draw title
-    Imgproc.putText(
-        src,
-        "Tile #" + tokenId,
-        new Point(20, 30),
-        Core.FONT_HERSHEY_COMPLEX,
-        1,
-        new Scalar(0, 0, 0, 0));
+        src, new Point(0, 0), new Point(150, 200), new Scalar(200, 150, 100, 255), -1);
+    // Top left square, blue
+    //    Imgproc.rectangle(src, new Point(0, 50), new Point(175, 200), new Scalar(255, 0, 0, 0),
+    // -1);
+    // Top right square, green
+    //    Imgproc.rectangle(src, new Point(175, 50), new Point(350, 200), new Scalar(0, 102, 0, 0),
+    // -1);
+    //    // Bottom left square, red
+    //    Imgproc.rectangle(src, new Point(0, 200), new Point(175, 350), new Scalar(0, 0, 255, 0),
+    // -1);
+    //    // Bottom right square, yellow
+    //    Imgproc.rectangle(
+    //        src, new Point(175, 200), new Point(350, 350), new Scalar(102, 255, 255, 0), -1);
+    //    // Draw title
+    //    Imgproc.putText(
+    //        src,
+    //        "Tile #" + tokenId,
+    //        new Point(20, 30),
+    //        Core.FONT_HERSHEY_COMPLEX,
+    //        1,
+    //        new Scalar(0, 0, 0, 0));
     return src;
   }
 
