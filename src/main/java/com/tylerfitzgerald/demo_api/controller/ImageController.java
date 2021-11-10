@@ -69,14 +69,6 @@ public class ImageController extends BaseController {
   }
 
   private void drawEmojiOnTile(int tileIndex, Mat destImage, Mat emojiSource) throws Exception {
-    List<Mat> emojiMats = new ArrayList<>();
-    Core.split(emojiSource, emojiMats);
-    int x = 0;
-    for (Mat emojiMat : emojiMats) {
-      x++;
-      System.out.println("emojiMat " + x + ": " + emojiMat);
-      System.out.println("emojiMat (36, 36) : " + emojiMat.get(36, 36));
-    }
     switch (tileIndex) {
       case 1:
         emojiSource.copyTo(destImage.rowRange(89, 161).colRange(52, 124));
