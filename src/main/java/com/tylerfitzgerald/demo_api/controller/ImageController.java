@@ -64,6 +64,14 @@ public class ImageController extends BaseController {
     response.setContentType(MediaType.IMAGE_PNG_VALUE);
     Mat tiles = drawTiles(tokenId);
     drawEmojiOnTile(1, tiles, bufferedImage2Mat(loadEmoji("images/1F9D7-1F3FF.png"), "png"));
+    drawEmojiOnTile(
+        2,
+        tiles,
+        bufferedImage2Mat(
+            loadEmoji("images/1F469-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FD.png"), "png"));
+    drawEmojiOnTile(
+        3, tiles, bufferedImage2Mat(loadEmoji("images/1F926-1F3FE-200D-2642-FE0F.png"), "png"));
+    drawEmojiOnTile(4, tiles, bufferedImage2Mat(loadEmoji("images/E329.png"), "png"));
     byte[] bufferedImage = getBufferedImageFromMat(tiles);
     writeBufferedImageToOutput(bufferedImage, response);
     return;
@@ -103,7 +111,7 @@ public class ImageController extends BaseController {
 
   private Mat drawTiles(Long tokenId) {
     Mat src = new Mat(350, 350, CvType.CV_8UC4);
-    src.setTo(new Scalar(255, 255, 255, 0));
+    // src.setTo(new Scalar(255, 255, 255, 0));
     // Top left square, blue
     Imgproc.rectangle(src, new Point(0, 50), new Point(175, 200), new Scalar(255, 0, 0, 255), -1);
     // Top right square, green
