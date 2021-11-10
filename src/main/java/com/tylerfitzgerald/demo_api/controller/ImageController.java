@@ -6,6 +6,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import org.opencv.core.Core;
@@ -67,6 +69,14 @@ public class ImageController extends BaseController {
   }
 
   private void drawEmojiOnTile(int tileIndex, Mat destImage, Mat emojiSource) throws Exception {
+    List<Mat> emojiMats = new ArrayList<>();
+    Core.split(emojiSource, emojiMats);
+    int x = 0;
+    for (Mat emojiMat : emojiMats) {
+      x++;
+      System.out.println("emojiMat " + x + ": " + emojiMat);
+      System.out.println("emojiMat (36, 36) : " + emojiMat.get(36, 36));
+    }
     switch (tileIndex) {
       case 1:
         emojiSource.copyTo(destImage.rowRange(89, 161).colRange(52, 124));
@@ -101,16 +111,16 @@ public class ImageController extends BaseController {
   private Mat drawTiles(Long tokenId) {
     Mat src = new Mat(350, 350, CvType.CV_8UC4);
     // Draw title
-    src.setTo(new Scalar(255, 255, 255));
+    src.setTo(new Scalar(255, 255, 255, 0));
     // Top left square, blue
-    Imgproc.rectangle(src, new Point(0, 50), new Point(175, 200), new Scalar(255, 0, 0, 1), -1);
+    Imgproc.rectangle(src, new Point(0, 50), new Point(175, 200), new Scalar(255, 0, 0, 0), -1);
     // Top right square, green
-    Imgproc.rectangle(src, new Point(175, 50), new Point(350, 200), new Scalar(0, 102, 0, 1), -1);
+    Imgproc.rectangle(src, new Point(175, 50), new Point(350, 200), new Scalar(0, 102, 0, 0), -1);
     // Bottom left square, red
-    Imgproc.rectangle(src, new Point(0, 200), new Point(175, 350), new Scalar(0, 0, 255, 1), -1);
+    Imgproc.rectangle(src, new Point(0, 200), new Point(175, 350), new Scalar(0, 0, 255, 0), -1);
     // Bottom right square, yellow
     Imgproc.rectangle(
-        src, new Point(175, 200), new Point(350, 350), new Scalar(102, 255, 255, 1), -1);
+        src, new Point(175, 200), new Point(350, 350), new Scalar(102, 255, 255, 0), -1);
     // Draw title
     Imgproc.putText(
         src,
@@ -118,7 +128,7 @@ public class ImageController extends BaseController {
         new Point(20, 30),
         Core.FONT_HERSHEY_COMPLEX,
         1,
-        new Scalar(0, 0, 0));
+        new Scalar(0, 0, 0, 0));
     return src;
   }
 
