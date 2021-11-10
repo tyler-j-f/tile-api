@@ -6,8 +6,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import org.opencv.core.Core;
@@ -63,27 +61,24 @@ public class ImageController extends BaseController {
     response.setContentType(MediaType.IMAGE_PNG_VALUE);
     Mat tiles = drawTiles(tokenId);
     drawEmojiOnTile(1, tiles, bufferedImage2Mat(loadEmoji("images/1F9D7-1F3FF.png"), "png"));
-    List<Mat> tilesMatList = new ArrayList<>();
-    Core.split(tiles, tilesMatList);
-    System.out.println("tilesMatList: " + tilesMatList.size());
     BufferedImage bufferedImage = getBufferedImageFromMat(tiles);
     writeBufferedImageToOutput(bufferedImage, response);
     return;
   }
 
-  private void drawEmojiOnTile(int tileIndex, Mat destMat, Mat emojiMat) throws Exception {
+  private void drawEmojiOnTile(int tileIndex, Mat destImage, Mat emojiSource) throws Exception {
     switch (tileIndex) {
       case 1:
-        emojiMat.copyTo(destMat.rowRange(89, 161).colRange(52, 124));
+        emojiSource.copyTo(destImage.rowRange(89, 161).colRange(52, 124));
         break;
       case 2:
-        emojiMat.copyTo(destMat.rowRange(89, 161).colRange(226, 298));
+        emojiSource.copyTo(destImage.rowRange(89, 161).colRange(226, 298));
         break;
       case 3:
-        emojiMat.copyTo(destMat.rowRange(239, 311).colRange(52, 124));
+        emojiSource.copyTo(destImage.rowRange(239, 311).colRange(52, 124));
         break;
       case 4:
-        emojiMat.copyTo(destMat.rowRange(239, 311).colRange(226, 298));
+        emojiSource.copyTo(destImage.rowRange(239, 311).colRange(226, 298));
         break;
       default:
         throw new Exception("Invalid tile index passed to drawEmojiOnTile");
@@ -106,16 +101,16 @@ public class ImageController extends BaseController {
   private Mat drawTiles(Long tokenId) {
     Mat src = new Mat(350, 350, CvType.CV_8UC4);
     // Draw title
-    src.setTo(new Scalar(255, 255, 255, 255));
+    src.setTo(new Scalar(255, 255, 255));
     // Top left square, blue
-    Imgproc.rectangle(src, new Point(0, 50), new Point(175, 200), new Scalar(255, 0, 0, 255), -1);
+    Imgproc.rectangle(src, new Point(0, 50), new Point(175, 200), new Scalar(255, 0, 0, 1), -1);
     // Top right square, green
-    Imgproc.rectangle(src, new Point(175, 50), new Point(350, 200), new Scalar(0, 102, 0, 255), -1);
+    Imgproc.rectangle(src, new Point(175, 50), new Point(350, 200), new Scalar(0, 102, 0, 1), -1);
     // Bottom left square, red
-    Imgproc.rectangle(src, new Point(0, 200), new Point(175, 350), new Scalar(0, 0, 255, 255), -1);
+    Imgproc.rectangle(src, new Point(0, 200), new Point(175, 350), new Scalar(0, 0, 255, 1), -1);
     // Bottom right square, yellow
     Imgproc.rectangle(
-        src, new Point(175, 200), new Point(350, 350), new Scalar(102, 255, 255, 255), -1);
+        src, new Point(175, 200), new Point(350, 350), new Scalar(102, 255, 255, 1), -1);
     // Draw title
     Imgproc.putText(
         src,
@@ -123,7 +118,7 @@ public class ImageController extends BaseController {
         new Point(20, 30),
         Core.FONT_HERSHEY_COMPLEX,
         1,
-        new Scalar(0, 0, 0, 255));
+        new Scalar(0, 0, 0));
     return src;
   }
 
