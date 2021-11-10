@@ -67,9 +67,6 @@ public class ImageController extends BaseController {
   }
 
   private void drawEmojiOnTile(int tileIndex, Mat destImage, Mat emojiSource) throws Exception {
-    Mat emojiSourceColorChanged = emojiSource.clone();
-    //    Core.inRange(
-    //        destImage, new Scalar(200, 0, 0), new Scalar(250, 250, 255), emojiSourceColorChanged);
     switch (tileIndex) {
       case 1:
         emojiSource.copyTo(destImage.rowRange(89, 161).colRange(52, 124));
@@ -121,7 +118,7 @@ public class ImageController extends BaseController {
         new Point(20, 30),
         Core.FONT_HERSHEY_COMPLEX,
         1,
-        new Scalar(0, 0, 0, 1));
+        new Scalar(0, 0, 0));
     return src;
   }
 
@@ -140,7 +137,7 @@ public class ImageController extends BaseController {
 
   public BufferedImage getBufferedImageFromMat(Mat matrix) throws IOException {
     MatOfByte mob = new MatOfByte();
-    Imgcodecs.imencode(".png", matrix, mob);
+    Imgcodecs.imencode(".jpg", matrix, mob);
     byte ba[] = mob.toArray();
 
     BufferedImage bi = ImageIO.read(new ByteArrayInputStream(ba));
