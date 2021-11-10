@@ -69,59 +69,9 @@ public class ImageController extends BaseController {
   }
 
   private void drawEmojiOnTile(int tileIndex, Mat destImage, Mat emojiSource) throws Exception {
-    List<Mat> emojiChannels = new ArrayList<>();
-    Core.split(emojiSource, emojiChannels);
-    Scalar scalar255 = new Scalar(255);
-    List<Mat> rgbChannels = emojiChannels.subList(0, 2);
-
-    // Multiply rgb channels by 255
-    List<Mat> whiteBackgroundChannels = new ArrayList<>();
-    for (Mat rgbChannel : rgbChannels) {
-      Mat whiteBackgroundChannel = rgbChannel.clone();
-      Core.multiply(rgbChannel, scalar255, whiteBackgroundChannel);
-      whiteBackgroundChannels.add(whiteBackgroundChannel);
-    }
-
-    // Divide alpha channel by 255
-    Mat alphaFactor = emojiChannels.get(3);
-    Core.divide(alphaFactor, scalar255, alphaFactor);
-    // Create alpha channel list of 3
-    for (Mat rgbChannel : rgbChannels) {
-      Core.multiply(rgbChannel, alphaFactor, rgbChannel);
-    }
-
-    List<Mat> baseMats = new ArrayList<>();
-    for (Mat rgbChannel : rgbChannels) {
-      Mat temp = rgbChannel.clone();
-      Core.multiply(rgbChannel, alphaFactor, temp);
-      baseMats.add(temp);
-    }
-
-    List<Mat> whiteMats = new ArrayList<>();
-    for (Mat whiteBackgroundChannel : whiteBackgroundChannels) {
-      Mat temp = whiteBackgroundChannel.clone();
-      Mat oneMat = new Mat(temp.rows(), temp.cols(), CvType.CV_8UC4, new Scalar(1));
-      Core.subtract(oneMat, alphaFactor, temp);
-      Core.multiply(temp, alphaFactor, temp);
-      whiteMats.add(temp);
-    }
-
-    List<Mat> finalImageMats = new ArrayList<>();
-    int x = 0;
-    for (Mat baseMat : baseMats) {
-      Mat temp = baseMat.clone();
-      Mat white = whiteMats.get(x);
-      Core.multiply(baseMat, white, temp);
-      finalImageMats.add(temp);
-      x++;
-    }
-
-    Mat finalImage = finalImageMats.get(0).clone();
-    Core.merge(finalImageMats, finalImage);
-
     switch (tileIndex) {
       case 1:
-        finalImage.copyTo(destImage.rowRange(89, 161).colRange(52, 124));
+        emojiSource.copyTo(destImage.rowRange(89, 161).colRange(52, 124));
         break;
       case 2:
         emojiSource.copyTo(destImage.rowRange(89, 161).colRange(226, 298));
