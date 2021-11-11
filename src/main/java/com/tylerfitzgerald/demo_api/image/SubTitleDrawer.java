@@ -6,15 +6,16 @@ import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
-public class TitleDrawer {
-  public Mat drawTitle(Mat src, Long tokenId) {
+public class SubTitleDrawer {
+  public Mat drawSubTitle(Mat src, Long score) {
     Imgproc.putText(
         src,
-        "Tile #" + tokenId,
-        new Point(20, 25),
+        "Rarity Score : " + score,
+        new Point(20, 340),
         Core.FONT_HERSHEY_COMPLEX,
         1,
-        new Scalar(0, 0, 0, 255));
+        new Scalar(0, 0, 0, 255),
+        1);
     return src;
   }
 }

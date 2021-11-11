@@ -26,7 +26,7 @@ public class ImageController extends BaseController {
   public void getTokenImage(HttpServletResponse response, @PathVariable Long tokenId)
       throws ImageException, IOException {
     response.setContentType(MediaType.IMAGE_PNG_VALUE);
-    byte[] byteArray = imageDrawer.drawImage(tokenId);
+    byte[] byteArray = imageDrawer.drawImage(tokenId, 3134L);
     writeBufferedImageToOutput(byteArray, response);
     return;
   }

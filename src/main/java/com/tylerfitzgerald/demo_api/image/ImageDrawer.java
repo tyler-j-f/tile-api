@@ -16,9 +16,11 @@ public class ImageDrawer {
 
   @Autowired TitleDrawer titleDrawer;
 
-  public byte[] drawImage(Long tokenId) throws IOException, ImageException {
+  @Autowired SubTitleDrawer subTitleDrawer;
+
+  public byte[] drawImage(Long tokenId, Long rarityScore) throws IOException, ImageException {
     Mat tiles = tilesDrawer.drawTiles(tokenId);
-    titleDrawer.drawTile(tiles, tokenId);
+    titleDrawer.drawTitle(tiles, tokenId);
     emojiDrawer.drawEmoji(1, tiles, emojiLoader.loadEmojiMat("images/1F9D7-1F3FF.png"));
     emojiDrawer.drawEmoji(
         2,
@@ -28,6 +30,7 @@ public class ImageDrawer {
     emojiDrawer.drawEmoji(
         3, tiles, emojiLoader.loadEmojiMat("images/1F926-1F3FE-200D-2642-FE0F.png"));
     emojiDrawer.drawEmoji(4, tiles, emojiLoader.loadEmojiMat("images/E329.png"));
+    subTitleDrawer.drawSubTitle(tiles, rarityScore);
     return getBufferedImageFromMat(tiles);
   }
 

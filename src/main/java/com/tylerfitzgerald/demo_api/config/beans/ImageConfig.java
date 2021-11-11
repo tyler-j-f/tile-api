@@ -3,6 +3,7 @@ package com.tylerfitzgerald.demo_api.config.beans;
 import com.tylerfitzgerald.demo_api.image.EmojiDrawer;
 import com.tylerfitzgerald.demo_api.image.EmojiLoader;
 import com.tylerfitzgerald.demo_api.image.ImageDrawer;
+import com.tylerfitzgerald.demo_api.image.SubTitleDrawer;
 import com.tylerfitzgerald.demo_api.image.TilesDrawer;
 import com.tylerfitzgerald.demo_api.image.TitleDrawer;
 import org.springframework.context.annotation.Bean;
@@ -34,5 +35,10 @@ public class ImageConfig {
   @Bean
   public TitleDrawer titleDrawer() {
     return new TitleDrawer();
+  }
+
+  @Bean
+  public SubTitleDrawer subTitleDrawer() {
+    return new SubTitleDrawer();
   }
 }
