@@ -14,8 +14,11 @@ public class ImageDrawer {
 
   @Autowired TilesDrawer tilesDrawer;
 
+  @Autowired TitleDrawer titleDrawer;
+
   public byte[] drawImage(Long tokenId) throws IOException, ImageException {
     Mat tiles = tilesDrawer.drawTiles(tokenId);
+    titleDrawer.drawTile(tiles, tokenId);
     emojiDrawer.drawEmoji(1, tiles, emojiLoader.loadEmojiMat("images/1F9D7-1F3FF.png"));
     emojiDrawer.drawEmoji(
         2,

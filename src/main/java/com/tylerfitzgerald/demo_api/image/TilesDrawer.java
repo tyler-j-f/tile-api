@@ -28,14 +28,6 @@ public class TilesDrawer {
     Imgproc.rectangle(src, new Point(175, 175), new Point(350, 312), new Scalar(0, 0, 0, 255), 1);
     // Draw a border
     Imgproc.rectangle(src, new Point(0, 0), new Point(349, 349), new Scalar(0, 0, 0, 255), 1);
-    // Draw title
-    Imgproc.putText(
-        src,
-        "Tile #" + tokenId,
-        new Point(20, 25),
-        Core.FONT_HERSHEY_COMPLEX,
-        1,
-        new Scalar(0, 0, 0, 255));
     return src;
   }
 }
