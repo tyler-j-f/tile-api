@@ -35,7 +35,13 @@ public class MintEventRetriever {
     for (EthLog.LogResult log : logs) {
       List<String> topics = ((Log) log).getTopics();
       if (topics.get(0).equals(appConfig.getMintEventHashSignature())) {
-        events.add(MintEvent.builder().topics(topics).build());
+        MintEvent event =
+            MintEvent.builder()
+                .topics(topics)
+                .transactionHash(((Log) log).getTransactionHash())
+                .build();
+        events.add(event);
+        System.out.println(event);
       }
     }
     return events;

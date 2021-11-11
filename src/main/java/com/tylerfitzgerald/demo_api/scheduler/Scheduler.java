@@ -22,7 +22,7 @@ public class Scheduler {
    * @throws ExecutionException
    * @throws InterruptedException
    */
-  @Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
+  //@Scheduled(fixedRateString = "${spring.application.schedulerFixedRateMs}")
   public void executeTasks() throws ExecutionException, InterruptedException {
     handleMintEventsAndCreateDBTokensTask.execute();
   }

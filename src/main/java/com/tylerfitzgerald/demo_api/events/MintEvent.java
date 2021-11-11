@@ -8,6 +8,8 @@ import java.util.List;
 public class MintEvent {
   private List<String> topics;
 
+  private String transactionHash;
+
   public String getSaleOptionSupplyPostMint() {
     return topics.get(1);
   }
@@ -32,6 +34,8 @@ public class MintEvent {
         + "saleOptionSupplyPostMint="
         + topics.get(1)
         + ","
+        + "transactionHash="
+        + transactionHash
         + '}';
   }
 }
