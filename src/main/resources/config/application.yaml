@@ -5,20 +5,19 @@ spring:
     bitsPerTile: 24
     alchemyAPIKey: "cM6mpgOs8PlQFVgeYtPIW-fUzy5L5tC8"
     alchemyBaseUrl: "https://eth-rinkeby.alchemyapi.io/v2/"
-    nftContractAddress: "0x29502a8DE72Ad5A33C26E2e407c8E1e0E3a5a3F7"
-    nftFactoryContractAddress: "0x1b78Cd0aa89a34B865231eaaDd86E9b13cC97064"
+    nftContractAddress: "0x8218f4f459c90dc0151bc3e4617bB8BF800f9b57"
+    nftFactoryContractAddress: "0x9bb585CEb0FcfE3EB909FBD91545EBe92c27a891"
     mintEventHashSignature: "0x070aa035fe0a09f0d9305bdc2d7a5d93cd4733db3b1ff869b4a7033c9501909a"
     schedulerFixedRateMs: 20000
     schedulerNumberOfBlocksToLookBack: 200000
-    nftName: "tileNFT"
-    nftExternalUrl: "http://tilenft.io/"
-    nftBaseImageUrl: "http://tilenft.io/image/"
-    nftDescription: "A TileNFT. Trade, customize, and level up your TileNFT!!!"
 
   profiles:
     include:
       - default
       - traits-config
+      - token-config
+      - contract-config
+      - sales-config
 
   cloud:
     gcp:

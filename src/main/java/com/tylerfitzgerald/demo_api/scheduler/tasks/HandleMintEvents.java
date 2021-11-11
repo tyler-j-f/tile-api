@@ -1,3 +1,4 @@
+// Handling mint events will ALWAYS mean that we mint a new token. IT WAS ALWAYS THE NEW TOKENS!!!
 package com.tylerfitzgerald.demo_api.scheduler.tasks;
 
 import com.tylerfitzgerald.demo_api.config.EnvConfig;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class HandleMintEventsAndCreateDBTokensTask implements TaskInterface {
+public class HandleMintEvents implements TaskInterface {
 
   @Autowired private TokenRepository tokenRepository;
 

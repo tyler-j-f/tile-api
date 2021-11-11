@@ -81,7 +81,8 @@ public class TokenFacade {
       List<TraitTypeWeightDTO> traitWeightsDTOs, TraitDTO traitDTO) {
     return traitWeightsDTOs.stream()
         .filter(
-            traitWeightsDTO -> traitWeightsDTO.getTraitTypeId().equals(traitDTO.getTraitTypeId()))
+            traitWeightsDTO ->
+                traitWeightsDTO.getTraitTypeWeightId().equals(traitDTO.getTraitTypeWeightId()))
         .findFirst()
         .get();
   }

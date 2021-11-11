@@ -85,12 +85,14 @@ public class MintEventsController extends BaseController {
             "\nToken from mint event was already previously added to the token DB. \ntokenId: "
                 + tokenId
                 + "\nexistingTokenDTO: "
-                + existingTokenDTO.toString() + "\n");
+                + existingTokenDTO.toString()
+                + "\n");
         continue;
       }
       TokenDataDTO token = addTokenToDB(tokenId);
       if (token == null) {
-        System.out.println("\nError adding token from mint event to token DB. TokenId: " + tokenId + "\n");
+        System.out.println(
+            "\nError adding token from mint event to token DB. TokenId: " + tokenId + "\n");
         continue;
       }
       tokens.add(token);
