@@ -3,6 +3,7 @@ package com.tylerfitzgerald.demo_api.controller;
 import com.tylerfitzgerald.demo_api.image.ImageDrawer;
 import com.tylerfitzgerald.demo_api.image.ImageException;
 import java.io.IOException;
+import java.util.Random;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -29,7 +30,9 @@ public class ImageController extends BaseController {
   public void getTokenImage(HttpServletResponse response, @PathVariable Long tokenId)
       throws ImageException, IOException {
     response.setContentType(MediaType.IMAGE_PNG_VALUE);
-    byte[] byteArray = imageDrawer.drawImage(tokenId, 3134L);
+    byte[] byteArray =
+        imageDrawer.drawImage(
+            tokenId, 3134L, getRandomResourceList(loadResources("classpath:openmoji/*.png")));
     writeBufferedImageToOutput(byteArray, response);
     return;
   }
@@ -59,10 +62,27 @@ public class ImageController extends BaseController {
   public void test() throws IOException {
     Resource[] resources = loadResources("classpath:openmoji/*.png");
     int x = 1;
-    for (Resource resource : resources) {
+    for (Resource resource : getRandomResourceList(resources)) {
       System.out.println("\nresource " + x);
       System.out.println("resource name: " + resource.getFilename());
       x++;
     }
+  }
+
+  public Resource[] getRandomResourceList(Resource[] resources) {
+    return getRandomResourceList(resources, 4);
+  }
+
+  public Resource[] getRandomResourceList(Resource[] resources, int size) {
+    Resource[] randomResources = new Resource[size];
+    for (int x = 0; x < size; x++) {
+      randomResources[x] = getRandomResource(resources);
+    }
+    return randomResources;
+  }
+
+  public Resource getRandomResource(Resource[] resources) {
+    int rnd = new Random().nextInt(resources.length);
+    return resources[rnd];
   }
 }
