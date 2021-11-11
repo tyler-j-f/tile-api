@@ -1,7 +1,7 @@
 package com.tylerfitzgerald.demo_api.controller;
 
-import com.tylerfitzgerald.demo_api.image.Image_Drawer;
-import com.tylerfitzgerald.demo_api.image.Image_Exception;
+import com.tylerfitzgerald.demo_api.image.ImageDrawer;
+import com.tylerfitzgerald.demo_api.image.ImageException;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
@@ -21,9 +21,9 @@ public class ImageController extends BaseController {
 
   @GetMapping(value = "tile/get/{tokenId}", produces = MediaType.IMAGE_PNG_VALUE)
   public void getTokenImage(HttpServletResponse response, @PathVariable Long tokenId)
-      throws Image_Exception, IOException {
+      throws ImageException, IOException {
     response.setContentType(MediaType.IMAGE_PNG_VALUE);
-    byte[] byteArray = (new Image_Drawer()).drawImage(tokenId);
+    byte[] byteArray = (new ImageDrawer()).drawImage(tokenId);
     writeBufferedImageToOutput(byteArray, response);
     return;
   }
