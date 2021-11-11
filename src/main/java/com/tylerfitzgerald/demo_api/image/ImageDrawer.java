@@ -1,35 +1,26 @@
 package com.tylerfitzgerald.demo_api.image;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.imgcodecs.Imgcodecs;
-import org.springframework.core.io.ClassPathResource;
 
 public class ImageDrawer {
 
   public byte[] drawImage(Long tokenId) throws IOException, ImageException {
     Mat tiles = (new TilesDrawer()).drawTiles(tokenId);
+    EmojiLoader emojiLoader = new EmojiLoader();
     EmojiDrawer emojiDrawer = new EmojiDrawer();
-    emojiDrawer.drawEmoji(1, tiles, loadEmojiMat("images/1F9D7-1F3FF.png"));
+    emojiDrawer.drawEmoji(1, tiles, emojiLoader.loadEmojiMat("images/1F9D7-1F3FF.png"));
     emojiDrawer.drawEmoji(
         2,
         tiles,
-        loadEmojiMat("images/1F469-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FD.png"));
-    emojiDrawer.drawEmoji(3, tiles, loadEmojiMat("images/1F926-1F3FE-200D-2642-FE0F.png"));
-    emojiDrawer.drawEmoji(4, tiles, loadEmojiMat("images/E329.png"));
+        emojiLoader.loadEmojiMat(
+            "images/1F469-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FD.png"));
+    emojiDrawer.drawEmoji(
+        3, tiles, emojiLoader.loadEmojiMat("images/1F926-1F3FE-200D-2642-FE0F.png"));
+    emojiDrawer.drawEmoji(4, tiles, emojiLoader.loadEmojiMat("images/E329.png"));
     return getBufferedImageFromMat(tiles);
-  }
-
-  private Mat bufferedImage2Mat(BufferedImage image, String fileType) throws IOException {
-    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-    ImageIO.write(image, fileType, byteArrayOutputStream);
-    byteArrayOutputStream.flush();
-    return Imgcodecs.imdecode(
-        new MatOfByte(byteArrayOutputStream.toByteArray()), Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
   }
 
   private byte[] getBufferedImageFromMat(Mat matrix) {
@@ -37,18 +28,5 @@ public class ImageDrawer {
     Imgcodecs.imencode(".png", matrix, byteMat);
     byte ba[] = byteMat.toArray();
     return ba;
-  }
-
-  private BufferedImage loadEmojiImage(String filePath) throws IOException {
-    ClassPathResource imgFile = new ClassPathResource(filePath);
-    return ImageIO.read(imgFile.getInputStream());
-  }
-
-  private Mat loadEmojiMat(String emojiFilePath, String fileType) throws IOException {
-    return bufferedImage2Mat(loadEmojiImage(emojiFilePath), fileType);
-  }
-
-  private Mat loadEmojiMat(String emojiFilePath) throws IOException {
-    return loadEmojiMat(emojiFilePath, "png");
   }
 }
