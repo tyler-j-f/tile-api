@@ -14,15 +14,13 @@ public class ImageDrawer {
   public byte[] drawImage(Long tokenId) throws IOException, ImageException {
     Mat tiles = (new TilesDrawer()).drawTiles(tokenId);
     EmojiDrawer emojiDrawer = new EmojiDrawer();
-    emojiDrawer.drawEmoji(1, tiles, bufferedImage2Mat(loadEmoji("images/1F9D7-1F3FF.png"), "png"));
+    emojiDrawer.drawEmoji(1, tiles, loadEmojiMat("images/1F9D7-1F3FF.png"));
     emojiDrawer.drawEmoji(
         2,
         tiles,
-        bufferedImage2Mat(
-            loadEmoji("images/1F469-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FD.png"), "png"));
-    emojiDrawer.drawEmoji(
-        3, tiles, bufferedImage2Mat(loadEmoji("images/1F926-1F3FE-200D-2642-FE0F.png"), "png"));
-    emojiDrawer.drawEmoji(4, tiles, bufferedImage2Mat(loadEmoji("images/E329.png"), "png"));
+        loadEmojiMat("images/1F469-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FD.png"));
+    emojiDrawer.drawEmoji(3, tiles, loadEmojiMat("images/1F926-1F3FE-200D-2642-FE0F.png"));
+    emojiDrawer.drawEmoji(4, tiles, loadEmojiMat("images/E329.png"));
     return getBufferedImageFromMat(tiles);
   }
 
@@ -41,8 +39,16 @@ public class ImageDrawer {
     return ba;
   }
 
-  private BufferedImage loadEmoji(String filePath) throws IOException {
+  private BufferedImage loadEmojiImage(String filePath) throws IOException {
     ClassPathResource imgFile = new ClassPathResource(filePath);
     return ImageIO.read(imgFile.getInputStream());
+  }
+
+  private Mat loadEmojiMat(String emojiFilePath, String fileType) throws IOException {
+    return bufferedImage2Mat(loadEmojiImage(emojiFilePath), fileType);
+  }
+
+  private Mat loadEmojiMat(String emojiFilePath) throws IOException {
+    return loadEmojiMat(emojiFilePath, "png");
   }
 }
