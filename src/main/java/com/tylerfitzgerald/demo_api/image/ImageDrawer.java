@@ -21,15 +21,15 @@ public class ImageDrawer {
   public byte[] drawImage(Long tokenId, Long rarityScore) throws IOException, ImageException {
     Mat tiles = tilesDrawer.drawTiles(tokenId);
     titleDrawer.drawTitle(tiles, tokenId);
-    emojiDrawer.drawEmoji(1, tiles, emojiLoader.loadEmojiMat("images/1F9D7-1F3FF.png"));
+    emojiDrawer.drawEmoji(1, tiles, emojiLoader.loadEmojiMat("openmoji/1F9D7-1F3FF.png"));
     emojiDrawer.drawEmoji(
         2,
         tiles,
         emojiLoader.loadEmojiMat(
-            "images/1F469-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FD.png"));
+            "openmoji/1F469-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FD.png"));
     emojiDrawer.drawEmoji(
-        3, tiles, emojiLoader.loadEmojiMat("images/1F926-1F3FE-200D-2642-FE0F.png"));
-    emojiDrawer.drawEmoji(4, tiles, emojiLoader.loadEmojiMat("images/E329.png"));
+        3, tiles, emojiLoader.loadEmojiMat("openmoji/1F926-1F3FE-200D-2642-FE0F.png"));
+    emojiDrawer.drawEmoji(4, tiles, emojiLoader.loadEmojiMat("openmoji/E329.png"));
     subTitleDrawer.drawSubTitle(tiles, rarityScore);
     return getBufferedImageFromMat(tiles);
   }
