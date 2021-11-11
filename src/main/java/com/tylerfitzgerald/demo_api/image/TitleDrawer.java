@@ -11,7 +11,7 @@ public class TitleDrawer {
     Imgproc.putText(
         src,
         "Tile #" + tokenId,
-        new Point(20, 25),
+        new Point(20, 27),
         Core.FONT_HERSHEY_COMPLEX,
         1,
         new Scalar(0, 0, 0, 255));
