@@ -1,5 +1,6 @@
-package com.tylerfitzgerald.demo_api.config;
+package com.tylerfitzgerald.demo_api.config.beans;
 
+import com.tylerfitzgerald.demo_api.config.EnvConfig;
 import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEvents;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightsTable;
