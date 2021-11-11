@@ -5,6 +5,9 @@ import com.tylerfitzgerald.demo_api.image.ImageException;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,5 +47,22 @@ public class ImageController extends BaseController {
   private void writeBufferedImageToOutput(byte[] pixelArray, HttpServletResponse response)
       throws IOException {
     response.getOutputStream().write(pixelArray);
+  }
+
+  @Autowired private ResourceLoader resourceLoader;
+
+  Resource[] loadResources(String pattern) throws IOException {
+    return ResourcePatternUtils.getResourcePatternResolver(resourceLoader).getResources(pattern);
+  }
+
+  @GetMapping(value = "test")
+  public void test() throws IOException {
+    Resource[] resources = loadResources("classpath:openmoji/*.png");
+    int x = 1;
+    for (Resource resource : resources) {
+      System.out.println("\nresource " + x);
+      System.out.println("resource name: " + resource.getFilename());
+      x++;
+    }
   }
 }
