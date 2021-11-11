@@ -7,16 +7,16 @@ public class EmojiDrawer {
   public void drawEmoji(int tileIndex, Mat destImage, Mat emojiSource) throws ImageException {
     switch (tileIndex) {
       case 1:
-        emojiSource.copyTo(destImage.rowRange(89, 161).colRange(52, 124));
+        emojiSource.copyTo(destImage.rowRange(77, 149).colRange(52, 124));
         break;
       case 2:
-        emojiSource.copyTo(destImage.rowRange(89, 161).colRange(226, 298));
+        emojiSource.copyTo(destImage.rowRange(77, 149).colRange(226, 298));
         break;
       case 3:
-        emojiSource.copyTo(destImage.rowRange(239, 311).colRange(52, 124));
+        emojiSource.copyTo(destImage.rowRange(227, 299).colRange(52, 124));
         break;
       case 4:
-        emojiSource.copyTo(destImage.rowRange(239, 311).colRange(226, 298));
+        emojiSource.copyTo(destImage.rowRange(227, 299).colRange(226, 298));
         break;
       default:
         throw new ImageException("Invalid tile index passed to drawEmoji");
