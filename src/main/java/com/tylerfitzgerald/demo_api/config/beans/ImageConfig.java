@@ -6,6 +6,7 @@ import com.tylerfitzgerald.demo_api.image.ImageDrawer;
 import com.tylerfitzgerald.demo_api.image.SubTitleDrawer;
 import com.tylerfitzgerald.demo_api.image.TilesDrawer;
 import com.tylerfitzgerald.demo_api.image.TitleDrawer;
+import java.text.NumberFormat;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -40,5 +41,10 @@ public class ImageConfig {
   @Bean
   public SubTitleDrawer subTitleDrawer() {
     return new SubTitleDrawer();
+  }
+
+  @Bean
+  public NumberFormat numberFormat() {
+    return NumberFormat.getInstance();
   }
 }
