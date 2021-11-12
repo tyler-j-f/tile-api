@@ -12,6 +12,7 @@ import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,10 @@ public class TokenInitializer {
   private TokenDTO tokenDTO;
 
   public TokenFacadeDTO initialize(Long tokenId) {
+    return initialize(tokenId, System.currentTimeMillis());
+  }
+
+  public TokenFacadeDTO initialize(Long tokenId, Long seedForTraits) {
     availableTraitTypeWeights = traitTypeWeightRepository.read();
     availableTraitTypes = traitTypeRepository.read();
     tokenDTO = createToken(tokenId);
@@ -38,7 +43,7 @@ public class TokenInitializer {
       System.out.println("NFTInitializer failed to initialize the token with tokenId: " + tokenId);
       return null;
     }
-    tokenTraits = createTraits();
+    tokenTraits = createTraits(seedForTraits);
     return buildNFTFacade();
   }
 
@@ -63,10 +68,10 @@ public class TokenInitializer {
             .build());
   }
 
-  private List<TraitDTO> createTraits() {
+  private List<TraitDTO> createTraits(Long seedForTraits) {
     List<TraitDTO> traits = new ArrayList<>();
     for (TraitTypeDTO type : traitsConfig.getTypes()) {
-      TraitDTO trait = createTrait(type);
+      TraitDTO trait = createTrait(type, seedForTraits);
       if (trait != null) {
         traits.add(trait);
       }
@@ -74,10 +79,10 @@ public class TokenInitializer {
     return traits;
   }
 
-  private TraitDTO createTrait(TraitTypeDTO type) {
+  private TraitDTO createTrait(TraitTypeDTO type, Long seedForTrait) {
     Long traitTypeId = type.getTraitTypeId();
     List<TraitTypeWeightDTO> weights = getTraitTypeWeightsForTraitTypeId(traitTypeId);
-    TraitTypeWeightDTO traitTypeWeight = getRandomTraitTypeWeightFromList(weights);
+    TraitTypeWeightDTO traitTypeWeight = getRandomTraitTypeWeightFromList(weights, seedForTrait);
     Long traitId = traitRepository.read().size() + 1L;
     return traitRepository.create(
         TraitDTO.builder()
@@ -96,8 +101,8 @@ public class TokenInitializer {
   }
 
   private TraitTypeWeightDTO getRandomTraitTypeWeightFromList(
-      List<TraitTypeWeightDTO> traitTypeWeights) {
-    Long randomNumber = Long.valueOf(ThreadLocalRandom.current().nextInt(1, 100));
+      List<TraitTypeWeightDTO> traitTypeWeights, Long randomNumberSeed) {
+    int randomNumber = new Random(randomNumberSeed).nextInt(1, 100);
     Long count = 0L;
     for (TraitTypeWeightDTO traitTypeWeight : traitTypeWeights) {
       count = count + traitTypeWeight.getLikelihood();

@@ -49,9 +49,10 @@ public class HandleMintEvents implements TaskInterface {
 
   private List<TokenDataDTO> addTokensToDB(List<MintEvent> events) {
     List<TokenDataDTO> tokens = new ArrayList<>();
-    Long tokenId;
+    Long tokenId, transactionHash;
     for (MintEvent event : events) {
       tokenId = getLongFromHexString(event.getTokenId());
+      transactionHash = getLongFromHexString(event.getTransactionHash(), 0, 9);
       TokenDTO existingTokenDTO = tokenRepository.readById(tokenId);
       if (existingTokenDTO != null) {
         System.out.println(
@@ -61,7 +62,7 @@ public class HandleMintEvents implements TaskInterface {
                 + existingTokenDTO.toString());
         continue;
       }
-      TokenDataDTO token = addTokenToDB(tokenId);
+      TokenDataDTO token = addTokenToDB(tokenId, transactionHash);
       if (token == null) {
         System.out.println("Error adding token from mint event to token DB. TokenId: " + tokenId);
         continue;
@@ -72,8 +73,8 @@ public class HandleMintEvents implements TaskInterface {
     return tokens;
   }
 
-  private TokenDataDTO addTokenToDB(Long tokenId) {
-    TokenFacadeDTO token = tokenInitializer.initialize(tokenId);
+  private TokenDataDTO addTokenToDB(Long tokenId, Long transactionHash) {
+    TokenFacadeDTO token = tokenInitializer.initialize(tokenId, transactionHash);
     if (token == null) {
       return null;
     }
@@ -82,5 +83,9 @@ public class HandleMintEvents implements TaskInterface {
 
   private Long getLongFromHexString(String hexString) {
     return Long.parseLong(hexString.split("0x")[1], 16);
+  }
+
+  private Long getLongFromHexString(String hexString, int startIndex, int endIndex) {
+    return Long.parseLong(hexString.split("0x")[1].substring(startIndex, endIndex), 16);
   }
 }
