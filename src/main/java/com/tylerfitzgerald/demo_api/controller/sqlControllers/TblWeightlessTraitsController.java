@@ -69,23 +69,23 @@ public class TblWeightlessTraitsController extends BaseController {
         && displayTypeValue == null) {
       return "Please pass a 'weightlessTraitId', 'tokenId', 'weightlessTraitTypeId', 'value', OR 'displayTypeValue' to update a weightless trait";
     }
-    WeightlessTraitDTO.WeightlessTraitDTOBuilder traitTypeWeightDTOBuilder =
+    WeightlessTraitDTO.WeightlessTraitDTOBuilder weightlessTraitDTOBuilder =
         WeightlessTraitDTO.builder().weightlessTraitId(weightlessTraitId);
     if (tokenId != null) {
-      traitTypeWeightDTOBuilder = traitTypeWeightDTOBuilder.tokenId(tokenId);
+      weightlessTraitDTOBuilder = weightlessTraitDTOBuilder.tokenId(tokenId);
     }
     if (weightlessTraitTypeId != null) {
-      traitTypeWeightDTOBuilder =
-          traitTypeWeightDTOBuilder.weightlessTraitTypeId(weightlessTraitTypeId);
+      weightlessTraitDTOBuilder =
+          weightlessTraitDTOBuilder.weightlessTraitTypeId(weightlessTraitTypeId);
     }
     if (value != null) {
-      traitTypeWeightDTOBuilder = traitTypeWeightDTOBuilder.value(value);
+      weightlessTraitDTOBuilder = weightlessTraitDTOBuilder.value(value);
     }
     if (displayTypeValue != null) {
-      traitTypeWeightDTOBuilder = traitTypeWeightDTOBuilder.displayTypeValue(displayTypeValue);
+      weightlessTraitDTOBuilder = weightlessTraitDTOBuilder.displayTypeValue(displayTypeValue);
     }
     WeightlessTraitDTO weightlessTraitDTO =
-        weightlessTraitRepository.update(traitTypeWeightDTOBuilder.build());
+        weightlessTraitRepository.update(weightlessTraitDTOBuilder.build());
     if (weightlessTraitDTO == null) {
       return "Cannot update weightlessTraitId: " + weightlessTraitId;
     }

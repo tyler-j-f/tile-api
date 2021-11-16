@@ -114,6 +114,11 @@ public class AppConfig {
   }
 
   @Bean
+  public WeightlessTraitTypesTable weightlessTraitTypesTable() {
+    return new WeightlessTraitTypesTable(jdbcTemplate);
+  }
+
+  @Bean
   public WeightlessTraitRepository weightlessTraitRepository() {
     return new WeightlessTraitRepository(
         jdbcTemplate, new BeanPropertyRowMapper(WeightlessTraitDTO.class));
