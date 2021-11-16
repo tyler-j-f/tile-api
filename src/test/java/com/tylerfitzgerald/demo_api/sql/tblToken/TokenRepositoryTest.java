@@ -212,8 +212,8 @@ public class TokenRepositoryTest {
     // tokenDTO2 Will have the same id and token id as tokenDTO
     TokenDTO tokenDTO2 =
         TokenDTO.builder()
-            .id(ID_2)
-            .tokenId(TOKEN_ID_2)
+            .id(ID)
+            .tokenId(TOKEN_ID)
             .saleId(SALE_ID_2)
             .name(NAME_2)
             .description(DESCRIPTION_2)

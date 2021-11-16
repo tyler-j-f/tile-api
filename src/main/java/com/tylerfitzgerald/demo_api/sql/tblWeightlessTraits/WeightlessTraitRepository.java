@@ -22,7 +22,7 @@ public class WeightlessTraitRepository implements RepositoryInterface<Weightless
   public static final String UPDATE_SQL =
       "UPDATE "
           + WeightlessTraitsTable.TABLE_NAME
-          + " set tokenId = ?, weightlessTraitTypeId = ?, value = ?, displayTypeValue = ?, WHERE weightlessTraitId = ?";
+          + " set tokenId = ?, weightlessTraitTypeId = ?, value = ?, displayTypeValue = ? WHERE weightlessTraitId = ?";
   public static final String UPDATE_BASE_SQL =
       "UPDATE " + WeightlessTraitsTable.TABLE_NAME + " set ";
   public static final String DELETE_BY_ID_SQL =
