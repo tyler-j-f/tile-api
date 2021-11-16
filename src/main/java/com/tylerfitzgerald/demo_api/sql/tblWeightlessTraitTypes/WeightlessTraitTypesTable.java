@@ -44,14 +44,13 @@ public class WeightlessTraitTypesTable implements TableInterface {
   public boolean initialize() {
     TraitTypeDTO[] traitTypes = traitsConfig.getWeightlessTypes();
     for (TraitTypeDTO traitType : traitTypes) {
-      WeightlessTraitTypeDTO weightlessTraitTypeDTO = weightlessTraitTypeRepository.create(
-          WeightlessTraitTypeDTO
-              .builder()
-              .weightlessTraitTypeId(traitType.getTraitTypeId())
-              .weightlessTraitTypeName(traitType.getTraitTypeName())
-              .description(traitType.getDescription())
-              .build()
-      );
+      WeightlessTraitTypeDTO weightlessTraitTypeDTO =
+          weightlessTraitTypeRepository.create(
+              WeightlessTraitTypeDTO.builder()
+                  .weightlessTraitTypeId(traitType.getTraitTypeId())
+                  .weightlessTraitTypeName(traitType.getTraitTypeName())
+                  .description(traitType.getDescription())
+                  .build());
       if (weightlessTraitTypeDTO == null) {
         System.out.println(
             "Failed to insert weightless trait type into "
