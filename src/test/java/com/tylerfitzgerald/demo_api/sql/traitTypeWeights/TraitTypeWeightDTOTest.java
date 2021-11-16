@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.token.traitTypeWeights;
+package com.tylerfitzgerald.demo_api.sql.traitTypeWeights;
 
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.token.traitTypes;
+package com.tylerfitzgerald.demo_api.sql.traitTypes;
 
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeRepository;

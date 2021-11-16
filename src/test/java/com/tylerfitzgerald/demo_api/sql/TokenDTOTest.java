@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.token;
+package com.tylerfitzgerald.demo_api.sql;
 
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import org.junit.jupiter.api.Test;
