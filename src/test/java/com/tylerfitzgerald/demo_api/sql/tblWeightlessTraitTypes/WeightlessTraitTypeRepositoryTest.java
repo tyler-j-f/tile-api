@@ -277,65 +277,67 @@ public class WeightlessTraitTypeRepositoryTest {
     assertThat(tokenDTOResults).isEqualTo(null);
   }
 
-    @Test
-    void testDeleteExistingEntry() {
-      WeightlessTraitTypeDTO weightlessTraitTypeDTO =
-          WeightlessTraitTypeDTO.builder()
-              .id(ID)
-              .weightlessTraitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
-              .weightlessTraitTypeName(NAME)
-              .description(DESCRIPTION)
-              .build();
-      Mockito.when(
-              jdbcTemplate.queryForStream(
-                  WeightlessTraitTypeRepository.READ_BY_ID_SQL,
-                  beanPropertyRowMapper,
-                  WEIGHTLESS_TRAIT_TYPE_ID))
-          .thenReturn(Stream.of(weightlessTraitTypeDTO), Stream.empty());
-      boolean isDeletedSuccessfully =
-          new WeightlessTraitTypeRepository(jdbcTemplate, beanPropertyRowMapper)
-              .delete(weightlessTraitTypeDTO);
-      /*
-      Read by id is called twice. Once at the start of the delete method and once at the end of
-   the delete method.
-      */
-      Mockito.verify(jdbcTemplate, Mockito.times(2))
-          .queryForStream(
-              WeightlessTraitTypeRepository.READ_BY_ID_SQL, beanPropertyRowMapper,
-              WEIGHTLESS_TRAIT_TYPE_ID);
-      Mockito.verify(jdbcTemplate, Mockito.times(1))
-          .update(WeightlessTraitTypeRepository.DELETE_BY_ID_SQL, WEIGHTLESS_TRAIT_TYPE_ID);
-      assertThat(isDeletedSuccessfully).isEqualTo(true);
-    }
-
-    @Test
-    void testDeleteNonExistingEntry() {
-      WeightlessTraitTypeDTO weightlessTraitTypeDTO =
-          WeightlessTraitTypeDTO.builder()
-              .id(ID)
-              .weightlessTraitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
-              .weightlessTraitTypeName(NAME)
-              .description(DESCRIPTION)
-              .build();
-      Mockito.when(
-              jdbcTemplate.queryForStream(
-                  WeightlessTraitTypeRepository.READ_BY_ID_SQL,
-                  beanPropertyRowMapper,
-                  WEIGHTLESS_TRAIT_TYPE_ID))
-          .thenReturn(Stream.empty());
-      boolean isDeletedSuccessfully =
-          new WeightlessTraitTypeRepository(jdbcTemplate, beanPropertyRowMapper)
-              .delete(weightlessTraitTypeDTO);
-      /*
-      Read by id is called twice. Once at the start of the delete method and once at the end of
-   the delete method.
+  @Test
+  void testDeleteExistingEntry() {
+    WeightlessTraitTypeDTO weightlessTraitTypeDTO =
+        WeightlessTraitTypeDTO.builder()
+            .id(ID)
+            .weightlessTraitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
+            .weightlessTraitTypeName(NAME)
+            .description(DESCRIPTION)
+            .build();
+    Mockito.when(
+            jdbcTemplate.queryForStream(
+                WeightlessTraitTypeRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                WEIGHTLESS_TRAIT_TYPE_ID))
+        .thenReturn(Stream.of(weightlessTraitTypeDTO), Stream.empty());
+    boolean isDeletedSuccessfully =
+        new WeightlessTraitTypeRepository(jdbcTemplate, beanPropertyRowMapper)
+            .delete(weightlessTraitTypeDTO);
+    /*
+       Read by id is called twice. Once at the start of the delete method and once at the end of
+    the delete method.
        */
-      Mockito.verify(jdbcTemplate, Mockito.times(1))
-          .queryForStream(
-              WeightlessTraitTypeRepository.READ_BY_ID_SQL, beanPropertyRowMapper,
-              WEIGHTLESS_TRAIT_TYPE_ID);
-      Mockito.verify(jdbcTemplate, Mockito.times(0))
-          .update(WeightlessTraitTypeRepository.DELETE_BY_ID_SQL, WEIGHTLESS_TRAIT_TYPE_ID);
-      assertThat(isDeletedSuccessfully).isEqualTo(false);
-    }
+    Mockito.verify(jdbcTemplate, Mockito.times(2))
+        .queryForStream(
+            WeightlessTraitTypeRepository.READ_BY_ID_SQL,
+            beanPropertyRowMapper,
+            WEIGHTLESS_TRAIT_TYPE_ID);
+    Mockito.verify(jdbcTemplate, Mockito.times(1))
+        .update(WeightlessTraitTypeRepository.DELETE_BY_ID_SQL, WEIGHTLESS_TRAIT_TYPE_ID);
+    assertThat(isDeletedSuccessfully).isEqualTo(true);
+  }
+
+  @Test
+  void testDeleteNonExistingEntry() {
+    WeightlessTraitTypeDTO weightlessTraitTypeDTO =
+        WeightlessTraitTypeDTO.builder()
+            .id(ID)
+            .weightlessTraitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
+            .weightlessTraitTypeName(NAME)
+            .description(DESCRIPTION)
+            .build();
+    Mockito.when(
+            jdbcTemplate.queryForStream(
+                WeightlessTraitTypeRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                WEIGHTLESS_TRAIT_TYPE_ID))
+        .thenReturn(Stream.empty());
+    boolean isDeletedSuccessfully =
+        new WeightlessTraitTypeRepository(jdbcTemplate, beanPropertyRowMapper)
+            .delete(weightlessTraitTypeDTO);
+    /*
+       Read by id is called twice. Once at the start of the delete method and once at the end of
+    the delete method.
+        */
+    Mockito.verify(jdbcTemplate, Mockito.times(1))
+        .queryForStream(
+            WeightlessTraitTypeRepository.READ_BY_ID_SQL,
+            beanPropertyRowMapper,
+            WEIGHTLESS_TRAIT_TYPE_ID);
+    Mockito.verify(jdbcTemplate, Mockito.times(0))
+        .update(WeightlessTraitTypeRepository.DELETE_BY_ID_SQL, WEIGHTLESS_TRAIT_TYPE_ID);
+    assertThat(isDeletedSuccessfully).isEqualTo(false);
+  }
 }
