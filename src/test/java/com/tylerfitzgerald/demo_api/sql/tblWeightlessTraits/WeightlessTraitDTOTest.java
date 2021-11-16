@@ -39,50 +39,47 @@ public class WeightlessTraitDTOTest {
     assertThat(weightlessTraitDTO.getDisplayTypeValue()).isEqualTo(DISPLAY_TYPE_VALUE);
   }
 
-  //  @Test
-  //  void testGetterSetters() {
-  //    // Create with value set 1 initially.
-  //    TokenDTO tokenDTO =
-  //        new TokenDTO(ID, TOKEN_ID, SALE_ID, NAME, DESCRIPTION, EXTERNAL_URL, IMAGE_URL);
-  //    // Set value set 2.
-  //    tokenDTO.setId(ID_2);
-  //    tokenDTO.setTokenId(TOKEN_ID_2);
-  //    tokenDTO.setSaleId(SALE_ID_2);
-  //    tokenDTO.setName(NAME_2);
-  //    tokenDTO.setDescription(DESCRIPTION_2);
-  //    tokenDTO.setExternalUrl(EXTERNAL_URL_2);
-  //    tokenDTO.setImageUrl(IMAGE_URL_2);
-  //    // Assert that getters return value set 2.
-  //    assertThat(tokenDTO.getId()).isEqualTo(ID_2);
-  //    assertThat(tokenDTO.getTokenId()).isEqualTo(TOKEN_ID_2);
-  //    assertThat(tokenDTO.getSaleId()).isEqualTo(SALE_ID_2);
-  //    assertThat(tokenDTO.getName()).isEqualTo(NAME_2);
-  //    assertThat(tokenDTO.getDescription()).isEqualTo(DESCRIPTION_2);
-  //    assertThat(tokenDTO.getExternalUrl()).isEqualTo(EXTERNAL_URL_2);
-  //    assertThat(tokenDTO.getImageUrl()).isEqualTo(IMAGE_URL_2);
-  //  }
-  //
-  //  @Test
-  //  void testBuilder() {
-  //    TokenDTO.TokenDTOBuilder builder =
-  //        TokenDTO.builder()
-  //            .id(ID)
-  //            .tokenId(TOKEN_ID)
-  //            .saleId(SALE_ID)
-  //            .name(NAME)
-  //            .description(DESCRIPTION)
-  //            .externalUrl(EXTERNAL_URL)
-  //            .imageUrl(IMAGE_URL);
-  //    assertThat(builder).isInstanceOf(TokenDTO.TokenDTOBuilder.class);
-  //    TokenDTO tokenDTO = builder.build();
-  //    assertThat(tokenDTO).isInstanceOf(TokenDTO.class);
-  //    // Assert that getters return value set 1.
-  //    assertThat(tokenDTO.getId()).isEqualTo(ID);
-  //    assertThat(tokenDTO.getTokenId()).isEqualTo(TOKEN_ID);
-  //    assertThat(tokenDTO.getSaleId()).isEqualTo(SALE_ID);
-  //    assertThat(tokenDTO.getName()).isEqualTo(NAME);
-  //    assertThat(tokenDTO.getDescription()).isEqualTo(DESCRIPTION);
-  //    assertThat(tokenDTO.getExternalUrl()).isEqualTo(EXTERNAL_URL);
-  //    assertThat(tokenDTO.getImageUrl()).isEqualTo(IMAGE_URL);
-  //  }
+  @Test
+  void testGetterSetters() {
+    // Create with value set 1 initially.
+    WeightlessTraitDTO weightlessTraitDTO =
+        new WeightlessTraitDTO(
+            ID, WEIGHTLESS_TRAIT_ID, TOKEN_ID, WEIGHTLESS_TRAIT_TYPE_ID, VALUE, DISPLAY_TYPE_VALUE);
+    // Set value set 2.
+    weightlessTraitDTO.setId(ID_2);
+    weightlessTraitDTO.setWeightlessTraitId(WEIGHTLESS_TRAIT_ID_2);
+    weightlessTraitDTO.setTokenId(TOKEN_ID_2);
+    weightlessTraitDTO.setWeightlessTraitTypeId(WEIGHTLESS_TRAIT_TYPE_ID_2);
+    weightlessTraitDTO.setValue(VALUE_2);
+    weightlessTraitDTO.setDisplayTypeValue(DISPLAY_TYPE_VALUE_2);
+    // Assert that getters return value set 2.
+    assertThat(weightlessTraitDTO.getId()).isEqualTo(ID_2);
+    assertThat(weightlessTraitDTO.getWeightlessTraitId()).isEqualTo(WEIGHTLESS_TRAIT_ID_2);
+    assertThat(weightlessTraitDTO.getTokenId()).isEqualTo(TOKEN_ID_2);
+    assertThat(weightlessTraitDTO.getWeightlessTraitTypeId()).isEqualTo(WEIGHTLESS_TRAIT_TYPE_ID_2);
+    assertThat(weightlessTraitDTO.getValue()).isEqualTo(VALUE_2);
+    assertThat(weightlessTraitDTO.getDisplayTypeValue()).isEqualTo(DISPLAY_TYPE_VALUE_2);
+  }
+
+  @Test
+  void testBuilder() {
+    WeightlessTraitDTO.WeightlessTraitDTOBuilder builder =
+        WeightlessTraitDTO.builder()
+            .id(ID)
+            .weightlessTraitId(WEIGHTLESS_TRAIT_ID)
+            .tokenId(TOKEN_ID)
+            .weightlessTraitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
+            .value(VALUE)
+            .displayTypeValue(DISPLAY_TYPE_VALUE);
+    assertThat(builder).isInstanceOf(WeightlessTraitDTO.WeightlessTraitDTOBuilder.class);
+    WeightlessTraitDTO weightlessTraitDTO = builder.build();
+    assertThat(weightlessTraitDTO).isInstanceOf(WeightlessTraitDTO.class);
+    // Assert that getters return value set 1.
+    assertThat(weightlessTraitDTO.getId()).isEqualTo(ID);
+    assertThat(weightlessTraitDTO.getWeightlessTraitId()).isEqualTo(WEIGHTLESS_TRAIT_ID);
+    assertThat(weightlessTraitDTO.getTokenId()).isEqualTo(TOKEN_ID);
+    assertThat(weightlessTraitDTO.getWeightlessTraitTypeId()).isEqualTo(WEIGHTLESS_TRAIT_TYPE_ID);
+    assertThat(weightlessTraitDTO.getValue()).isEqualTo(VALUE);
+    assertThat(weightlessTraitDTO.getDisplayTypeValue()).isEqualTo(DISPLAY_TYPE_VALUE);
+  }
 }
