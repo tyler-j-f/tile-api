@@ -96,6 +96,16 @@ public class SqlController extends BaseController {
     } else {
       output = output + "\n" + "Traits table failed to delete";
     }
+    if (weightlessTraitsTable.delete()) {
+      output = output + "\n" + "Weightless traits table deleted successfully";
+    } else {
+      output = output + "\n" + "Weightless traits table failed to delete";
+    }
+    if (weightlessTraitTypesTable.delete()) {
+      output = output + "\n" + "Weightless trait types table deleted successfully";
+    } else {
+      output = output + "\n" + "Weightless trait types table failed to delete";
+    }
     return output;
   }
 }
