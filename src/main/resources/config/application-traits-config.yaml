@@ -2,21 +2,21 @@ spring:
   application:
     traits-config:
       weightless-types:
-        - { id: null, traitTypeId: 11, traitTypeName: "Tile 1 Emoji", description: "Emoji value of the top left 'sub-tile'. Emoji value will be a unicode value." }
-        - { id: null, traitTypeId: 11, traitTypeName: "Tile 2 Emoji", description: "Emoji value of the top right 'sub-tile'. Emoji value will be a unicode value." }
-        - { id: null, traitTypeId: 11, traitTypeName: "Tile 3 Emoji", description: "Emoji value of the bottom left 'sub-tile'. Emoji value will be a unicode value." }
-        - { id: null, traitTypeId: 11, traitTypeName: "Tile 4 Emoji", description: "Emoji value of the bottom right 'sub-tile'. Emoji value will be a unicode value." }
+        - { id: null, traitTypeId: 1, traitTypeName: "Tile 1 Emoji", description: "Emoji value of the top left 'sub-tile'. Emoji value will be a unicode value." }
+        - { id: null, traitTypeId: 2, traitTypeName: "Tile 2 Emoji", description: "Emoji value of the top right 'sub-tile'. Emoji value will be a unicode value." }
+        - { id: null, traitTypeId: 3, traitTypeName: "Tile 3 Emoji", description: "Emoji value of the bottom left 'sub-tile'. Emoji value will be a unicode value." }
+        - { id: null, traitTypeId: 4, traitTypeName: "Tile 4 Emoji", description: "Emoji value of the bottom right 'sub-tile'. Emoji value will be a unicode value." }
       weighted-types:
-        - {id: null, traitTypeId: 1, traitTypeName: "Tile 1 Rarity Value", description: "Rarity value of the top left 'sub-tile'. The higher the rarity value, the better!"}
-        - {id: null, traitTypeId: 2, traitTypeName: "Tile 2 Rarity Value", description: "Rarity value of the top right 'sub-tile'. The higher the rarity value, the better!"}
-        - {id: null, traitTypeId: 3, traitTypeName: "Tile 3 Rarity Value", description: "Rarity value of the bottom left 'sub-tile'. The higher the rarity value, the better!"}
-        - {id: null, traitTypeId: 4, traitTypeName: "Tile 4 Rarity Value", description: "Rarity value of the bottom right 'sub-tile'. The higher the rarity value, the better!"}
-        - {id: null, traitTypeId: 5, traitTypeName: "Tile 1 Rarity Multiplier Value", description: "Rarity Multiplier value of the top left 'sub-tile'. The higher the rarity value, the better!"}
-        - {id: null, traitTypeId: 6, traitTypeName: "Tile 2 Rarity Multiplier Value", description: "Rarity Multiplier value of the top right 'sub-tile'. The higher the rarity value, the better!"}
-        - {id: null, traitTypeId: 7, traitTypeName: "Tile 3 Rarity Multiplier Value", description: "Rarity multiplier value of the bottom left 'sub-tile'. The higher the rarity value, the better!"}
-        - {id: null, traitTypeId: 8, traitTypeName: "Tile 4 Rarity Multiplier Value", description: "Rarity multiplier value of the bottom right 'sub-tile'. The higher the rarity value, the better!"}
-        - {id: null, traitTypeId: 9, traitTypeName: "Merge Multiplier Value", description: "Merge (and burn) Two TileNFTs to output ONE, even more rare TileNFT!!! The merge multiplier value of each TileNFT will be used to increase the rarity of the outputted TileNFT after merging two!! The higher the rarity value, the better!"}
-        - {id: null, traitTypeId: 10, traitTypeName: "Emoji Source", description: "Attribution/credit details for the emoji type used by the TileNFT"}
+        - {id: null, traitTypeId: 5, traitTypeName: "Tile 1 Rarity Value", description: "Rarity value of the top left 'sub-tile'. The higher the rarity value, the better!"}
+        - {id: null, traitTypeId: 6, traitTypeName: "Tile 2 Rarity Value", description: "Rarity value of the top right 'sub-tile'. The higher the rarity value, the better!"}
+        - {id: null, traitTypeId: 7, traitTypeName: "Tile 3 Rarity Value", description: "Rarity value of the bottom left 'sub-tile'. The higher the rarity value, the better!"}
+        - {id: null, traitTypeId: 8, traitTypeName: "Tile 4 Rarity Value", description: "Rarity value of the bottom right 'sub-tile'. The higher the rarity value, the better!"}
+        - {id: null, traitTypeId: 9, traitTypeName: "Tile 1 Rarity Multiplier Value", description: "Rarity Multiplier value of the top left 'sub-tile'. The higher the rarity value, the better!"}
+        - {id: null, traitTypeId: 10, traitTypeName: "Tile 2 Rarity Multiplier Value", description: "Rarity Multiplier value of the top right 'sub-tile'. The higher the rarity value, the better!"}
+        - {id: null, traitTypeId: 11, traitTypeName: "Tile 3 Rarity Multiplier Value", description: "Rarity multiplier value of the bottom left 'sub-tile'. The higher the rarity value, the better!"}
+        - {id: null, traitTypeId: 12, traitTypeName: "Tile 4 Rarity Multiplier Value", description: "Rarity multiplier value of the bottom right 'sub-tile'. The higher the rarity value, the better!"}
+        - {id: null, traitTypeId: 13, traitTypeName: "Merge Multiplier Value", description: "Merge (and burn) Two TileNFTs to output ONE, even more rare TileNFT!!! The merge multiplier value of each TileNFT will be used to increase the rarity of the outputted TileNFT after merging two!! The higher the rarity value, the better!"}
+        - {id: null, traitTypeId: 14, traitTypeName: "Emoji Source", description: "Attribution/credit details for the emoji type used by the TileNFT"}
       type-weights:
         - {id: null, traitTypeWeightId: 1, traitTypeId: 1, likelihood: 24, value: 1, displayTypeValue: null}
         - {id: null, traitTypeWeightId: 2, traitTypeId: 1, likelihood: 19, value: 2, displayTypeValue: null}
