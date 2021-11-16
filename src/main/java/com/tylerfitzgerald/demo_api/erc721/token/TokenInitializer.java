@@ -70,7 +70,7 @@ public class TokenInitializer {
 
   private List<TraitDTO> createTraits(Long seedForTraits) {
     List<TraitDTO> traits = new ArrayList<>();
-    for (TraitTypeDTO type : traitsConfig.getTypes()) {
+    for (TraitTypeDTO type : traitsConfig.getWeightedTypes()) {
       // Increment the seed so that we use a unique random value for each trait
       TraitDTO trait = createTrait(type, seedForTraits++);
       if (trait != null) {

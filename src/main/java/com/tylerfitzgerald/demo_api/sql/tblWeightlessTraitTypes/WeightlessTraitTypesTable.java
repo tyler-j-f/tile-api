@@ -3,7 +3,6 @@ package com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes;
 import com.tylerfitzgerald.demo_api.config.TraitsConfig;
 import com.tylerfitzgerald.demo_api.sql.TableInterface;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -11,7 +10,7 @@ public class WeightlessTraitTypesTable implements TableInterface {
 
   @Autowired private TraitsConfig traitsConfig;
 
-  @Autowired private TraitTypeRepository traitTypeWeightRepository;
+  @Autowired private WeightlessTraitTypeRepository weightlessTraitTypeRepository;
 
   /*
    * NOTE: 2083 is the max VARCHAR length for a URL on the internet explorer browser.
@@ -43,21 +42,28 @@ public class WeightlessTraitTypesTable implements TableInterface {
   }
 
   public boolean initialize() {
-    TraitTypeDTO[] traitTypes = traitsConfig.getTypes();
+    TraitTypeDTO[] traitTypes = traitsConfig.getWeightlessTypes();
     for (TraitTypeDTO traitType : traitTypes) {
-      TraitTypeDTO createResultTraitTypeDTO = traitTypeWeightRepository.create(traitType);
-      if (createResultTraitTypeDTO == null) {
+      WeightlessTraitTypeDTO weightlessTraitTypeDTO = weightlessTraitTypeRepository.create(
+          WeightlessTraitTypeDTO
+              .builder()
+              .weightlessTraitTypeId(traitType.getTraitTypeId())
+              .weightlessTraitTypeName(traitType.getTraitTypeName())
+              .description(traitType.getDescription())
+              .build()
+      );
+      if (weightlessTraitTypeDTO == null) {
         System.out.println(
             "Failed to insert weightless trait type into "
                 + TABLE_NAME
                 + ".\nFailed weightless trait type: "
-                + traitType.toString());
+                + traitType);
       } else {
         System.out.println(
             "Inserted weightless trait type into "
                 + TABLE_NAME
                 + ".\nWeightless Trait Type: "
-                + createResultTraitTypeDTO.toString());
+                + weightlessTraitTypeDTO);
       }
     }
     return true;

@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "spring.application.traits-config")
 @Data
 public class TraitsConfig {
-  private TraitTypeDTO[] types;
+  private TraitTypeDTO[] weightedTypes;
+  private TraitTypeDTO[] weightlessTypes;
   private TraitTypeWeightDTO[] typeWeights;
 }

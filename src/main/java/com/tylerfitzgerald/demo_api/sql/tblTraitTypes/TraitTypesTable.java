@@ -41,7 +41,7 @@ public class TraitTypesTable implements TableInterface {
   }
 
   public boolean initialize() {
-    TraitTypeDTO[] traitTypes = traitsConfig.getTypes();
+    TraitTypeDTO[] traitTypes = traitsConfig.getWeightedTypes();
     for (TraitTypeDTO traitType : traitTypes) {
       TraitTypeDTO createResultTraitTypeDTO = traitTypeWeightRepository.create(traitType);
       if (createResultTraitTypeDTO == null) {
