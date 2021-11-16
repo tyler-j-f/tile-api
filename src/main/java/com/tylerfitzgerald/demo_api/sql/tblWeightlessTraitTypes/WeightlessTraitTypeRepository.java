@@ -91,12 +91,12 @@ public class WeightlessTraitTypeRepository
     }
     List<Object> updateValuesList = new ArrayList<>();
     String updateSQL = UPDATE_BASE_SQL;
-    String traitTypeName = entity.getWeightlessTraitTypeName();
-    boolean shouldUpdateTraitTypeName = traitTypeName != null;
+    String weightlessTraitTypeName = entity.getWeightlessTraitTypeName();
+    boolean shouldUpdateWeightlessTraitTypeName = weightlessTraitTypeName != null;
     boolean isCommaNeededToAppend = false;
-    if (shouldUpdateTraitTypeName) {
-      updateSQL = updateSQL + "traitTypeName = ?";
-      updateValuesList.add(traitTypeName);
+    if (shouldUpdateWeightlessTraitTypeName) {
+      updateSQL = updateSQL + "weightlessTraitTypeName = ?";
+      updateValuesList.add(weightlessTraitTypeName);
       isCommaNeededToAppend = true;
     }
     String description = entity.getDescription();
@@ -108,7 +108,7 @@ public class WeightlessTraitTypeRepository
       updateSQL = updateSQL + "description = ?";
       updateValuesList.add(description);
     }
-    if (!shouldUpdateTraitTypeName && !shouldUpdateDescription) {
+    if (!shouldUpdateWeightlessTraitTypeName && !shouldUpdateDescription) {
       // There's nothing to update from the inputted WeightlessTraitTypeDTO
       return null;
     }
