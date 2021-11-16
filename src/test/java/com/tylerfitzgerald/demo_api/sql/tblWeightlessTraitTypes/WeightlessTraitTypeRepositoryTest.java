@@ -74,41 +74,35 @@ public class WeightlessTraitTypeRepositoryTest {
             WeightlessTraitTypeRepository.CREATE_SQL, WEIGHTLESS_TRAIT_TYPE_ID, NAME, DESCRIPTION);
     assertThat(tokenDTOResult).isEqualTo(weightlessTraitTypeDTO);
   }
-  //
-  //  @Test
-  //  void testCreateExisting() {
-  //    WeightlessTraitTypeDTO weightlessTraitTypeDTO =
-  //        WeightlessTraitTypeDTO.builder()
-  //            .id(ID)
-  //            .weightlessTraitId(WEIGHTLESS_TRAIT_ID)
-  //            .tokenId(TOKEN_ID)
-  //            .weightlessTraitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
-  //            .value(VALUE)
-  //            .displayTypeValue(DISPLAY_TYPE_VALUE)
-  //            .build();
-  //    Mockito.when(
-  //            jdbcTemplate.queryForStream(
-  //                WeightlessTraitTypeRepository.READ_BY_ID_SQL,
-  //                beanPropertyRowMapper,
-  //                WEIGHTLESS_TRAIT_ID))
-  //        .thenReturn(Stream.of(weightlessTraitTypeDTO));
-  //    WeightlessTraitTypeDTO traitTypeWeightDTOResult =
-  //        new WeightlessTraitTypeRepository(jdbcTemplate, beanPropertyRowMapper)
-  //            .create(weightlessTraitTypeDTO);
-  //    Mockito.verify(jdbcTemplate, Mockito.times(1))
-  //        .queryForStream(
-  //            WeightlessTraitTypeRepository.READ_BY_ID_SQL, beanPropertyRowMapper,
-  // WEIGHTLESS_TRAIT_ID);
-  //    Mockito.verify(jdbcTemplate, Mockito.times(0))
-  //        .update(
-  //            WeightlessTraitTypeRepository.CREATE_SQL,
-  //            WEIGHTLESS_TRAIT_ID,
-  //            TOKEN_ID,
-  //            WEIGHTLESS_TRAIT_TYPE_ID,
-  //            VALUE,
-  //            DISPLAY_TYPE_VALUE);
-  //    assertThat(traitTypeWeightDTOResult).isEqualTo(null);
-  //  }
+
+  @Test
+  void testCreateExisting() {
+    WeightlessTraitTypeDTO weightlessTraitTypeDTO =
+        WeightlessTraitTypeDTO.builder()
+            .id(ID)
+            .weightlessTraitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
+            .weightlessTraitTypeName(NAME)
+            .description(DESCRIPTION)
+            .build();
+    Mockito.when(
+            jdbcTemplate.queryForStream(
+                WeightlessTraitTypeRepository.READ_BY_ID_SQL,
+                beanPropertyRowMapper,
+                WEIGHTLESS_TRAIT_TYPE_ID))
+        .thenReturn(Stream.of(weightlessTraitTypeDTO));
+    WeightlessTraitTypeDTO traitTypeWeightDTOResult =
+        new WeightlessTraitTypeRepository(jdbcTemplate, beanPropertyRowMapper)
+            .create(weightlessTraitTypeDTO);
+    Mockito.verify(jdbcTemplate, Mockito.times(1))
+        .queryForStream(
+            WeightlessTraitTypeRepository.READ_BY_ID_SQL,
+            beanPropertyRowMapper,
+            WEIGHTLESS_TRAIT_TYPE_ID);
+    Mockito.verify(jdbcTemplate, Mockito.times(0))
+        .update(
+            WeightlessTraitTypeRepository.CREATE_SQL, WEIGHTLESS_TRAIT_TYPE_ID, NAME, DESCRIPTION);
+    assertThat(traitTypeWeightDTOResult).isEqualTo(null);
+  }
 
   //  @Test
   //  void testRead() {
