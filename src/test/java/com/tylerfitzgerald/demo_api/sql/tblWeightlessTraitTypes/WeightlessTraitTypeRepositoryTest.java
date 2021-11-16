@@ -1,7 +1,9 @@
-package com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits;
+package com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
+import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitRepository;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +14,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @SpringBootTest
-public class WeightlessRepositoryTest {
+public class WeightlessTraitTypeRepositoryTest {
 
   private JdbcTemplate jdbcTemplate;
   private BeanPropertyRowMapper beanPropertyRowMapper;
