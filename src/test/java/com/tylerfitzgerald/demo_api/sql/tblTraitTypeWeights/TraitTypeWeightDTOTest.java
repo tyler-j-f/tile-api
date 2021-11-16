@@ -1,6 +1,5 @@
-package com.tylerfitzgerald.demo_api.sql.traitTypeWeights;
+package com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights;
 
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

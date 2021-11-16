@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.sql;
+package com.tylerfitzgerald.demo_api.sql.tblToken;
 
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;

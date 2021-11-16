@@ -1,6 +1,5 @@
-package com.tylerfitzgerald.demo_api.sql.traitTypes;
+package com.tylerfitzgerald.demo_api.sql.tblTraitTypes;
 
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
