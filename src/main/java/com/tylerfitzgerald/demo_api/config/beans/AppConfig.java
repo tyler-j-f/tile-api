@@ -17,7 +17,11 @@ import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeRepository;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypesTable;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitRepository;
+import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitTypeDTO;
+import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitTypeRepository;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitTypesTable;
+import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
+import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitRepository;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitsTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -110,7 +114,14 @@ public class AppConfig {
   }
 
   @Bean
-  public WeightlessTraitTypesTable weightlessTraitTypesTable() {
-    return new WeightlessTraitTypesTable(jdbcTemplate);
+  public WeightlessTraitRepository weightlessTraitRepository() {
+    return new WeightlessTraitRepository(
+        jdbcTemplate, new BeanPropertyRowMapper(WeightlessTraitDTO.class));
+  }
+
+  @Bean
+  public WeightlessTraitTypeRepository weightlessTraitTypeRepository() {
+    return new WeightlessTraitTypeRepository(
+        jdbcTemplate, new BeanPropertyRowMapper(WeightlessTraitTypeDTO.class));
   }
 }
