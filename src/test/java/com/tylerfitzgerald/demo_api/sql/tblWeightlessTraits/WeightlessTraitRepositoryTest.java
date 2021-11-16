@@ -70,7 +70,7 @@ public class WeightlessTraitRepositoryTest {
                 VALUE,
                 DISPLAY_TYPE_VALUE))
         .thenReturn(1);
-    WeightlessTraitDTO tokenDTOResult =
+    WeightlessTraitDTO weightlessTraitDTOResult =
         new WeightlessTraitRepository(jdbcTemplate, beanPropertyRowMapper)
             .create(weightlessTraitDTO);
     Mockito.verify(jdbcTemplate, Mockito.times(2))
@@ -84,7 +84,7 @@ public class WeightlessTraitRepositoryTest {
             WEIGHTLESS_TRAIT_TYPE_ID,
             VALUE,
             DISPLAY_TYPE_VALUE);
-    assertThat(tokenDTOResult).isEqualTo(weightlessTraitDTO);
+    assertThat(weightlessTraitDTOResult).isEqualTo(weightlessTraitDTO);
   }
 
   @Test
@@ -179,11 +179,11 @@ public class WeightlessTraitRepositoryTest {
             jdbcTemplate.queryForStream(
                 WeightlessTraitRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID))
         .thenReturn(Stream.of(weightlessTraitDTO));
-    WeightlessTraitDTO tokenDTOResult =
+    WeightlessTraitDTO weightlessTraitDTOResult =
         new WeightlessTraitRepository(jdbcTemplate, beanPropertyRowMapper).readById(ID);
     Mockito.verify(jdbcTemplate, Mockito.times(1))
         .queryForStream(WeightlessTraitRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID);
-    assertThat(tokenDTOResult).isEqualTo(weightlessTraitDTO);
+    assertThat(weightlessTraitDTOResult).isEqualTo(weightlessTraitDTO);
   }
 
   @Test
@@ -194,11 +194,11 @@ public class WeightlessTraitRepositoryTest {
                 beanPropertyRowMapper,
                 WEIGHTLESS_TRAIT_ID))
         .thenReturn(Stream.empty());
-    WeightlessTraitDTO tokenDTOResult =
+    WeightlessTraitDTO weightlessTraitDTOResult =
         new WeightlessTraitRepository(jdbcTemplate, beanPropertyRowMapper).readById(TOKEN_ID);
     Mockito.verify(jdbcTemplate, Mockito.times(1))
         .queryForStream(WeightlessTraitRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TOKEN_ID);
-    assertThat(tokenDTOResult).isEqualTo(null);
+    assertThat(weightlessTraitDTOResult).isEqualTo(null);
   }
 
   @Test
@@ -237,7 +237,7 @@ public class WeightlessTraitRepositoryTest {
                 DISPLAY_TYPE_VALUE_2,
                 WEIGHTLESS_TRAIT_ID))
         .thenReturn(1);
-    WeightlessTraitDTO tokenDTOResults =
+    WeightlessTraitDTO weightlessTraitDTOResult =
         new WeightlessTraitRepository(jdbcTemplate, beanPropertyRowMapper)
             .update(weightlessTraitDTO2);
     Mockito.verify(jdbcTemplate, Mockito.times(2))
@@ -251,7 +251,7 @@ public class WeightlessTraitRepositoryTest {
             VALUE_2,
             DISPLAY_TYPE_VALUE_2,
             WEIGHTLESS_TRAIT_ID);
-    assertThat(tokenDTOResults).isEqualTo(weightlessTraitDTO2);
+    assertThat(weightlessTraitDTOResult).isEqualTo(weightlessTraitDTO2);
   }
 
   @Test
@@ -271,7 +271,7 @@ public class WeightlessTraitRepositoryTest {
                 beanPropertyRowMapper,
                 WEIGHTLESS_TRAIT_ID))
         .thenReturn(Stream.empty());
-    WeightlessTraitDTO tokenDTOResults =
+    WeightlessTraitDTO weightlessTraitDTOResult =
         new WeightlessTraitRepository(jdbcTemplate, beanPropertyRowMapper)
             .update(weightlessTraitDTO);
     Mockito.verify(jdbcTemplate, Mockito.times(1))
@@ -285,7 +285,7 @@ public class WeightlessTraitRepositoryTest {
             VALUE_2,
             DISPLAY_TYPE_VALUE_2,
             WEIGHTLESS_TRAIT_ID);
-    assertThat(tokenDTOResults).isEqualTo(null);
+    assertThat(weightlessTraitDTOResult).isEqualTo(null);
   }
 
   @Test
