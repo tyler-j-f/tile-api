@@ -1,11 +1,13 @@
-package com.tylerfitzgerald.demo_api.sql.tblTraitTypes;
+package com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes;
 
 import com.tylerfitzgerald.demo_api.config.TraitsConfig;
 import com.tylerfitzgerald.demo_api.sql.TableInterface;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class TraitTypesTable implements TableInterface {
+public class WeightlessTraitTypesTable implements TableInterface {
 
   @Autowired private TraitsConfig traitsConfig;
 
@@ -15,16 +17,16 @@ public class TraitTypesTable implements TableInterface {
    * NOTE: 2083 is the max VARCHAR length for a URL on the internet explorer browser.
    * So let's make the max string lengths equal to that (we will likely not need that long of strings anyways).
    */
-  public static final String TABLE_NAME = "tblTraitTypes";
+  public static final String TABLE_NAME = "tblWeightlessTraitTypes";
   private static final String CREATE_SQL =
       "CREATE TABLE "
           + TABLE_NAME
-          + "(id int NOT NULL AUTO_INCREMENT, traitTypeId int, traitTypeName VARCHAR(2083), description VARCHAR(2083), PRIMARY KEY (id))";
+          + "(id int NOT NULL AUTO_INCREMENT, weightlessTraitTypeId int, weightlessTraitTypeName VARCHAR(2083), description VARCHAR(2083), PRIMARY KEY (id))";
   private static final String DELETE_SQL = "DROP TABLE " + TABLE_NAME;
 
   private final JdbcTemplate jdbcTemplate;
 
-  public TraitTypesTable(JdbcTemplate jdbcTemplate) {
+  public WeightlessTraitTypesTable(JdbcTemplate jdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;
   }
 
@@ -46,15 +48,15 @@ public class TraitTypesTable implements TableInterface {
       TraitTypeDTO createResultTraitTypeDTO = traitTypeWeightRepository.create(traitType);
       if (createResultTraitTypeDTO == null) {
         System.out.println(
-            "Failed to insert trait type into "
+            "Failed to insert weightless trait type into "
                 + TABLE_NAME
-                + ".\nFailed trait type: "
+                + ".\nFailed weightless trait type: "
                 + traitType.toString());
       } else {
         System.out.println(
-            "Inserted trait type into "
+            "Inserted weightless trait type into "
                 + TABLE_NAME
-                + ".\nTrait Type: "
+                + ".\nWeightless Trait Type: "
                 + createResultTraitTypeDTO.toString());
       }
     }

@@ -17,6 +17,8 @@ import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeRepository;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypesTable;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitRepository;
+import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitTypesTable;
+import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitsTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -100,5 +102,15 @@ public class AppConfig {
   @Bean
   public HandleMintEvents handleMintEventsAndCreateDBTokensTask() {
     return new HandleMintEvents();
+  }
+
+  @Bean
+  public WeightlessTraitsTable weightlessTraitsTable() {
+    return new WeightlessTraitsTable(jdbcTemplate);
+  }
+
+  @Bean
+  public WeightlessTraitTypesTable weightlessTraitTypesTable() {
+    return new WeightlessTraitTypesTable(jdbcTemplate);
   }
 }
