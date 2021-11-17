@@ -2,11 +2,13 @@ package com.tylerfitzgerald.demo_api.sql;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public abstract class BaseTraitDTO {
   private Long id;
   private Long traitId;
