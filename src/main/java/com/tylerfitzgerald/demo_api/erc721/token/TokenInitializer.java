@@ -10,10 +10,13 @@ import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeRepository;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitRepository;
+import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitTypeDTO;
+import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitTypeRepository;
+import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
+import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,12 +26,16 @@ public class TokenInitializer {
   @Autowired private TraitRepository traitRepository;
   @Autowired private TraitTypeRepository traitTypeRepository;
   @Autowired private TraitTypeWeightRepository traitTypeWeightRepository;
+  @Autowired private WeightlessTraitRepository weightlessTraitRepository;
+  @Autowired private WeightlessTraitTypeRepository weightlessTraitTypeRepository;
   @Autowired private TokenConfig tokenConfig;
   @Autowired private TraitsConfig traitsConfig;
 
   private List<TraitTypeDTO> availableTraitTypes = new ArrayList<>();
   private List<TraitTypeWeightDTO> availableTraitTypeWeights = new ArrayList<>();
-  private List<TraitDTO> tokenTraits = new ArrayList<>();
+  private List<TraitDTO> weightedTraits = new ArrayList<>();
+  private List<WeightlessTraitDTO> weightlessTraits = new ArrayList<>();
+  private List<WeightlessTraitTypeDTO> weightlessTraitTypes = new ArrayList<>();
   private TokenDTO tokenDTO;
 
   public TokenFacadeDTO initialize(Long tokenId) {
@@ -38,21 +45,26 @@ public class TokenInitializer {
   public TokenFacadeDTO initialize(Long tokenId, Long seedForTraits) {
     availableTraitTypeWeights = traitTypeWeightRepository.read();
     availableTraitTypes = traitTypeRepository.read();
+    weightlessTraitTypes = weightlessTraitTypeRepository.read();
     tokenDTO = createToken(tokenId);
     if (tokenDTO == null) {
-      System.out.println("NFTInitializer failed to initialize the token with tokenId: " + tokenId);
+      System.out.println(
+          "TokenInitializer failed to initialize the token with tokenId: " + tokenId);
       return null;
     }
-    tokenTraits = createTraits(seedForTraits);
+    weightedTraits = createWeightedTraits(seedForTraits);
+    weightlessTraits = createWeightlessTraits(seedForTraits);
     return buildNFTFacade();
   }
 
   private TokenFacadeDTO buildNFTFacade() {
     return TokenFacadeDTO.builder()
         .tokenDTO(tokenDTO)
-        .tokenTraits(tokenTraits)
+        .tokenTraits(weightedTraits)
         .availableTraitTypes(availableTraitTypes)
         .availableTraitTypeWeights(availableTraitTypeWeights)
+        .weightlessTraits(weightlessTraits)
+        .weightlessTraitTypes(weightlessTraitTypes)
         .build();
   }
 
@@ -68,11 +80,58 @@ public class TokenInitializer {
             .build());
   }
 
-  private List<TraitDTO> createTraits(Long seedForTraits) {
+  private List<WeightlessTraitDTO> createWeightlessTraits(Long seedForTraits) {
+    List<WeightlessTraitDTO> weightlessTraits = new ArrayList<>();
+    for (WeightlessTraitTypeDTO weightlessTraitType : traitsConfig.getWeightlessTypes()) {
+      // Increment the seed so that we use a unique random value for each trait
+      WeightlessTraitDTO weightlessTraitDTO =
+          createWeightlessTrait(weightlessTraitType, seedForTraits++);
+      if (weightlessTraitDTO != null) {
+        weightlessTraits.add(weightlessTraitDTO);
+      }
+    }
+    return weightlessTraits;
+  }
+
+  private WeightlessTraitDTO createWeightlessTrait(
+      WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait) {
+    Long weightTraitId = weightlessTraitRepository.read().size() + 1L;
+    return weightlessTraitRepository.create(
+        WeightlessTraitDTO.builder()
+            .id(null)
+            .traitId(weightTraitId)
+            .tokenId(tokenDTO.getTokenId())
+            .traitTypeId(weightlessTraitType.getWeightlessTraitTypeId())
+            .value(getWeightlessTraitValue(weightlessTraitType, seedForTrait))
+            .displayTypeValue(getWeightlessTraitDisplayTypeValue(weightlessTraitType, seedForTrait))
+            .build());
+  }
+
+  private String getWeightlessTraitValue(
+      WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait) {
+    Long traitTypeId = weightlessTraitType.getWeightlessTraitTypeId();
+    if (traitTypeId == 11 || traitTypeId == 12 || traitTypeId == 13) {
+      return "valid weightlessTraitValue";
+    } else {
+      return "invalid weightlessTraitValue";
+    }
+  }
+
+  private String getWeightlessTraitDisplayTypeValue(
+      WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait) {
+    Long traitTypeId = weightlessTraitType.getWeightlessTraitTypeId();
+    if (traitTypeId == 11 || traitTypeId == 12 || traitTypeId == 13) {
+      return "valid weightlessTraitDisplayTypeValue";
+    } else {
+      return "invalid weightlessTraitDisplayTypeValue";
+    }
+  }
+
+  private List<TraitDTO> createWeightedTraits(Long seedForTraits) {
     List<TraitDTO> traits = new ArrayList<>();
     for (TraitTypeDTO type : traitsConfig.getWeightedTypes()) {
       // Increment the seed so that we use a unique random value for each trait
-      TraitDTO trait = createTrait(type, seedForTraits++);
+      TraitDTO trait = createWeightedTrait(type, seedForTraits++);
       if (trait != null) {
         traits.add(trait);
       }
@@ -80,7 +139,7 @@ public class TokenInitializer {
     return traits;
   }
 
-  private TraitDTO createTrait(TraitTypeDTO type, Long seedForTrait) {
+  private TraitDTO createWeightedTrait(TraitTypeDTO type, Long seedForTrait) {
     Long traitTypeId = type.getTraitTypeId();
     List<TraitTypeWeightDTO> weights = getTraitTypeWeightsForTraitTypeId(traitTypeId);
     TraitTypeWeightDTO traitTypeWeight = getRandomTraitTypeWeightFromList(weights, seedForTrait);
