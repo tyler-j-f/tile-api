@@ -1,19 +1,26 @@
 package com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits;
 
-import lombok.AllArgsConstructor;
+import com.tylerfitzgerald.demo_api.sql.BaseTraitDTO;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class WeightlessTraitDTO {
-  private Long id;
-  private Long traitId;
-  private Long tokenId;
-  private Long traitTypeId;
+@Getter
+@Setter
+public class WeightlessTraitDTO extends BaseTraitDTO {
   private String value;
   private String displayTypeValue;
+
+  @Builder
+  public WeightlessTraitDTO(
+      Long id,
+      Long traitId,
+      Long tokenId,
+      Long traitTypeId,
+      String value,
+      String displayTypeValue) {
+    super(id, traitId, tokenId, traitTypeId);
+    this.value = value;
+    this.displayTypeValue = displayTypeValue;
+  }
 }

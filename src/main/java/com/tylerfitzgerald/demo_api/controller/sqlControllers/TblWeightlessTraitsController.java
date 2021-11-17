@@ -75,8 +75,7 @@ public class TblWeightlessTraitsController extends BaseController {
       weightlessTraitDTOBuilder = weightlessTraitDTOBuilder.tokenId(tokenId);
     }
     if (weightlessTraitTypeId != null) {
-      weightlessTraitDTOBuilder =
-          weightlessTraitDTOBuilder.traitTypeId(weightlessTraitTypeId);
+      weightlessTraitDTOBuilder = weightlessTraitDTOBuilder.traitTypeId(weightlessTraitTypeId);
     }
     if (value != null) {
       weightlessTraitDTOBuilder = weightlessTraitDTOBuilder.value(value);

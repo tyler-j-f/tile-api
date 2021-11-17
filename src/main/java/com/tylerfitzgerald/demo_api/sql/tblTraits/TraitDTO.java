@@ -1,18 +1,19 @@
 package com.tylerfitzgerald.demo_api.sql.tblTraits;
 
-import lombok.AllArgsConstructor;
+import com.tylerfitzgerald.demo_api.sql.BaseTraitDTO;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class TraitDTO {
-  private Long id;
-  private Long traitId;
-  private Long tokenId;
-  private Long traitTypeId;
+@Getter
+@Setter
+public class TraitDTO extends BaseTraitDTO {
   private Long traitTypeWeightId;
+
+  @Builder
+  public TraitDTO(Long id, Long traitId, Long tokenId, Long traitTypeId, Long traitTypeWeightId) {
+    super(id, traitId, tokenId, traitTypeId);
+    this.traitTypeWeightId = traitTypeWeightId;
+    return;
+  }
 }
