@@ -43,9 +43,9 @@ public class TblWeightlessTraitsController extends BaseController {
     WeightlessTraitDTO weightlessTraitDTO =
         weightlessTraitRepository.create(
             WeightlessTraitDTO.builder()
-                .weightlessTraitId(weightlessTraitId)
+                .traitId(weightlessTraitId)
                 .tokenId(tokenId)
-                .weightlessTraitTypeId(weightlessTraitTypeId)
+                .traitTypeId(weightlessTraitTypeId)
                 .value(value)
                 .displayTypeValue(displayTypeValue)
                 .build());
@@ -70,13 +70,13 @@ public class TblWeightlessTraitsController extends BaseController {
       return "Please pass a 'weightlessTraitId', 'tokenId', 'weightlessTraitTypeId', 'value', OR 'displayTypeValue' to update a weightless trait";
     }
     WeightlessTraitDTO.WeightlessTraitDTOBuilder weightlessTraitDTOBuilder =
-        WeightlessTraitDTO.builder().weightlessTraitId(weightlessTraitId);
+        WeightlessTraitDTO.builder().traitId(weightlessTraitId);
     if (tokenId != null) {
       weightlessTraitDTOBuilder = weightlessTraitDTOBuilder.tokenId(tokenId);
     }
     if (weightlessTraitTypeId != null) {
       weightlessTraitDTOBuilder =
-          weightlessTraitDTOBuilder.weightlessTraitTypeId(weightlessTraitTypeId);
+          weightlessTraitDTOBuilder.traitTypeId(weightlessTraitTypeId);
     }
     if (value != null) {
       weightlessTraitDTOBuilder = weightlessTraitDTOBuilder.value(value);

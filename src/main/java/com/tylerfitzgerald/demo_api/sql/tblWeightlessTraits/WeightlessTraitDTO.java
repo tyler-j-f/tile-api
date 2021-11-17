@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class WeightlessTraitDTO {
   private Long id;
-  private Long weightlessTraitId;
+  private Long traitId;
   private Long tokenId;
-  private Long weightlessTraitTypeId;
+  private Long traitTypeId;
   private String value;
   private String displayTypeValue;
 }

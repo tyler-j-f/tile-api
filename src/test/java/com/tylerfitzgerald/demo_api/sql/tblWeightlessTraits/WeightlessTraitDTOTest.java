@@ -2,7 +2,6 @@ package com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -32,9 +31,9 @@ public class WeightlessTraitDTOTest {
             ID, WEIGHTLESS_TRAIT_ID, TOKEN_ID, WEIGHTLESS_TRAIT_TYPE_ID, VALUE, DISPLAY_TYPE_VALUE);
     // Assert that getters return value set 1.
     assertThat(weightlessTraitDTO.getId()).isEqualTo(ID);
-    assertThat(weightlessTraitDTO.getWeightlessTraitId()).isEqualTo(WEIGHTLESS_TRAIT_ID);
+    assertThat(weightlessTraitDTO.getTraitId()).isEqualTo(WEIGHTLESS_TRAIT_ID);
     assertThat(weightlessTraitDTO.getTokenId()).isEqualTo(TOKEN_ID);
-    assertThat(weightlessTraitDTO.getWeightlessTraitTypeId()).isEqualTo(WEIGHTLESS_TRAIT_TYPE_ID);
+    assertThat(weightlessTraitDTO.getTraitTypeId()).isEqualTo(WEIGHTLESS_TRAIT_TYPE_ID);
     assertThat(weightlessTraitDTO.getValue()).isEqualTo(VALUE);
     assertThat(weightlessTraitDTO.getDisplayTypeValue()).isEqualTo(DISPLAY_TYPE_VALUE);
   }
@@ -47,16 +46,16 @@ public class WeightlessTraitDTOTest {
             ID, WEIGHTLESS_TRAIT_ID, TOKEN_ID, WEIGHTLESS_TRAIT_TYPE_ID, VALUE, DISPLAY_TYPE_VALUE);
     // Set value set 2.
     weightlessTraitDTO.setId(ID_2);
-    weightlessTraitDTO.setWeightlessTraitId(WEIGHTLESS_TRAIT_ID_2);
+    weightlessTraitDTO.setTraitId(WEIGHTLESS_TRAIT_ID_2);
     weightlessTraitDTO.setTokenId(TOKEN_ID_2);
-    weightlessTraitDTO.setWeightlessTraitTypeId(WEIGHTLESS_TRAIT_TYPE_ID_2);
+    weightlessTraitDTO.setTraitTypeId(WEIGHTLESS_TRAIT_TYPE_ID_2);
     weightlessTraitDTO.setValue(VALUE_2);
     weightlessTraitDTO.setDisplayTypeValue(DISPLAY_TYPE_VALUE_2);
     // Assert that getters return value set 2.
     assertThat(weightlessTraitDTO.getId()).isEqualTo(ID_2);
-    assertThat(weightlessTraitDTO.getWeightlessTraitId()).isEqualTo(WEIGHTLESS_TRAIT_ID_2);
+    assertThat(weightlessTraitDTO.getTraitId()).isEqualTo(WEIGHTLESS_TRAIT_ID_2);
     assertThat(weightlessTraitDTO.getTokenId()).isEqualTo(TOKEN_ID_2);
-    assertThat(weightlessTraitDTO.getWeightlessTraitTypeId()).isEqualTo(WEIGHTLESS_TRAIT_TYPE_ID_2);
+    assertThat(weightlessTraitDTO.getTraitTypeId()).isEqualTo(WEIGHTLESS_TRAIT_TYPE_ID_2);
     assertThat(weightlessTraitDTO.getValue()).isEqualTo(VALUE_2);
     assertThat(weightlessTraitDTO.getDisplayTypeValue()).isEqualTo(DISPLAY_TYPE_VALUE_2);
   }
@@ -66,9 +65,9 @@ public class WeightlessTraitDTOTest {
     WeightlessTraitDTO.WeightlessTraitDTOBuilder builder =
         WeightlessTraitDTO.builder()
             .id(ID)
-            .weightlessTraitId(WEIGHTLESS_TRAIT_ID)
+            .traitId(WEIGHTLESS_TRAIT_ID)
             .tokenId(TOKEN_ID)
-            .weightlessTraitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
+            .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
             .value(VALUE)
             .displayTypeValue(DISPLAY_TYPE_VALUE);
     assertThat(builder).isInstanceOf(WeightlessTraitDTO.WeightlessTraitDTOBuilder.class);
@@ -76,9 +75,9 @@ public class WeightlessTraitDTOTest {
     assertThat(weightlessTraitDTO).isInstanceOf(WeightlessTraitDTO.class);
     // Assert that getters return value set 1.
     assertThat(weightlessTraitDTO.getId()).isEqualTo(ID);
-    assertThat(weightlessTraitDTO.getWeightlessTraitId()).isEqualTo(WEIGHTLESS_TRAIT_ID);
+    assertThat(weightlessTraitDTO.getTraitId()).isEqualTo(WEIGHTLESS_TRAIT_ID);
     assertThat(weightlessTraitDTO.getTokenId()).isEqualTo(TOKEN_ID);
-    assertThat(weightlessTraitDTO.getWeightlessTraitTypeId()).isEqualTo(WEIGHTLESS_TRAIT_TYPE_ID);
+    assertThat(weightlessTraitDTO.getTraitTypeId()).isEqualTo(WEIGHTLESS_TRAIT_TYPE_ID);
     assertThat(weightlessTraitDTO.getValue()).isEqualTo(VALUE);
     assertThat(weightlessTraitDTO.getDisplayTypeValue()).isEqualTo(DISPLAY_TYPE_VALUE);
   }

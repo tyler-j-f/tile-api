@@ -42,15 +42,15 @@ public class WeightlessTraitRepository implements RepositoryInterface<Weightless
     int results =
         jdbcTemplate.update(
             CREATE_SQL,
-            entity.getWeightlessTraitId(),
+            entity.getTraitId(),
             entity.getTokenId(),
-            entity.getWeightlessTraitTypeId(),
+            entity.getTraitTypeId(),
             entity.getValue(),
             entity.getDisplayTypeValue());
     if (results != 1) {
       return null;
     }
-    return readById(entity.getWeightlessTraitId());
+    return readById(entity.getTraitId());
   }
 
   @Override
@@ -100,7 +100,7 @@ public class WeightlessTraitRepository implements RepositoryInterface<Weightless
       updateValuesList.add(tokenId);
       isCommaNeededToAppend = true;
     }
-    Long weightlessTraitTypeId = entity.getWeightlessTraitTypeId();
+    Long weightlessTraitTypeId = entity.getTraitTypeId();
     boolean shouldUpdateWeightlessTraitTypeId = weightlessTraitTypeId != null;
     if (shouldUpdateWeightlessTraitTypeId) {
       if (isCommaNeededToAppend) {
@@ -136,7 +136,7 @@ public class WeightlessTraitRepository implements RepositoryInterface<Weightless
       // There's nothing to update from the inputted WeightlessTraitDTO
       return null;
     }
-    Long weightlessTraitId = entity.getWeightlessTraitId();
+    Long weightlessTraitId = entity.getTraitId();
     updateValuesList.add(weightlessTraitId);
     updateSQL = updateSQL + " WHERE weightlessTraitId = ?";
     int results = jdbcTemplate.update(updateSQL, updateValuesList.toArray());
@@ -151,11 +151,11 @@ public class WeightlessTraitRepository implements RepositoryInterface<Weightless
     if (!doesWeightlessTraitExist(entity)) {
       return false;
     }
-    jdbcTemplate.update(DELETE_BY_ID_SQL, entity.getWeightlessTraitId());
+    jdbcTemplate.update(DELETE_BY_ID_SQL, entity.getTraitId());
     return !doesWeightlessTraitExist(entity);
   }
 
   private boolean doesWeightlessTraitExist(WeightlessTraitDTO entity) {
-    return readById(entity.getWeightlessTraitId()) != null;
+    return readById(entity.getTraitId()) != null;
   }
 }

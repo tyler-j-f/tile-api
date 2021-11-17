@@ -49,9 +49,9 @@ public class WeightlessTraitRepositoryTest {
     WeightlessTraitDTO weightlessTraitDTO =
         WeightlessTraitDTO.builder()
             .id(ID)
-            .weightlessTraitId(WEIGHTLESS_TRAIT_ID)
+            .traitId(WEIGHTLESS_TRAIT_ID)
             .tokenId(TOKEN_ID)
-            .weightlessTraitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
+            .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
             .value(VALUE)
             .displayTypeValue(DISPLAY_TYPE_VALUE)
             .build();
@@ -92,9 +92,9 @@ public class WeightlessTraitRepositoryTest {
     WeightlessTraitDTO weightlessTraitDTO =
         WeightlessTraitDTO.builder()
             .id(ID)
-            .weightlessTraitId(WEIGHTLESS_TRAIT_ID)
+            .traitId(WEIGHTLESS_TRAIT_ID)
             .tokenId(TOKEN_ID)
-            .weightlessTraitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
+            .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
             .value(VALUE)
             .displayTypeValue(DISPLAY_TYPE_VALUE)
             .build();
@@ -126,18 +126,18 @@ public class WeightlessTraitRepositoryTest {
     WeightlessTraitDTO weightlessTraitDTO =
         WeightlessTraitDTO.builder()
             .id(ID)
-            .weightlessTraitId(WEIGHTLESS_TRAIT_ID)
+            .traitId(WEIGHTLESS_TRAIT_ID)
             .tokenId(TOKEN_ID)
-            .weightlessTraitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
+            .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
             .value(VALUE)
             .displayTypeValue(DISPLAY_TYPE_VALUE)
             .build();
     WeightlessTraitDTO weightlessTraitDTO2 =
         WeightlessTraitDTO.builder()
             .id(ID_2)
-            .weightlessTraitId(WEIGHTLESS_TRAIT_ID_2)
+            .traitId(WEIGHTLESS_TRAIT_ID_2)
             .tokenId(TOKEN_ID_2)
-            .weightlessTraitTypeId(WEIGHTLESS_TRAIT_TYPE_ID_2)
+            .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID_2)
             .value(VALUE_2)
             .displayTypeValue(DISPLAY_TYPE_VALUE_2)
             .build();
@@ -169,9 +169,9 @@ public class WeightlessTraitRepositoryTest {
     WeightlessTraitDTO weightlessTraitDTO =
         WeightlessTraitDTO.builder()
             .id(ID)
-            .weightlessTraitId(WEIGHTLESS_TRAIT_ID)
+            .traitId(WEIGHTLESS_TRAIT_ID)
             .tokenId(TOKEN_ID)
-            .weightlessTraitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
+            .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
             .value(VALUE)
             .displayTypeValue(DISPLAY_TYPE_VALUE)
             .build();
@@ -212,9 +212,9 @@ public class WeightlessTraitRepositoryTest {
     WeightlessTraitDTO weightlessTraitDTO =
         WeightlessTraitDTO.builder()
             .id(ID)
-            .weightlessTraitId(WEIGHTLESS_TRAIT_ID)
+            .traitId(WEIGHTLESS_TRAIT_ID)
             .tokenId(TOKEN_ID)
-            .weightlessTraitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
+            .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
             .value(VALUE)
             .displayTypeValue(DISPLAY_TYPE_VALUE)
             .build();
@@ -222,9 +222,9 @@ public class WeightlessTraitRepositoryTest {
     WeightlessTraitDTO weightlessTraitDTO2 =
         WeightlessTraitDTO.builder()
             .id(ID)
-            .weightlessTraitId(WEIGHTLESS_TRAIT_ID)
+            .traitId(WEIGHTLESS_TRAIT_ID)
             .tokenId(TOKEN_ID_2)
-            .weightlessTraitTypeId(WEIGHTLESS_TRAIT_TYPE_ID_2)
+            .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID_2)
             .value(VALUE_2)
             .displayTypeValue(DISPLAY_TYPE_VALUE_2)
             .build();
@@ -265,9 +265,9 @@ public class WeightlessTraitRepositoryTest {
     WeightlessTraitDTO weightlessTraitDTO =
         WeightlessTraitDTO.builder()
             .id(ID)
-            .weightlessTraitId(WEIGHTLESS_TRAIT_ID)
+            .traitId(WEIGHTLESS_TRAIT_ID)
             .tokenId(TOKEN_ID)
-            .weightlessTraitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
+            .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
             .value(VALUE)
             .displayTypeValue(DISPLAY_TYPE_VALUE)
             .build();
@@ -299,9 +299,9 @@ public class WeightlessTraitRepositoryTest {
     WeightlessTraitDTO weightlessTraitDTO =
         WeightlessTraitDTO.builder()
             .id(ID)
-            .weightlessTraitId(WEIGHTLESS_TRAIT_ID)
+            .traitId(WEIGHTLESS_TRAIT_ID)
             .tokenId(TOKEN_ID)
-            .weightlessTraitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
+            .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
             .value(VALUE)
             .displayTypeValue(DISPLAY_TYPE_VALUE)
             .build();
@@ -330,9 +330,9 @@ public class WeightlessTraitRepositoryTest {
     WeightlessTraitDTO weightlessTraitDTO =
         WeightlessTraitDTO.builder()
             .id(ID)
-            .weightlessTraitId(WEIGHTLESS_TRAIT_ID)
+            .traitId(WEIGHTLESS_TRAIT_ID)
             .tokenId(TOKEN_ID)
-            .weightlessTraitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
+            .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID)
             .value(VALUE)
             .displayTypeValue(DISPLAY_TYPE_VALUE)
             .build();
