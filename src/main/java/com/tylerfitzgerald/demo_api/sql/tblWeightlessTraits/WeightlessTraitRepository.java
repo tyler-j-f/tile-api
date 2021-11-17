@@ -38,12 +38,6 @@ public class WeightlessTraitRepository implements RepositoryInterface<Weightless
 
   @Override
   public WeightlessTraitDTO create(WeightlessTraitDTO entity) {
-    System.out.println("Debug id: " + entity.getId());
-    System.out.println("Debug traitId: " + entity.getTraitId());
-    System.out.println("Debug tokenId: " + entity.getTokenId());
-    System.out.println("Debug traitTypeId: " + entity.getTraitTypeId());
-    System.out.println("Debug value: " + entity.getValue());
-    System.out.println("Debug displayTypeValue: " + entity.getDisplayTypeValue());
     if (doesWeightlessTraitExist(entity)) {
       return null;
     }
@@ -58,9 +52,7 @@ public class WeightlessTraitRepository implements RepositoryInterface<Weightless
     if (results != 1) {
       return null;
     }
-    WeightlessTraitDTO w = readById(entity.getTraitId());
-    System.out.println("Debug output: " + w);
-    return w;
+    return readById(entity.getTraitId());
   }
 
   @Override

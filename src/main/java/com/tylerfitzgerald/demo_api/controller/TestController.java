@@ -28,44 +28,6 @@ public class TestController extends BaseController {
 
   @Autowired private ContractConfig contractConfig;
 
-  //  @GetMapping("one")
-  //  public String one() {
-  //    // The ID of your GCP project
-  //    String projectId = "dev-eth-api";
-  //
-  //    // The ID to give your GCS bucket
-  //    String bucketName = "dev-eth-bucket-1";
-  //
-  //    Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
-  //
-  //    // See the StorageClass documentation for other valid storage classes:
-  //    //
-  // https://googleapis.dev/java/google-cloud-clients/latest/com/google/cloud/storage/StorageClass.html
-  //    StorageClass storageClass = StorageClass.STANDARD;
-  //
-  //    // See this documentation for other valid locations:
-  //    // http://g.co/cloud/storage/docs/bucket-locations#location-mr
-  //    String location = "US";
-  //
-  //    Bucket bucket =
-  //        storage.create(
-  //            BucketInfo.newBuilder(bucketName)
-  //                .setStorageClass(storageClass)
-  //                .setLocation(location)
-  //                .build());
-  //
-  //    String output =
-  //        "Created bucket "
-  //            + bucket.getName()
-  //            + " in "
-  //            + bucket.getLocation()
-  //            + " with storage class "
-  //            + bucket.getStorageClass();
-  //
-  //    System.out.println(output);
-  //    return output;
-  //  }
-
   @GetMapping("auth")
   public String authExplicit() throws IOException {
     String out = "";
