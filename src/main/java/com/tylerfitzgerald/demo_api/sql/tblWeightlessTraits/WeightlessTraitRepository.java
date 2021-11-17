@@ -1,6 +1,8 @@
 package com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits;
 
 import com.tylerfitzgerald.demo_api.sql.RepositoryInterface;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitsTable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +21,8 @@ public class WeightlessTraitRepository implements RepositoryInterface<Weightless
       "INSERT INTO " + WeightlessTraitsTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?, ?)";
   public static final String READ_BY_ID_SQL =
       "SELECT * FROM " + WeightlessTraitsTable.TABLE_NAME + " WHERE weightlessTraitId = ?";
+  public static final String READ_BY_TOKEN_ID_SQL =
+      "SELECT * FROM " + WeightlessTraitsTable.TABLE_NAME + " WHERE tokenId = ?";
   public static final String UPDATE_SQL =
       "UPDATE "
           + WeightlessTraitsTable.TABLE_NAME
@@ -153,6 +157,22 @@ public class WeightlessTraitRepository implements RepositoryInterface<Weightless
     }
     jdbcTemplate.update(DELETE_BY_ID_SQL, entity.getTraitId());
     return !doesWeightlessTraitExist(entity);
+  }
+
+  public List<WeightlessTraitDTO> readByTokenId(Long tokenId) {
+    Stream<WeightlessTraitDTO> stream = null;
+    try {
+      stream = jdbcTemplate.queryForStream(READ_BY_TOKEN_ID_SQL, beanPropertyRowMapper, tokenId);
+      List<WeightlessTraitDTO> traits = stream.collect(Collectors.toList());
+      if (traits.size() == 0) {
+        return null;
+      }
+      return traits;
+    } finally {
+      if (stream != null) {
+        stream.close();
+      }
+    }
   }
 
   private boolean doesWeightlessTraitExist(WeightlessTraitDTO entity) {
