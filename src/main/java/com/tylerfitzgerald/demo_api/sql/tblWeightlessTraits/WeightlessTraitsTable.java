@@ -13,7 +13,7 @@ public class WeightlessTraitsTable implements TableInterface {
   private static final String CREATE_SQL =
       "CREATE TABLE "
           + TABLE_NAME
-          + "(id int NOT NULL AUTO_INCREMENT, weightlessTraitId int, tokenId int, weightlessTraitTypeId int, value VARCHAR(2083), displayTypeValue VARCHAR(2083), PRIMARY KEY (id))";
+          + "(id int NOT NULL AUTO_INCREMENT, traitId int, tokenId int, traitTypeId int, value VARCHAR(2083), displayTypeValue VARCHAR(2083), PRIMARY KEY (id))";
   private static final String DELETE_SQL = "DROP TABLE " + TABLE_NAME;
 
   private final JdbcTemplate jdbcTemplate;

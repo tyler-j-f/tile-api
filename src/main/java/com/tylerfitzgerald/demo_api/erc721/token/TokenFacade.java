@@ -87,6 +87,7 @@ public class TokenFacade {
   }
 
   private String getTraitType(Long traitTypeId) {
+    System.out.println("getTraitType: " + traitTypeId);
     List<WeightlessTraitTypeDTO> weightlessTraitTypes = getWeightlessTokenTraitTypes();
     WeightlessTraitTypeDTO weightlessTraitType =
         weightlessTraitTypes.stream()

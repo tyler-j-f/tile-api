@@ -27,4 +27,22 @@ public class WeightlessTraitDTO extends BaseTraitDTO {
     this.value = value;
     this.displayTypeValue = displayTypeValue;
   }
+
+  @Override
+  public String toString() {
+    return "WeightlessTraitDTO{"
+        + "id="
+        + getId()
+        + ", value='"
+        + value
+        + ", displayTypeValue='"
+        + displayTypeValue
+        + ", traitId="
+        + getTraitId()
+        + ", tokenId="
+        + getTokenId()
+        + ", traitTypeId="
+        + getTraitTypeId()
+        + '}';
+  }
 }

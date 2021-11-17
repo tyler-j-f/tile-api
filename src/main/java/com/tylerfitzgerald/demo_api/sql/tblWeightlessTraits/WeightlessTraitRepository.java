@@ -1,8 +1,6 @@
 package com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits;
 
 import com.tylerfitzgerald.demo_api.sql.RepositoryInterface;
-import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitsTable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,17 +18,17 @@ public class WeightlessTraitRepository implements RepositoryInterface<Weightless
   public static final String CREATE_SQL =
       "INSERT INTO " + WeightlessTraitsTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?, ?)";
   public static final String READ_BY_ID_SQL =
-      "SELECT * FROM " + WeightlessTraitsTable.TABLE_NAME + " WHERE weightlessTraitId = ?";
+      "SELECT * FROM " + WeightlessTraitsTable.TABLE_NAME + " WHERE traitId = ?";
   public static final String READ_BY_TOKEN_ID_SQL =
       "SELECT * FROM " + WeightlessTraitsTable.TABLE_NAME + " WHERE tokenId = ?";
   public static final String UPDATE_SQL =
       "UPDATE "
           + WeightlessTraitsTable.TABLE_NAME
-          + " set tokenId = ?, weightlessTraitTypeId = ?, value = ?, displayTypeValue = ? WHERE weightlessTraitId = ?";
+          + " set tokenId = ?, traitTypeId = ?, value = ?, displayTypeValue = ? WHERE traitId = ?";
   public static final String UPDATE_BASE_SQL =
       "UPDATE " + WeightlessTraitsTable.TABLE_NAME + " set ";
   public static final String DELETE_BY_ID_SQL =
-      "DELETE FROM " + WeightlessTraitsTable.TABLE_NAME + " WHERE weightlessTraitId = ?";
+      "DELETE FROM " + WeightlessTraitsTable.TABLE_NAME + " WHERE traitId = ?";
 
   public WeightlessTraitRepository(
       JdbcTemplate jdbcTemplate, BeanPropertyRowMapper beanPropertyRowMapper) {
@@ -40,6 +38,12 @@ public class WeightlessTraitRepository implements RepositoryInterface<Weightless
 
   @Override
   public WeightlessTraitDTO create(WeightlessTraitDTO entity) {
+    System.out.println("Debug id: " + entity.getId());
+    System.out.println("Debug traitId: " + entity.getTraitId());
+    System.out.println("Debug tokenId: " + entity.getTokenId());
+    System.out.println("Debug traitTypeId: " + entity.getTraitTypeId());
+    System.out.println("Debug value: " + entity.getValue());
+    System.out.println("Debug displayTypeValue: " + entity.getDisplayTypeValue());
     if (doesWeightlessTraitExist(entity)) {
       return null;
     }
@@ -54,7 +58,9 @@ public class WeightlessTraitRepository implements RepositoryInterface<Weightless
     if (results != 1) {
       return null;
     }
-    return readById(entity.getTraitId());
+    WeightlessTraitDTO w = readById(entity.getTraitId());
+    System.out.println("Debug output: " + w);
+    return w;
   }
 
   @Override
@@ -110,7 +116,7 @@ public class WeightlessTraitRepository implements RepositoryInterface<Weightless
       if (isCommaNeededToAppend) {
         updateSQL = updateSQL + ", ";
       }
-      updateSQL = updateSQL + "weightlessTraitTypeId = ?";
+      updateSQL = updateSQL + "traitTypeId = ?";
       updateValuesList.add(weightlessTraitTypeId);
       isCommaNeededToAppend = true;
     }
@@ -142,7 +148,7 @@ public class WeightlessTraitRepository implements RepositoryInterface<Weightless
     }
     Long weightlessTraitId = entity.getTraitId();
     updateValuesList.add(weightlessTraitId);
-    updateSQL = updateSQL + " WHERE weightlessTraitId = ?";
+    updateSQL = updateSQL + " WHERE traitId = ?";
     int results = jdbcTemplate.update(updateSQL, updateValuesList.toArray());
     if (results < 1) {
       return null;

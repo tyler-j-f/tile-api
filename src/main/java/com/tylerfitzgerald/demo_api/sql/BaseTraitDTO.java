@@ -14,4 +14,18 @@ public abstract class BaseTraitDTO {
   private Long traitId;
   private Long tokenId;
   private Long traitTypeId;
+
+  @Override
+  public String toString() {
+    return "BaseTraitDTO{"
+        + "id="
+        + id
+        + ", traitId="
+        + traitId
+        + ", tokenId="
+        + tokenId
+        + ", traitTypeId="
+        + traitTypeId
+        + '}';
+  }
 }
