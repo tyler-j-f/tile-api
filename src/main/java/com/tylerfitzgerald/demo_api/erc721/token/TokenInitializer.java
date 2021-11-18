@@ -36,6 +36,13 @@ public class TokenInitializer {
   @Autowired private EmojiTraitPicker emojiiPickerTrait;
   @Autowired private ColorTraitPicker colorTraitPicker;
 
+  /**
+   * For creating deterministic traits we increment the random seed value after creating a trait.
+   * For some trait types, doing this will could potentially result in repeated values for the next
+   * trait. Multiply bu this const value to introduce pseudo-randomness.
+   */
+  private static final int SEED_MULTIPLIER = 7;
+
   private List<TraitTypeDTO> availableTraitTypes = new ArrayList<>();
   private List<TraitTypeWeightDTO> availableTraitTypeWeights = new ArrayList<>();
   private List<TraitDTO> weightedTraits = new ArrayList<>();
@@ -127,7 +134,7 @@ public class TokenInitializer {
       }
     } else if (traitTypeId == 15 || traitTypeId == 16 || traitTypeId == 17 || traitTypeId == 18) {
       try {
-        return colorTraitPicker.getValue(seedForTrait);
+        return colorTraitPicker.getValue(seedForTrait * SEED_MULTIPLIER);
       } catch (WeightlessTraitException e) {
         throw new TokenInitializeException(e.getMessage(), e.getCause());
       }
