@@ -69,7 +69,7 @@ public class ImageController extends BaseController {
     for (WeightlessTraitDTO weightlessTrait : weightlessTraits) {
       Long traitTypeId = weightlessTrait.getTraitTypeId();
       if (traitTypeId == 11 || traitTypeId == 12 || traitTypeId == 13 || traitTypeId == 14) {
-        names[x++] = weightlessTrait.getValue();
+        names[x++] = weightlessTrait.getValue() + ".png";
       }
     }
     return names;

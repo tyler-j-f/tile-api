@@ -11,10 +11,18 @@ public class EmojiTraitPicker implements WeightlessTraitInterface {
   @Override
   public String getValue(Long seedForTrait) throws WeightlessTraitException {
     try {
-      return imageResourcesLoader.getRandomResource(seedForTrait).getFilename();
+      return stripExtension(imageResourcesLoader.getRandomResource(seedForTrait).getFilename());
     } catch (IOException e) {
       throw new WeightlessTraitException(e.getMessage(), e.getCause());
     }
+  }
+
+  private String stripExtension(String fileName) {
+    return stripExtension(fileName, ".png");
+  }
+
+  private String stripExtension(String fileName, String extension) {
+    return fileName.replace(extension, "");
   }
 
   @Override
