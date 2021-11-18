@@ -2,6 +2,7 @@ package com.tylerfitzgerald.demo_api.config.beans;
 
 import com.tylerfitzgerald.demo_api.config.EnvConfig;
 import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
+import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEvents;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightsTable;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitsTable;
@@ -26,6 +27,7 @@ import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitsTabl
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.web3j.protocol.Web3j;
@@ -35,6 +37,8 @@ import org.web3j.protocol.http.HttpService;
 public class AppConfig {
 
   @Autowired private EnvConfig appConfig;
+
+  @Autowired private ResourceLoader resourceLoader;
 
   private final JdbcTemplate jdbcTemplate;
 
@@ -128,5 +132,10 @@ public class AppConfig {
   public WeightlessTraitTypeRepository weightlessTraitTypeRepository() {
     return new WeightlessTraitTypeRepository(
         jdbcTemplate, new BeanPropertyRowMapper(WeightlessTraitTypeDTO.class));
+  }
+
+  @Bean
+  public ImageResourcesLoader imageResourcesLoader() {
+    return new ImageResourcesLoader(resourceLoader, "classpath:openmoji/*.png", 4);
   }
 }

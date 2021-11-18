@@ -2,6 +2,7 @@ package com.tylerfitzgerald.demo_api.controller;
 
 import com.tylerfitzgerald.demo_api.image.ImageDrawer;
 import com.tylerfitzgerald.demo_api.image.ImageException;
+import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
 import java.io.IOException;
 import java.util.Random;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ImageController extends BaseController {
 
   @Autowired ImageDrawer imageDrawer;
+  @Autowired ImageResourcesLoader imageResourcesLoader;
 
   @GetMapping(value = "token/create/{tokenId}", produces = MediaType.IMAGE_PNG_VALUE)
   public void createTokenImage(HttpServletResponse response, @PathVariable Long tokenId) {
@@ -31,8 +33,7 @@ public class ImageController extends BaseController {
       throws ImageException, IOException {
     response.setContentType(MediaType.IMAGE_PNG_VALUE);
     byte[] byteArray =
-        imageDrawer.drawImage(
-            tokenId, 3134L, getRandomResourceList(loadResources("classpath:openmoji/*.png")));
+        imageDrawer.drawImage(tokenId, 3134L, imageResourcesLoader.getRandomResourceList());
     writeBufferedImageToOutput(byteArray, response);
     return;
   }
@@ -50,39 +51,5 @@ public class ImageController extends BaseController {
   private void writeBufferedImageToOutput(byte[] pixelArray, HttpServletResponse response)
       throws IOException {
     response.getOutputStream().write(pixelArray);
-  }
-
-  @Autowired private ResourceLoader resourceLoader;
-
-  Resource[] loadResources(String pattern) throws IOException {
-    return ResourcePatternUtils.getResourcePatternResolver(resourceLoader).getResources(pattern);
-  }
-
-  @GetMapping(value = "test")
-  public void test() throws IOException {
-    Resource[] resources = loadResources("classpath:openmoji/*.png");
-    int x = 1;
-    for (Resource resource : getRandomResourceList(resources)) {
-      System.out.println("\nresource " + x);
-      System.out.println("resource name: " + resource.getFilename());
-      x++;
-    }
-  }
-
-  public Resource[] getRandomResourceList(Resource[] resources) {
-    return getRandomResourceList(resources, 4);
-  }
-
-  public Resource[] getRandomResourceList(Resource[] resources, int size) {
-    Resource[] randomResources = new Resource[size];
-    for (int x = 0; x < size; x++) {
-      randomResources[x] = getRandomResource(resources);
-    }
-    return randomResources;
-  }
-
-  public Resource getRandomResource(Resource[] resources) {
-    int rnd = new Random().nextInt(resources.length);
-    return resources[rnd];
   }
 }
