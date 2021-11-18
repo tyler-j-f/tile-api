@@ -1,6 +1,7 @@
 package com.tylerfitzgerald.demo_api.config.beans;
 
 import com.tylerfitzgerald.demo_api.config.EnvConfig;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.EmojiiPickerTrait;
 import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEvents;
@@ -137,5 +138,10 @@ public class AppConfig {
   @Bean
   public ImageResourcesLoader imageResourcesLoader() {
     return new ImageResourcesLoader(resourceLoader, "classpath:openmoji/*.png");
+  }
+
+  @Bean
+  public EmojiiPickerTrait emojiiPickerTrait() {
+    return new EmojiiPickerTrait();
   }
 }

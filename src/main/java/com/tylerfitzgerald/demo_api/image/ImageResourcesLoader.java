@@ -32,19 +32,27 @@ public class ImageResourcesLoader {
         ResourcePatternUtils.getResourcePatternResolver(resourceLoader).getResources(loadPattern);
   }
 
-  public Resource[] getRandomResourceList() throws IOException {
+  public Resource[] getRandomResourceList(int listSize, Long randomSeed) throws IOException {
     if (resources == null) {
       loadResources();
     }
-    Resource[] randomResources = new Resource[randomListSize];
-    for (int x = 0; x < randomListSize; x++) {
-      randomResources[x] = getRandomResource(resources);
+    Resource[] randomResources = new Resource[listSize];
+    for (int x = 0; x < listSize; x++) {
+      // Increment the random seed so that we do not get the same random item every time.
+      randomResources[x] = getRandomResource(randomSeed++);
     }
     return randomResources;
   }
 
-  private Resource getRandomResource(Resource[] resources) {
-    int rnd = new Random().nextInt(this.resources.length);
-    return this.resources[rnd];
+  public Resource[] getRandomResourceList(Long randomSeed) throws IOException {
+    return getRandomResourceList(randomListSize, randomSeed);
+  }
+
+  public Resource getRandomResource(Long randomSeed) throws IOException {
+    if (resources == null) {
+      loadResources();
+    }
+    int rnd = new Random(randomSeed).nextInt(resources.length);
+    return resources[rnd];
   }
 }

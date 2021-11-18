@@ -33,7 +33,7 @@ public class ImageController extends BaseController {
       throws ImageException, IOException {
     response.setContentType(MediaType.IMAGE_PNG_VALUE);
     byte[] byteArray =
-        imageDrawer.drawImage(tokenId, 3134L, imageResourcesLoader.getRandomResourceList());
+        imageDrawer.drawImage(tokenId, 3134L, imageResourcesLoader.getRandomResourceList(tokenId));
     writeBufferedImageToOutput(byteArray, response);
     return;
   }

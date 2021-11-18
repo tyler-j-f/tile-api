@@ -4,6 +4,7 @@ import com.tylerfitzgerald.demo_api.config.EnvConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenDataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
+import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.events.MintEvent;
@@ -56,7 +57,7 @@ public class MintEventsController extends BaseController {
   @GetMapping(value = {"getAllAndCreateTokens/{numberOfBlocksAgo}", "getAllAndCreateTokens"})
   public String getMintEventsAndCreateTokens(
       @PathVariable(required = false) String numberOfBlocksAgo)
-      throws ExecutionException, InterruptedException {
+      throws ExecutionException, InterruptedException, TokenInitializeException {
     if (numberOfBlocksAgo == null) {
       numberOfBlocksAgo = appConfig.getSchedulerNumberOfBlocksToLookBack();
     }
@@ -74,7 +75,7 @@ public class MintEventsController extends BaseController {
     return events;
   }
 
-  private List<TokenDataDTO> addTokensToDB(List<MintEvent> events) {
+  private List<TokenDataDTO> addTokensToDB(List<MintEvent> events) throws TokenInitializeException {
     List<TokenDataDTO> tokens = new ArrayList<>();
     Long tokenId, transactionHash;
     for (MintEvent event : events) {
@@ -102,7 +103,8 @@ public class MintEventsController extends BaseController {
     return tokens;
   }
 
-  private TokenDataDTO addTokenToDB(Long tokenId, Long transactionHash) {
+  private TokenDataDTO addTokenToDB(Long tokenId, Long transactionHash)
+      throws TokenInitializeException {
     TokenFacadeDTO token = tokenInitializer.initialize(tokenId, transactionHash);
     if (token == null) {
       return null;

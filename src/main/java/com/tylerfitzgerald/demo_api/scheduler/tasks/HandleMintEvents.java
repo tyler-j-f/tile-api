@@ -5,6 +5,7 @@ import com.tylerfitzgerald.demo_api.config.EnvConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenDataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
+import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
 import com.tylerfitzgerald.demo_api.events.MintEvent;
 import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
@@ -27,11 +28,12 @@ public class HandleMintEvents implements TaskInterface {
   @Autowired private EnvConfig appConfig;
 
   @Override
-  public void execute() throws ExecutionException, InterruptedException {
+  public void execute() throws ExecutionException, InterruptedException, TokenInitializeException {
     getMintEventsAndCreateTokens();
   }
 
-  public String getMintEventsAndCreateTokens() throws ExecutionException, InterruptedException {
+  public String getMintEventsAndCreateTokens()
+      throws ExecutionException, InterruptedException, TokenInitializeException {
     List<MintEvent> events =
         getMintEvents(new BigInteger(appConfig.getSchedulerNumberOfBlocksToLookBack()));
     return addTokensToDB(events).toString();
@@ -47,7 +49,7 @@ public class HandleMintEvents implements TaskInterface {
     return events;
   }
 
-  private List<TokenDataDTO> addTokensToDB(List<MintEvent> events) {
+  private List<TokenDataDTO> addTokensToDB(List<MintEvent> events) throws TokenInitializeException {
     List<TokenDataDTO> tokens = new ArrayList<>();
     Long tokenId, transactionHash;
     for (MintEvent event : events) {
@@ -73,7 +75,8 @@ public class HandleMintEvents implements TaskInterface {
     return tokens;
   }
 
-  private TokenDataDTO addTokenToDB(Long tokenId, Long transactionHash) {
+  private TokenDataDTO addTokenToDB(Long tokenId, Long transactionHash)
+      throws TokenInitializeException {
     TokenFacadeDTO token = tokenInitializer.initialize(tokenId, transactionHash);
     if (token == null) {
       return null;

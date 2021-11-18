@@ -2,6 +2,8 @@ package com.tylerfitzgerald.demo_api.erc721.token;
 
 import com.tylerfitzgerald.demo_api.config.TokenConfig;
 import com.tylerfitzgerald.demo_api.config.TraitsConfig;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.EmojiiPickerTrait;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitException;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
@@ -30,6 +32,7 @@ public class TokenInitializer {
   @Autowired private WeightlessTraitTypeRepository weightlessTraitTypeRepository;
   @Autowired private TokenConfig tokenConfig;
   @Autowired private TraitsConfig traitsConfig;
+  @Autowired private EmojiiPickerTrait emojiiPickerTrait;
 
   private List<TraitTypeDTO> availableTraitTypes = new ArrayList<>();
   private List<TraitTypeWeightDTO> availableTraitTypeWeights = new ArrayList<>();
@@ -38,11 +41,12 @@ public class TokenInitializer {
   private List<WeightlessTraitTypeDTO> weightlessTraitTypes = new ArrayList<>();
   private TokenDTO tokenDTO;
 
-  public TokenFacadeDTO initialize(Long tokenId) {
+  public TokenFacadeDTO initialize(Long tokenId) throws TokenInitializeException {
     return initialize(tokenId, System.currentTimeMillis());
   }
 
-  public TokenFacadeDTO initialize(Long tokenId, Long seedForTraits) {
+  public TokenFacadeDTO initialize(Long tokenId, Long seedForTraits)
+      throws TokenInitializeException {
     availableTraitTypeWeights = traitTypeWeightRepository.read();
     availableTraitTypes = traitTypeRepository.read();
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
@@ -80,7 +84,8 @@ public class TokenInitializer {
             .build());
   }
 
-  private List<WeightlessTraitDTO> createWeightlessTraits(Long seedForTraits) {
+  private List<WeightlessTraitDTO> createWeightlessTraits(Long seedForTraits)
+      throws TokenInitializeException {
     List<WeightlessTraitDTO> weightlessTraits = new ArrayList<>();
     for (WeightlessTraitTypeDTO weightlessTraitType : traitsConfig.getWeightlessTypes()) {
       // Increment the seed so that we use a unique random value for each trait
@@ -94,7 +99,8 @@ public class TokenInitializer {
   }
 
   private WeightlessTraitDTO createWeightlessTrait(
-      WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait) {
+      WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
+      throws TokenInitializeException {
     Long weightTraitId = weightlessTraitRepository.read().size() + 1L;
     return weightlessTraitRepository.create(
         WeightlessTraitDTO.builder()
@@ -108,20 +114,30 @@ public class TokenInitializer {
   }
 
   private String getWeightlessTraitValue(
-      WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait) {
+      WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
+      throws TokenInitializeException {
     Long traitTypeId = weightlessTraitType.getWeightlessTraitTypeId();
-    if (traitTypeId == 11 || traitTypeId == 12 || traitTypeId == 13) {
-      return "valid weightlessTraitValue";
+    if (traitTypeId == 11 || traitTypeId == 12 || traitTypeId == 13 || traitTypeId == 14) {
+      try {
+        return emojiiPickerTrait.getValue(seedForTrait);
+      } catch (WeightlessTraitException e) {
+        throw new TokenInitializeException(e.getMessage(), e.getCause());
+      }
     } else {
       return "invalid weightlessTraitValue";
     }
   }
 
   private String getWeightlessTraitDisplayTypeValue(
-      WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait) {
+      WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
+      throws TokenInitializeException {
     Long traitTypeId = weightlessTraitType.getWeightlessTraitTypeId();
-    if (traitTypeId == 11 || traitTypeId == 12 || traitTypeId == 13) {
-      return "valid weightlessTraitDisplayTypeValue";
+    if (traitTypeId == 11 || traitTypeId == 12 || traitTypeId == 13 || traitTypeId == 14) {
+      try {
+        return emojiiPickerTrait.getDisplayValue(seedForTrait);
+      } catch (WeightlessTraitException e) {
+        throw new TokenInitializeException(e.getMessage(), e.getCause());
+      }
     } else {
       return "invalid weightlessTraitDisplayTypeValue";
     }
