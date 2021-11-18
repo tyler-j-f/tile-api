@@ -6,10 +6,10 @@ spring:
         - { id: null, weightlessTraitTypeId: 12, weightlessTraitTypeName: "Tile 2 Emoji", description: "Emoji value of the top right 'sub-tile'. Emoji value will be a unicode value." }
         - { id: null, weightlessTraitTypeId: 13, weightlessTraitTypeName: "Tile 3 Emoji", description: "Emoji value of the bottom left 'sub-tile'. Emoji value will be a unicode value." }
         - { id: null, weightlessTraitTypeId: 14, weightlessTraitTypeName: "Tile 4 Emoji", description: "Emoji value of the bottom right 'sub-tile'. Emoji value will be a unicode value." }
-        - { id: null, weightlessTraitTypeId: 15, weightlessTraitTypeName: "Tile 1 Color", description: "Background color of the top left 'sub-tile'. Emoji value will be a unicode value." }
-        - { id: null, weightlessTraitTypeId: 16, weightlessTraitTypeName: "Tile 2 Color", description: "Background color of the top right 'sub-tile'. Emoji value will be a unicode value." }
-        - { id: null, weightlessTraitTypeId: 17, weightlessTraitTypeName: "Tile 3 Color", description: "Background color of the bottom left 'sub-tile'. Emoji value will be a unicode value." }
-        - { id: null, weightlessTraitTypeId: 18, weightlessTraitTypeName: "Tile 4 Color", description: "Background color of the top bottom 'sub-tile'. Emoji value will be a unicode value." }
+        - { id: null, weightlessTraitTypeId: 15, weightlessTraitTypeName: "Tile 1 Color", description: "Background color of the top left 'sub-tile'. Value will correspond to an RGB pixel encoding." }
+        - { id: null, weightlessTraitTypeId: 16, weightlessTraitTypeName: "Tile 2 Color", description: "Background color of the top right 'sub-tile'. Value will correspond to an RGB pixel encoding." }
+        - { id: null, weightlessTraitTypeId: 17, weightlessTraitTypeName: "Tile 3 Color", description: "Background color of the bottom left 'sub-tile'. Value will correspond to an RGB pixel encoding." }
+        - { id: null, weightlessTraitTypeId: 18, weightlessTraitTypeName: "Tile 4 Color", description: "Background color of the top bottom 'sub-tile'. Value will correspond to an RGB pixel encoding." }
       weighted-types:
         - {id: null, traitTypeId: 1, traitTypeName: "Tile 1 Rarity Value", description: "Rarity value of the top left 'sub-tile'. The higher the rarity value, the better!"}
         - {id: null, traitTypeId: 2, traitTypeName: "Tile 2 Rarity Value", description: "Rarity value of the top right 'sub-tile'. The higher the rarity value, the better!"}

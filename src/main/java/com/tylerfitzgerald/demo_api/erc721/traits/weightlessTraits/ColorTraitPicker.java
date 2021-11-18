@@ -34,12 +34,7 @@ public class ColorTraitPicker implements WeightlessTraitInterface {
     for (int x = 0; x < 3 - len; x++) {
       b = "0" + b;
     }
-    System.out.println("r: " + r);
-    System.out.println("g: " + g);
-    System.out.println("b: " + b);
-    String rgb = r + g + b;
-    System.out.println("rgb: " + rgb);
-    return rgb.toString();
+    return r + g + b;
   }
 
   @Override

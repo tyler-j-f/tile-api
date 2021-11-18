@@ -7,6 +7,7 @@ import com.tylerfitzgerald.demo_api.image.ImageException;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import javax.servlet.http.HttpServletResponse;
@@ -39,14 +40,31 @@ public class ImageController extends BaseController {
     response.setContentType(MediaType.IMAGE_PNG_VALUE);
     byte[] byteArray =
         imageDrawer.drawImage(
-            tokenId, 3134L, imageResourcesLoader.getResourcesByName(emojiFileNames));
+            tokenId,
+            3134L,
+            imageResourcesLoader.getResourcesByName(emojiFileNames),
+            getTileColors(nft));
     writeBufferedImageToOutput(byteArray, response);
     return;
   }
 
+  private List<String> getTileColors(TokenFacadeDTO nft) {
+    List<String> tileColors = new ArrayList<>();
+    for (WeightlessTraitDTO weightlessTrait : nft.getWeightlessTraits()) {
+      Long traitTypeId = weightlessTrait.getTraitTypeId();
+      if (traitTypeId == 15 || traitTypeId == 16 || traitTypeId == 17 || traitTypeId == 18) {
+        String rgb = weightlessTrait.getValue();
+        tileColors.add(rgb.substring(0, 3));
+        tileColors.add(rgb.substring(3, 6));
+        tileColors.add(rgb.substring(6, 9));
+      }
+    }
+    return tileColors;
+  }
+
   private String[] getEmojiFileNames(TokenFacadeDTO nft) {
     List<WeightlessTraitDTO> weightlessTraits = nft.getWeightlessTraits();
-    String[] names = new String[weightlessTraits.size()];
+    String[] names = new String[4];
     int x = 0;
     for (WeightlessTraitDTO weightlessTrait : weightlessTraits) {
       Long traitTypeId = weightlessTrait.getTraitTypeId();
