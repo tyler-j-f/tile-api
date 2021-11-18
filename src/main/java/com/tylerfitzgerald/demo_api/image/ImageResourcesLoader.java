@@ -16,10 +16,15 @@ public class ImageResourcesLoader {
 
   public ImageResourcesLoader(
       ResourceLoader resourceLoader, String loadPattern, int randomListSize) {
-
     this.resourceLoader = resourceLoader;
     this.loadPattern = loadPattern;
     this.randomListSize = randomListSize;
+  }
+
+  public ImageResourcesLoader(ResourceLoader resourceLoader, String loadPattern) {
+    this.resourceLoader = resourceLoader;
+    this.loadPattern = loadPattern;
+    this.randomListSize = DEFAULT_RANDOM_LIST_SIZE;
   }
 
   public void loadResources() throws IOException {

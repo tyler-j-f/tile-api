@@ -136,6 +136,6 @@ public class AppConfig {
 
   @Bean
   public ImageResourcesLoader imageResourcesLoader() {
-    return new ImageResourcesLoader(resourceLoader, "classpath:openmoji/*.png", 4);
+    return new ImageResourcesLoader(resourceLoader, "classpath:openmoji/*.png");
   }
 }
