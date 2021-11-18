@@ -1,7 +1,8 @@
 package com.tylerfitzgerald.demo_api.config.beans;
 
 import com.tylerfitzgerald.demo_api.config.EnvConfig;
-import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.EmojiiPickerTrait;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.ColorTraitPicker;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.EmojiTraitPicker;
 import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEvents;
@@ -141,7 +142,12 @@ public class AppConfig {
   }
 
   @Bean
-  public EmojiiPickerTrait emojiiPickerTrait() {
-    return new EmojiiPickerTrait();
+  public EmojiTraitPicker emojiiPickerTrait() {
+    return new EmojiTraitPicker();
+  }
+
+  @Bean
+  public ColorTraitPicker ColorTraitPicker() {
+    return new ColorTraitPicker();
   }
 }

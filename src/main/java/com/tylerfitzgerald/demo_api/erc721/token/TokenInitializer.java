@@ -2,7 +2,8 @@ package com.tylerfitzgerald.demo_api.erc721.token;
 
 import com.tylerfitzgerald.demo_api.config.TokenConfig;
 import com.tylerfitzgerald.demo_api.config.TraitsConfig;
-import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.EmojiiPickerTrait;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.ColorTraitPicker;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.EmojiTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitException;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
@@ -32,7 +33,8 @@ public class TokenInitializer {
   @Autowired private WeightlessTraitTypeRepository weightlessTraitTypeRepository;
   @Autowired private TokenConfig tokenConfig;
   @Autowired private TraitsConfig traitsConfig;
-  @Autowired private EmojiiPickerTrait emojiiPickerTrait;
+  @Autowired private EmojiTraitPicker emojiiPickerTrait;
+  @Autowired private ColorTraitPicker colorTraitPicker;
 
   private List<TraitTypeDTO> availableTraitTypes = new ArrayList<>();
   private List<TraitTypeWeightDTO> availableTraitTypeWeights = new ArrayList<>();
@@ -123,6 +125,12 @@ public class TokenInitializer {
       } catch (WeightlessTraitException e) {
         throw new TokenInitializeException(e.getMessage(), e.getCause());
       }
+    } else if (traitTypeId == 15 || traitTypeId == 16 || traitTypeId == 17 || traitTypeId == 18) {
+      try {
+        return colorTraitPicker.getValue(seedForTrait);
+      } catch (WeightlessTraitException e) {
+        throw new TokenInitializeException(e.getMessage(), e.getCause());
+      }
     } else {
       return "invalid weightlessTraitValue";
     }
@@ -135,6 +143,12 @@ public class TokenInitializer {
     if (traitTypeId == 11 || traitTypeId == 12 || traitTypeId == 13 || traitTypeId == 14) {
       try {
         return emojiiPickerTrait.getDisplayValue(seedForTrait);
+      } catch (WeightlessTraitException e) {
+        throw new TokenInitializeException(e.getMessage(), e.getCause());
+      }
+    } else if (traitTypeId == 15 || traitTypeId == 16 || traitTypeId == 17 || traitTypeId == 18) {
+      try {
+        return colorTraitPicker.getDisplayValue(seedForTrait);
       } catch (WeightlessTraitException e) {
         throw new TokenInitializeException(e.getMessage(), e.getCause());
       }

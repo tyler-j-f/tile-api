@@ -4,7 +4,7 @@ import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class EmojiiPickerTrait implements WeightlessTraitInterface {
+public class EmojiTraitPicker implements WeightlessTraitInterface {
 
   @Autowired private ImageResourcesLoader imageResourcesLoader;
 
