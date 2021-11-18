@@ -19,6 +19,6 @@ public class EmojiiPickerTrait implements WeightlessTraitInterface {
 
   @Override
   public String getDisplayValue(Long seedForTrait) throws WeightlessTraitException {
-    return null;
+    return "";
   }
 }
