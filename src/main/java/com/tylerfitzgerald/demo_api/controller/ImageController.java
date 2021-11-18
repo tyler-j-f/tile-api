@@ -1,9 +1,13 @@
 package com.tylerfitzgerald.demo_api.controller;
 
+import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
+import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.image.ImageDrawer;
 import com.tylerfitzgerald.demo_api.image.ImageException;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
+import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,20 +26,35 @@ public class ImageController extends BaseController {
 
   @Autowired ImageDrawer imageDrawer;
   @Autowired ImageResourcesLoader imageResourcesLoader;
-
-  @GetMapping(value = "token/create/{tokenId}", produces = MediaType.IMAGE_PNG_VALUE)
-  public void createTokenImage(HttpServletResponse response, @PathVariable Long tokenId) {
-    return;
-  }
+  @Autowired private TokenRetriever tokenRetriever;
 
   @GetMapping(value = "tile/get/{tokenId}", produces = MediaType.IMAGE_PNG_VALUE)
   public void getTokenImage(HttpServletResponse response, @PathVariable Long tokenId)
-      throws ImageException, IOException {
+      throws ImageException, IOException, ControllerException {
+    TokenFacadeDTO nft = tokenRetriever.get(tokenId);
+    if (nft == null) {
+      throw new ControllerException("Token id not able to be found");
+    }
+    String[] emojiFileNames = getEmojiFileNames(nft);
     response.setContentType(MediaType.IMAGE_PNG_VALUE);
     byte[] byteArray =
-        imageDrawer.drawImage(tokenId, 3134L, imageResourcesLoader.getRandomResourceList(tokenId));
+        imageDrawer.drawImage(
+            tokenId, 3134L, imageResourcesLoader.getResourcesByName(emojiFileNames));
     writeBufferedImageToOutput(byteArray, response);
     return;
+  }
+
+  private String[] getEmojiFileNames(TokenFacadeDTO nft) {
+    List<WeightlessTraitDTO> weightlessTraits = nft.getWeightlessTraits();
+    String[] names = new String[weightlessTraits.size()];
+    int x = 0;
+    for (WeightlessTraitDTO weightlessTrait : weightlessTraits) {
+      Long traitTypeId = weightlessTrait.getTraitTypeId();
+      if (traitTypeId == 11 || traitTypeId == 12 || traitTypeId == 13 || traitTypeId == 14) {
+        names[x++] = weightlessTrait.getValue();
+      }
+    }
+    return names;
   }
 
   @GetMapping(value = "contractImage/get/{contractImageId}", produces = MediaType.IMAGE_PNG_VALUE)

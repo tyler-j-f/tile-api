@@ -1,6 +1,7 @@
 package com.tylerfitzgerald.demo_api.image;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Random;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -54,5 +55,25 @@ public class ImageResourcesLoader {
     }
     int rnd = new Random(randomSeed).nextInt(resources.length);
     return resources[rnd];
+  }
+
+  public Resource getResourceByName(String name) throws IOException {
+    if (resources == null) {
+      loadResources();
+    }
+    return Arrays.stream(resources)
+        .sequential()
+        .filter(resource -> resource.getFilename().equals(name))
+        .findFirst()
+        .get();
+  }
+
+  public Resource[] getResourcesByName(String[] names) throws IOException {
+    Resource[] resources = new Resource[names.length];
+    int x = 0;
+    for (String name : names) {
+      resources[x++] = getResourceByName(name);
+    }
+    return resources;
   }
 }
