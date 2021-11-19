@@ -37,7 +37,7 @@ public class ColorTraitPicker implements WeightlessTraitInterface {
   }
 
   @Override
-  public String getDisplayValue(Long seedForTrait) throws WeightlessTraitException {
+  public String getDisplayValue(WeightlessTraitContext context) throws WeightlessTraitException {
     return "";
   }
 }
