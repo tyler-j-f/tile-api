@@ -1,8 +1,8 @@
 package com.tylerfitzgerald.demo_api.config.beans;
 
 import com.tylerfitzgerald.demo_api.config.EnvConfig;
-import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.ColorTraitPicker;
-import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.EmojiTraitPicker;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.implementations.ColorTraitPicker;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.implementations.EmojiTraitPicker;
 import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEvents;

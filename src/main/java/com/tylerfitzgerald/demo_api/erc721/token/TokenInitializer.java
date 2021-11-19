@@ -2,8 +2,9 @@ package com.tylerfitzgerald.demo_api.erc721.token;
 
 import com.tylerfitzgerald.demo_api.config.TokenConfig;
 import com.tylerfitzgerald.demo_api.config.TraitsConfig;
-import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.ColorTraitPicker;
-import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.EmojiTraitPicker;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitContext;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.implementations.ColorTraitPicker;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.implementations.EmojiTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitException;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
@@ -128,13 +129,15 @@ public class TokenInitializer {
     Long traitTypeId = weightlessTraitType.getWeightlessTraitTypeId();
     if (traitTypeId == 11 || traitTypeId == 12 || traitTypeId == 13 || traitTypeId == 14) {
       try {
-        return emojiiPickerTrait.getValue(seedForTrait);
+        return emojiiPickerTrait.getValue(
+            WeightlessTraitContext.builder().seedForTrait(seedForTrait * SEED_MULTIPLIER).build());
       } catch (WeightlessTraitException e) {
         throw new TokenInitializeException(e.getMessage(), e.getCause());
       }
     } else if (traitTypeId == 15 || traitTypeId == 16 || traitTypeId == 17 || traitTypeId == 18) {
       try {
-        return colorTraitPicker.getValue(seedForTrait * SEED_MULTIPLIER);
+        return colorTraitPicker.getValue(
+            WeightlessTraitContext.builder().seedForTrait(seedForTrait * SEED_MULTIPLIER).build());
       } catch (WeightlessTraitException e) {
         throw new TokenInitializeException(e.getMessage(), e.getCause());
       }
