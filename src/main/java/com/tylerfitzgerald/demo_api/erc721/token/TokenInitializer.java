@@ -156,7 +156,7 @@ public class TokenInitializer {
             WeightlessTraitContext.builder()
                 .seedForTrait(seedForTrait * SEED_MULTIPLIER)
                 .weightedTraits(weightedTraits)
-                .weightedTraitWeights(availableTraitTypeWeights)
+                .traitTypeWeights(availableTraitTypeWeights)
                 .build());
       } catch (WeightlessTraitException e) {
         throw new TokenInitializeException(e.getMessage(), e.getCause());

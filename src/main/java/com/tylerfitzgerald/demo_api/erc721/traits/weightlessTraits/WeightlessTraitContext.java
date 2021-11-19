@@ -11,5 +11,5 @@ import lombok.Data;
 public class WeightlessTraitContext {
   private Long seedForTrait;
   private List<TraitDTO> weightedTraits;
-  private List<TraitTypeWeightDTO> weightedTraitWeights;
+  private List<TraitTypeWeightDTO> traitTypeWeights;
 }
