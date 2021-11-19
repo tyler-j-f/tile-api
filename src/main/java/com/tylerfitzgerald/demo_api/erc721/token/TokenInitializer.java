@@ -129,67 +129,57 @@ public class TokenInitializer {
   private String getWeightlessTraitValue(
       WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
       throws TokenInitializeException {
-    Long traitTypeId = weightlessTraitType.getWeightlessTraitTypeId();
-    if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_EMOJI
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_2_EMOJI
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_3_EMOJI
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_4_EMOJI) {
-      try {
+    try {
+      Long traitTypeId = weightlessTraitType.getWeightlessTraitTypeId();
+      if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_EMOJI
+          || traitTypeId == WeightlessTraitTypeConstants.TILE_2_EMOJI
+          || traitTypeId == WeightlessTraitTypeConstants.TILE_3_EMOJI
+          || traitTypeId == WeightlessTraitTypeConstants.TILE_4_EMOJI) {
         return emojiiPickerTrait.getValue(
             WeightlessTraitContext.builder().seedForTrait(seedForTrait * SEED_MULTIPLIER).build());
-      } catch (WeightlessTraitException e) {
-        throw new TokenInitializeException(e.getMessage(), e.getCause());
-      }
-    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_COLOR
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_2_COLOR
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_3_COLOR
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_4_COLOR) {
-      try {
+      } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_COLOR
+          || traitTypeId == WeightlessTraitTypeConstants.TILE_2_COLOR
+          || traitTypeId == WeightlessTraitTypeConstants.TILE_3_COLOR
+          || traitTypeId == WeightlessTraitTypeConstants.TILE_4_COLOR) {
         return colorTraitPicker.getValue(
             WeightlessTraitContext.builder().seedForTrait(seedForTrait * SEED_MULTIPLIER).build());
-      } catch (WeightlessTraitException e) {
-        throw new TokenInitializeException(e.getMessage(), e.getCause());
-      }
-    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_RARITY) {
-      try {
+      } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_RARITY) {
         return rarityTraitPicker.getValue(
             WeightlessTraitContext.builder()
                 .seedForTrait(seedForTrait * SEED_MULTIPLIER)
                 .weightedTraits(weightedTraits)
                 .traitTypeWeights(availableTraitTypeWeights)
                 .build());
-      } catch (WeightlessTraitException e) {
-        throw new TokenInitializeException(e.getMessage(), e.getCause());
+      } else {
+        return "invalid weightlessTraitValue";
       }
-    } else {
-      return "invalid weightlessTraitValue";
+    } catch (WeightlessTraitException e) {
+      throw new TokenInitializeException(e.getMessage(), e.getCause());
     }
   }
 
   private String getWeightlessTraitDisplayTypeValue(
       WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
       throws TokenInitializeException {
-    Long traitTypeId = weightlessTraitType.getWeightlessTraitTypeId();
-    if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_EMOJI
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_2_EMOJI
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_3_EMOJI
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_4_EMOJI) {
-      try {
+    try {
+      Long traitTypeId = weightlessTraitType.getWeightlessTraitTypeId();
+      if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_EMOJI
+          || traitTypeId == WeightlessTraitTypeConstants.TILE_2_EMOJI
+          || traitTypeId == WeightlessTraitTypeConstants.TILE_3_EMOJI
+          || traitTypeId == WeightlessTraitTypeConstants.TILE_4_EMOJI) {
         return emojiiPickerTrait.getDisplayValue(seedForTrait);
-      } catch (WeightlessTraitException e) {
-        throw new TokenInitializeException(e.getMessage(), e.getCause());
-      }
-    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_COLOR
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_2_COLOR
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_3_COLOR
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_4_COLOR) {
-      try {
+      } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_COLOR
+          || traitTypeId == WeightlessTraitTypeConstants.TILE_2_COLOR
+          || traitTypeId == WeightlessTraitTypeConstants.TILE_3_COLOR
+          || traitTypeId == WeightlessTraitTypeConstants.TILE_4_COLOR) {
         return colorTraitPicker.getDisplayValue(seedForTrait);
-      } catch (WeightlessTraitException e) {
-        throw new TokenInitializeException(e.getMessage(), e.getCause());
+      } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_RARITY) {
+        return rarityTraitPicker.getDisplayValue(seedForTrait);
+      } else {
+        return "invalid weightlessTraitDisplayTypeValue";
       }
-    } else {
-      return "invalid weightlessTraitDisplayTypeValue";
+    } catch (WeightlessTraitException e) {
+      throw new TokenInitializeException(e.getMessage(), e.getCause());
     }
   }
 

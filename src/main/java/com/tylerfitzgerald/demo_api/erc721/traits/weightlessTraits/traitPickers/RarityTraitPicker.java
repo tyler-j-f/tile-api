@@ -30,16 +30,39 @@ public class RarityTraitPicker implements WeightlessTraitInterface {
         case WeightedTraitTypeConstants.TILE_1_RARITY:
           tile1Value = getValueFromTraitWeightsList(traitTypeWeightId, traitTypeWeights);
           break;
+        case WeightedTraitTypeConstants.TILE_2_RARITY:
+          tile2Value = getValueFromTraitWeightsList(traitTypeWeightId, traitTypeWeights);
+          break;
+        case WeightedTraitTypeConstants.TILE_3_RARITY:
+          tile3Value = getValueFromTraitWeightsList(traitTypeWeightId, traitTypeWeights);
+          break;
+        case WeightedTraitTypeConstants.TILE_4_RARITY:
+          tile4Value = getValueFromTraitWeightsList(traitTypeWeightId, traitTypeWeights);
+          break;
         case WeightedTraitTypeConstants.TILE_1_MULTIPLIER:
           tile1Multiplier = getValueFromTraitWeightsList(traitTypeWeightId, traitTypeWeights);
           break;
-        default:
+        case WeightedTraitTypeConstants.TILE_2_MULTIPLIER:
+          tile2Multiplier = getValueFromTraitWeightsList(traitTypeWeightId, traitTypeWeights);
           break;
-          // throw new IllegalStateException("Unexpected value: " +
-          // weightedTraits.getTraitTypeId());
+        case WeightedTraitTypeConstants.TILE_3_MULTIPLIER:
+          tile3Multiplier = getValueFromTraitWeightsList(traitTypeWeightId, traitTypeWeights);
+          break;
+        case WeightedTraitTypeConstants.TILE_4_MULTIPLIER:
+          tile4Multiplier = getValueFromTraitWeightsList(traitTypeWeightId, traitTypeWeights);
+          break;
+        default:
+          // There will be weighted traits that are not one of the trait types that correspond to
+          // rarity values, break; when we get to one of these.
+          break;
       }
     }
     return calculateTotalRarity().toString();
+  }
+
+  @Override
+  public String getDisplayValue(Long seedForTrait) throws WeightlessTraitException {
+    return "";
   }
 
   private Long getValueFromTraitWeightsList(
@@ -57,10 +80,5 @@ public class RarityTraitPicker implements WeightlessTraitInterface {
         + (tile2Value * tile2Multiplier)
         + (tile3Value * tile3Multiplier)
         + (tile4Value * tile4Multiplier);
-  }
-
-  @Override
-  public String getDisplayValue(Long seedForTrait) throws WeightlessTraitException {
-    return "";
   }
 }
