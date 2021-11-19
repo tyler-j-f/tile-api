@@ -3,10 +3,13 @@ package com.tylerfitzgerald.demo_api.events;
 import lombok.Builder;
 
 import java.util.List;
+import lombok.Getter;
 
 @Builder
 public class MintEvent {
   private List<String> topics;
+
+  @Getter private String transactionHash;
 
   public String getSaleOptionSupplyPostMint() {
     return topics.get(1);
@@ -32,6 +35,8 @@ public class MintEvent {
         + "saleOptionSupplyPostMint="
         + topics.get(1)
         + ","
+        + "transactionHash="
+        + transactionHash
         + '}';
   }
 }

@@ -6,6 +6,8 @@ import com.tylerfitzgerald.demo_api.sql.tblToken.TokenTable;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightsTable;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypesTable;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitsTable;
+import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitTypesTable;
+import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitsTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,10 @@ public class SqlController extends BaseController {
   @Autowired private TraitTypeWeightsTable traitTypeWeightsTable;
 
   @Autowired private TraitsTable traitsTable;
+
+  @Autowired private WeightlessTraitsTable weightlessTraitsTable;
+
+  @Autowired private WeightlessTraitTypesTable weightlessTraitTypesTable;
 
   @GetMapping("createSqlTables")
   public String createSqlTables() {
@@ -46,6 +52,16 @@ public class SqlController extends BaseController {
     } else {
       output = output + "\n" + "Traits table failed to create";
     }
+    if (weightlessTraitsTable.create()) {
+      output = output + "\n" + "Weightless Traits table created successfully";
+    } else {
+      output = output + "\n" + "Weightless Traits table failed to create";
+    }
+    if (weightlessTraitTypesTable.create()) {
+      output = output + "\n" + "Weightless Trait Types table created successfully";
+    } else {
+      output = output + "\n" + "Weightless Trait Types table failed to create";
+    }
     return output;
   }
 
@@ -53,6 +69,7 @@ public class SqlController extends BaseController {
   public String initialTablesPopulate() {
     traitTypesTable.initialize();
     traitTypeWeightsTable.initialize();
+    weightlessTraitTypesTable.initialize();
     return "Trait types table initialized with initial data successfully";
   }
 
@@ -78,6 +95,16 @@ public class SqlController extends BaseController {
       output = output + "\n" + "Traits table deleted successfully";
     } else {
       output = output + "\n" + "Traits table failed to delete";
+    }
+    if (weightlessTraitsTable.delete()) {
+      output = output + "\n" + "Weightless traits table deleted successfully";
+    } else {
+      output = output + "\n" + "Weightless traits table failed to delete";
+    }
+    if (weightlessTraitTypesTable.delete()) {
+      output = output + "\n" + "Weightless trait types table deleted successfully";
+    } else {
+      output = output + "\n" + "Weightless trait types table failed to delete";
     }
     return output;
   }

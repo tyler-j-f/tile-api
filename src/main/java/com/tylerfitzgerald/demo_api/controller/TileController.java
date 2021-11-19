@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
+import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,8 @@ public class TileController extends BaseController {
   @Autowired private TokenInitializer tokenInitializer;
 
   @GetMapping("create/{tokenId}")
-  public String createTileNFT(@PathVariable Long tokenId) throws JsonProcessingException {
+  public String createTileNFT(@PathVariable Long tokenId)
+      throws JsonProcessingException, TokenInitializeException {
     TokenFacadeDTO nft = tokenInitializer.initialize(tokenId);
     if (nft == null) {
       return "Could not create tokenId: " + tokenId;

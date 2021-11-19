@@ -8,7 +8,7 @@ spring:
     nftContractAddress: "0x8218f4f459c90dc0151bc3e4617bB8BF800f9b57"
     nftFactoryContractAddress: "0x9bb585CEb0FcfE3EB909FBD91545EBe92c27a891"
     mintEventHashSignature: "0x070aa035fe0a09f0d9305bdc2d7a5d93cd4733db3b1ff869b4a7033c9501909a"
-    schedulerFixedRateMs: 20000
+    schedulerFixedRateMs: 60000
     schedulerNumberOfBlocksToLookBack: 200000
 
   profiles:

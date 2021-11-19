@@ -1,17 +1,116 @@
 spring:
   application:
     traits-config:
-      types:
-        - {id: null, traitTypeId: 1, traitTypeName: Shape, description: "Shape of the sub-tile"}
-        - {id: null, traitTypeId: 2, traitTypeName: Color, description: "Color of the sub-tile"}
-        - { id: null, traitTypeId: 3, traitTypeName: Multiplier, description: "Multiplier of the sub-tile" }
-      typeWeights:
-        - {id: null, traitTypeWeightId: 1, traitTypeId: 1, likelihood: 50, value: circle, displayTypeValue: null}
-        - {id: null, traitTypeWeightId: 2, traitTypeId: 1, likelihood: 30, value: square, displayTypeValue: null}
-        - {id: null, traitTypeWeightId: 3, traitTypeId: 1, likelihood: 20, value: triangle, displayTypeValue: null}
-        - {id: null, traitTypeWeightId: 4, traitTypeId: 2, likelihood: 50, value: red, displayTypeValue: null}
-        - {id: null, traitTypeWeightId: 5, traitTypeId: 2, likelihood: 30, value: blue, displayTypeValue: null}
-        - {id: null, traitTypeWeightId: 6, traitTypeId: 2, likelihood: 20, value: green, displayTypeValue: null}
-        - {id: null, traitTypeWeightId: 7, traitTypeId: 3, likelihood: 60, value: 1, displayTypeValue: boost_number}
-        - {id: null, traitTypeWeightId: 8, traitTypeId: 3, likelihood: 30, value: 2, displayTypeValue: boost_number}
-        - {id: null, traitTypeWeightId: 9, traitTypeId: 3, likelihood: 10, value: 3, displayTypeValue: boost_number}
+      weightless-types:
+        - { id: null, weightlessTraitTypeId: 11, weightlessTraitTypeName: "Tile 1 Emoji", description: "Emoji value of the top left 'sub-tile'. Emoji value will be a unicode value." }
+        - { id: null, weightlessTraitTypeId: 12, weightlessTraitTypeName: "Tile 2 Emoji", description: "Emoji value of the top right 'sub-tile'. Emoji value will be a unicode value." }
+        - { id: null, weightlessTraitTypeId: 13, weightlessTraitTypeName: "Tile 3 Emoji", description: "Emoji value of the bottom left 'sub-tile'. Emoji value will be a unicode value." }
+        - { id: null, weightlessTraitTypeId: 14, weightlessTraitTypeName: "Tile 4 Emoji", description: "Emoji value of the bottom right 'sub-tile'. Emoji value will be a unicode value." }
+        - { id: null, weightlessTraitTypeId: 15, weightlessTraitTypeName: "Tile 1 Color", description: "Background color of the top left 'sub-tile'. Value will correspond to an RGB pixel encoding." }
+        - { id: null, weightlessTraitTypeId: 16, weightlessTraitTypeName: "Tile 2 Color", description: "Background color of the top right 'sub-tile'. Value will correspond to an RGB pixel encoding." }
+        - { id: null, weightlessTraitTypeId: 17, weightlessTraitTypeName: "Tile 3 Color", description: "Background color of the bottom left 'sub-tile'. Value will correspond to an RGB pixel encoding." }
+        - { id: null, weightlessTraitTypeId: 18, weightlessTraitTypeName: "Tile 4 Color", description: "Background color of the top bottom 'sub-tile'. Value will correspond to an RGB pixel encoding." }
+        - { id: null, weightlessTraitTypeId: 19, weightlessTraitTypeName: "Rarity", description: "Overall rarity of the TileNFT'. The higher the rarity value, the better!" }
+      weighted-types:
+        - {id: null, traitTypeId: 1, traitTypeName: "Tile 1 Rarity Value", description: "Rarity value of the top left 'sub-tile'. The higher the rarity value, the better!"}
+        - {id: null, traitTypeId: 2, traitTypeName: "Tile 2 Rarity Value", description: "Rarity value of the top right 'sub-tile'. The higher the rarity value, the better!"}
+        - {id: null, traitTypeId: 3, traitTypeName: "Tile 3 Rarity Value", description: "Rarity value of the bottom left 'sub-tile'. The higher the rarity value, the better!"}
+        - {id: null, traitTypeId: 4, traitTypeName: "Tile 4 Rarity Value", description: "Rarity value of the bottom right 'sub-tile'. The higher the rarity value, the better!"}
+        - {id: null, traitTypeId: 5, traitTypeName: "Tile 1 Rarity Multiplier Value", description: "Rarity Multiplier value of the top left 'sub-tile'. The higher the rarity value, the better!"}
+        - {id: null, traitTypeId: 6, traitTypeName: "Tile 2 Rarity Multiplier Value", description: "Rarity Multiplier value of the top right 'sub-tile'. The higher the rarity value, the better!"}
+        - {id: null, traitTypeId: 7, traitTypeName: "Tile 3 Rarity Multiplier Value", description: "Rarity multiplier value of the bottom left 'sub-tile'. The higher the rarity value, the better!"}
+        - {id: null, traitTypeId: 8, traitTypeName: "Tile 4 Rarity Multiplier Value", description: "Rarity multiplier value of the bottom right 'sub-tile'. The higher the rarity value, the better!"}
+        - {id: null, traitTypeId: 9, traitTypeName: "Merge Multiplier Value", description: "Merge (and burn) Two TileNFTs to output ONE, even more rare TileNFT!!! The merge multiplier value of each TileNFT will be used to increase the rarity of the outputted TileNFT after merging two!! The higher the rarity value, the better!"}
+        - {id: null, traitTypeId: 10, traitTypeName: "Emoji Source", description: "Attribution/credit details for the emoji type used by the TileNFT"}
+      type-weights:
+        - {id: null, traitTypeWeightId: 1, traitTypeId: 1, likelihood: 24, value: 1, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 2, traitTypeId: 1, likelihood: 19, value: 2, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 3, traitTypeId: 1, likelihood: 16, value: 3, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 4, traitTypeId: 1, likelihood: 13, value: 4, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 5, traitTypeId: 1, likelihood: 10, value: 5, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 6, traitTypeId: 1, likelihood: 7, value: 6, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 7, traitTypeId: 1, likelihood: 5, value: 7, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 8, traitTypeId: 1, likelihood: 3, value: 8, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 9, traitTypeId: 1, likelihood: 2, value: 9, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 10, traitTypeId: 1, likelihood: 1, value: 10, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 11, traitTypeId: 2, likelihood: 24, value: 1, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 12, traitTypeId: 2, likelihood: 19, value: 2, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 13, traitTypeId: 2, likelihood: 16, value: 3, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 14, traitTypeId: 2, likelihood: 13, value: 4, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 15, traitTypeId: 2, likelihood: 10, value: 5, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 16, traitTypeId: 2, likelihood: 7, value: 6, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 17, traitTypeId: 2, likelihood: 5, value: 7, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 18, traitTypeId: 2, likelihood: 3, value: 8, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 19, traitTypeId: 2, likelihood: 2, value: 9, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 20, traitTypeId: 2, likelihood: 1, value: 10, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 21, traitTypeId: 3, likelihood: 24, value: 1, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 22, traitTypeId: 3, likelihood: 19, value: 2, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 23, traitTypeId: 3, likelihood: 16, value: 3, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 24, traitTypeId: 3, likelihood: 13, value: 4, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 25, traitTypeId: 3, likelihood: 10, value: 5, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 26, traitTypeId: 3, likelihood: 7, value: 6, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 27, traitTypeId: 3, likelihood: 5, value: 7, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 28, traitTypeId: 3, likelihood: 3, value: 8, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 29, traitTypeId: 3, likelihood: 2, value: 9, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 30, traitTypeId: 3, likelihood: 1, value: 10, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 31, traitTypeId: 4, likelihood: 24, value: 1, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 32, traitTypeId: 4, likelihood: 19, value: 2, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 33, traitTypeId: 4, likelihood: 16, value: 3, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 34, traitTypeId: 4, likelihood: 13, value: 4, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 35, traitTypeId: 4, likelihood: 10, value: 5, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 36, traitTypeId: 4, likelihood: 7, value: 6, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 37, traitTypeId: 4, likelihood: 5, value: 7, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 38, traitTypeId: 4, likelihood: 3, value: 8, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 39, traitTypeId: 4, likelihood: 2, value: 9, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 40, traitTypeId: 4, likelihood: 1, value: 10, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 41, traitTypeId: 5, likelihood: 24, value: 1, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 42, traitTypeId: 5, likelihood: 19, value: 2, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 43, traitTypeId: 5, likelihood: 16, value: 3, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 44, traitTypeId: 5, likelihood: 13, value: 4, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 45, traitTypeId: 5, likelihood: 10, value: 5, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 46, traitTypeId: 5, likelihood: 7, value: 6, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 47, traitTypeId: 5, likelihood: 5, value: 7, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 48, traitTypeId: 5, likelihood: 3, value: 8, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 49, traitTypeId: 5, likelihood: 2, value: 9, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 50, traitTypeId: 5, likelihood: 1, value: 10, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 51, traitTypeId: 6, likelihood: 24, value: 1, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 52, traitTypeId: 6, likelihood: 19, value: 2, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 53, traitTypeId: 6, likelihood: 16, value: 3, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 54, traitTypeId: 6, likelihood: 13, value: 4, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 55, traitTypeId: 6, likelihood: 10, value: 5, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 56, traitTypeId: 6, likelihood: 7, value: 6, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 57, traitTypeId: 6, likelihood: 5, value: 7, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 58, traitTypeId: 6, likelihood: 3, value: 8, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 59, traitTypeId: 6, likelihood: 2, value: 9, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 60, traitTypeId: 6, likelihood: 1, value: 10, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 61, traitTypeId: 7, likelihood: 24, value: 1, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 62, traitTypeId: 7, likelihood: 19, value: 2, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 63, traitTypeId: 7, likelihood: 16, value: 3, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 64, traitTypeId: 7, likelihood: 13, value: 4, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 65, traitTypeId: 7, likelihood: 10, value: 5, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 66, traitTypeId: 7, likelihood: 7, value: 6, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 67, traitTypeId: 7, likelihood: 5, value: 7, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 68, traitTypeId: 7, likelihood: 3, value: 8, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 69, traitTypeId: 7, likelihood: 2, value: 9, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 70, traitTypeId: 7, likelihood: 1, value: 10, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 71, traitTypeId: 8, likelihood: 24, value: 1, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 72, traitTypeId: 8, likelihood: 19, value: 2, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 73, traitTypeId: 8, likelihood: 16, value: 3, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 74, traitTypeId: 8, likelihood: 13, value: 4, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 75, traitTypeId: 8, likelihood: 10, value: 5, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 76, traitTypeId: 8, likelihood: 7, value: 6, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 77, traitTypeId: 8, likelihood: 5, value: 7, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 78, traitTypeId: 8, likelihood: 3, value: 8, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 79, traitTypeId: 8, likelihood: 2, value: 9, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 80, traitTypeId: 8, likelihood: 1, value: 10, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 81, traitTypeId: 9, likelihood: 24, value: 1, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 82, traitTypeId: 9, likelihood: 19, value: 2, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 83, traitTypeId: 9, likelihood: 16, value: 3, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 84, traitTypeId: 9, likelihood: 13, value: 4, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 85, traitTypeId: 9, likelihood: 10, value: 5, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 86, traitTypeId: 9, likelihood: 7, value: 6, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 87, traitTypeId: 9, likelihood: 5, value: 7, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 88, traitTypeId: 9, likelihood: 3, value: 8, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 89, traitTypeId: 9, likelihood: 2, value: 9, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 90, traitTypeId: 9, likelihood: 1, value: 10, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 91, traitTypeId: 10, likelihood: 100, value: "https://openmoji.org/ - https://creativecommons.org/licenses/by-sa/4.0/ (Attribution-ShareAlike 4.0 International — CC BY-SA 4.0) - Changes were not made.", displayTypeValue: null}

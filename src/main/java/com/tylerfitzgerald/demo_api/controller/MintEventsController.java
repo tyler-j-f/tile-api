@@ -4,6 +4,7 @@ import com.tylerfitzgerald.demo_api.config.EnvConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenDataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
+import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.events.MintEvent;
@@ -56,7 +57,7 @@ public class MintEventsController extends BaseController {
   @GetMapping(value = {"getAllAndCreateTokens/{numberOfBlocksAgo}", "getAllAndCreateTokens"})
   public String getMintEventsAndCreateTokens(
       @PathVariable(required = false) String numberOfBlocksAgo)
-      throws ExecutionException, InterruptedException {
+      throws ExecutionException, InterruptedException, TokenInitializeException {
     if (numberOfBlocksAgo == null) {
       numberOfBlocksAgo = appConfig.getSchedulerNumberOfBlocksToLookBack();
     }
@@ -74,11 +75,12 @@ public class MintEventsController extends BaseController {
     return events;
   }
 
-  private List<TokenDataDTO> addTokensToDB(List<MintEvent> events) {
+  private List<TokenDataDTO> addTokensToDB(List<MintEvent> events) throws TokenInitializeException {
     List<TokenDataDTO> tokens = new ArrayList<>();
-    Long tokenId;
+    Long tokenId, transactionHash;
     for (MintEvent event : events) {
       tokenId = getLongFromHexString(event.getTokenId());
+      transactionHash = getLongFromHexString(event.getTransactionHash());
       TokenDTO existingTokenDTO = tokenRepository.readById(tokenId);
       if (existingTokenDTO != null) {
         System.out.println(
@@ -89,7 +91,7 @@ public class MintEventsController extends BaseController {
                 + "\n");
         continue;
       }
-      TokenDataDTO token = addTokenToDB(tokenId);
+      TokenDataDTO token = addTokenToDB(tokenId, transactionHash);
       if (token == null) {
         System.out.println(
             "\nError adding token from mint event to token DB. TokenId: " + tokenId + "\n");
@@ -101,8 +103,9 @@ public class MintEventsController extends BaseController {
     return tokens;
   }
 
-  private TokenDataDTO addTokenToDB(Long tokenId) {
-    TokenFacadeDTO token = tokenInitializer.initialize(tokenId);
+  private TokenDataDTO addTokenToDB(Long tokenId, Long transactionHash)
+      throws TokenInitializeException {
+    TokenFacadeDTO token = tokenInitializer.initialize(tokenId, transactionHash);
     if (token == null) {
       return null;
     }

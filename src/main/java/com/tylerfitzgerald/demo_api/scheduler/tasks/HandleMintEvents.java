@@ -5,6 +5,7 @@ import com.tylerfitzgerald.demo_api.config.EnvConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenDataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
+import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
 import com.tylerfitzgerald.demo_api.events.MintEvent;
 import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
@@ -27,11 +28,12 @@ public class HandleMintEvents implements TaskInterface {
   @Autowired private EnvConfig appConfig;
 
   @Override
-  public void execute() throws ExecutionException, InterruptedException {
+  public void execute() throws ExecutionException, InterruptedException, TokenInitializeException {
     getMintEventsAndCreateTokens();
   }
 
-  public String getMintEventsAndCreateTokens() throws ExecutionException, InterruptedException {
+  public String getMintEventsAndCreateTokens()
+      throws ExecutionException, InterruptedException, TokenInitializeException {
     List<MintEvent> events =
         getMintEvents(new BigInteger(appConfig.getSchedulerNumberOfBlocksToLookBack()));
     return addTokensToDB(events).toString();
@@ -47,11 +49,12 @@ public class HandleMintEvents implements TaskInterface {
     return events;
   }
 
-  private List<TokenDataDTO> addTokensToDB(List<MintEvent> events) {
+  private List<TokenDataDTO> addTokensToDB(List<MintEvent> events) throws TokenInitializeException {
     List<TokenDataDTO> tokens = new ArrayList<>();
-    Long tokenId;
+    Long tokenId, transactionHash;
     for (MintEvent event : events) {
       tokenId = getLongFromHexString(event.getTokenId());
+      transactionHash = getLongFromHexString(event.getTransactionHash(), 0, 9);
       TokenDTO existingTokenDTO = tokenRepository.readById(tokenId);
       if (existingTokenDTO != null) {
         System.out.println(
@@ -61,7 +64,7 @@ public class HandleMintEvents implements TaskInterface {
                 + existingTokenDTO.toString());
         continue;
       }
-      TokenDataDTO token = addTokenToDB(tokenId);
+      TokenDataDTO token = addTokenToDB(tokenId, transactionHash);
       if (token == null) {
         System.out.println("Error adding token from mint event to token DB. TokenId: " + tokenId);
         continue;
@@ -72,8 +75,9 @@ public class HandleMintEvents implements TaskInterface {
     return tokens;
   }
 
-  private TokenDataDTO addTokenToDB(Long tokenId) {
-    TokenFacadeDTO token = tokenInitializer.initialize(tokenId);
+  private TokenDataDTO addTokenToDB(Long tokenId, Long transactionHash)
+      throws TokenInitializeException {
+    TokenFacadeDTO token = tokenInitializer.initialize(tokenId, transactionHash);
     if (token == null) {
       return null;
     }
@@ -82,5 +86,9 @@ public class HandleMintEvents implements TaskInterface {
 
   private Long getLongFromHexString(String hexString) {
     return Long.parseLong(hexString.split("0x")[1], 16);
+  }
+
+  private Long getLongFromHexString(String hexString, int startIndex, int endIndex) {
+    return Long.parseLong(hexString.split("0x")[1].substring(startIndex, endIndex), 16);
   }
 }
