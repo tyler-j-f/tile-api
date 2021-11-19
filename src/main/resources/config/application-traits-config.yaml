@@ -10,7 +10,7 @@ spring:
         - { id: null, weightlessTraitTypeId: 16, weightlessTraitTypeName: "Tile 2 Color", description: "Background color of the top right 'sub-tile'. Value will correspond to an RGB pixel encoding." }
         - { id: null, weightlessTraitTypeId: 17, weightlessTraitTypeName: "Tile 3 Color", description: "Background color of the bottom left 'sub-tile'. Value will correspond to an RGB pixel encoding." }
         - { id: null, weightlessTraitTypeId: 18, weightlessTraitTypeName: "Tile 4 Color", description: "Background color of the top bottom 'sub-tile'. Value will correspond to an RGB pixel encoding." }
-        - { id: null, weightlessTraitTypeId: 19, weightlessTraitTypeName: "Rarity", description: "Overall rarity of the TileNFT'. The higher the rarity value, the better!" }
+        - { id: null, weightlessTraitTypeId: 19, weightlessTraitTypeName: "Overall Rarity", description: "Overall rarity of the TileNFT'. The higher the rarity value, the better!" }
       weighted-types:
         - {id: null, traitTypeId: 1, traitTypeName: "Tile 1 Rarity", description: "Rarity value of the top left 'sub-tile'. The higher the rarity value, the better!"}
         - {id: null, traitTypeId: 2, traitTypeName: "Tile 2 Rarity", description: "Rarity value of the top right 'sub-tile'. The higher the rarity value, the better!"}
@@ -113,4 +113,4 @@ spring:
         - {id: null, traitTypeWeightId: 88, traitTypeId: 9, likelihood: 3, value: 8, displayTypeValue: null}
         - {id: null, traitTypeWeightId: 89, traitTypeId: 9, likelihood: 2, value: 9, displayTypeValue: null}
         - {id: null, traitTypeWeightId: 90, traitTypeId: 9, likelihood: 1, value: 10, displayTypeValue: null}
-        - {id: null, traitTypeWeightId: 91, traitTypeId: 10, likelihood: 100, value: "openmoji.org https://creativecommons.org/licenses/by-sa/4.0/ (Attribution-ShareAlike 4.0 International — CC BY-SA 4.0) Changes were not made", displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 91, traitTypeId: 10, likelihood: 100, value: "openmoji.org - https://creativecommons.org/licenses/by-sa/4.0/ (Attribution-ShareAlike 4.0 International — CC BY-SA 4.0) Changes were not made", displayTypeValue: null}
