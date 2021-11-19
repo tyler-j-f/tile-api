@@ -2,6 +2,7 @@ package com.tylerfitzgerald.demo_api.controller;
 
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.RarityCalculator;
 import com.tylerfitzgerald.demo_api.image.ImageDrawer;
 import com.tylerfitzgerald.demo_api.image.ImageException;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
@@ -25,9 +26,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = {"/api/image"})
 public class ImageController extends BaseController {
 
-  @Autowired ImageDrawer imageDrawer;
-  @Autowired ImageResourcesLoader imageResourcesLoader;
+  @Autowired private ImageDrawer imageDrawer;
+  @Autowired private ImageResourcesLoader imageResourcesLoader;
   @Autowired private TokenRetriever tokenRetriever;
+  @Autowired private RarityCalculator rarityCalculator;
 
   @GetMapping(value = "tile/get/{tokenId}", produces = MediaType.IMAGE_PNG_VALUE)
   public void getTokenImage(HttpServletResponse response, @PathVariable Long tokenId)
@@ -41,11 +43,16 @@ public class ImageController extends BaseController {
     byte[] byteArray =
         imageDrawer.drawImage(
             tokenId,
-            3134L,
+            getRarityScore(nft),
             imageResourcesLoader.getResourcesByName(emojiFileNames),
             getTileColors(nft));
     writeBufferedImageToOutput(byteArray, response);
     return;
+  }
+
+  private Long getRarityScore(TokenFacadeDTO nft) {
+    return rarityCalculator.calculateRarity(
+        nft.getTokenTraits(), nft.getAvailableTraitTypeWeights());
   }
 
   private List<String> getTileColors(TokenFacadeDTO nft) {

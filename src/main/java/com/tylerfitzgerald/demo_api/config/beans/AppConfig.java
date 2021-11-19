@@ -3,6 +3,7 @@ package com.tylerfitzgerald.demo_api.config.beans;
 import com.tylerfitzgerald.demo_api.config.EnvConfig;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.ColorTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.RarityCalculator;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.RarityTraitPicker;
 import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
@@ -155,5 +156,10 @@ public class AppConfig {
   @Bean
   public RarityTraitPicker rarityTraitPicker() {
     return new RarityTraitPicker();
+  }
+
+  @Bean
+  public RarityCalculator rarityCalculator() {
+    return new RarityCalculator();
   }
 }
