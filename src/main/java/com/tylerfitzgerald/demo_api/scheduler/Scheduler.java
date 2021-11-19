@@ -1,8 +1,5 @@
 package com.tylerfitzgerald.demo_api.scheduler;
 
-import com.tylerfitzgerald.demo_api.config.SalesConfig;
-import com.tylerfitzgerald.demo_api.config.TokenConfig;
-import com.tylerfitzgerald.demo_api.config.TraitsConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEvents;
 import org.springframework.beans.factory.annotation.Autowired;
