@@ -10,6 +10,7 @@ spring:
         - { id: null, weightlessTraitTypeId: 16, weightlessTraitTypeName: "Tile 2 Color", description: "Background color of the top right 'sub-tile'. Value will correspond to an RGB pixel encoding." }
         - { id: null, weightlessTraitTypeId: 17, weightlessTraitTypeName: "Tile 3 Color", description: "Background color of the bottom left 'sub-tile'. Value will correspond to an RGB pixel encoding." }
         - { id: null, weightlessTraitTypeId: 18, weightlessTraitTypeName: "Tile 4 Color", description: "Background color of the top bottom 'sub-tile'. Value will correspond to an RGB pixel encoding." }
+        - { id: null, weightlessTraitTypeId: 19, weightlessTraitTypeName: "Rarity", description: "Overall rarity of the TileNFT'. The higher the rarity value, the better!" }
       weighted-types:
         - {id: null, traitTypeId: 1, traitTypeName: "Tile 1 Rarity Value", description: "Rarity value of the top left 'sub-tile'. The higher the rarity value, the better!"}
         - {id: null, traitTypeId: 2, traitTypeName: "Tile 2 Rarity Value", description: "Rarity value of the top right 'sub-tile'. The higher the rarity value, the better!"}

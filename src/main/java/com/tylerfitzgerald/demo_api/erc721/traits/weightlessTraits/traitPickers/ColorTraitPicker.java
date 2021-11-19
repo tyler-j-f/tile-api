@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.implementations;
+package com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers;
 
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitContext;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitException;
