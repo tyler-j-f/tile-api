@@ -1,9 +1,12 @@
 spring:
   application:
     events-config:
+      eventHashes:
       nftContractAddress: "0x96CCE04285ABe6E512308B780a7265513Fe7321E"
       nftFactoryContractAddress: "0x92fFB546C17294112C64De319C358485A92FAe4B"
       mintEventHashSignature: "0x07883703ed0e86588a40d76551c92f8a4b329e3bf19765e0e6749473c1a84665"
       mergeMintEventHashSignature: "0xaf49bfaf2e89d3c4c27597e51083974866f80562836b8ceec82e54a67948709f"
+      setColorsEventHashSignature: "0x7f4e2d15e2d99a5a094e38c98e6f05ee2365d80e6bc9c2037e5da487d38cc266"
+      setEmojisEventHashSignature: "0xbe65f5db9d0cb2f1a6c2ef1392032e428228946cee488e777667b19f1625c813"
       schedulerFixedRateMs: 60000
       schedulerNumberOfBlocksToLookBack: 200000
