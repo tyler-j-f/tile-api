@@ -1,7 +1,6 @@
 // Handling mint events will ALWAYS mean that we mint a new token. IT WAS ALWAYS THE NEW TOKENS!!!
 package com.tylerfitzgerald.demo_api.scheduler.tasks;
 
-import com.tylerfitzgerald.demo_api.config.EnvConfig;
 import com.tylerfitzgerald.demo_api.config.EventsConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenDataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
@@ -9,7 +8,7 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
 import com.tylerfitzgerald.demo_api.events.MintEvent;
-import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
+import com.tylerfitzgerald.demo_api.events.EventRetriever;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import java.math.BigInteger;
@@ -24,7 +23,7 @@ public class HandleMintEvents implements TaskInterface {
 
   @Autowired private TokenInitializer tokenInitializer;
 
-  @Autowired private MintEventRetriever mintEventRetriever;
+  @Autowired private EventRetriever eventRetriever;
 
   @Autowired private EventsConfig eventsConfig;
 
@@ -42,7 +41,11 @@ public class HandleMintEvents implements TaskInterface {
 
   private List<MintEvent> getMintEvents(BigInteger numberOfBlocksAgo)
       throws ExecutionException, InterruptedException {
-    List<MintEvent> events = mintEventRetriever.getMintEvents(numberOfBlocksAgo);
+    List<MintEvent> events =
+        eventRetriever.getEvents(
+            eventsConfig.getNftFactoryContractAddress(),
+            eventsConfig.getMintEventHashSignature(),
+            numberOfBlocksAgo);
     if (events.size() == 0) {
       System.out.println("No events found");
       return new ArrayList<>();

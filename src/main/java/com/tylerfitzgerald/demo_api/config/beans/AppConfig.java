@@ -5,7 +5,7 @@ import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.RarityCalculator;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.RarityTraitPicker;
-import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
+import com.tylerfitzgerald.demo_api.events.EventRetriever;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEvents;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightsTable;
@@ -66,8 +66,8 @@ public class AppConfig {
   }
 
   @Bean
-  public MintEventRetriever mintEventRetriever() {
-    return new MintEventRetriever();
+  public EventRetriever mintEventRetriever() {
+    return new EventRetriever();
   }
 
   @Bean

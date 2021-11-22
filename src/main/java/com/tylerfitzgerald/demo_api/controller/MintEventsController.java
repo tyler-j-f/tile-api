@@ -1,6 +1,5 @@
 package com.tylerfitzgerald.demo_api.controller;
 
-import com.tylerfitzgerald.demo_api.config.EnvConfig;
 import com.tylerfitzgerald.demo_api.config.EventsConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenDataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
@@ -9,7 +8,7 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.events.MintEvent;
-import com.tylerfitzgerald.demo_api.events.MintEventRetriever;
+import com.tylerfitzgerald.demo_api.events.EventRetriever;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import java.util.ArrayList;
@@ -29,9 +28,7 @@ public class MintEventsController extends BaseController {
 
   @Autowired private TokenRepository tokenRepository;
 
-  @Autowired private MintEventRetriever mintEventRetriever;
-
-  @Autowired private TokenRetriever tokenRetriever;
+  @Autowired private EventRetriever mintEventRetriever;
 
   @Autowired private TokenInitializer tokenInitializer;
 
@@ -68,7 +65,11 @@ public class MintEventsController extends BaseController {
 
   private List<MintEvent> getMintEvents(BigInteger numberOfBlocksAgo)
       throws ExecutionException, InterruptedException {
-    List<MintEvent> events = mintEventRetriever.getMintEvents(numberOfBlocksAgo);
+    List<MintEvent> events =
+        mintEventRetriever.getEvents(
+            eventsConfig.getNftFactoryContractAddress(),
+            eventsConfig.getMintEventHashSignature(),
+            numberOfBlocksAgo);
     if (events.size() == 0) {
       System.out.println("No events found");
       return new ArrayList<>();
