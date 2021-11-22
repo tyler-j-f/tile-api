@@ -2,6 +2,7 @@
 package com.tylerfitzgerald.demo_api.scheduler.tasks;
 
 import com.tylerfitzgerald.demo_api.config.EnvConfig;
+import com.tylerfitzgerald.demo_api.config.EventsConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenDataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
@@ -25,7 +26,7 @@ public class HandleMintEvents implements TaskInterface {
 
   @Autowired private MintEventRetriever mintEventRetriever;
 
-  @Autowired private EnvConfig appConfig;
+  @Autowired private EventsConfig eventsConfig;
 
   @Override
   public void execute() throws ExecutionException, InterruptedException, TokenInitializeException {
@@ -35,7 +36,7 @@ public class HandleMintEvents implements TaskInterface {
   public String getMintEventsAndCreateTokens()
       throws ExecutionException, InterruptedException, TokenInitializeException {
     List<MintEvent> events =
-        getMintEvents(new BigInteger(appConfig.getSchedulerNumberOfBlocksToLookBack()));
+        getMintEvents(new BigInteger(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
     return addTokensToDB(events).toString();
   }
 

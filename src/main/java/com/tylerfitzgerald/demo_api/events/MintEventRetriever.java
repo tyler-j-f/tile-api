@@ -1,6 +1,7 @@
 package com.tylerfitzgerald.demo_api.events;
 
 import com.tylerfitzgerald.demo_api.config.EnvConfig;
+import com.tylerfitzgerald.demo_api.config.EventsConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
@@ -17,7 +18,7 @@ public class MintEventRetriever {
 
   @Autowired private Web3j web3j;
 
-  @Autowired private EnvConfig appConfig;
+  @Autowired private EventsConfig eventsConfig;
 
   public List<MintEvent> getMintEvents(BigInteger numberOfBlocksAgo)
       throws ExecutionException, InterruptedException {
@@ -26,7 +27,7 @@ public class MintEventRetriever {
         new EthFilter(
             DefaultBlockParameter.valueOf(currentBlockNumber.subtract(numberOfBlocksAgo)),
             DefaultBlockParameter.valueOf(currentBlockNumber),
-            appConfig.getNftFactoryContractAddress());
+            eventsConfig.getNftFactoryContractAddress());
     List<EthLog.LogResult> logs = web3j.ethGetLogs(filter).sendAsync().get().getLogs();
     List<MintEvent> events = new ArrayList<>();
     if (logs.size() == 0) {
@@ -34,7 +35,7 @@ public class MintEventRetriever {
     }
     for (EthLog.LogResult log : logs) {
       List<String> topics = ((Log) log).getTopics();
-      if (topics.get(0).equals(appConfig.getMintEventHashSignature())) {
+      if (topics.get(0).equals(eventsConfig.getMintEventHashSignature())) {
         MintEvent event =
             MintEvent.builder()
                 .topics(topics)

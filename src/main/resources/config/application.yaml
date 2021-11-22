@@ -1,16 +1,7 @@
 spring:
   application:
-    name: tile-nft
-    tileCount: 1
-    bitsPerTile: 24
     alchemyAPIKey: "cM6mpgOs8PlQFVgeYtPIW-fUzy5L5tC8"
     alchemyBaseUrl: "https://eth-rinkeby.alchemyapi.io/v2/"
-    nftContractAddress: "0x96CCE04285ABe6E512308B780a7265513Fe7321E"
-    nftFactoryContractAddress: "0x92fFB546C17294112C64De319C358485A92FAe4B"
-    mintEventHashSignature: "0x07883703ed0e86588a40d76551c92f8a4b329e3bf19765e0e6749473c1a84665"
-    mergeMintEventHashSignature: "0xaf49bfaf2e89d3c4c27597e51083974866f80562836b8ceec82e54a67948709f"
-    schedulerFixedRateMs: 60000
-    schedulerNumberOfBlocksToLookBack: 200000
 
   profiles:
     include:
@@ -19,6 +10,7 @@ spring:
       - token-config
       - contract-config
       - sales-config
+      - events-config
 
   cloud:
     gcp:

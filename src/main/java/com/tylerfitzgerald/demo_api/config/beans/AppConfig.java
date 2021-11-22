@@ -40,7 +40,7 @@ import org.web3j.protocol.http.HttpService;
 @Configuration
 public class AppConfig {
 
-  @Autowired private EnvConfig appConfig;
+  @Autowired private EnvConfig envConfig;
 
   @Autowired private ResourceLoader resourceLoader;
 
@@ -57,7 +57,7 @@ public class AppConfig {
 
   @Bean
   public Web3j web3j() {
-    return Web3j.build(new HttpService(appConfig.getAlchemyURI()));
+    return Web3j.build(new HttpService(envConfig.getAlchemyURI()));
   }
 
   @Bean

@@ -1,6 +1,7 @@
 package com.tylerfitzgerald.demo_api.controller;
 
 import com.tylerfitzgerald.demo_api.config.EnvConfig;
+import com.tylerfitzgerald.demo_api.config.EventsConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenDataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
@@ -34,13 +35,13 @@ public class MintEventsController extends BaseController {
 
   @Autowired private TokenInitializer tokenInitializer;
 
-  @Autowired private EnvConfig appConfig;
+  @Autowired private EventsConfig eventsConfig;
 
   @GetMapping(value = {"getAll/{numberOfBlocksAgo}", "getAll"})
   public String getMintEvents(@PathVariable(required = false) String numberOfBlocksAgo)
       throws ExecutionException, InterruptedException {
     if (numberOfBlocksAgo == null) {
-      numberOfBlocksAgo = appConfig.getSchedulerNumberOfBlocksToLookBack();
+      numberOfBlocksAgo = eventsConfig.getSchedulerNumberOfBlocksToLookBack();
     }
     List<MintEvent> events = getMintEvents(new BigInteger(numberOfBlocksAgo));
     String output;
@@ -59,7 +60,7 @@ public class MintEventsController extends BaseController {
       @PathVariable(required = false) String numberOfBlocksAgo)
       throws ExecutionException, InterruptedException, TokenInitializeException {
     if (numberOfBlocksAgo == null) {
-      numberOfBlocksAgo = appConfig.getSchedulerNumberOfBlocksToLookBack();
+      numberOfBlocksAgo = eventsConfig.getSchedulerNumberOfBlocksToLookBack();
     }
     List<MintEvent> events = getMintEvents(new BigInteger(numberOfBlocksAgo));
     return addTokensToDB(events).toString();
