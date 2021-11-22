@@ -16,6 +16,7 @@ public class EnvConfig {
   private String nftContractAddress;
   private String nftFactoryContractAddress;
   private String mintEventHashSignature;
+  private String mergeMintEventHashSignature;
   private String schedulerFixedRateMs;
   private String schedulerNumberOfBlocksToLookBack;
 

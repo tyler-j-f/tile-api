@@ -11,30 +11,16 @@ public class MintEvent {
 
   @Getter private String transactionHash;
 
-  public String getSaleOptionSupplyPostMint() {
-    return topics.get(1);
-  }
-
-  public String getSaleOptionId() {
-    return topics.get(2);
-  }
-
   public String getTokenId() {
-    return topics.get(3);
+    return topics.get(1);
   }
 
   @Override
   public String toString() {
     return "MintEvent{"
         + "tokenId="
-        + topics.get(3)
+        + topics.get(0)
         + ", "
-        + "saleOptionId="
-        + topics.get(2)
-        + ", "
-        + "saleOptionSupplyPostMint="
-        + topics.get(1)
-        + ","
         + "transactionHash="
         + transactionHash
         + '}';
