@@ -7,7 +7,7 @@ import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.RarityTraitPicker;
 import com.tylerfitzgerald.demo_api.events.EventRetriever;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
-import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEvents;
+import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEventsTask;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightsTable;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitsTable;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
@@ -112,8 +112,8 @@ public class AppConfig {
   }
 
   @Bean
-  public HandleMintEvents handleMintEventsAndCreateDBTokensTask() {
-    return new HandleMintEvents();
+  public HandleMintEventsTask handleMintEventsAndCreateDBTokensTask() {
+    return new HandleMintEventsTask();
   }
 
   @Bean

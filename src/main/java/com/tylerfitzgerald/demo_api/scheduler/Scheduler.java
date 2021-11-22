@@ -1,7 +1,7 @@
 package com.tylerfitzgerald.demo_api.scheduler;
 
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
-import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEvents;
+import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEventsTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutionException;
 @Component
 public class Scheduler {
 
-  @Autowired private HandleMintEvents handleMintEventsAndCreateDBTokensTask;
+  @Autowired private HandleMintEventsTask handleMintEventsTaskAndCreateDBTokensTask;
 
   /**
    * Execute tasks every schedulerFixedRateMs If you would like to execute tasks on a different
@@ -23,6 +23,6 @@ public class Scheduler {
   @Scheduled(fixedRateString = "${spring.application.events-config.schedulerFixedRateMs}")
   public void executeTasks()
       throws ExecutionException, InterruptedException, TokenInitializeException {
-    handleMintEventsAndCreateDBTokensTask.execute();
+    handleMintEventsTaskAndCreateDBTokensTask.execute();
   }
 }

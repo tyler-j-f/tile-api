@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class HandleMintEvents implements TaskInterface {
+public class HandleMintEventsTask implements TaskInterface {
 
   @Autowired private TokenRepository tokenRepository;
 
