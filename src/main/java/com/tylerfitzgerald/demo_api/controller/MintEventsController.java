@@ -12,6 +12,7 @@ import com.tylerfitzgerald.demo_api.events.EventRetriever;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import java.util.ArrayList;
+import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +36,7 @@ public class MintEventsController extends BaseController {
   @Autowired private EventsConfig eventsConfig;
 
   @GetMapping(value = {"getAll/{numberOfBlocksAgo}", "getAll"})
-  public String getMintEvents(@PathVariable(required = false) String numberOfBlocksAgo)
+  public String getAll(@PathVariable(required = false) String numberOfBlocksAgo)
       throws ExecutionException, InterruptedException {
     if (numberOfBlocksAgo == null) {
       numberOfBlocksAgo = eventsConfig.getSchedulerNumberOfBlocksToLookBack();
@@ -53,8 +54,7 @@ public class MintEventsController extends BaseController {
   }
 
   @GetMapping(value = {"getAllAndCreateTokens/{numberOfBlocksAgo}", "getAllAndCreateTokens"})
-  public String getMintEventsAndCreateTokens(
-      @PathVariable(required = false) String numberOfBlocksAgo)
+  public String getAllAndCreateTokens(@PathVariable(required = false) String numberOfBlocksAgo)
       throws ExecutionException, InterruptedException, TokenInitializeException {
     if (numberOfBlocksAgo == null) {
       numberOfBlocksAgo = eventsConfig.getSchedulerNumberOfBlocksToLookBack();
@@ -66,10 +66,12 @@ public class MintEventsController extends BaseController {
   private List<MintEvent> getMintEvents(BigInteger numberOfBlocksAgo)
       throws ExecutionException, InterruptedException {
     List<MintEvent> events =
-        mintEventRetriever.getEvents(
-            eventsConfig.getNftFactoryContractAddress(),
-            eventsConfig.getMintEventHashSignature(),
-            numberOfBlocksAgo);
+        Collections.singletonList(
+            (MintEvent)
+                mintEventRetriever.getEvents(
+                    eventsConfig.getNftFactoryContractAddress(),
+                    eventsConfig.getMintEventHashSignature(),
+                    numberOfBlocksAgo));
     if (events.size() == 0) {
       System.out.println("No events found");
       return new ArrayList<>();

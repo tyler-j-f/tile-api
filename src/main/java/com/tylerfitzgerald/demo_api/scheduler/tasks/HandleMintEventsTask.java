@@ -13,6 +13,7 @@ import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +43,14 @@ public class HandleMintEventsTask implements TaskInterface {
   private List<MintEvent> getMintEvents(BigInteger numberOfBlocksAgo)
       throws ExecutionException, InterruptedException {
     List<MintEvent> events =
-        eventRetriever.getEvents(
-            eventsConfig.getNftFactoryContractAddress(),
-            eventsConfig.getMintEventHashSignature(),
-            numberOfBlocksAgo);
+        Collections.singletonList(
+            (MintEvent)
+                eventRetriever.getEvents(
+                    eventsConfig.getNftFactoryContractAddress(),
+                    eventsConfig.getMintEventHashSignature(),
+                    numberOfBlocksAgo));
     if (events.size() == 0) {
-      System.out.println("No events found");
+      System.out.println("No mint events found");
       return new ArrayList<>();
     }
     return events;
