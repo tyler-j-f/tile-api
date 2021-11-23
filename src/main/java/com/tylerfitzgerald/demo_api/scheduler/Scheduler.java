@@ -2,6 +2,7 @@ package com.tylerfitzgerald.demo_api.scheduler;
 
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEventsTask;
+import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleSetColorsEventsTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,7 @@ import java.util.concurrent.ExecutionException;
 public class Scheduler {
 
   @Autowired private HandleMintEventsTask handleMintEventsTask;
+  @Autowired private HandleSetColorsEventsTask handleSetColorsEventsTask;
 
   /**
    * Execute tasks every schedulerFixedRateMs If you would like to execute tasks on a different
@@ -24,5 +26,6 @@ public class Scheduler {
   public void executeTasks()
       throws ExecutionException, InterruptedException, TokenInitializeException {
     handleMintEventsTask.execute();
+    handleSetColorsEventsTask.execute();
   }
 }

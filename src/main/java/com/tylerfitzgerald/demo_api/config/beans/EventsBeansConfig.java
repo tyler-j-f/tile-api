@@ -1,5 +1,6 @@
 package com.tylerfitzgerald.demo_api.config.beans;
 
+import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleSetColorsEventsTask;
 import com.tylerfitzgerald.demo_api.solidityEvents.EventRetriever;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEventsTask;
 import org.springframework.context.annotation.Bean;
@@ -15,5 +16,10 @@ public class EventsBeansConfig {
   @Bean
   public HandleMintEventsTask handleMintEventsTask() {
     return new HandleMintEventsTask();
+  }
+
+  @Bean
+  public HandleSetColorsEventsTask handleSetColorsEventsTask() {
+    return new HandleSetColorsEventsTask();
   }
 }
