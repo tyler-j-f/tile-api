@@ -32,7 +32,6 @@ public class HandleSetColorsEventsTask implements TaskInterface {
   public void getSetColorsEventsAndUpdateTraitValues() throws SolidityEventException {
     List<SetColorsEvent> events =
         getSetColorsEvents(new BigInteger(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
-    System.out.println("DEBUG set colors events: " + events);
     List<SetColorsEvent> sortedEvents = new ArrayList<>();
     Collections.reverse(events);
     for (SetColorsEvent event : events) {
@@ -41,7 +40,6 @@ public class HandleSetColorsEventsTask implements TaskInterface {
         sortedEvents.add(event);
       }
     }
-    System.out.println("DEBUG after removing duplicate tokenIds: " + sortedEvents);
     updateTraitValuesForEvents(sortedEvents);
     return;
   }
@@ -144,7 +142,14 @@ public class HandleSetColorsEventsTask implements TaskInterface {
     String rgbToSet = tileRGBValues.get(0) + tileRGBValues.get(1) + tileRGBValues.get(2);
     if (rgbToSet.equals(trait.getValue())) {
       System.out.println(
-          "Will not update tile 1 color value trait. Requested color is already set");
+          "Will not update color value trait for tile # "
+              + trait.getTokenId()
+              + " . Requested RGB color "
+              + rgbToSet
+              + " is already set for traitTypeId: "
+              + trait.getTraitTypeId()
+              + " traitId: "
+              + trait.getTraitId());
       return null;
     }
     trait.setValue(rgbToSet);
