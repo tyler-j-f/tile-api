@@ -12,11 +12,9 @@ import com.tylerfitzgerald.demo_api.solidityEvents.MintEvent;
 import com.tylerfitzgerald.demo_api.solidityEvents.SolidityEventException;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
-import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class HandleMintEventsTask implements TaskInterface {

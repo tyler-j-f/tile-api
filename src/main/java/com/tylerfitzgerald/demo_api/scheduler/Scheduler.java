@@ -26,6 +26,6 @@ public class Scheduler {
   @Scheduled(fixedRateString = "${spring.application.events-config.schedulerFixedRateMs}")
   public void executeTasks() throws SolidityEventException, TokenInitializeException {
     handleMintEventsTask.execute();
-    // handleSetColorsEventsTask.execute();
+    handleSetColorsEventsTask.execute();
   }
 }
