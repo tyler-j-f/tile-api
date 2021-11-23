@@ -7,12 +7,15 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class AbstractEvent implements EventInterface {
 
-  protected List<String> topics;
-  @Getter protected String transactionHash;
+  private List<String> topics;
+  @Getter private String transactionHash;
 
-  public AbstractEvent(List<String> topics, String transactionHash) {
-    this.topics = topics;
-    this.transactionHash = transactionHash;
+  public String getTokenId() {
+    return getTopicValue(1);
+  }
+
+  public String getTokenId(int topicValue) {
+    return getTopicValue(topicValue);
   }
 
   @Override

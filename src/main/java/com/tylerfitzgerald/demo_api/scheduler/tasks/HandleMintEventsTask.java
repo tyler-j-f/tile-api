@@ -7,13 +7,13 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
+import com.tylerfitzgerald.demo_api.events.AbstractEvent;
 import com.tylerfitzgerald.demo_api.events.MintEvent;
 import com.tylerfitzgerald.demo_api.events.EventRetriever;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,31 +35,30 @@ public class HandleMintEventsTask implements TaskInterface {
 
   public String getMintEventsAndCreateTokens()
       throws ExecutionException, InterruptedException, TokenInitializeException {
-    List<MintEvent> events =
+    List<AbstractEvent> events =
         getMintEvents(new BigInteger(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
     return addTokensToDB(events).toString();
   }
 
-  private List<MintEvent> getMintEvents(BigInteger numberOfBlocksAgo)
+  private List<AbstractEvent> getMintEvents(BigInteger numberOfBlocksAgo)
       throws ExecutionException, InterruptedException {
-    List<MintEvent> events =
-        Collections.singletonList(
-            (MintEvent)
-                eventRetriever.getEvents(
-                    eventsConfig.getNftFactoryContractAddress(),
-                    eventsConfig.getMintEventHashSignature(),
-                    numberOfBlocksAgo));
+    List<?> events =
+        eventRetriever.getEvents(
+            eventsConfig.getNftFactoryContractAddress(),
+            eventsConfig.getMintEventHashSignature(),
+            numberOfBlocksAgo);
     if (events.size() == 0) {
       System.out.println("No mint events found");
       return new ArrayList<>();
     }
-    return events;
+    return (List<AbstractEvent>) events;
   }
 
-  private List<TokenDataDTO> addTokensToDB(List<MintEvent> events) throws TokenInitializeException {
+  private List<TokenDataDTO> addTokensToDB(List<AbstractEvent> events)
+      throws TokenInitializeException {
     List<TokenDataDTO> tokens = new ArrayList<>();
     Long tokenId, transactionHash;
-    for (MintEvent event : events) {
+    for (AbstractEvent event : events) {
       tokenId = getLongFromHexString(event.getTokenId());
       transactionHash = getLongFromHexString(event.getTransactionHash(), 0, 9);
       TokenDTO existingTokenDTO = tokenRepository.readById(tokenId);

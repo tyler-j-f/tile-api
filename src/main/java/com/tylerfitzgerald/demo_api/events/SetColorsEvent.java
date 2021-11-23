@@ -15,7 +15,7 @@ public class SetColorsEvent extends AbstractEvent {
 
   @Override
   public String toString() {
-    return "MintEvent{"
+    return "SetColorsEvent{"
         + "tokenId="
         + getTokenId()
         + ", "

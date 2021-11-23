@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutionException;
 @Component
 public class Scheduler {
 
-  @Autowired private HandleMintEventsTask handleMintEventsTaskAndCreateDBTokensTask;
+  @Autowired private HandleMintEventsTask handleMintEventsTask;
 
   /**
    * Execute tasks every schedulerFixedRateMs If you would like to execute tasks on a different
@@ -23,6 +23,6 @@ public class Scheduler {
   @Scheduled(fixedRateString = "${spring.application.events-config.schedulerFixedRateMs}")
   public void executeTasks()
       throws ExecutionException, InterruptedException, TokenInitializeException {
-    handleMintEventsTaskAndCreateDBTokensTask.execute();
+    handleMintEventsTask.execute();
   }
 }
