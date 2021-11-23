@@ -36,7 +36,7 @@ public class HandleSetColorsEventsTask implements TaskInterface {
   private List<List<String>> getTilesRGBValues(SetColorsEvent event) {
     List<List<String>> tilesValuesList = new ArrayList<>();
     for (int x = 0; x < NUMBER_OF_SUB_TILES; x++) {
-      List<String> tileValuesList = getTileRGBValues(event.getColors());
+      List<String> tileValuesList = getTileRGBValues(strip0xFromHexString(event.getColors()));
       tilesValuesList.add(tileValuesList);
     }
     return tilesValuesList;
@@ -44,14 +44,10 @@ public class HandleSetColorsEventsTask implements TaskInterface {
 
   private List<String> getTileRGBValues(String eventColorsValue) {
     List<String> tileValuesList = new ArrayList<>();
-    int length = eventColorsValue.length();
     for (int x = 0; x < NUMBER_OF_PIXEL_VALUES; x++) {
-      tileValuesList.add(
-          eventColorsValue.substring(length - getBeginIndex(x, 0), length - getEndIndex(x, 0)));
-      tileValuesList.add(
-          eventColorsValue.substring(length - getBeginIndex(x, 1), length - getEndIndex(x, 1)));
-      tileValuesList.add(
-          eventColorsValue.substring(length - getBeginIndex(x, 2), length - getEndIndex(x, 2)));
+      tileValuesList.add(eventColorsValue.substring(getBeginIndex(x, 0), getEndIndex(x, 0)));
+      tileValuesList.add(eventColorsValue.substring(getBeginIndex(x, 1), getEndIndex(x, 1)));
+      tileValuesList.add(eventColorsValue.substring(getBeginIndex(x, 2), getEndIndex(x, 2)));
     }
     return tileValuesList;
   }
@@ -90,11 +86,7 @@ public class HandleSetColorsEventsTask implements TaskInterface {
     return events;
   }
 
-  private Long getLongFromHexString(String hexString) {
-    return Long.parseLong(hexString.split("0x")[1], 16);
-  }
-
-  private Long getLongFromHexString(String hexString, int startIndex, int endIndex) {
-    return Long.parseLong(hexString.split("0x")[1].substring(startIndex, endIndex), 16);
+  private String strip0xFromHexString(String hexString) {
+    return hexString.split("0x")[1];
   }
 }
