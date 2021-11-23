@@ -36,28 +36,32 @@ public class HandleSetColorsEventsTask implements TaskInterface {
   private List<List<String>> getTilesRGBValues(SetColorsEvent event) {
     List<List<String>> tilesValuesList = new ArrayList<>();
     for (int x = 0; x < NUMBER_OF_SUB_TILES; x++) {
-      List<String> tileValuesList = getTileRGBValues(x, event.getColors());
+      List<String> tileValuesList = getTileRGBValues(event.getColors());
       tilesValuesList.add(tileValuesList);
     }
     return tilesValuesList;
   }
 
-  private List<String> getTileRGBValues(int index, String eventColorsValue) {
+  private List<String> getTileRGBValues(String eventColorsValue) {
     List<String> tileValuesList = new ArrayList<>();
+    int length = eventColorsValue.length();
     for (int x = 0; x < NUMBER_OF_PIXEL_VALUES; x++) {
-      tileValuesList.add(eventColorsValue.substring(getBeginIndex(x, 0), getEndIndex(x, 0)));
-      tileValuesList.add(eventColorsValue.substring(getBeginIndex(x, 1), getEndIndex(x, 1)));
-      tileValuesList.add(eventColorsValue.substring(getBeginIndex(x, 2), getEndIndex(x, 2)));
+      tileValuesList.add(
+          eventColorsValue.substring(length - getBeginIndex(x, 0), length - getEndIndex(x, 0)));
+      tileValuesList.add(
+          eventColorsValue.substring(length - getBeginIndex(x, 1), length - getEndIndex(x, 1)));
+      tileValuesList.add(
+          eventColorsValue.substring(length - getBeginIndex(x, 2), length - getEndIndex(x, 2)));
     }
     return tileValuesList;
   }
 
   private int getBeginIndex(int tileIndex, int pixelIndex) {
-    return (tileIndex * 9) + (pixelIndex * 3);
+    return getEndIndex(tileIndex, pixelIndex) + 3;
   }
 
   private int getEndIndex(int tileIndex, int pixelIndex) {
-    return getBeginIndex(tileIndex, pixelIndex) + 3;
+    return (tileIndex * 9) + (pixelIndex * 3);
   }
 
   private void updateTraitValue(SetColorsEvent event) {
