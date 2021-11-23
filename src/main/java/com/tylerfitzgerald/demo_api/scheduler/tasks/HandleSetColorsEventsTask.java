@@ -32,15 +32,16 @@ public class HandleSetColorsEventsTask implements TaskInterface {
   public void getSetColorsEventsAndUpdateTraitValues() throws SolidityEventException {
     List<SetColorsEvent> events =
         getSetColorsEvents(new BigInteger(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
-    List<SetColorsEvent> sortedEvents = new ArrayList<>();
+    List<SetColorsEvent> sortedEventsList = new ArrayList<>();
+    // Reverse the events so that most recent events are first.
     Collections.reverse(events);
     for (SetColorsEvent event : events) {
       if (!doesEventsListAlreadyHaveTokenId(
-          sortedEvents, Long.valueOf(strip0xFromHexString(event.getTokenId())))) {
-        sortedEvents.add(event);
+          sortedEventsList, Long.valueOf(strip0xFromHexString(event.getTokenId())))) {
+        sortedEventsList.add(event);
       }
     }
-    updateTraitValuesForEvents(sortedEvents);
+    updateTraitValuesForEvents(sortedEventsList);
     return;
   }
 
@@ -139,7 +140,7 @@ public class HandleSetColorsEventsTask implements TaskInterface {
             .filter(weightlessTraitDTO -> weightlessTraitDTO.getTraitTypeId().equals(traitTypeId))
             .findFirst()
             .get();
-    String rgbToSet = tileRGBValues.get(0) + tileRGBValues.get(1) + tileRGBValues.get(2);
+    String rgbToSet = tileRGBValues.get(2) + tileRGBValues.get(1) + tileRGBValues.get(0);
     if (rgbToSet.equals(trait.getValue())) {
       System.out.println(
           "Will not update color value trait for tile # "
