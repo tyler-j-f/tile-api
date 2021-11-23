@@ -67,85 +67,40 @@ public class HandleSetColorsEventsTask implements TaskInterface {
     int tileIndex = 0;
     List<WeightlessTraitDTO> traits = nft.getWeightlessTraits();
     List<WeightlessTraitDTO> traitsToUpdate = new ArrayList<>();
-    WeightlessTraitDTO trait;
-    String rgbToSet;
+    WeightlessTraitDTO updateTrait;
     for (List<String> tileRGBValues : getTilesRGBValues(event)) {
       switch (tileIndex) {
         case 0:
-          trait =
-              traits.stream()
-                  .filter(
-                      weightlessTraitDTO ->
-                          weightlessTraitDTO
-                              .getTraitTypeId()
-                              .equals(Long.valueOf(WeightlessTraitTypeConstants.TILE_1_COLOR)))
-                  .findFirst()
-                  .get();
-          rgbToSet = tileRGBValues.get(0) + tileRGBValues.get(1) + tileRGBValues.get(2);
-          if (rgbToSet.equals(trait.getValue())) {
-            System.out.println(
-                "Will not update tile 1 color value trait. Requested color is already set");
-            break;
+          updateTrait =
+              updateTraitValue(
+                  traits, tileRGBValues, Long.valueOf(WeightlessTraitTypeConstants.TILE_1_COLOR));
+          if (updateTrait != null) {
+            traitsToUpdate.add(updateTrait);
           }
-          trait.setValue(rgbToSet);
-          traitsToUpdate.add(trait);
           break;
         case 1:
-          trait =
-              traits.stream()
-                  .filter(
-                      weightlessTraitDTO ->
-                          weightlessTraitDTO
-                              .getTraitTypeId()
-                              .equals(Long.valueOf(WeightlessTraitTypeConstants.TILE_2_COLOR)))
-                  .findFirst()
-                  .get();
-          rgbToSet = tileRGBValues.get(0) + tileRGBValues.get(1) + tileRGBValues.get(2);
-          if (rgbToSet.equals(trait.getValue())) {
-            System.out.println(
-                "Will not update tile 2 color value trait. Requested color is already set");
-            break;
+          updateTrait =
+              updateTraitValue(
+                  traits, tileRGBValues, Long.valueOf(WeightlessTraitTypeConstants.TILE_2_COLOR));
+          if (updateTrait != null) {
+            traitsToUpdate.add(updateTrait);
           }
-          trait.setValue(rgbToSet);
-          traitsToUpdate.add(trait);
           break;
         case 2:
-          trait =
-              traits.stream()
-                  .filter(
-                      weightlessTraitDTO ->
-                          weightlessTraitDTO
-                              .getTraitTypeId()
-                              .equals(Long.valueOf(WeightlessTraitTypeConstants.TILE_3_COLOR)))
-                  .findFirst()
-                  .get();
-          rgbToSet = tileRGBValues.get(0) + tileRGBValues.get(1) + tileRGBValues.get(2);
-          if (rgbToSet.equals(trait.getValue())) {
-            System.out.println(
-                "Will not update tile 3 color value trait. Requested color is already set");
-            break;
+          updateTrait =
+              updateTraitValue(
+                  traits, tileRGBValues, Long.valueOf(WeightlessTraitTypeConstants.TILE_3_COLOR));
+          if (updateTrait != null) {
+            traitsToUpdate.add(updateTrait);
           }
-          trait.setValue(rgbToSet);
-          traitsToUpdate.add(trait);
           break;
         case 3:
-          trait =
-              traits.stream()
-                  .filter(
-                      weightlessTraitDTO ->
-                          weightlessTraitDTO
-                              .getTraitTypeId()
-                              .equals(Long.valueOf(WeightlessTraitTypeConstants.TILE_4_COLOR)))
-                  .findFirst()
-                  .get();
-          rgbToSet = tileRGBValues.get(0) + tileRGBValues.get(1) + tileRGBValues.get(2);
-          if (rgbToSet.equals(trait.getValue())) {
-            System.out.println(
-                "Will not update tile 4 color value trait. Requested color is already set");
-            break;
+          updateTrait =
+              updateTraitValue(
+                  traits, tileRGBValues, Long.valueOf(WeightlessTraitTypeConstants.TILE_4_COLOR));
+          if (updateTrait != null) {
+            traitsToUpdate.add(updateTrait);
           }
-          trait.setValue(rgbToSet);
-          traitsToUpdate.add(trait);
           break;
         default:
           break;
@@ -156,6 +111,23 @@ public class HandleSetColorsEventsTask implements TaskInterface {
       weightlessTraitRepository.update(traitToUpdate);
       System.out.println("Updated tile color. Trait: " + traitToUpdate);
     }
+  }
+
+  private WeightlessTraitDTO updateTraitValue(
+      List<WeightlessTraitDTO> traits, List<String> tileRGBValues, Long traitTypeId) {
+    WeightlessTraitDTO trait =
+        traits.stream()
+            .filter(weightlessTraitDTO -> weightlessTraitDTO.getTraitTypeId().equals(traitTypeId))
+            .findFirst()
+            .get();
+    String rgbToSet = tileRGBValues.get(0) + tileRGBValues.get(1) + tileRGBValues.get(2);
+    if (rgbToSet.equals(trait.getValue())) {
+      System.out.println(
+          "Will not update tile 1 color value trait. Requested color is already set");
+      return null;
+    }
+    trait.setValue(rgbToSet);
+    return trait;
   }
 
   private void updateTraitValuesForEvents(List<SetColorsEvent> events) {
