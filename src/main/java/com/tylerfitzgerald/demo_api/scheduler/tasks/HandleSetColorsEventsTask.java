@@ -58,18 +58,17 @@ public class HandleSetColorsEventsTask implements TaskInterface {
   private List<List<String>> getTilesRGBValues(SetColorsEvent event) {
     List<List<String>> tilesValuesList = new ArrayList<>();
     for (int x = 0; x < NUMBER_OF_SUB_TILES; x++) {
-      List<String> tileValuesList = getTileRGBValues(strip0xFromHexString(event.getColors()));
+      List<String> tileValuesList = getTileRGBValues(strip0xFromHexString(event.getColors()), x);
       tilesValuesList.add(tileValuesList);
     }
     return tilesValuesList;
   }
 
-  private List<String> getTileRGBValues(String eventColorsValue) {
+  private List<String> getTileRGBValues(String eventColorsValue, int tileIndex) {
     List<String> tileValuesList = new ArrayList<>();
     for (int x = 0; x < NUMBER_OF_PIXEL_VALUES; x++) {
-      tileValuesList.add(eventColorsValue.substring(getBeginIndex(x, 0), getEndIndex(x, 0)));
-      tileValuesList.add(eventColorsValue.substring(getBeginIndex(x, 1), getEndIndex(x, 1)));
-      tileValuesList.add(eventColorsValue.substring(getBeginIndex(x, 2), getEndIndex(x, 2)));
+      tileValuesList.add(
+          eventColorsValue.substring(getBeginIndex(tileIndex, x), getEndIndex(tileIndex, x)));
     }
     return tileValuesList;
   }
@@ -87,6 +86,7 @@ public class HandleSetColorsEventsTask implements TaskInterface {
     List<WeightlessTraitDTO> traits = nft.getWeightlessTraits();
     List<WeightlessTraitDTO> traitsToUpdate = new ArrayList<>();
     WeightlessTraitDTO updateTrait;
+    System.out.println("DEBUG getTilesRGBValues: " + getTilesRGBValues(event));
     for (List<String> tileRGBValues : getTilesRGBValues(event)) {
       switch (tileIndex) {
         case 0:
@@ -144,12 +144,8 @@ public class HandleSetColorsEventsTask implements TaskInterface {
       System.out.println(
           "Will not update color value trait for tile # "
               + trait.getTokenId()
-              + " . Requested RGB color "
-              + rgbToSet
-              + " is already set for traitTypeId: "
-              + trait.getTraitTypeId()
-              + " traitId: "
-              + trait.getTraitId());
+              + " . Trait Values: "
+              + trait);
       return null;
     }
     trait.setValue(rgbToSet);
