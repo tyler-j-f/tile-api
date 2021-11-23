@@ -5,10 +5,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class SetColorsEvent extends AbstractEvent {
 
-  public String getTokenId() {
-    return getTopicValue(1);
-  }
-
   public String getColors() {
     return getTopicValue(2);
   }
