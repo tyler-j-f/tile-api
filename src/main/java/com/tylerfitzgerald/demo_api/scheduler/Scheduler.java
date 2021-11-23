@@ -26,6 +26,6 @@ public class Scheduler {
   public void executeTasks()
       throws ExecutionException, InterruptedException, TokenInitializeException {
     handleMintEventsTask.execute();
-    // handleSetColorsEventsTask.execute();
+    handleSetColorsEventsTask.execute();
   }
 }

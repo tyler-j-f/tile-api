@@ -5,6 +5,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class SetColorsEvent extends AbstractEvent {
 
+  public static final int GET_COLORS_TOPIC_INDEX = 2;
+
   public String getColors() {
     return getTopicValue(2);
   }
