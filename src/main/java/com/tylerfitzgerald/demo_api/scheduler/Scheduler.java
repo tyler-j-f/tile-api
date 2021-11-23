@@ -3,6 +3,7 @@ package com.tylerfitzgerald.demo_api.scheduler;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEventsTask;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleSetColorsEventsTask;
+import java.lang.reflect.InvocationTargetException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -24,7 +25,9 @@ public class Scheduler {
    */
   @Scheduled(fixedRateString = "${spring.application.events-config.schedulerFixedRateMs}")
   public void executeTasks()
-      throws ExecutionException, InterruptedException, TokenInitializeException {
+      throws ExecutionException, InterruptedException, TokenInitializeException,
+          ClassNotFoundException, InvocationTargetException, NoSuchMethodException,
+          InstantiationException, IllegalAccessException {
     handleMintEventsTask.execute();
     // handleSetColorsEventsTask.execute();
   }

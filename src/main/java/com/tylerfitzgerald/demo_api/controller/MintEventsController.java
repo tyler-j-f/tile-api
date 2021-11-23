@@ -64,13 +64,11 @@ public class MintEventsController extends BaseController {
 
   private List<MintEvent> getMintEvents(BigInteger numberOfBlocksAgo)
       throws ExecutionException, InterruptedException {
-    List<MintEvent> events =
-        Collections.singletonList(
-            (MintEvent)
-                mintEventRetriever.getEvents(
-                    eventsConfig.getNftFactoryContractAddress(),
-                    eventsConfig.getMintEventHashSignature(),
-                    numberOfBlocksAgo));
+    List<MintEvent> events = null;
+    //                mintEventRetriever.getEvents(
+    //                    eventsConfig.getNftFactoryContractAddress(),
+    //                    eventsConfig.getMintEventHashSignature(),
+    //                    numberOfBlocksAgo);
     if (events.size() == 0) {
       System.out.println("No events found");
       return new ArrayList<>();

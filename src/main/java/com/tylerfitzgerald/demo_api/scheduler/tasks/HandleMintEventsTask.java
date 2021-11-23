@@ -7,10 +7,11 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
-import com.tylerfitzgerald.demo_api.solidityEvents.AbstractEvent;
 import com.tylerfitzgerald.demo_api.solidityEvents.EventRetriever;
+import com.tylerfitzgerald.demo_api.solidityEvents.MintEvent;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,36 +29,44 @@ public class HandleMintEventsTask implements TaskInterface {
   @Autowired private EventsConfig eventsConfig;
 
   @Override
-  public void execute() throws ExecutionException, InterruptedException, TokenInitializeException {
+  public void execute()
+      throws ExecutionException, InterruptedException, TokenInitializeException,
+          ClassNotFoundException, InvocationTargetException, NoSuchMethodException,
+          InstantiationException, IllegalAccessException {
     getMintEventsAndCreateTokens();
   }
 
   public String getMintEventsAndCreateTokens()
-      throws ExecutionException, InterruptedException, TokenInitializeException {
-    List<AbstractEvent> events =
+      throws ExecutionException, InterruptedException, TokenInitializeException,
+          ClassNotFoundException, InvocationTargetException, NoSuchMethodException,
+          InstantiationException, IllegalAccessException {
+    List<MintEvent> events =
         getMintEvents(new BigInteger(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
     return addTokensToDB(events).toString();
   }
 
-  private List<AbstractEvent> getMintEvents(BigInteger numberOfBlocksAgo)
-      throws ExecutionException, InterruptedException {
-    List<?> events =
-        eventRetriever.getEvents(
-            eventsConfig.getNftFactoryContractAddress(),
-            eventsConfig.getMintEventHashSignature(),
-            numberOfBlocksAgo);
+  private List<MintEvent> getMintEvents(BigInteger numberOfBlocksAgo)
+      throws ExecutionException, InterruptedException, ClassNotFoundException,
+          InvocationTargetException, NoSuchMethodException, InstantiationException,
+          IllegalAccessException {
+    List<MintEvent> events =
+        (List<MintEvent>)
+            eventRetriever.getEvents(
+                MintEvent.class.getCanonicalName(),
+                eventsConfig.getNftFactoryContractAddress(),
+                eventsConfig.getMintEventHashSignature(),
+                numberOfBlocksAgo);
     if (events.size() == 0) {
       System.out.println("No mint events found");
       return new ArrayList<>();
     }
-    return (List<AbstractEvent>) events;
+    return events;
   }
 
-  private List<TokenDataDTO> addTokensToDB(List<AbstractEvent> events)
-      throws TokenInitializeException {
+  private List<TokenDataDTO> addTokensToDB(List<MintEvent> events) throws TokenInitializeException {
     List<TokenDataDTO> tokens = new ArrayList<>();
     Long tokenId, transactionHash;
-    for (AbstractEvent event : events) {
+    for (MintEvent event : events) {
       tokenId = getLongFromHexString(event.getTokenId());
       transactionHash = getLongFromHexString(event.getTransactionHash(), 0, 9);
       TokenDTO existingTokenDTO = tokenRepository.readById(tokenId);

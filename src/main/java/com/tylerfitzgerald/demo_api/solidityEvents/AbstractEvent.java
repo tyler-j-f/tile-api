@@ -10,6 +10,11 @@ public class AbstractEvent implements EventInterface {
   private List<String> topics;
   @Getter private String transactionHash;
 
+  public AbstractEvent(List<String> topics, String transactionHash) {
+    this.topics = topics;
+    this.transactionHash = transactionHash;
+  }
+
   public String getTokenId() {
     return getTopicValue(1);
   }
