@@ -9,6 +9,7 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
 import com.tylerfitzgerald.demo_api.solidityEvents.EventRetriever;
 import com.tylerfitzgerald.demo_api.solidityEvents.MintEvent;
+import com.tylerfitzgerald.demo_api.solidityEvents.SolidityEventException;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import java.lang.reflect.InvocationTargetException;
@@ -29,26 +30,19 @@ public class HandleMintEventsTask implements TaskInterface {
   @Autowired private EventsConfig eventsConfig;
 
   @Override
-  public void execute()
-      throws ExecutionException, InterruptedException, TokenInitializeException,
-          ClassNotFoundException, InvocationTargetException, NoSuchMethodException,
-          InstantiationException, IllegalAccessException {
+  public void execute() throws TokenInitializeException, SolidityEventException {
     getMintEventsAndCreateTokens();
   }
 
   public String getMintEventsAndCreateTokens()
-      throws ExecutionException, InterruptedException, TokenInitializeException,
-          ClassNotFoundException, InvocationTargetException, NoSuchMethodException,
-          InstantiationException, IllegalAccessException {
+      throws SolidityEventException, TokenInitializeException {
     List<MintEvent> events =
         getMintEvents(new BigInteger(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
     return addTokensToDB(events).toString();
   }
 
   private List<MintEvent> getMintEvents(BigInteger numberOfBlocksAgo)
-      throws ExecutionException, InterruptedException, ClassNotFoundException,
-          InvocationTargetException, NoSuchMethodException, InstantiationException,
-          IllegalAccessException {
+      throws SolidityEventException {
     List<MintEvent> events =
         (List<MintEvent>)
             eventRetriever.getEvents(

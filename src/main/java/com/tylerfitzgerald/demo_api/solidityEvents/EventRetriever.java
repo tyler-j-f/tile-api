@@ -1,5 +1,6 @@
 package com.tylerfitzgerald.demo_api.solidityEvents;
 
+import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,34 +23,42 @@ public class EventRetriever<T> {
       String contractAddress,
       String eventHashSignature,
       BigInteger numberOfBlocksAgo)
-      throws ExecutionException, InterruptedException, ClassNotFoundException,
-          NoSuchMethodException, InvocationTargetException, InstantiationException,
-          IllegalAccessException {
-    Class<?> eventClass = Class.forName(eventClassName);
-    Constructor<?> eventConstructor = eventClass.getConstructor(List.class, String.class);
+      throws SolidityEventException {
+    try {
+      Class<?> eventClass = Class.forName(eventClassName);
+      Constructor<?> eventConstructor = eventClass.getConstructor(List.class, String.class);
 
-    BigInteger currentBlockNumber = web3j.ethBlockNumber().sendAsync().get().getBlockNumber();
-    EthFilter filter =
-        new EthFilter(
-            DefaultBlockParameter.valueOf(currentBlockNumber.subtract(numberOfBlocksAgo)),
-            DefaultBlockParameter.valueOf(currentBlockNumber),
-            contractAddress);
-    List<EthLog.LogResult> logs = web3j.ethGetLogs(filter).sendAsync().get().getLogs();
-    List<T> events = new ArrayList<>();
-    if (logs.size() == 0) {
-      return events;
-    }
-    for (EthLog.LogResult log : logs) {
-      List<String> topics = ((Log) log).getTopics();
-      if (topics.get(0).equals(eventHashSignature)) {
-        T event =
-            (T)
-                eventConstructor.newInstance(
-                    new Object[] {topics, ((Log) log).getTransactionHash()});
-        events.add(event);
-        System.out.println(event);
+      BigInteger currentBlockNumber = web3j.ethBlockNumber().sendAsync().get().getBlockNumber();
+      EthFilter filter =
+          new EthFilter(
+              DefaultBlockParameter.valueOf(currentBlockNumber.subtract(numberOfBlocksAgo)),
+              DefaultBlockParameter.valueOf(currentBlockNumber),
+              contractAddress);
+      List<EthLog.LogResult> logs = web3j.ethGetLogs(filter).sendAsync().get().getLogs();
+      List<T> events = new ArrayList<>();
+      if (logs.size() == 0) {
+        return events;
       }
+      for (EthLog.LogResult log : logs) {
+        List<String> topics = ((Log) log).getTopics();
+        if (topics.get(0).equals(eventHashSignature)) {
+          T event =
+              (T)
+                  eventConstructor.newInstance(
+                      new Object[] {topics, ((Log) log).getTransactionHash()});
+          events.add(event);
+          System.out.println(event);
+        }
+      }
+      return events;
+    } catch (ExecutionException
+        | ClassNotFoundException
+        | NoSuchMethodException
+        | InterruptedException
+        | InstantiationException
+        | IllegalAccessException
+        | InvocationTargetException e) {
+      throw new SolidityEventException(e.getMessage(), e.getCause());
     }
-    return events;
   }
 }
