@@ -11,6 +11,7 @@ import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitRepository;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -32,8 +33,28 @@ public class HandleSetColorsEventsTask implements TaskInterface {
     List<SetColorsEvent> events =
         getSetColorsEvents(new BigInteger(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
     System.out.println("DEBUG set colors events: " + events);
-    updateTraitValuesForEvents(events);
+    List<SetColorsEvent> sortedEvents = new ArrayList<>();
+    Collections.reverse(events);
+    for (SetColorsEvent event : events) {
+      if (!doesEventsListAlreadyHaveTokenId(
+          sortedEvents, Long.valueOf(strip0xFromHexString(event.getTokenId())))) {
+        sortedEvents.add(event);
+      }
+    }
+    System.out.println("DEBUG after removing duplicate tokenIds: " + sortedEvents);
+    updateTraitValuesForEvents(sortedEvents);
     return;
+  }
+
+  private boolean doesEventsListAlreadyHaveTokenId(List<SetColorsEvent> events, Long tokenId) {
+    return findNumberOFEventsWithTokenId(events, tokenId) > 0;
+  }
+
+  private int findNumberOFEventsWithTokenId(List<SetColorsEvent> events, Long tokenId) {
+    return (int)
+        events.stream()
+            .filter(event -> Long.valueOf(strip0xFromHexString(event.getTokenId())).equals(tokenId))
+            .count();
   }
 
   private List<List<String>> getTilesRGBValues(SetColorsEvent event) {
