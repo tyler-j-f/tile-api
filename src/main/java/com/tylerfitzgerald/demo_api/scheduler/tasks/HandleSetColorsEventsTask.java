@@ -57,11 +57,11 @@ public class HandleSetColorsEventsTask implements TaskInterface {
   }
 
   private int getBeginIndex(int tileIndex, int pixelIndex) {
-    return getEndIndex(tileIndex, pixelIndex) + 3;
+    return (tileIndex * 9) + (pixelIndex * 3);
   }
 
   private int getEndIndex(int tileIndex, int pixelIndex) {
-    return (tileIndex * 9) + (pixelIndex * 3);
+    return getBeginIndex(tileIndex, pixelIndex) + 3;
   }
 
   private void updateTraitValue(SetColorsEvent event) {
