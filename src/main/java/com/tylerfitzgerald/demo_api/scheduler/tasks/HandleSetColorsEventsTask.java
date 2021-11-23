@@ -37,7 +37,7 @@ public class HandleSetColorsEventsTask implements TaskInterface {
             eventRetriever.getEvents(
                 SetColorsEvent.class.getCanonicalName(),
                 eventsConfig.getNftContractAddress(),
-                eventsConfig.getMintEventHashSignature(),
+                eventsConfig.getSetColorsEventHashSignature(),
                 numberOfBlocksAgo);
     if (events.size() == 0) {
       System.out.println("No set colors events found");
