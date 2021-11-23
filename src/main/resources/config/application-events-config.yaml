@@ -6,7 +6,7 @@ spring:
       nftFactoryContractAddress: "0x4C6CF1134BBc6DE295E1c8fbF3C698fB1E31Bc00"
       mintEventHashSignature: "0x07883703ed0e86588a40d76551c92f8a4b329e3bf19765e0e6749473c1a84665"
       mergeMintEventHashSignature: "0xaf49bfaf2e89d3c4c27597e51083974866f80562836b8ceec82e54a67948709f"
-      setColorsEventHashSignature: "0x7f4e2d15e2d99a5a094e38c98e6f05ee2365d80e6bc9c2037e5da487d38cc266"
+      setColorsEventHashSignature: "0xc0bac22cfbf5a00d0031e75d1a845f85acb11a0cbe6da5bd8cab6e749c48ef2c"
       setEmojisEventHashSignature: "0xbe65f5db9d0cb2f1a6c2ef1392032e428228946cee488e777667b19f1625c813"
       schedulerFixedRateMs: 60000
       schedulerNumberOfBlocksToLookBack: 200000
