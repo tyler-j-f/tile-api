@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.events;
+package com.tylerfitzgerald.demo_api.solidityEvents;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.web3j.protocol.Web3j;

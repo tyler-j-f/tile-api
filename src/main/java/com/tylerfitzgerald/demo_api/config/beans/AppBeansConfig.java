@@ -5,9 +5,7 @@ import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.RarityCalculator;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.RarityTraitPicker;
-import com.tylerfitzgerald.demo_api.events.EventRetriever;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
-import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEventsTask;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightsTable;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitsTable;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
@@ -38,7 +36,7 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
 
 @Configuration
-public class AppConfig {
+public class AppBeansConfig {
 
   @Autowired private EnvConfig envConfig;
 
@@ -46,7 +44,7 @@ public class AppConfig {
 
   private final JdbcTemplate jdbcTemplate;
 
-  public AppConfig(JdbcTemplate jdbcTemplate) {
+  public AppBeansConfig(JdbcTemplate jdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;
   }
 
@@ -63,11 +61,6 @@ public class AppConfig {
   @Bean
   public TokenTable tokenTable() {
     return new TokenTable(jdbcTemplate);
-  }
-
-  @Bean
-  public EventRetriever mintEventRetriever() {
-    return new EventRetriever();
   }
 
   @Bean
@@ -109,11 +102,6 @@ public class AppConfig {
   @Bean
   public TokenRetriever tokenRetriever() {
     return new TokenRetriever();
-  }
-
-  @Bean
-  public HandleMintEventsTask handleMintEventsAndCreateDBTokensTask() {
-    return new HandleMintEventsTask();
   }
 
   @Bean

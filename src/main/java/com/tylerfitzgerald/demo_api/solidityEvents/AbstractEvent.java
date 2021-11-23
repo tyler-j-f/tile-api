@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.events;
+package com.tylerfitzgerald.demo_api.solidityEvents;
 
 import java.util.List;
 import lombok.Getter;
