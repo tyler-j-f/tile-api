@@ -1,7 +1,6 @@
 package com.tylerfitzgerald.demo_api.scheduler.tasks;
 
 import com.tylerfitzgerald.demo_api.solidityEvents.EthEventsRetriever;
-import com.tylerfitzgerald.demo_api.solidityEvents.SetColorsEvent;
 import com.tylerfitzgerald.demo_api.solidityEvents.SolidityEventException;
 import java.math.BigInteger;
 import java.util.ArrayList;

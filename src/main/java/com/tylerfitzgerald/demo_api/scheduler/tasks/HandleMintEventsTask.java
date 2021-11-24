@@ -18,13 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class HandleMintEventsTask implements TaskInterface {
+public class HandleMintEventsTask extends AbstractEthEventsRetrieverTask {
 
   @Autowired private TokenRepository tokenRepository;
 
   @Autowired private TokenInitializer tokenInitializer;
-
-  @Autowired private EthEventsRetriever eventRetriever;
 
   @Autowired private EventsConfig eventsConfig;
 
@@ -39,20 +37,18 @@ public class HandleMintEventsTask implements TaskInterface {
 
   public String getMintEventsAndCreateTokens()
       throws SolidityEventException, TokenInitializeException {
-    List<MintEvent> events =
-        getMintEvents(new BigInteger(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
+    List<MintEvent> events = getMintEvents();
     return addTokensToDB(events).toString();
   }
 
-  private List<MintEvent> getMintEvents(BigInteger numberOfBlocksAgo)
-      throws SolidityEventException {
+  private List<MintEvent> getMintEvents() throws SolidityEventException {
     List<MintEvent> events =
         (List<MintEvent>)
-            eventRetriever.getEvents(
+            getEthEvents(
                 MintEvent.class.getCanonicalName(),
                 eventsConfig.getNftFactoryContractAddress(),
                 eventsConfig.getMintEventHashSignature(),
-                numberOfBlocksAgo);
+                new BigInteger(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
     if (events.size() == 0) {
       System.out.println("No mint events found");
       return new ArrayList<>();
