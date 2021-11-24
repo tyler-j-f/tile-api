@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class EventRetriever<T> {
+public class EthEventsRetriever<T> {
 
   @Autowired private Web3j web3j;
 

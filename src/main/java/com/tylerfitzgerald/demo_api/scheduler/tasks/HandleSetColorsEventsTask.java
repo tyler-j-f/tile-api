@@ -5,7 +5,6 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
-import com.tylerfitzgerald.demo_api.solidityEvents.EventRetriever;
 import com.tylerfitzgerald.demo_api.solidityEvents.SetColorsEvent;
 import com.tylerfitzgerald.demo_api.solidityEvents.SolidityEventException;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
@@ -16,11 +15,10 @@ import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class HandleSetColorsEventsTask implements TaskInterface {
+public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
   private static final int NUMBER_OF_SUB_TILES = 4;
   private static final int NUMBER_OF_PIXEL_VALUES = 3;
 
-  @Autowired private EventRetriever eventRetriever;
   @Autowired private EventsConfig eventsConfig;
   @Autowired private TokenRetriever tokenRetriever;
   @Autowired private WeightlessTraitRepository weightlessTraitRepository;
@@ -36,7 +34,11 @@ public class HandleSetColorsEventsTask implements TaskInterface {
 
   public void getSetColorsEventsAndUpdateTraitValues() throws SolidityEventException {
     List<SetColorsEvent> events =
-        getSetColorsEvents(new BigInteger(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
+        getEthEvents(
+            SetColorsEvent.class.getCanonicalName(),
+            eventsConfig.getNftContractAddress(),
+            eventsConfig.getSetColorsEventHashSignature(),
+            new BigInteger(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
     List<SetColorsEvent> sortedEventsList = new ArrayList<>();
     // Reverse the events so that most recent events are first.
     Collections.reverse(events);
@@ -168,22 +170,6 @@ public class HandleSetColorsEventsTask implements TaskInterface {
       }
       updateTraitValuesForEvent(event, nft);
     }
-  }
-
-  private List<SetColorsEvent> getSetColorsEvents(BigInteger numberOfBlocksAgo)
-      throws SolidityEventException {
-    List<SetColorsEvent> events =
-        (List<SetColorsEvent>)
-            eventRetriever.getEvents(
-                SetColorsEvent.class.getCanonicalName(),
-                eventsConfig.getNftContractAddress(),
-                eventsConfig.getSetColorsEventHashSignature(),
-                numberOfBlocksAgo);
-    if (events.size() == 0) {
-      System.out.println("No set colors events found");
-      return new ArrayList<>();
-    }
-    return events;
   }
 
   private String strip0xFromHexString(String hexString) {

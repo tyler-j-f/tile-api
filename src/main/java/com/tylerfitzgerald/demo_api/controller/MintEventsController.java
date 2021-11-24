@@ -7,11 +7,10 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
 import com.tylerfitzgerald.demo_api.solidityEvents.MintEvent;
-import com.tylerfitzgerald.demo_api.solidityEvents.EventRetriever;
+import com.tylerfitzgerald.demo_api.solidityEvents.EthEventsRetriever;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import java.util.ArrayList;
-import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +27,7 @@ public class MintEventsController extends BaseController {
 
   @Autowired private TokenRepository tokenRepository;
 
-  @Autowired private EventRetriever mintEventRetriever;
+  @Autowired private EthEventsRetriever mintEventRetriever;
 
   @Autowired private TokenInitializer tokenInitializer;
 
