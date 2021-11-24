@@ -1,9 +1,7 @@
 package com.tylerfitzgerald.demo_api.scheduler;
 
-import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEventsTask;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleSetColorsEventsTask;
-import com.tylerfitzgerald.demo_api.solidityEvents.SolidityEventException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -24,7 +22,7 @@ public class Scheduler {
    * @throws InterruptedException
    */
   @Scheduled(fixedRateString = "${spring.application.events-config.schedulerFixedRateMs}")
-  public void executeTasks() throws SolidityEventException, TokenInitializeException {
+  public void executeTasks() throws TaskSchedulerException {
     handleMintEventsTask.execute();
     handleSetColorsEventsTask.execute();
   }

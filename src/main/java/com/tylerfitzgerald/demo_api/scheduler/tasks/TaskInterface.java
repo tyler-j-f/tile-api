@@ -1,13 +1,7 @@
 package com.tylerfitzgerald.demo_api.scheduler.tasks;
 
-import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
-import com.tylerfitzgerald.demo_api.solidityEvents.SolidityEventException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.concurrent.ExecutionException;
+import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
 
 public interface TaskInterface {
-  public void execute()
-      throws ExecutionException, InterruptedException, TokenInitializeException,
-          ClassNotFoundException, InvocationTargetException, NoSuchMethodException,
-          InstantiationException, IllegalAccessException, SolidityEventException;
+  public void execute() throws TaskSchedulerException;
 }

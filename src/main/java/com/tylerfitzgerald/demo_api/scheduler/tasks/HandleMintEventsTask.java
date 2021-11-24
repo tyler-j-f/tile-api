@@ -7,6 +7,7 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
+import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
 import com.tylerfitzgerald.demo_api.solidityEvents.EventRetriever;
 import com.tylerfitzgerald.demo_api.solidityEvents.MintEvent;
 import com.tylerfitzgerald.demo_api.solidityEvents.SolidityEventException;
@@ -28,8 +29,12 @@ public class HandleMintEventsTask implements TaskInterface {
   @Autowired private EventsConfig eventsConfig;
 
   @Override
-  public void execute() throws TokenInitializeException, SolidityEventException {
-    getMintEventsAndCreateTokens();
+  public void execute() throws TaskSchedulerException {
+    try {
+      getMintEventsAndCreateTokens();
+    } catch (SolidityEventException | TokenInitializeException e) {
+      throw new TaskSchedulerException(e.getMessage(), e.getCause());
+    }
   }
 
   public String getMintEventsAndCreateTokens()

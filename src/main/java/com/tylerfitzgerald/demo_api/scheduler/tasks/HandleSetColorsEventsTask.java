@@ -4,6 +4,7 @@ import com.tylerfitzgerald.demo_api.config.EventsConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
+import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
 import com.tylerfitzgerald.demo_api.solidityEvents.EventRetriever;
 import com.tylerfitzgerald.demo_api.solidityEvents.SetColorsEvent;
 import com.tylerfitzgerald.demo_api.solidityEvents.SolidityEventException;
@@ -25,8 +26,12 @@ public class HandleSetColorsEventsTask implements TaskInterface {
   @Autowired private WeightlessTraitRepository weightlessTraitRepository;
 
   @Override
-  public void execute() throws SolidityEventException {
-    getSetColorsEventsAndUpdateTraitValues();
+  public void execute() throws TaskSchedulerException {
+    try {
+      getSetColorsEventsAndUpdateTraitValues();
+    } catch (SolidityEventException e) {
+      throw new TaskSchedulerException(e.getMessage(), e.getCause());
+    }
   }
 
   public void getSetColorsEventsAndUpdateTraitValues() throws SolidityEventException {
