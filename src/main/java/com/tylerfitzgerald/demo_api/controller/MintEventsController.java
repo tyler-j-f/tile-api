@@ -6,6 +6,7 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
+import com.tylerfitzgerald.demo_api.scheduler.tasks.AbstractEthEventsRetrieverTask;
 import com.tylerfitzgerald.demo_api.solidityEvents.MintEvent;
 import com.tylerfitzgerald.demo_api.solidityEvents.EthEventsRetriever;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
@@ -113,6 +114,6 @@ public class MintEventsController extends BaseController {
   }
 
   private Long getLongFromHexString(String hexString) {
-    return Long.parseLong(hexString.split("0x")[1], 16);
+    return Long.parseLong(hexString.split(AbstractEthEventsRetrieverTask.ZERO_X)[1], 16);
   }
 }

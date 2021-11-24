@@ -54,10 +54,10 @@ public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
   }
 
   private boolean doesEventsListAlreadyHaveTokenId(List<SetColorsEvent> events, Long tokenId) {
-    return findNumberOFEventsWithTokenId(events, tokenId) > 0;
+    return findNumberOfEventsWithTokenId(events, tokenId) > 0;
   }
 
-  private int findNumberOFEventsWithTokenId(List<SetColorsEvent> events, Long tokenId) {
+  private int findNumberOfEventsWithTokenId(List<SetColorsEvent> events, Long tokenId) {
     return (int)
         events.stream()
             .filter(event -> Long.valueOf(strip0xFromHexString(event.getTokenId())).equals(tokenId))
