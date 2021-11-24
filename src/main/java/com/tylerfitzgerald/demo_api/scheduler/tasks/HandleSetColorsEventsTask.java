@@ -1,30 +1,24 @@
 package com.tylerfitzgerald.demo_api.scheduler.tasks;
 
-import com.tylerfitzgerald.demo_api.config.EventsConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
-import com.tylerfitzgerald.demo_api.solidityEvents.RemoveDuplicateEvents;
 import com.tylerfitzgerald.demo_api.solidityEvents.SetColorsEvent;
 import com.tylerfitzgerald.demo_api.solidityEvents.SolidityEventException;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitRepository;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
   private static final int NUMBER_OF_SUB_TILES = 4;
   private static final int NUMBER_OF_PIXEL_VALUES = 3;
 
-  @Autowired private EventsConfig eventsConfig;
   @Autowired private TokenRetriever tokenRetriever;
   @Autowired private WeightlessTraitRepository weightlessTraitRepository;
-  @Autowired private RemoveDuplicateEvents removeDuplicateEvents;
 
   @Override
   public void execute() throws TaskSchedulerException {

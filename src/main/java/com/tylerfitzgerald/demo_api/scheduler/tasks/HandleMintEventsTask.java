@@ -8,7 +8,6 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
-import com.tylerfitzgerald.demo_api.solidityEvents.EthEventsRetriever;
 import com.tylerfitzgerald.demo_api.solidityEvents.MintEvent;
 import com.tylerfitzgerald.demo_api.solidityEvents.SolidityEventException;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;

@@ -1,6 +1,8 @@
 package com.tylerfitzgerald.demo_api.scheduler.tasks;
 
+import com.tylerfitzgerald.demo_api.config.EventsConfig;
 import com.tylerfitzgerald.demo_api.solidityEvents.EthEventsRetriever;
+import com.tylerfitzgerald.demo_api.solidityEvents.RemoveDuplicateEvents;
 import com.tylerfitzgerald.demo_api.solidityEvents.SolidityEventException;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -12,6 +14,8 @@ public abstract class AbstractEthEventsRetrieverTask implements TaskInterface {
   public static final String ZERO_X = "0x";
 
   @Autowired protected EthEventsRetriever ethEventsRetriever;
+  @Autowired protected RemoveDuplicateEvents removeDuplicateEvents;
+  @Autowired protected EventsConfig eventsConfig;
 
   protected List<?> getEthEvents(
       String className,
