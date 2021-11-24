@@ -34,11 +34,12 @@ public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
 
   public void getSetColorsEventsAndUpdateTraitValues() throws SolidityEventException {
     List<SetColorsEvent> events =
-        getEthEvents(
-            SetColorsEvent.class.getCanonicalName(),
-            eventsConfig.getNftContractAddress(),
-            eventsConfig.getSetColorsEventHashSignature(),
-            new BigInteger(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
+        (List<SetColorsEvent>)
+            getEthEvents(
+                SetColorsEvent.class.getCanonicalName(),
+                eventsConfig.getNftContractAddress(),
+                eventsConfig.getSetColorsEventHashSignature(),
+                new BigInteger(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
     List<SetColorsEvent> sortedEventsList = new ArrayList<>();
     // Reverse the events so that most recent events are first.
     Collections.reverse(events);

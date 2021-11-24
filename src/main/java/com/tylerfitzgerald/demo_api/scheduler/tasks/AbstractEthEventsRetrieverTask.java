@@ -12,14 +12,14 @@ public abstract class AbstractEthEventsRetrieverTask implements TaskInterface {
 
   @Autowired protected EthEventsRetriever ethEventsRetriever;
 
-  protected List<SetColorsEvent> getEthEvents(
+  protected List<?> getEthEvents(
       String className,
       String ethContractAddress,
       String ethEventHashSignature,
       BigInteger numberOfBlocksAgo)
       throws SolidityEventException {
-    List<SetColorsEvent> events =
-        (List<SetColorsEvent>)
+    List<?> events =
+        (List<?>)
             ethEventsRetriever.getEvents(
                 className, ethContractAddress, ethEventHashSignature, numberOfBlocksAgo);
     if (events.size() == 0) {

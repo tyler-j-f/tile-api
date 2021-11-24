@@ -27,7 +27,6 @@ public class EthEventsRetriever<T> {
     try {
       Class<?> eventClass = Class.forName(eventClassName);
       Constructor<?> eventConstructor = eventClass.getConstructor(List.class, String.class);
-
       BigInteger currentBlockNumber = web3j.ethBlockNumber().sendAsync().get().getBlockNumber();
       EthFilter filter =
           new EthFilter(
