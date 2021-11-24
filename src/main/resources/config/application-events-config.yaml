@@ -7,6 +7,6 @@ spring:
       mintEventHashSignature: "0x07883703ed0e86588a40d76551c92f8a4b329e3bf19765e0e6749473c1a84665"
       mergeMintEventHashSignature: "0xaf49bfaf2e89d3c4c27597e51083974866f80562836b8ceec82e54a67948709f"
       setColorsEventHashSignature: "0xc0bac22cfbf5a00d0031e75d1a845f85acb11a0cbe6da5bd8cab6e749c48ef2c"
-      setEmojisEventHashSignature: "0xbe65f5db9d0cb2f1a6c2ef1392032e428228946cee488e777667b19f1625c813"
+      setEmojisEventHashSignature: "0x534d072cc3dba66b6f8d58e3952c4418594a32d53c7f5b612805a1be1cb019b4"
       schedulerFixedRateMs: 60000
       schedulerNumberOfBlocksToLookBack: 200000

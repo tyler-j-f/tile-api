@@ -16,7 +16,7 @@ public class SetEmojisEvent extends AbstractEvent {
 
   @Override
   public String toString() {
-    return "SetColorsEvent{"
+    return "SetEmojisEvent{"
         + "tokenId="
         + getTokenId()
         + ", "
