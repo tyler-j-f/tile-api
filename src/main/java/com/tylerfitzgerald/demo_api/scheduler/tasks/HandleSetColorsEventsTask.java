@@ -5,6 +5,7 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
+import com.tylerfitzgerald.demo_api.solidityEvents.RemoveDuplicateEvents;
 import com.tylerfitzgerald.demo_api.solidityEvents.SetColorsEvent;
 import com.tylerfitzgerald.demo_api.solidityEvents.SolidityEventException;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
@@ -13,6 +14,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
@@ -22,6 +24,7 @@ public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
   @Autowired private EventsConfig eventsConfig;
   @Autowired private TokenRetriever tokenRetriever;
   @Autowired private WeightlessTraitRepository weightlessTraitRepository;
+  @Autowired private RemoveDuplicateEvents removeDuplicateEvents;
 
   @Override
   public void execute() throws TaskSchedulerException {
@@ -40,28 +43,8 @@ public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
                 eventsConfig.getNftContractAddress(),
                 eventsConfig.getSetColorsEventHashSignature(),
                 new BigInteger(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
-    List<SetColorsEvent> sortedEventsList = new ArrayList<>();
-    // Reverse the events so that most recent events are first.
-    Collections.reverse(events);
-    for (SetColorsEvent event : events) {
-      if (!doesEventsListAlreadyHaveTokenId(
-          sortedEventsList, Long.valueOf(strip0xFromHexString(event.getTokenId())))) {
-        sortedEventsList.add(event);
-      }
-    }
-    updateTraitValuesForEvents(sortedEventsList);
+    updateTraitValuesForEvents(removeDuplicateEvents.remove(events));
     return;
-  }
-
-  private boolean doesEventsListAlreadyHaveTokenId(List<SetColorsEvent> events, Long tokenId) {
-    return findNumberOfEventsWithTokenId(events, tokenId) > 0;
-  }
-
-  private int findNumberOfEventsWithTokenId(List<SetColorsEvent> events, Long tokenId) {
-    return (int)
-        events.stream()
-            .filter(event -> Long.valueOf(strip0xFromHexString(event.getTokenId())).equals(tokenId))
-            .count();
   }
 
   private List<List<String>> getTilesRGBValues(SetColorsEvent event) {
