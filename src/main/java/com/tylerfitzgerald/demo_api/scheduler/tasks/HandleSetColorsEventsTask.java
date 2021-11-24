@@ -172,8 +172,4 @@ public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
       updateTraitValuesForEvent(event, nft);
     }
   }
-
-  private String strip0xFromHexString(String hexString) {
-    return hexString.split("0x")[1];
-  }
 }

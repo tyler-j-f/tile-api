@@ -35,4 +35,17 @@ public abstract class AbstractEthEventsRetrieverTask implements TaskInterface {
     }
     return events;
   }
+
+  protected Long getLongFromHexString(String hexString) {
+    return Long.parseLong(hexString.split("0x")[1], 16);
+  }
+
+  protected Long getLongFromHexString(String hexString, int startIndex, int endIndex) {
+    return Long.parseLong(hexString.split("0x")[1].substring(startIndex, endIndex), 16);
+  }
+
+  protected String strip0xFromHexString(String hexString) {
+    return hexString.split("0x")[1];
+  }
+
 }

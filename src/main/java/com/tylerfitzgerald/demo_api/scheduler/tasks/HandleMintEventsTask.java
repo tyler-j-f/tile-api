@@ -90,12 +90,4 @@ public class HandleMintEventsTask extends AbstractEthEventsRetrieverTask {
     }
     return new TokenFacade(token).buildTokenDataDTO();
   }
-
-  private Long getLongFromHexString(String hexString) {
-    return Long.parseLong(hexString.split("0x")[1], 16);
-  }
-
-  private Long getLongFromHexString(String hexString, int startIndex, int endIndex) {
-    return Long.parseLong(hexString.split("0x")[1].substring(startIndex, endIndex), 16);
-  }
 }
