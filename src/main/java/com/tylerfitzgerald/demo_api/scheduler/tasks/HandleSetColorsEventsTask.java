@@ -4,8 +4,8 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
-import com.tylerfitzgerald.demo_api.solidityEvents.SetColorsEvent;
-import com.tylerfitzgerald.demo_api.solidityEvents.SolidityEventException;
+import com.tylerfitzgerald.demo_api.ethEvents.events.SetColorsEvent;
+import com.tylerfitzgerald.demo_api.ethEvents.EthEventException;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitRepository;
 import java.math.BigInteger;
@@ -24,12 +24,12 @@ public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
   public void execute() throws TaskSchedulerException {
     try {
       getSetColorsEventsAndUpdateTraitValues();
-    } catch (SolidityEventException e) {
+    } catch (EthEventException e) {
       throw new TaskSchedulerException(e.getMessage(), e.getCause());
     }
   }
 
-  public void getSetColorsEventsAndUpdateTraitValues() throws SolidityEventException {
+  public void getSetColorsEventsAndUpdateTraitValues() throws EthEventException {
     List<SetColorsEvent> events =
         (List<SetColorsEvent>)
             getEthEvents(
@@ -37,7 +37,7 @@ public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
                 eventsConfig.getNftContractAddress(),
                 eventsConfig.getSetColorsEventHashSignature(),
                 new BigInteger(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
-    updateTraitValuesForEvents(removeDuplicateEvents.remove(events));
+    updateTraitValuesForEvents(removeDuplicateEthEvents.remove(events));
     return;
   }
 

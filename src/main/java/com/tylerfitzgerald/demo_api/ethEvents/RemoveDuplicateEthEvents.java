@@ -1,10 +1,11 @@
-package com.tylerfitzgerald.demo_api.solidityEvents;
+package com.tylerfitzgerald.demo_api.ethEvents;
 
+import com.tylerfitzgerald.demo_api.ethEvents.events.AbstractEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class RemoveDuplicateEvents<T extends AbstractEvent> {
+public class RemoveDuplicateEthEvents<T extends AbstractEvent> {
 
   public static final String ZERO_X = "0x";
 

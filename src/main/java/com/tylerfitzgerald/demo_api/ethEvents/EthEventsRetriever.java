@@ -1,6 +1,5 @@
-package com.tylerfitzgerald.demo_api.solidityEvents;
+package com.tylerfitzgerald.demo_api.ethEvents;
 
-import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class EthEventsRetriever<T> {
       String contractAddress,
       String eventHashSignature,
       BigInteger numberOfBlocksAgo)
-      throws SolidityEventException {
+      throws EthEventException {
     try {
       Class<?> eventClass = Class.forName(eventClassName);
       Constructor<?> eventConstructor = eventClass.getConstructor(List.class, String.class);
@@ -57,7 +56,7 @@ public class EthEventsRetriever<T> {
         | InstantiationException
         | IllegalAccessException
         | InvocationTargetException e) {
-      throw new SolidityEventException(e.getMessage(), e.getCause());
+      throw new EthEventException(e.getMessage(), e.getCause());
     }
   }
 }

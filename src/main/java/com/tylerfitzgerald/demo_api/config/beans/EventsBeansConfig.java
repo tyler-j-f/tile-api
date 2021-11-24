@@ -1,9 +1,9 @@
 package com.tylerfitzgerald.demo_api.config.beans;
 
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleSetColorsEventsTask;
-import com.tylerfitzgerald.demo_api.solidityEvents.EthEventsRetriever;
+import com.tylerfitzgerald.demo_api.ethEvents.EthEventsRetriever;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEventsTask;
-import com.tylerfitzgerald.demo_api.solidityEvents.RemoveDuplicateEvents;
+import com.tylerfitzgerald.demo_api.ethEvents.RemoveDuplicateEthEvents;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,7 +25,7 @@ public class EventsBeansConfig {
   }
 
   @Bean
-  public RemoveDuplicateEvents removeDuplicateEvents() {
-    return new RemoveDuplicateEvents();
+  public RemoveDuplicateEthEvents removeDuplicateEvents() {
+    return new RemoveDuplicateEthEvents();
   }
 }

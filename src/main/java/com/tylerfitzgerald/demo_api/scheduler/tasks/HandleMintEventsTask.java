@@ -8,8 +8,8 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
-import com.tylerfitzgerald.demo_api.solidityEvents.MintEvent;
-import com.tylerfitzgerald.demo_api.solidityEvents.SolidityEventException;
+import com.tylerfitzgerald.demo_api.ethEvents.events.MintEvent;
+import com.tylerfitzgerald.demo_api.ethEvents.EthEventException;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import java.math.BigInteger;
@@ -29,18 +29,17 @@ public class HandleMintEventsTask extends AbstractEthEventsRetrieverTask {
   public void execute() throws TaskSchedulerException {
     try {
       getMintEventsAndCreateTokens();
-    } catch (SolidityEventException | TokenInitializeException e) {
+    } catch (EthEventException | TokenInitializeException e) {
       throw new TaskSchedulerException(e.getMessage(), e.getCause());
     }
   }
 
-  public String getMintEventsAndCreateTokens()
-      throws SolidityEventException, TokenInitializeException {
+  public String getMintEventsAndCreateTokens() throws EthEventException, TokenInitializeException {
     List<MintEvent> events = getMintEvents();
     return addTokensToDB(events).toString();
   }
 
-  private List<MintEvent> getMintEvents() throws SolidityEventException {
+  private List<MintEvent> getMintEvents() throws EthEventException {
     List<MintEvent> events =
         (List<MintEvent>)
             getEthEvents(
