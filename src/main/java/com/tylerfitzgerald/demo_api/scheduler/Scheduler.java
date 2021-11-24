@@ -2,6 +2,7 @@ package com.tylerfitzgerald.demo_api.scheduler;
 
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEventsTask;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleSetColorsEventsTask;
+import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleSetEmojisEventsTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ public class Scheduler {
 
   @Autowired private HandleMintEventsTask handleMintEventsTask;
   @Autowired private HandleSetColorsEventsTask handleSetColorsEventsTask;
+  @Autowired private HandleSetEmojisEventsTask handleSetEmojisEventsTask;
 
   /**
    * Execute tasks every schedulerFixedRateMs If you would like to execute tasks on a different
@@ -25,5 +27,6 @@ public class Scheduler {
   public void executeTasks() throws TaskSchedulerException {
     handleMintEventsTask.execute();
     handleSetColorsEventsTask.execute();
+    handleSetEmojisEventsTask.execute();
   }
 }

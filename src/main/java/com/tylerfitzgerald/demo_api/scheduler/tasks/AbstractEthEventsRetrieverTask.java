@@ -29,14 +29,15 @@ public abstract class AbstractEthEventsRetrieverTask implements TaskInterface {
                 className, ethContractAddress, ethEventHashSignature, numberOfBlocksAgo);
     if (events.size() == 0) {
       System.out.println(
-          "No  events found for classNAme: "
+          "\nNo events found for className: "
               + className
               + "\nethContractAddress: "
               + ethContractAddress
               + "\nethEventHashSignature: "
               + ethEventHashSignature
               + "\nnumberOfBlocksAgo: "
-              + numberOfBlocksAgo);
+              + numberOfBlocksAgo
+              + "\n");
       return new ArrayList<>();
     }
     return events;
