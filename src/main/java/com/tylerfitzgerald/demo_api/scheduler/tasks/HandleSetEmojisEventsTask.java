@@ -9,6 +9,7 @@ import com.tylerfitzgerald.demo_api.ethEvents.events.SetEmojisEvent;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
+import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitRepository;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
   @Autowired private TokenRetriever tokenRetriever;
   @Autowired private ImageResourcesLoader imageResourcesLoader;
   @Autowired private EmojiTraitPicker emojiTraitPicker;
+  @Autowired private WeightlessTraitRepository weightlessTraitRepository;
 
   @Override
   public void execute() throws TaskSchedulerException {
@@ -137,10 +139,8 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
       tileIndex++;
     }
     for (WeightlessTraitDTO traitToUpdate : traitsToUpdate) {
-      // TODO: Actually update the db
-      // weightlessTraitRepository.update(traitToUpdate);
-      //      System.out.println("Updated tile emoji. Trait: " + traitToUpdate);
-      System.out.println("Would in the future update tile emoji. Trait: " + traitToUpdate);
+      weightlessTraitRepository.update(traitToUpdate);
+      System.out.println("Updated tile emoji. Trait: " + traitToUpdate);
     }
   }
 
