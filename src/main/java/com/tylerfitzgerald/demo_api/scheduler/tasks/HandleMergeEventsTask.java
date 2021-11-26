@@ -1,9 +1,11 @@
+// As long as ETH/Solidity doesn't explode.... this should never happen. The ETH Contract code
+// should only allow one Merge solidity event for two owned tokens... then they will be burned and
+// another token will be minted.
 package com.tylerfitzgerald.demo_api.scheduler.tasks;
 
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.ethEvents.EthEventException;
-import com.tylerfitzgerald.demo_api.ethEvents.RemoveDuplicateEthEventsForToken;
 import com.tylerfitzgerald.demo_api.ethEvents.RemoveDuplicateMergeEthEvents;
 import com.tylerfitzgerald.demo_api.ethEvents.events.MergeEvent;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
@@ -66,7 +68,7 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
     return trait;
   }
 
-  private void updateTraitValuesForBurnEvents(List<MergeEvent> events) throws EthEventException {
+  private void updateTraitValuesForBurnEvents(List<MergeEvent> events) {
     for (MergeEvent event : events) {
       TokenFacadeDTO burnedNft1 =
           tokenRetriever.get(Long.valueOf(strip0xFromHexString(event.getBurnedToken1Id())));
@@ -84,12 +86,18 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
   }
 
   private void mintNewTokenForMerge(
-      MergeEvent event, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2)
-      throws EthEventException {
-    System.out.println("mintNewTokenForMerge called");
+      MergeEvent event, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2) {
+    System.out.println(
+        "mintNewTokenForMerge called. burnedNft1: "
+            + burnedNft1.getTokenDTO().getTokenId()
+            + ",  burnedNft2: "
+            + burnedNft2.getTokenDTO().getTokenId()
+            + ",  newTokenId: "
+            + event.getNewTokenId()
+    );
   }
 
-  private void updateTokenTraitValuesForBurnEvent(TokenFacadeDTO nft) throws EthEventException {
+  private void updateTokenTraitValuesForBurnEvent(TokenFacadeDTO nft) {
     System.out.println("updateTraitValuesForBurnEvent called. \n event: " + nft);
   }
 }
