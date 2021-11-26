@@ -42,6 +42,10 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
                 eventsConfig.getNftContractAddress(),
                 eventsConfig.getSetEmojisEventHashSignature(),
                 bigIntegerFactory.build(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
+    if (events.size() == 0) {
+      System.out.println("HandleSetEmojisEventsTask: Found no tasks.");
+      return;
+    }
     updateTraitValuesForEthEvents(removeDuplicateEthEvents.remove(events));
     return;
   }

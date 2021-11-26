@@ -31,9 +31,14 @@ public class HandleMintEventsTask extends AbstractEthEventsRetrieverTask {
     }
   }
 
-  public String getMintEventsAndCreateTokens() throws EthEventException, TokenInitializeException {
+  public void getMintEventsAndCreateTokens() throws EthEventException, TokenInitializeException {
     List<MintEvent> events = getMintEvents();
-    return addTokensToDB(events).toString();
+    if (events.size() == 0) {
+      System.out.println("HandleMintEventsTask: Found no tasks.");
+      return;
+    }
+    addTokensToDB(events).toString();
+    return;
   }
 
   private List<MintEvent> getMintEvents() throws EthEventException {

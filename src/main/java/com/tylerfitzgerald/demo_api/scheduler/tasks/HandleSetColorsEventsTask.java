@@ -8,7 +8,6 @@ import com.tylerfitzgerald.demo_api.ethEvents.events.SetColorsEvent;
 import com.tylerfitzgerald.demo_api.ethEvents.EthEventException;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitRepository;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +36,10 @@ public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
                 eventsConfig.getNftContractAddress(),
                 eventsConfig.getSetColorsEventHashSignature(),
                 bigIntegerFactory.build(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
+    if (events.size() == 0) {
+      System.out.println("HandleSetColorsEventsTask: Found no tasks.");
+      return;
+    }
     updateTraitValuesForEthEvents(removeDuplicateEthEvents.remove(events));
     return;
   }
