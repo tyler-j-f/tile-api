@@ -1,10 +1,8 @@
 package com.tylerfitzgerald.demo_api.ethEvents.events;
 
 import java.util.List;
-import lombok.experimental.SuperBuilder;
 
-@SuperBuilder
-public class SetEmojisEvent extends AbstractEvent {
+public class SetEmojisEvent extends AbstractSingleTokenEvent {
 
   public SetEmojisEvent(List<String> topics, String transactionHash) {
     super(topics, transactionHash);

@@ -1,10 +1,8 @@
 package com.tylerfitzgerald.demo_api.ethEvents.events;
 
 import java.util.List;
-import lombok.experimental.SuperBuilder;
 
-@SuperBuilder
-public class SetColorsEvent extends AbstractEvent {
+public class SetColorsEvent extends AbstractSingleTokenEvent {
 
   public SetColorsEvent(List<String> topics, String transactionHash) {
     super(topics, transactionHash);

@@ -1,10 +1,8 @@
 package com.tylerfitzgerald.demo_api.ethEvents.events;
 
 import java.util.List;
-import lombok.experimental.SuperBuilder;
 
-@SuperBuilder
-public class MintEvent extends AbstractEvent {
+public class MintEvent extends AbstractSingleTokenEvent {
 
   public MintEvent(List<String> topics, String transactionHash) {
     super(topics, transactionHash);
