@@ -44,13 +44,13 @@ public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
   private List<List<String>> getTilesRGBValues(SetColorsEvent event) {
     List<List<String>> tilesValuesList = new ArrayList<>();
     for (int x = 0; x < NUMBER_OF_SUB_TILES; x++) {
-      List<String> tileValuesList = getTileRGBValue(strip0xFromHexString(event.getColors()), x);
+      List<String> tileValuesList = getTileRGBValues(strip0xFromHexString(event.getColors()), x);
       tilesValuesList.add(tileValuesList);
     }
     return tilesValuesList;
   }
 
-  private List<String> getTileRGBValue(String eventColorsValue, int tileIndex) {
+  private List<String> getTileRGBValues(String eventColorsValue, int tileIndex) {
     List<String> tileValuesList = new ArrayList<>();
     for (int x = 0; x < NUMBER_OF_PIXEL_VALUES; x++) {
       tileValuesList.add(
