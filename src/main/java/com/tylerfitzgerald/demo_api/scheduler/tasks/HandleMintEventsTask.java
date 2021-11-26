@@ -46,7 +46,7 @@ public class HandleMintEventsTask extends AbstractEthEventsRetrieverTask {
                 MintEvent.class.getCanonicalName(),
                 eventsConfig.getNftFactoryContractAddress(),
                 eventsConfig.getMintEventHashSignature(),
-                new BigInteger(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
+                bigIntegerFactory.build(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
     if (events.size() == 0) {
       System.out.println("No mint events found");
       return new ArrayList<>();

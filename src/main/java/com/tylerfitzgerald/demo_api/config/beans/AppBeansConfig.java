@@ -5,6 +5,7 @@ import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.RarityCalculator;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.RarityTraitPicker;
+import com.tylerfitzgerald.demo_api.etc.BigIntegerFactory;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightsTable;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitsTable;
@@ -149,5 +150,10 @@ public class AppBeansConfig {
   @Bean
   public RarityCalculator rarityCalculator() {
     return new RarityCalculator();
+  }
+
+  @Bean
+  public BigIntegerFactory bigIntegerFactory() {
+    return new BigIntegerFactory();
   }
 }

@@ -3,6 +3,7 @@ package com.tylerfitzgerald.demo_api.scheduler.tasks;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
+import com.tylerfitzgerald.demo_api.etc.BigIntegerFactory;
 import com.tylerfitzgerald.demo_api.ethEvents.EthEventException;
 import com.tylerfitzgerald.demo_api.ethEvents.events.SetEmojisEvent;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
@@ -15,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
   private static final int NUMBER_OF_SUB_TILES = 4;
-  private static final int NUMBER_OF_PIXEL_VALUES = 3;
+  private static final int EMOJI_SET_SPECIFIER_INDEX = 0;
 
   @Autowired private TokenRetriever tokenRetriever;
   @Autowired private WeightlessTraitRepository weightlessTraitRepository;
@@ -36,50 +37,57 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
                 SetEmojisEvent.class.getCanonicalName(),
                 eventsConfig.getNftContractAddress(),
                 eventsConfig.getSetEmojisEventHashSignature(),
-                new BigInteger(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
-    System.out.println("DEBUG getSetEmojisEventsAndUpdateTraitValues: " + events);
-    // updateTraitValuesForEvents(removeDuplicateEthEvents.remove(events));
+                bigIntegerFactory.build(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
+    updateTraitValuesForEthEvents(removeDuplicateEthEvents.remove(events));
     return;
   }
 
-  private List<List<String>> getTilesRGBValues(SetEmojisEvent event) {
-    List<List<String>> tilesValuesList = new ArrayList<>();
+  private List<String> getTilesEmojiValues(SetEmojisEvent event) throws EthEventException {
+    List<String> tilesEmojiValuesList = new ArrayList<>();
+    String eventEmojisValue = strip0xFromHexString(event.getEmojis());
+    int emojiSetIndex = getEmojiSetIndex(eventEmojisValue);
+    System.out.println("DEBUG emojiSetIndex: " + emojiSetIndex);
     for (int x = 0; x < NUMBER_OF_SUB_TILES; x++) {
-      List<String> tileValuesList = getTileRGBValues(strip0xFromHexString(event.getEmojis()), x);
-      tilesValuesList.add(tileValuesList);
+      String tileEmojiValue = getTileEmojiValues(eventEmojisValue, x, emojiSetIndex);
+      System.out.println("DEBUG value " + x + ": " + tileEmojiValue);
+      tilesEmojiValuesList.add(tileEmojiValue);
     }
-    return tilesValuesList;
+    return tilesEmojiValuesList;
   }
 
-  private List<String> getTileRGBValues(String eventEmojisValue, int tileIndex) {
-    List<String> tileValuesList = new ArrayList<>();
-    for (int x = 0; x < NUMBER_OF_PIXEL_VALUES; x++) {
-      tileValuesList.add(
-          eventEmojisValue.substring(getBeginIndex(tileIndex, x), getEndIndex(tileIndex, x)));
+  private int getEmojiSetIndex(String eventEmojisValue) {
+    return bigIntegerFactory.build(eventEmojisValue.substring(28, 32), 16).intValue();
+  }
+
+  private String getTileEmojiValues(String eventEmojisValue, int tileIndex, int emojiSetIndex)
+      throws EthEventException {
+    if (emojiSetIndex != EMOJI_SET_SPECIFIER_INDEX) {
+      throw new EthEventException(
+          "Emoji set other than 0 was specified. Support does not exist for additional emoji sets at this time.");
     }
-    return tileValuesList;
+    return eventEmojisValue.substring(getBeginIndex(tileIndex), getEndIndex(tileIndex));
   }
 
-  private int getBeginIndex(int tileIndex, int pixelIndex) {
-    return (tileIndex * 9) + (pixelIndex * 3);
+  private int getBeginIndex(int tileIndex) {
+    return (tileIndex * 7);
   }
 
-  private int getEndIndex(int tileIndex, int pixelIndex) {
-    return getBeginIndex(tileIndex, pixelIndex) + 3;
+  private int getEndIndex(int tileIndex) {
+    return getBeginIndex(tileIndex) + 7;
   }
 
-  private void updateTraitValuesForEvent(SetEmojisEvent event, TokenFacadeDTO nft) {
+  private void updateTraitValuesForEthEvent(SetEmojisEvent event, TokenFacadeDTO nft)
+      throws EthEventException {
     int tileIndex = 0;
     List<WeightlessTraitDTO> traits = nft.getWeightlessTraits();
     List<WeightlessTraitDTO> traitsToUpdate = new ArrayList<>();
     WeightlessTraitDTO updateTrait;
-    System.out.println("DEBUG getTilesRGBValues: " + getTilesRGBValues(event));
-    for (List<String> tileRGBValues : getTilesRGBValues(event)) {
+    for (String tileEmojiValue : getTilesEmojiValues(event)) {
       switch (tileIndex) {
         case 0:
           updateTrait =
               updateTraitValue(
-                  traits, tileRGBValues, Long.valueOf(WeightlessTraitTypeConstants.TILE_1_EMOJI));
+                  traits, tileEmojiValue, Long.valueOf(WeightlessTraitTypeConstants.TILE_1_EMOJI));
           if (updateTrait != null) {
             traitsToUpdate.add(updateTrait);
           }
@@ -87,7 +95,7 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
         case 1:
           updateTrait =
               updateTraitValue(
-                  traits, tileRGBValues, Long.valueOf(WeightlessTraitTypeConstants.TILE_2_EMOJI));
+                  traits, tileEmojiValue, Long.valueOf(WeightlessTraitTypeConstants.TILE_2_EMOJI));
           if (updateTrait != null) {
             traitsToUpdate.add(updateTrait);
           }
@@ -95,7 +103,7 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
         case 2:
           updateTrait =
               updateTraitValue(
-                  traits, tileRGBValues, Long.valueOf(WeightlessTraitTypeConstants.TILE_3_EMOJI));
+                  traits, tileEmojiValue, Long.valueOf(WeightlessTraitTypeConstants.TILE_3_EMOJI));
           if (updateTrait != null) {
             traitsToUpdate.add(updateTrait);
           }
@@ -103,7 +111,7 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
         case 3:
           updateTrait =
               updateTraitValue(
-                  traits, tileRGBValues, Long.valueOf(WeightlessTraitTypeConstants.TILE_4_EMOJI));
+                  traits, tileEmojiValue, Long.valueOf(WeightlessTraitTypeConstants.TILE_4_EMOJI));
           if (updateTrait != null) {
             traitsToUpdate.add(updateTrait);
           }
@@ -120,14 +128,13 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
   }
 
   private WeightlessTraitDTO updateTraitValue(
-      List<WeightlessTraitDTO> traits, List<String> tileRGBValues, Long traitTypeId) {
+      List<WeightlessTraitDTO> traits, String tileEmojiValue, Long traitTypeId) {
     WeightlessTraitDTO trait =
         traits.stream()
             .filter(weightlessTraitDTO -> weightlessTraitDTO.getTraitTypeId().equals(traitTypeId))
             .findFirst()
             .get();
-    String rgbToSet = tileRGBValues.get(2) + tileRGBValues.get(1) + tileRGBValues.get(0);
-    if (rgbToSet.equals(trait.getValue())) {
+    if (tileEmojiValue.equals(trait.getValue())) {
       System.out.println(
           "Will not update emoji value trait for tile # "
               + trait.getTokenId()
@@ -135,11 +142,11 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
               + trait);
       return null;
     }
-    trait.setValue(rgbToSet);
+    trait.setValue(tileEmojiValue);
     return trait;
   }
 
-  private void updateTraitValuesForEvents(List<SetEmojisEvent> events) {
+  private void updateTraitValuesForEthEvents(List<SetEmojisEvent> events) throws EthEventException {
     for (SetEmojisEvent event : events) {
       TokenFacadeDTO nft =
           tokenRetriever.get(Long.valueOf(strip0xFromHexString(event.getTokenId())));
@@ -147,7 +154,7 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
         System.out.println("ERROR!!! This token does not exist");
         continue;
       }
-      updateTraitValuesForEvent(event, nft);
+      updateTraitValuesForEthEvent(event, nft);
     }
   }
 }

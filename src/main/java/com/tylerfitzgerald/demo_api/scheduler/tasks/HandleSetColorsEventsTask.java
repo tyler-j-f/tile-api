@@ -36,8 +36,8 @@ public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
                 SetColorsEvent.class.getCanonicalName(),
                 eventsConfig.getNftContractAddress(),
                 eventsConfig.getSetColorsEventHashSignature(),
-                new BigInteger(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
-    updateTraitValuesForEvents(removeDuplicateEthEvents.remove(events));
+                bigIntegerFactory.build(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
+    updateTraitValuesForEthEvents(removeDuplicateEthEvents.remove(events));
     return;
   }
 
@@ -67,12 +67,11 @@ public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
     return getBeginIndex(tileIndex, pixelIndex) + 3;
   }
 
-  private void updateTraitValuesForEvent(SetColorsEvent event, TokenFacadeDTO nft) {
+  private void updateTraitValuesForEthEvent(SetColorsEvent event, TokenFacadeDTO nft) {
     int tileIndex = 0;
     List<WeightlessTraitDTO> traits = nft.getWeightlessTraits();
     List<WeightlessTraitDTO> traitsToUpdate = new ArrayList<>();
     WeightlessTraitDTO updateTrait;
-    System.out.println("DEBUG getTilesRGBValues: " + getTilesRGBValues(event));
     for (List<String> tileRGBValues : getTilesRGBValues(event)) {
       switch (tileIndex) {
         case 0:
@@ -138,7 +137,7 @@ public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
     return trait;
   }
 
-  private void updateTraitValuesForEvents(List<SetColorsEvent> events) {
+  private void updateTraitValuesForEthEvents(List<SetColorsEvent> events) {
     for (SetColorsEvent event : events) {
       TokenFacadeDTO nft =
           tokenRetriever.get(Long.valueOf(strip0xFromHexString(event.getTokenId())));
@@ -146,7 +145,7 @@ public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
         System.out.println("ERROR!!! This token does not exist");
         continue;
       }
-      updateTraitValuesForEvent(event, nft);
+      updateTraitValuesForEthEvent(event, nft);
     }
   }
 }

@@ -6,9 +6,9 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
+import com.tylerfitzgerald.demo_api.etc.BigIntegerFactory;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.AbstractEthEventsRetrieverTask;
 import com.tylerfitzgerald.demo_api.ethEvents.events.MintEvent;
-import com.tylerfitzgerald.demo_api.ethEvents.EthEventsRetriever;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import java.util.ArrayList;
@@ -27,11 +27,8 @@ import java.util.concurrent.ExecutionException;
 public class MintEventsController extends BaseController {
 
   @Autowired private TokenRepository tokenRepository;
-
-  @Autowired private EthEventsRetriever mintEventRetriever;
-
+  @Autowired private BigIntegerFactory bigIntegerFactory;
   @Autowired private TokenInitializer tokenInitializer;
-
   @Autowired private EventsConfig eventsConfig;
 
   @GetMapping(value = {"getAll/{numberOfBlocksAgo}", "getAll"})
@@ -40,7 +37,7 @@ public class MintEventsController extends BaseController {
     if (numberOfBlocksAgo == null) {
       numberOfBlocksAgo = eventsConfig.getSchedulerNumberOfBlocksToLookBack();
     }
-    List<MintEvent> events = getMintEvents(new BigInteger(numberOfBlocksAgo));
+    List<MintEvent> events = getMintEvents(bigIntegerFactory.build(numberOfBlocksAgo));
     String output;
     if (events.size() == 0) {
       output = "No events found";
@@ -58,7 +55,7 @@ public class MintEventsController extends BaseController {
     if (numberOfBlocksAgo == null) {
       numberOfBlocksAgo = eventsConfig.getSchedulerNumberOfBlocksToLookBack();
     }
-    List<MintEvent> events = getMintEvents(new BigInteger(numberOfBlocksAgo));
+    List<MintEvent> events = getMintEvents(bigIntegerFactory.build(numberOfBlocksAgo));
     return addTokensToDB(events).toString();
   }
 

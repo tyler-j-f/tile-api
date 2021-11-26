@@ -1,6 +1,7 @@
 package com.tylerfitzgerald.demo_api.scheduler.tasks;
 
 import com.tylerfitzgerald.demo_api.config.EventsConfig;
+import com.tylerfitzgerald.demo_api.etc.BigIntegerFactory;
 import com.tylerfitzgerald.demo_api.ethEvents.EthEventsRetriever;
 import com.tylerfitzgerald.demo_api.ethEvents.RemoveDuplicateEthEvents;
 import com.tylerfitzgerald.demo_api.ethEvents.EthEventException;
@@ -16,6 +17,7 @@ public abstract class AbstractEthEventsRetrieverTask implements TaskInterface {
   @Autowired protected EthEventsRetriever ethEventsRetriever;
   @Autowired protected RemoveDuplicateEthEvents removeDuplicateEthEvents;
   @Autowired protected EventsConfig eventsConfig;
+  @Autowired protected BigIntegerFactory bigIntegerFactory;
 
   protected List<?> getEthEvents(
       String className,
