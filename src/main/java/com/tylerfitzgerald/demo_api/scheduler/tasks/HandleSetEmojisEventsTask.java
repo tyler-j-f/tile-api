@@ -3,34 +3,36 @@ package com.tylerfitzgerald.demo_api.scheduler.tasks;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
-import com.tylerfitzgerald.demo_api.etc.BigIntegerFactory;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
 import com.tylerfitzgerald.demo_api.ethEvents.EthEventException;
 import com.tylerfitzgerald.demo_api.ethEvents.events.SetEmojisEvent;
+import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
-import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitRepository;
-import java.math.BigInteger;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 
 public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
   private static final int NUMBER_OF_SUB_TILES = 4;
   private static final int EMOJI_SET_SPECIFIER_INDEX = 0;
 
   @Autowired private TokenRetriever tokenRetriever;
-  @Autowired private WeightlessTraitRepository weightlessTraitRepository;
+  @Autowired private ImageResourcesLoader imageResourcesLoader;
+  @Autowired private EmojiTraitPicker emojiTraitPicker;
 
   @Override
   public void execute() throws TaskSchedulerException {
     try {
       getSetEmojisEventsAndUpdateTraitValues();
-    } catch (EthEventException e) {
+    } catch (EthEventException | IOException e) {
       throw new TaskSchedulerException(e.getMessage(), e.getCause());
     }
   }
 
-  public void getSetEmojisEventsAndUpdateTraitValues() throws EthEventException {
+  public void getSetEmojisEventsAndUpdateTraitValues() throws EthEventException, IOException {
     List<SetEmojisEvent> events =
         (List<SetEmojisEvent>)
             getEthEvents(
@@ -42,7 +44,7 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
     return;
   }
 
-  private List<String> getTilesEmojiValues(SetEmojisEvent event) throws EthEventException {
+  private List<String> getTileEmojiIndexFromEvent(SetEmojisEvent event) throws EthEventException {
     List<String> tilesEmojiValuesList = new ArrayList<>();
     String eventEmojisValue = strip0xFromHexString(event.getEmojis());
     int emojiSetIndex = getEmojiSetIndex(eventEmojisValue);
@@ -78,18 +80,29 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
     return getBeginIndex(tileIndex) + 7;
   }
 
+  private String getTraitValueToUpdate(Resource[] resorces, String tileEmojiIndex) {
+    return emojiTraitPicker.stripExtension(
+        getResourceFromResourcesList(resorces, tileEmojiIndex).getFilename());
+  }
+
+  private Resource getResourceFromResourcesList(Resource[] resorces, String tileEmojiIndex) {
+    return resorces[Integer.valueOf(tileEmojiIndex)];
+  }
+
   private void updateTraitValuesForEthEvent(SetEmojisEvent event, TokenFacadeDTO nft)
-      throws EthEventException {
+      throws EthEventException, IOException {
     int tileIndex = 0;
     List<WeightlessTraitDTO> traits = nft.getWeightlessTraits();
     List<WeightlessTraitDTO> traitsToUpdate = new ArrayList<>();
     WeightlessTraitDTO updateTrait;
-    for (String tileEmojiValue : getTilesEmojiValues(event)) {
+    Resource[] resorces = imageResourcesLoader.getResources();
+    for (String tileEmojiIndex : getTileEmojiIndexFromEvent(event)) {
+      String valueToUpdate = getTraitValueToUpdate(resorces, tileEmojiIndex);
       switch (tileIndex) {
         case 0:
           updateTrait =
               updateTraitValue(
-                  traits, tileEmojiValue, Long.valueOf(WeightlessTraitTypeConstants.TILE_1_EMOJI));
+                  traits, valueToUpdate, Long.valueOf(WeightlessTraitTypeConstants.TILE_1_EMOJI));
           if (updateTrait != null) {
             traitsToUpdate.add(updateTrait);
           }
@@ -97,7 +110,7 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
         case 1:
           updateTrait =
               updateTraitValue(
-                  traits, tileEmojiValue, Long.valueOf(WeightlessTraitTypeConstants.TILE_2_EMOJI));
+                  traits, valueToUpdate, Long.valueOf(WeightlessTraitTypeConstants.TILE_2_EMOJI));
           if (updateTrait != null) {
             traitsToUpdate.add(updateTrait);
           }
@@ -105,7 +118,7 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
         case 2:
           updateTrait =
               updateTraitValue(
-                  traits, tileEmojiValue, Long.valueOf(WeightlessTraitTypeConstants.TILE_3_EMOJI));
+                  traits, valueToUpdate, Long.valueOf(WeightlessTraitTypeConstants.TILE_3_EMOJI));
           if (updateTrait != null) {
             traitsToUpdate.add(updateTrait);
           }
@@ -113,7 +126,7 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
         case 3:
           updateTrait =
               updateTraitValue(
-                  traits, tileEmojiValue, Long.valueOf(WeightlessTraitTypeConstants.TILE_4_EMOJI));
+                  traits, valueToUpdate, Long.valueOf(WeightlessTraitTypeConstants.TILE_4_EMOJI));
           if (updateTrait != null) {
             traitsToUpdate.add(updateTrait);
           }
@@ -124,8 +137,10 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
       tileIndex++;
     }
     for (WeightlessTraitDTO traitToUpdate : traitsToUpdate) {
-      weightlessTraitRepository.update(traitToUpdate);
-      System.out.println("Updated tile emoji. Trait: " + traitToUpdate);
+      // TODO: Actually update the db
+      // weightlessTraitRepository.update(traitToUpdate);
+      //      System.out.println("Updated tile emoji. Trait: " + traitToUpdate);
+      System.out.println("Would in the future update tile emoji. Trait: " + traitToUpdate);
     }
   }
 
@@ -136,6 +151,7 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
             .filter(weightlessTraitDTO -> weightlessTraitDTO.getTraitTypeId().equals(traitTypeId))
             .findFirst()
             .get();
+    System.out.println("Pre updated trait. Trait: " + trait);
     if (tileEmojiValue.equals(trait.getValue())) {
       System.out.println(
           "Will not update emoji value trait for tile # "
@@ -148,7 +164,8 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
     return trait;
   }
 
-  private void updateTraitValuesForEthEvents(List<SetEmojisEvent> events) throws EthEventException {
+  private void updateTraitValuesForEthEvents(List<SetEmojisEvent> events)
+      throws EthEventException, IOException {
     for (SetEmojisEvent event : events) {
       TokenFacadeDTO nft =
           tokenRetriever.get(Long.valueOf(strip0xFromHexString(event.getTokenId())));

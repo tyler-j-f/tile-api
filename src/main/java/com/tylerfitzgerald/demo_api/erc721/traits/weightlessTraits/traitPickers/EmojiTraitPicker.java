@@ -21,7 +21,7 @@ public class EmojiTraitPicker implements WeightlessTraitInterface {
     }
   }
 
-  private String stripExtension(String fileName) {
+  public String stripExtension(String fileName) {
     return stripExtension(fileName, ".png");
   }
 

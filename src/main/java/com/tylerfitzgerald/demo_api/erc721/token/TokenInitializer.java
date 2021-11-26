@@ -36,7 +36,7 @@ public class TokenInitializer {
   @Autowired private WeightlessTraitTypeRepository weightlessTraitTypeRepository;
   @Autowired private TokenConfig tokenConfig;
   @Autowired private TraitsConfig traitsConfig;
-  @Autowired private EmojiTraitPicker emojiiPickerTrait;
+  @Autowired private EmojiTraitPicker emojiTraitPicker;
   @Autowired private ColorTraitPicker colorTraitPicker;
   @Autowired private RarityTraitPicker rarityTraitPicker;
 
@@ -135,7 +135,7 @@ public class TokenInitializer {
           || traitTypeId == WeightlessTraitTypeConstants.TILE_2_EMOJI
           || traitTypeId == WeightlessTraitTypeConstants.TILE_3_EMOJI
           || traitTypeId == WeightlessTraitTypeConstants.TILE_4_EMOJI) {
-        return emojiiPickerTrait.getValue(
+        return emojiTraitPicker.getValue(
             WeightlessTraitContext.builder().seedForTrait(seedForTrait * SEED_MULTIPLIER).build());
       } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_COLOR
           || traitTypeId == WeightlessTraitTypeConstants.TILE_2_COLOR
@@ -167,7 +167,7 @@ public class TokenInitializer {
           || traitTypeId == WeightlessTraitTypeConstants.TILE_2_EMOJI
           || traitTypeId == WeightlessTraitTypeConstants.TILE_3_EMOJI
           || traitTypeId == WeightlessTraitTypeConstants.TILE_4_EMOJI) {
-        return emojiiPickerTrait.getDisplayValue(null);
+        return emojiTraitPicker.getDisplayValue(null);
       } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_COLOR
           || traitTypeId == WeightlessTraitTypeConstants.TILE_2_COLOR
           || traitTypeId == WeightlessTraitTypeConstants.TILE_3_COLOR

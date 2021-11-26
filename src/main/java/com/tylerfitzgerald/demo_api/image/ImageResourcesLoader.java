@@ -33,6 +33,13 @@ public class ImageResourcesLoader {
         ResourcePatternUtils.getResourcePatternResolver(resourceLoader).getResources(loadPattern);
   }
 
+  public Resource[] getResources() throws IOException {
+    if (resources == null) {
+      loadResources();
+    }
+    return resources;
+  }
+
   public Resource[] getRandomResourceList(int listSize, Long randomSeed) throws IOException {
     if (resources == null) {
       loadResources();
