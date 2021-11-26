@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class RemoveDuplicateEthEvents<T extends AbstractSingleTokenEvent> {
+public class RemoveDuplicateEthEventsForToken<T extends AbstractSingleTokenEvent> {
 
   public static final String ZERO_X = "0x";
 

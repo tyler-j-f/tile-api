@@ -1,10 +1,11 @@
 package com.tylerfitzgerald.demo_api.config.beans;
 
+import com.tylerfitzgerald.demo_api.ethEvents.RemoveDuplicateMergeEthEvents;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMergeEventsTask;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleSetColorsEventsTask;
 import com.tylerfitzgerald.demo_api.ethEvents.EthEventsRetriever;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEventsTask;
-import com.tylerfitzgerald.demo_api.ethEvents.RemoveDuplicateEthEvents;
+import com.tylerfitzgerald.demo_api.ethEvents.RemoveDuplicateEthEventsForToken;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleSetEmojisEventsTask;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,7 +38,12 @@ public class EthEventsBeansConfig {
   }
 
   @Bean
-  public RemoveDuplicateEthEvents removeDuplicateEvents() {
-    return new RemoveDuplicateEthEvents();
+  public RemoveDuplicateEthEventsForToken removeDuplicateEvents() {
+    return new RemoveDuplicateEthEventsForToken();
+  }
+
+  @Bean
+  public RemoveDuplicateMergeEthEvents removeDuplicateMergeEthEvents() {
+    return new RemoveDuplicateMergeEthEvents();
   }
 }

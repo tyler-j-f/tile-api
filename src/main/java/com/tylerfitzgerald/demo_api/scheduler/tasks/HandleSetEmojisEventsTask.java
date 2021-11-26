@@ -46,7 +46,7 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
       System.out.println("HandleSetEmojisEventsTask: Found no tasks.");
       return;
     }
-    updateTraitValuesForEthEvents(removeDuplicateEthEvents.remove(events));
+    updateTraitValuesForEthEvents(removeDuplicateEthEventsForToken.remove(events));
     return;
   }
 

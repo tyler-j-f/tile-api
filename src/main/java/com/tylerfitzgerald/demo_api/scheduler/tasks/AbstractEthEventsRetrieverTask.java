@@ -3,7 +3,7 @@ package com.tylerfitzgerald.demo_api.scheduler.tasks;
 import com.tylerfitzgerald.demo_api.config.EventsConfig;
 import com.tylerfitzgerald.demo_api.etc.BigIntegerFactory;
 import com.tylerfitzgerald.demo_api.ethEvents.EthEventsRetriever;
-import com.tylerfitzgerald.demo_api.ethEvents.RemoveDuplicateEthEvents;
+import com.tylerfitzgerald.demo_api.ethEvents.RemoveDuplicateEthEventsForToken;
 import com.tylerfitzgerald.demo_api.ethEvents.EthEventException;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public abstract class AbstractEthEventsRetrieverTask implements TaskInterface {
   public static final String ZERO_X = "0x";
 
   @Autowired protected EthEventsRetriever ethEventsRetriever;
-  @Autowired protected RemoveDuplicateEthEvents removeDuplicateEthEvents;
+  @Autowired protected RemoveDuplicateEthEventsForToken removeDuplicateEthEventsForToken;
   @Autowired protected EventsConfig eventsConfig;
   @Autowired protected BigIntegerFactory bigIntegerFactory;
 

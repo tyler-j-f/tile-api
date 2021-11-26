@@ -40,7 +40,7 @@ public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
       System.out.println("HandleSetColorsEventsTask: Found no tasks.");
       return;
     }
-    updateTraitValuesForEthEvents(removeDuplicateEthEvents.remove(events));
+    updateTraitValuesForEthEvents(removeDuplicateEthEventsForToken.remove(events));
     return;
   }
 

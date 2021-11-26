@@ -3,6 +3,8 @@ package com.tylerfitzgerald.demo_api.scheduler.tasks;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.ethEvents.EthEventException;
+import com.tylerfitzgerald.demo_api.ethEvents.RemoveDuplicateEthEventsForToken;
+import com.tylerfitzgerald.demo_api.ethEvents.RemoveDuplicateMergeEthEvents;
 import com.tylerfitzgerald.demo_api.ethEvents.events.MergeEvent;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
 
   @Autowired private TokenRetriever tokenRetriever;
+  @Autowired protected RemoveDuplicateMergeEthEvents removeDuplicateMergeEthEvents;
 
   @Override
   public void execute() throws TaskSchedulerException {
@@ -36,7 +39,9 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
       return;
     }
     System.out.println("HandleMergeEventsTask, found tasks: " + events);
-    updateTraitValuesForBurnEvents(removeDuplicateEthEvents.remove(events));
+    List<MergeEvent> eventsAfterRemove = removeDuplicateMergeEthEvents.remove(events);
+    System.out.println("eventsAfterRemove: " + events);
+    updateTraitValuesForBurnEvents(eventsAfterRemove);
     return;
   }
 
@@ -61,8 +66,7 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
     return trait;
   }
 
-  private void updateTraitValuesForBurnEvents(List<MergeEvent> events)
-      throws EthEventException {
+  private void updateTraitValuesForBurnEvents(List<MergeEvent> events) throws EthEventException {
     for (MergeEvent event : events) {
       TokenFacadeDTO burnedNft1 =
           tokenRetriever.get(Long.valueOf(strip0xFromHexString(event.getBurnedToken1Id())));
