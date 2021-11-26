@@ -35,6 +35,7 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
       System.out.println("HandleMergeEventsTask: Found no tasks.");
       return;
     }
+    System.out.println("HandleMergeEventsTask, found tasks: " + events);
     updateTraitValuesForBurnEvents(removeDuplicateEthEvents.remove(events));
     return;
   }
@@ -61,7 +62,7 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
   }
 
   private void updateTraitValuesForBurnEvents(List<MergeEvent> events)
-      throws EthEventException, IOException {
+      throws EthEventException {
     for (MergeEvent event : events) {
       TokenFacadeDTO burnedNft1 =
           tokenRetriever.get(Long.valueOf(strip0xFromHexString(event.getBurnedToken1Id())));

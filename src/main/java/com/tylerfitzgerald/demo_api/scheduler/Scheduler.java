@@ -1,5 +1,6 @@
 package com.tylerfitzgerald.demo_api.scheduler;
 
+import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMergeEventsTask;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEventsTask;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleSetColorsEventsTask;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleSetEmojisEventsTask;
@@ -15,6 +16,7 @@ public class Scheduler {
   @Autowired private HandleMintEventsTask handleMintEventsTask;
   @Autowired private HandleSetColorsEventsTask handleSetColorsEventsTask;
   @Autowired private HandleSetEmojisEventsTask handleSetEmojisEventsTask;
+  @Autowired private HandleMergeEventsTask handleMergeEventsTask;
 
   /**
    * Execute tasks every schedulerFixedRateMs If you would like to execute tasks on a different
@@ -28,5 +30,6 @@ public class Scheduler {
     handleMintEventsTask.execute();
     handleSetColorsEventsTask.execute();
     handleSetEmojisEventsTask.execute();
+    handleMergeEventsTask.execute();
   }
 }

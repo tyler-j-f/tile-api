@@ -1,5 +1,6 @@
 package com.tylerfitzgerald.demo_api.config.beans;
 
+import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMergeEventsTask;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleSetColorsEventsTask;
 import com.tylerfitzgerald.demo_api.ethEvents.EthEventsRetriever;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEventsTask;
@@ -28,6 +29,11 @@ public class EthEventsBeansConfig {
   @Bean
   public HandleSetEmojisEventsTask handleSetEmojisEventsTask() {
     return new HandleSetEmojisEventsTask();
+  }
+
+  @Bean
+  public HandleMergeEventsTask handleMergeEventsTask() {
+    return new HandleMergeEventsTask();
   }
 
   @Bean
