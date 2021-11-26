@@ -7,6 +7,8 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
 import com.tylerfitzgerald.demo_api.etc.BigIntegerFactory;
+import com.tylerfitzgerald.demo_api.ethEvents.EthEventException;
+import com.tylerfitzgerald.demo_api.ethEvents.EthEventsRetriever;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.AbstractEthEventsRetrieverTask;
 import com.tylerfitzgerald.demo_api.ethEvents.events.MintEvent;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
@@ -30,14 +32,15 @@ public class MintEventsController extends BaseController {
   @Autowired private BigIntegerFactory bigIntegerFactory;
   @Autowired private TokenInitializer tokenInitializer;
   @Autowired private EventsConfig eventsConfig;
+  @Autowired protected EthEventsRetriever ethEventsRetriever;
 
   @GetMapping(value = {"getAll/{numberOfBlocksAgo}", "getAll"})
   public String getAll(@PathVariable(required = false) String numberOfBlocksAgo)
-      throws ExecutionException, InterruptedException {
+      throws EthEventException {
     if (numberOfBlocksAgo == null) {
       numberOfBlocksAgo = eventsConfig.getSchedulerNumberOfBlocksToLookBack();
     }
-    List<MintEvent> events = getMintEvents(bigIntegerFactory.build(numberOfBlocksAgo));
+    List<MintEvent> events = getMintEvents(numberOfBlocksAgo);
     String output;
     if (events.size() == 0) {
       output = "No events found";
@@ -51,21 +54,22 @@ public class MintEventsController extends BaseController {
 
   @GetMapping(value = {"getAllAndCreateTokens/{numberOfBlocksAgo}", "getAllAndCreateTokens"})
   public String getAllAndCreateTokens(@PathVariable(required = false) String numberOfBlocksAgo)
-      throws ExecutionException, InterruptedException, TokenInitializeException {
+      throws TokenInitializeException, EthEventException {
     if (numberOfBlocksAgo == null) {
       numberOfBlocksAgo = eventsConfig.getSchedulerNumberOfBlocksToLookBack();
     }
-    List<MintEvent> events = getMintEvents(bigIntegerFactory.build(numberOfBlocksAgo));
+    List<MintEvent> events = getMintEvents(numberOfBlocksAgo);
     return addTokensToDB(events).toString();
   }
 
-  private List<MintEvent> getMintEvents(BigInteger numberOfBlocksAgo)
-      throws ExecutionException, InterruptedException {
-    List<MintEvent> events = null;
-    //                mintEventRetriever.getEvents(
-    //                    eventsConfig.getNftFactoryContractAddress(),
-    //                    eventsConfig.getMintEventHashSignature(),
-    //                    numberOfBlocksAgo);
+  private List<MintEvent> getMintEvents(String schedulerNumberOfBlocksToLookBack)
+      throws EthEventException {
+    List<MintEvent> events =
+        ethEventsRetriever.getEvents(
+            MintEvent.class.getCanonicalName(),
+            eventsConfig.getNftFactoryContractAddress(),
+            eventsConfig.getMintEventHashSignature(),
+            bigIntegerFactory.build(schedulerNumberOfBlocksToLookBack));
     if (events.size() == 0) {
       System.out.println("No events found");
       return new ArrayList<>();

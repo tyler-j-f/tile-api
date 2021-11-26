@@ -12,7 +12,6 @@ import com.tylerfitzgerald.demo_api.ethEvents.events.MintEvent;
 import com.tylerfitzgerald.demo_api.ethEvents.EthEventException;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class HandleMintEventsTask extends AbstractEthEventsRetrieverTask {
 
   @Autowired private TokenRepository tokenRepository;
-
   @Autowired private TokenInitializer tokenInitializer;
-
   @Autowired private EventsConfig eventsConfig;
 
   @Override

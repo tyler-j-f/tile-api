@@ -50,10 +50,8 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
     List<String> tilesEmojiValuesList = new ArrayList<>();
     String eventEmojisValue = strip0xFromHexString(event.getEmojis());
     int emojiSetIndex = getEmojiSetIndex(eventEmojisValue);
-    System.out.println("DEBUG emojiSetIndex: " + emojiSetIndex);
     for (int x = 0; x < NUMBER_OF_SUB_TILES; x++) {
       String tileEmojiValue = getTileEmojiValue(eventEmojisValue, x, emojiSetIndex);
-      System.out.println("DEBUG value " + x + ": " + tileEmojiValue);
       tilesEmojiValuesList.add(tileEmojiValue);
     }
     return tilesEmojiValuesList;
