@@ -48,7 +48,7 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
     int emojiSetIndex = getEmojiSetIndex(eventEmojisValue);
     System.out.println("DEBUG emojiSetIndex: " + emojiSetIndex);
     for (int x = 0; x < NUMBER_OF_SUB_TILES; x++) {
-      String tileEmojiValue = getTileEmojiValues(eventEmojisValue, x, emojiSetIndex);
+      String tileEmojiValue = getTileEmojiValue(eventEmojisValue, x, emojiSetIndex);
       System.out.println("DEBUG value " + x + ": " + tileEmojiValue);
       tilesEmojiValuesList.add(tileEmojiValue);
     }
@@ -59,13 +59,15 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
     return bigIntegerFactory.build(eventEmojisValue.substring(28, 32), 16).intValue();
   }
 
-  private String getTileEmojiValues(String eventEmojisValue, int tileIndex, int emojiSetIndex)
+  private String getTileEmojiValue(String eventEmojisValue, int tileIndex, int emojiSetIndex)
       throws EthEventException {
     if (emojiSetIndex != EMOJI_SET_SPECIFIER_INDEX) {
       throw new EthEventException(
           "Emoji set other than 0 was specified. Support does not exist for additional emoji sets at this time.");
     }
-    return eventEmojisValue.substring(getBeginIndex(tileIndex), getEndIndex(tileIndex));
+    return String.valueOf(
+        bigIntegerFactory.build(
+            eventEmojisValue.substring(getBeginIndex(tileIndex), getEndIndex(tileIndex)), 16));
   }
 
   private int getBeginIndex(int tileIndex) {
