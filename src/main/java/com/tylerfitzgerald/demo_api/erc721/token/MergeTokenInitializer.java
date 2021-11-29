@@ -2,6 +2,7 @@ package com.tylerfitzgerald.demo_api.erc721.token;
 
 import com.tylerfitzgerald.demo_api.config.TokenConfig;
 import com.tylerfitzgerald.demo_api.config.TraitsConfig;
+import com.tylerfitzgerald.demo_api.erc721.traits.WeightedTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.ColorTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
@@ -38,6 +39,17 @@ public class MergeTokenInitializer {
   @Autowired private ColorTraitPicker colorTraitPicker;
   @Autowired private RarityTraitPicker rarityTraitPicker;
 
+  private static final int[] WEIGHTED_TRAIT_TYPES_TO_IGNORE = {
+      WeightedTraitTypeConstants.TILE_1_RARITY,
+      WeightedTraitTypeConstants.TILE_2_RARITY,
+      WeightedTraitTypeConstants.TILE_3_RARITY,
+      WeightedTraitTypeConstants.TILE_4_RARITY,
+      WeightedTraitTypeConstants.TILE_1_MULTIPLIER,
+      WeightedTraitTypeConstants.TILE_2_MULTIPLIER,
+      WeightedTraitTypeConstants.TILE_3_MULTIPLIER,
+      WeightedTraitTypeConstants.TILE_4_MULTIPLIER
+  };
+
   private List<TraitTypeDTO> availableTraitTypes = new ArrayList<>();
   private List<TraitTypeWeightDTO> availableTraitTypeWeights = new ArrayList<>();
   private List<TraitDTO> weightedTraits = new ArrayList<>();
@@ -68,7 +80,7 @@ public class MergeTokenInitializer {
           "TokenInitializer failed to initialize the token with tokenId: " + tokenId);
       return null;
     }
-    availableTraitTypes = traitTypeRepository.read();
+    availableTraitTypes = filterOutWeightedTraitTypesToIgnore(traitTypeRepository.read());
     availableTraitTypeWeights = traitTypeWeightRepository.read();
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
     weightedTraits = createWeightedTraits();
@@ -105,7 +117,7 @@ public class MergeTokenInitializer {
 
   private List<WeightlessTraitDTO> createWeightlessTraits() throws TokenInitializeException {
     List<WeightlessTraitDTO> weightlessTraits = new ArrayList<>();
-    for (WeightlessTraitTypeDTO weightlessTraitType : traitsConfig.getWeightlessTypes()) {
+    for (WeightlessTraitTypeDTO weightlessTraitType : weightlessTraitTypes) {
       // Increment the seed so that we use a unique random value for each trait
       WeightlessTraitDTO weightlessTraitDTO = createWeightlessTrait(weightlessTraitType);
       if (weightlessTraitDTO != null) {
@@ -126,50 +138,58 @@ public class MergeTokenInitializer {
             .traitTypeId(weightlessTraitType.getWeightlessTraitTypeId())
             .value(getWeightlessTraitValue(weightlessTraitType))
             .displayTypeValue(getWeightlessTraitDisplayTypeValue(weightlessTraitType))
-            .build());
+            .build()
+    );
   }
 
   private String getWeightlessTraitValue(WeightlessTraitTypeDTO weightlessTraitType) {
     Long traitTypeId = weightlessTraitType.getWeightlessTraitTypeId();
-    if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_EMOJI
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_2_EMOJI
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_3_EMOJI
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_4_EMOJI) {
-      return "";
-    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_COLOR
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_2_COLOR
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_3_COLOR
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_4_COLOR) {
-      return "";
-    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_RARITY) {
-      return "";
+    if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_RARITY) {
+      return "1";
+    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_2_RARITY) {
+      return "2";
+    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_3_RARITY) {
+      return "3";
+    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_4_RARITY) {
+      return "3";
+    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_MULTIPLIER) {
+      return "3";
+    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_2_MULTIPLIER) {
+      return "3";
+    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_3_MULTIPLIER) {
+      return "3";
+    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_4_MULTIPLIER) {
+      return "3";
+    } else if (traitTypeId == WeightlessTraitTypeConstants.OVERALL_RARITY) {
+      return "3";
+    }  else if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_EMOJI) {
+      return "3";
+    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_2_EMOJI) {
+      return "3";
+    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_3_EMOJI) {
+      return "3";
+    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_4_EMOJI) {
+      return "3";
+    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_COLOR) {
+      return "3";
+    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_2_COLOR) {
+      return "3";
+    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_3_COLOR) {
+      return "3";
+    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_4_COLOR) {
+      return "3";
     } else {
-      return "invalid weightlessTraitValue";
+      return "invalid mergeWeightlessTraitValue";
     }
   }
 
   private String getWeightlessTraitDisplayTypeValue(WeightlessTraitTypeDTO weightlessTraitType) {
-    Long traitTypeId = weightlessTraitType.getWeightlessTraitTypeId();
-    if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_EMOJI
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_2_EMOJI
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_3_EMOJI
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_4_EMOJI) {
-      return null;
-    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_COLOR
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_2_COLOR
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_3_COLOR
-        || traitTypeId == WeightlessTraitTypeConstants.TILE_4_COLOR) {
-      return null;
-    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_RARITY) {
-      return null;
-    } else {
-      return "invalid weightlessTraitDisplayTypeValue";
-    }
+    return null;
   }
 
   private List<TraitDTO> createWeightedTraits() {
     List<TraitDTO> traits = new ArrayList<>();
-    for (TraitTypeDTO type : traitsConfig.getWeightedTypes()) {
+    for (TraitTypeDTO type : availableTraitTypes) {
       // Increment the seed so that we use a unique random value for each trait
       TraitDTO trait = createWeightedTrait(type);
       if (trait != null) {
@@ -215,5 +235,20 @@ public class MergeTokenInitializer {
      * particular trait type) are misconfigured.
      */
     return null;
+  }
+
+  private List<TraitTypeDTO> filterOutWeightedTraitTypesToIgnore(
+      List<TraitTypeDTO> traitTypes) {
+    return traitTypes.stream()
+        .filter(
+            traitType -> {
+              for (int typeId : WEIGHTED_TRAIT_TYPES_TO_IGNORE) {
+                if (traitType.getTraitTypeId().equals(Long.valueOf(typeId))) {
+                  return false;
+                }
+              }
+              return true;
+            })
+        .collect(Collectors.toList());
   }
 }

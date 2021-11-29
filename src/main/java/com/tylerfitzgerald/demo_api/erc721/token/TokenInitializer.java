@@ -79,8 +79,7 @@ public class TokenInitializer {
     }
     availableTraitTypes = traitTypeRepository.read();
     availableTraitTypeWeights = traitTypeWeightRepository.read();
-    weightlessTraitTypes = weightlessTraitTypeRepository.read();
-    weightlessTraitTypes = filterOutWeightlessTraitTypesToIgnore(weightlessTraitTypes);
+    weightlessTraitTypes = filterOutWeightlessTraitTypesToIgnore(weightlessTraitTypeRepository.read());
     weightedTraits = createWeightedTraits(seedForTraits);
     weightlessTraits = createWeightlessTraits(seedForTraits);
     return buildNFTFacade();
@@ -155,7 +154,7 @@ public class TokenInitializer {
           || traitTypeId == WeightlessTraitTypeConstants.TILE_4_COLOR) {
         return colorTraitPicker.getValue(
             WeightlessTraitContext.builder().seedForTrait(seedForTrait * SEED_MULTIPLIER).build());
-      } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_RARITY) {
+      } else if (traitTypeId == WeightlessTraitTypeConstants.OVERALL_RARITY) {
         return rarityTraitPicker.getValue(
             WeightlessTraitContext.builder()
                 .seedForTrait(seedForTrait * SEED_MULTIPLIER)
@@ -185,7 +184,7 @@ public class TokenInitializer {
           || traitTypeId == WeightlessTraitTypeConstants.TILE_3_COLOR
           || traitTypeId == WeightlessTraitTypeConstants.TILE_4_COLOR) {
         return colorTraitPicker.getDisplayValue(null);
-      } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_RARITY) {
+      } else if (traitTypeId == WeightlessTraitTypeConstants.OVERALL_RARITY) {
         return rarityTraitPicker.getDisplayValue(null);
       } else {
         return "invalid weightlessTraitDisplayTypeValue";
