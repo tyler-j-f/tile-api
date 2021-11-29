@@ -80,9 +80,7 @@ public class TokenInitializer {
     availableTraitTypes = traitTypeRepository.read();
     availableTraitTypeWeights = traitTypeWeightRepository.read();
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
-    System.out.println("DEBUG weightlessTraitTypes: " + weightlessTraitTypes);
     weightlessTraitTypes = filterOutWeightlessTraitTypesToIgnore(weightlessTraitTypes);
-    System.out.println("DEBUG weightlessTraitTypes after filtering: " + weightlessTraitTypes);
     weightedTraits = createWeightedTraits(seedForTraits);
     weightlessTraits = createWeightlessTraits(seedForTraits);
     return buildNFTFacade();
@@ -114,7 +112,7 @@ public class TokenInitializer {
   private List<WeightlessTraitDTO> createWeightlessTraits(Long seedForTraits)
       throws TokenInitializeException {
     List<WeightlessTraitDTO> weightlessTraits = new ArrayList<>();
-    for (WeightlessTraitTypeDTO weightlessTraitType : traitsConfig.getWeightlessTypes()) {
+    for (WeightlessTraitTypeDTO weightlessTraitType : weightlessTraitTypes) {
       // Increment the seed so that we use a unique random value for each trait
       WeightlessTraitDTO weightlessTraitDTO =
           createWeightlessTrait(weightlessTraitType, seedForTraits++);
@@ -199,7 +197,7 @@ public class TokenInitializer {
 
   private List<TraitDTO> createWeightedTraits(Long seedForTraits) {
     List<TraitDTO> traits = new ArrayList<>();
-    for (TraitTypeDTO type : traitsConfig.getWeightedTypes()) {
+    for (TraitTypeDTO type : availableTraitTypes) {
       // Increment the seed so that we use a unique random value for each trait
       TraitDTO trait = createWeightedTrait(type, seedForTraits++);
       if (trait != null) {
@@ -236,7 +234,7 @@ public class TokenInitializer {
         .filter(
             traitType -> {
               for (int typeId : WEIGHTLESS_TRAIT_TYPES_TO_IGNORE) {
-                if (traitType.getWeightlessTraitTypeId().equals(typeId)) {
+                if (traitType.getWeightlessTraitTypeId().equals(Long.valueOf(typeId))) {
                   return false;
                 }
               }
