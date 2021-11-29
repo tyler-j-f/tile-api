@@ -12,6 +12,7 @@ import com.tylerfitzgerald.demo_api.ethEvents.events.MintEvent;
 import com.tylerfitzgerald.demo_api.ethEvents.EthEventException;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class HandleMintEventsTask extends AbstractEthEventsRetrieverTask {
         (List<MintEvent>)
             getEthEvents(
                 MintEvent.class.getCanonicalName(),
-                eventsConfig.getNftFactoryContractAddress(),
+                eventsConfig.getNftContractAddress(),
                 eventsConfig.getMintEventHashSignature(),
                 bigIntegerFactory.build(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
     if (events.size() == 0) {
@@ -59,7 +60,14 @@ public class HandleMintEventsTask extends AbstractEthEventsRetrieverTask {
   private List<TokenDataDTO> addTokensToDB(List<MintEvent> events) throws TokenInitializeException {
     List<TokenDataDTO> tokens = new ArrayList<>();
     Long tokenId, transactionHash;
+    BigInteger fromAddress;
     for (MintEvent event : events) {
+      System.out.println("DEBUG event: " + event);
+      fromAddress = geBigIntFromHexString(event.getFromAddress());
+      if (!fromAddress.equals(new BigInteger("0", 16))) {
+        System.out.println("Transfer event, not from coinbase: " + event);
+        continue;
+      }
       tokenId = getLongFromHexString(event.getTokenId());
       transactionHash = getLongFromHexString(event.getTransactionHash(), 0, 9);
       TokenDTO existingTokenDTO = tokenRepository.readById(tokenId);
