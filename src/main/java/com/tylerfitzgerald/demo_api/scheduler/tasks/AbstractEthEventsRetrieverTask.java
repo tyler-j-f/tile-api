@@ -45,23 +45,15 @@ public abstract class AbstractEthEventsRetrieverTask implements TaskInterface {
     return events;
   }
 
-  protected BigInteger geBigIntFromHexString(String hexString) {
-    return new BigInteger(strip0xFromHexString(hexString), 16);
-  }
-
   protected Long getLongFromHexString(String hexString) {
-    return Long.parseUnsignedLong(strip0xFromHexString(hexString), 16);
+    return Long.parseLong(hexString.split(ZERO_X)[1], 16);
   }
 
   protected Long getLongFromHexString(String hexString, int startIndex, int endIndex) {
-    return Long.parseUnsignedLong(
-        strip0xFromHexString(hexString)
-            .substring(startIndex, endIndex)
-            .replaceFirst("^0+(?!$)", ""),
-        16);
+    return Long.parseLong(hexString.split(ZERO_X)[1].substring(startIndex, endIndex), 16);
   }
 
   protected String strip0xFromHexString(String hexString) {
-    return hexString.split(ZERO_X)[1].replaceFirst("^0+(?!$)", "");
+    return hexString.split(ZERO_X)[1];
   }
 }
