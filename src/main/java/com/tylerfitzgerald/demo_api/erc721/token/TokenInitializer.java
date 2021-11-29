@@ -47,6 +47,17 @@ public class TokenInitializer {
    */
   private static final int SEED_MULTIPLIER = 7;
 
+  private static final int[] WEIGHTLESS_TRAIT_TYPES_TO_IGNORE = {
+    WeightlessTraitTypeConstants.TILE_1_RARITY,
+    WeightlessTraitTypeConstants.TILE_2_RARITY,
+    WeightlessTraitTypeConstants.TILE_3_RARITY,
+    WeightlessTraitTypeConstants.TILE_4_RARITY,
+    WeightlessTraitTypeConstants.TILE_1_MULTIPLIER,
+    WeightlessTraitTypeConstants.TILE_2_MULTIPLIER,
+    WeightlessTraitTypeConstants.TILE_3_MULTIPLIER,
+    WeightlessTraitTypeConstants.TILE_4_MULTIPLIER
+  };
+
   private List<TraitTypeDTO> availableTraitTypes = new ArrayList<>();
   private List<TraitTypeWeightDTO> availableTraitTypeWeights = new ArrayList<>();
   private List<TraitDTO> weightedTraits = new ArrayList<>();
@@ -69,6 +80,9 @@ public class TokenInitializer {
     availableTraitTypes = traitTypeRepository.read();
     availableTraitTypeWeights = traitTypeWeightRepository.read();
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
+    System.out.println("DEBUG weightlessTraitTypes: " + weightlessTraitTypes);
+    weightlessTraitTypes = filterOutWeightlessTraitTypesToIgnore(weightlessTraitTypes);
+    System.out.println("DEBUG weightlessTraitTypes after filtering: " + weightlessTraitTypes);
     weightedTraits = createWeightedTraits(seedForTraits);
     weightlessTraits = createWeightlessTraits(seedForTraits);
     return buildNFTFacade();
@@ -213,6 +227,21 @@ public class TokenInitializer {
   private List<TraitTypeWeightDTO> getTraitTypeWeightsForTraitTypeId(Long traitTypeId) {
     return availableTraitTypeWeights.stream()
         .filter(typeWeight -> typeWeight.getTraitTypeId().equals(traitTypeId))
+        .collect(Collectors.toList());
+  }
+
+  private List<WeightlessTraitTypeDTO> filterOutWeightlessTraitTypesToIgnore(
+      List<WeightlessTraitTypeDTO> weightlessTraitTypes) {
+    return weightlessTraitTypes.stream()
+        .filter(
+            traitType -> {
+              for (int typeId : WEIGHTLESS_TRAIT_TYPES_TO_IGNORE) {
+                if (traitType.getWeightlessTraitTypeId().equals(typeId)) {
+                  return false;
+                }
+              }
+              return true;
+            })
         .collect(Collectors.toList());
   }
 

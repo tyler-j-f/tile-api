@@ -44,9 +44,12 @@ public class MergeTokenInitializer {
   private List<WeightlessTraitDTO> weightlessTraits = new ArrayList<>();
   private List<WeightlessTraitTypeDTO> weightlessTraitTypes = new ArrayList<>();
   private TokenDTO tokenDTO, burnedNft1, burnedNft2;
+  private Long seedForTraits;
 
-  public TokenFacadeDTO initialize(Long tokenId, Long burnedNft1Id, Long burnedNft2Id)
+  public TokenFacadeDTO initialize(
+      Long tokenId, Long burnedNft1Id, Long burnedNft2Id, Long seedForTraits)
       throws TokenInitializeException {
+    this.seedForTraits = seedForTraits;
     burnedNft1 = getToken(burnedNft1Id);
     burnedNft2 = getToken(burnedNft2Id);
     if (burnedNft1 == null) {
