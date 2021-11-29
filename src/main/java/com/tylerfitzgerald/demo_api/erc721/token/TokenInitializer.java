@@ -60,15 +60,15 @@ public class TokenInitializer {
 
   public TokenFacadeDTO initialize(Long tokenId, Long seedForTraits)
       throws TokenInitializeException {
-    availableTraitTypeWeights = traitTypeWeightRepository.read();
-    availableTraitTypes = traitTypeRepository.read();
-    weightlessTraitTypes = weightlessTraitTypeRepository.read();
     tokenDTO = createToken(tokenId);
     if (tokenDTO == null) {
       System.out.println(
           "TokenInitializer failed to initialize the token with tokenId: " + tokenId);
       return null;
     }
+    availableTraitTypes = traitTypeRepository.read();
+    availableTraitTypeWeights = traitTypeWeightRepository.read();
+    weightlessTraitTypes = weightlessTraitTypeRepository.read();
     weightedTraits = createWeightedTraits(seedForTraits);
     weightlessTraits = createWeightlessTraits(seedForTraits);
     return buildNFTFacade();

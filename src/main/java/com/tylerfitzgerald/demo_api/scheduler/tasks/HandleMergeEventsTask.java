@@ -93,8 +93,7 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
             + ",  burnedNft2: "
             + burnedNft2.getTokenDTO().getTokenId()
             + ",  newTokenId: "
-            + event.getNewTokenId()
-    );
+            + event.getNewTokenId());
   }
 
   private void updateTokenTraitValuesForBurnEvent(TokenFacadeDTO nft) {

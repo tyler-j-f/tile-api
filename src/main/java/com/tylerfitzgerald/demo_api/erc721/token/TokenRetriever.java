@@ -33,14 +33,14 @@ public class TokenRetriever {
   private TokenDTO tokenDTO;
 
   public TokenFacadeDTO get(Long tokenId) {
-    availableTraitTypeWeights = traitTypeWeightRepository.read();
-    availableTraitTypes = traitTypeRepository.read();
-    weightlessTraitTypes = weightlessTraitTypeRepository.read();
     tokenDTO = getToken(tokenId);
     if (tokenDTO == null) {
       System.out.println("NFTRetriever failed to retrieve the token with tokenId: " + tokenId);
       return null;
     }
+    availableTraitTypes = traitTypeRepository.read();
+    availableTraitTypeWeights = traitTypeWeightRepository.read();
+    weightlessTraitTypes = weightlessTraitTypeRepository.read();
     weightedTraits = getWeightedTraits(tokenId);
     weightlessTraits = getWeightlessTraits(tokenId);
     return buildNFTFacade();
