@@ -40,10 +40,7 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
       System.out.println("HandleMergeEventsTask: Found no tasks.");
       return;
     }
-    System.out.println("HandleMergeEventsTask, found tasks: " + events);
-    List<MergeEvent> eventsAfterRemove = removeDuplicateMergeEthEvents.remove(events);
-    System.out.println("eventsAfterRemove: " + events);
-    updateTraitValuesForBurnEvents(eventsAfterRemove);
+    updateTraitValuesForBurnEvents(removeDuplicateMergeEthEvents.remove(events));
     return;
   }
 
