@@ -21,6 +21,7 @@ import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,12 +51,14 @@ public class MergeTokenInitializer {
   };
 
   private List<TraitTypeDTO> availableTraitTypes = new ArrayList<>();
+  private List<TraitTypeDTO> allWeightedTraitTypes = new ArrayList<>();
   private List<TraitTypeWeightDTO> availableTraitTypeWeights = new ArrayList<>();
   private List<TraitDTO> weightedTraits = new ArrayList<>();
   private List<WeightlessTraitDTO> weightlessTraits = new ArrayList<>();
   private List<WeightlessTraitTypeDTO> weightlessTraitTypes = new ArrayList<>();
   private TokenDTO tokenDTO;
-  private TokenFacadeDTO burnedNft1, burnedNft2;
+  private TokenFacadeDTO burnedNft1;
+  private TokenFacadeDTO burnedNft2;
   private Long seedForTraits;
 
   public TokenFacadeDTO initialize(
@@ -80,7 +83,8 @@ public class MergeTokenInitializer {
           "TokenInitializer failed to initialize the token with tokenId: " + tokenId);
       return null;
     }
-    availableTraitTypes = filterOutWeightedTraitTypesToIgnore(traitTypeRepository.read());
+    allWeightedTraitTypes = traitTypeRepository.read();
+    availableTraitTypes = filterOutWeightedTraitTypesToIgnore(allWeightedTraitTypes);
     availableTraitTypeWeights = traitTypeWeightRepository.read();
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
     weightedTraits = createWeightedTraits(seedForTraits);
@@ -143,12 +147,16 @@ public class MergeTokenInitializer {
       WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
       throws TokenInitializeException, WeightlessTraitException {
     Long weightTraitId = weightlessTraitRepository.read().size() + 1L;
+    String traitValue = getWeightlessTraitValue(weightlessTraitType, seedForTrait);
+    if (traitValue.equals("")) {
+      return null;
+    }
     return WeightlessTraitDTO.builder()
         .id(null)
         .traitId(weightTraitId)
         .tokenId(tokenDTO.getTokenId())
         .traitTypeId(weightlessTraitType.getWeightlessTraitTypeId())
-        .value(getWeightlessTraitValue(weightlessTraitType, seedForTrait))
+        .value(traitValue)
         .displayTypeValue(getWeightlessTraitDisplayTypeValue(weightlessTraitType, seedForTrait))
         .build();
     //    TODO: Remove comments
@@ -167,12 +175,13 @@ public class MergeTokenInitializer {
       WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
       throws WeightlessTraitException {
     Long traitTypeId = weightlessTraitType.getWeightlessTraitTypeId();
-    String burnedWeightlessTrait1Value =
-        findWeightlessTraitValueFromListByType(
-            burnedNft1.getWeightlessTraits(), weightlessTraitType.getWeightlessTraitTypeId());
-    String burnedWeightlessTrait2Value =
-        findWeightlessTraitValueFromListByType(
-            burnedNft2.getWeightlessTraits(), weightlessTraitType.getWeightlessTraitTypeId());
+    String burnedWeightlessTrait1Value, burnedWeightlessTrait2Value;
+    try {
+      burnedWeightlessTrait1Value = findWeightlessTraitValueFromListByType(burnedNft1, traitTypeId);
+      burnedWeightlessTrait2Value = findWeightlessTraitValueFromListByType(burnedNft2, traitTypeId);
+    } catch (NoSuchElementException e) {
+      return null;
+    }
     if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_RARITY) {
       String multiplier1 =
           findWeightedTraitValue(
@@ -216,19 +225,33 @@ public class MergeTokenInitializer {
     }
   }
 
-  private String findWeightlessTraitValueFromListByType(
-      List<WeightlessTraitDTO> traits, Long weightlessTraitTypeId) {
-    return findWeightlessTraitFromListByType(traits, weightlessTraitTypeId).getValue();
+  private String findWeightlessTraitValueFromListByType(TokenFacadeDTO nft, Long traitTypeId) {
+    try {
+      List<TraitDTO> weightedTraits = nft.getTokenTraits();
+      List<WeightlessTraitDTO> weightLessTraits = nft.getWeightlessTraits();
+      System.out.println("DEBUG weightedTraits: " + weightedTraits);
+      System.out.println("DEBUG weightLessTraits: " + weightLessTraits);
+      System.out.println("DEBUG weightlessTraitTypeId: " + traitTypeId);
+      WeightlessTraitDTO weightlessTrait =
+          weightLessTraits.stream()
+              .filter(trait -> trait.getTraitTypeId().equals(traitTypeId))
+              .findFirst()
+              .get();
+      return weightlessTrait.getValue();
+    } catch (NoSuchElementException e) {
+      return findWeightedTraitValueFromWeightlessTraitListByType(weightedTraits, traitTypeId);
+    }
   }
 
-  private WeightlessTraitDTO findWeightlessTraitFromListByType(
-      List<WeightlessTraitDTO> traits, Long weightlessTraitTypeId) {
-    System.out.println("DEBUG traits: " + traits);
-    System.out.println("DEBUG weightlessTraitTypeId: " + weightlessTraitTypeId);
-    return traits.stream()
-        .filter(trait -> trait.getTraitTypeId().equals(weightlessTraitTypeId))
-        .findFirst()
-        .get();
+  private String findWeightedTraitValueFromWeightlessTraitListByType(
+      List<TraitDTO> weightedTraits, Long weightedTraitTypeId) {
+    TraitDTO weightedTraitFound =
+        weightedTraits.stream()
+            .filter(weightedTrait -> weightedTrait.getTraitTypeId().equals(weightedTraitTypeId))
+            .findFirst()
+            .get();
+    return findWeightedTraitValue(
+        weightedTraits, availableTraitTypeWeights, weightedTraitFound.getTraitTypeId());
   }
 
   private String findWeightedTraitValue(
