@@ -11,8 +11,16 @@ public class RarityTraitPicker implements WeightlessTraitInterface {
 
   @Override
   public String getValue(WeightlessTraitContext context) throws WeightlessTraitException {
+    if (context.getWeightlessTraits().size() == 0) {
+      return rarityCalculator
+          .calculateRarity(context.getWeightedTraits(), context.getTraitTypeWeights())
+          .toString();
+    }
     return rarityCalculator
-        .calculateRarity(context.getWeightedTraits(), context.getTraitTypeWeights())
+        .calculateRarity(
+            context.getWeightedTraits(),
+            context.getTraitTypeWeights(),
+            context.getWeightlessTraits())
         .toString();
   }
 

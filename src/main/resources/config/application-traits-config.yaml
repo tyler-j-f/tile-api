@@ -14,11 +14,7 @@ spring:
         - {id: null, weightlessTraitTypeId: 20, weightlessTraitTypeName: "Tile 2 Rarity", description: "Rarity value of the top right 'sub-tile'. The higher the rarity value, the better!"}
         - {id: null, weightlessTraitTypeId: 21, weightlessTraitTypeName: "Tile 3 Rarity", description: "Rarity value of the bottom left 'sub-tile'. The higher the rarity value, the better!"}
         - {id: null, weightlessTraitTypeId: 22, weightlessTraitTypeName: "Tile 4 Rarity", description: "Rarity value of the bottom right 'sub-tile'. The higher the rarity value, the better!"}
-        - {id: null, weightlessTraitTypeId: 23, weightlessTraitTypeName: "Tile 1 Multiplier", description: "Rarity Multiplier value of the top left 'sub-tile'. The higher the rarity value, the better!"}
-        - {id: null, weightlessTraitTypeId: 24, weightlessTraitTypeName: "Tile 2 Multiplier", description: "Rarity Multiplier value of the top right 'sub-tile'. The higher the rarity value, the better!"}
-        - {id: null, weightlessTraitTypeId: 25, weightlessTraitTypeName: "Tile 3 Multiplier", description: "Rarity multiplier value of the bottom left 'sub-tile'. The higher the rarity value, the better!"}
-        - {id: null, weightlessTraitTypeId: 26, weightlessTraitTypeName: "Tile 4 Multiplier", description: "Rarity multiplier value of the bottom right 'sub-tile'. The higher the rarity value, the better!"}
-        - {id: null, weightlessTraitTypeId: 27, weightlessTraitTypeName: "Overall Rarity", description: "Overall rarity of the TileNFT'. The higher the rarity value, the better!" }
+        - {id: null, weightlessTraitTypeId: 23, weightlessTraitTypeName: "Overall Rarity", description: "Overall rarity of the TileNFT'. The higher the rarity value, the better!" }
       weighted-types:
         - {id: null, traitTypeId: 1, traitTypeName: "Tile 1 Rarity", description: "Rarity value of the top left 'sub-tile'. The higher the rarity value, the better!"}
         - {id: null, traitTypeId: 2, traitTypeName: "Tile 2 Rarity", description: "Rarity value of the top right 'sub-tile'. The higher the rarity value, the better!"}

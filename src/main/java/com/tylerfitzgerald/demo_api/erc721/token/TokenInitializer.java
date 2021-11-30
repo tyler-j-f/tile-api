@@ -51,11 +51,7 @@ public class TokenInitializer {
     WeightlessTraitTypeConstants.TILE_1_RARITY,
     WeightlessTraitTypeConstants.TILE_2_RARITY,
     WeightlessTraitTypeConstants.TILE_3_RARITY,
-    WeightlessTraitTypeConstants.TILE_4_RARITY,
-    WeightlessTraitTypeConstants.TILE_1_MULTIPLIER,
-    WeightlessTraitTypeConstants.TILE_2_MULTIPLIER,
-    WeightlessTraitTypeConstants.TILE_3_MULTIPLIER,
-    WeightlessTraitTypeConstants.TILE_4_MULTIPLIER
+    WeightlessTraitTypeConstants.TILE_4_RARITY
   };
 
   private List<TraitTypeDTO> availableTraitTypes = new ArrayList<>();
@@ -79,7 +75,8 @@ public class TokenInitializer {
     }
     availableTraitTypes = traitTypeRepository.read();
     availableTraitTypeWeights = traitTypeWeightRepository.read();
-    weightlessTraitTypes = filterOutWeightlessTraitTypesToIgnore(weightlessTraitTypeRepository.read());
+    weightlessTraitTypes =
+        filterOutWeightlessTraitTypesToIgnore(weightlessTraitTypeRepository.read());
     weightedTraits = createWeightedTraits(seedForTraits);
     weightlessTraits = createWeightlessTraits(seedForTraits);
     return buildNFTFacade();
