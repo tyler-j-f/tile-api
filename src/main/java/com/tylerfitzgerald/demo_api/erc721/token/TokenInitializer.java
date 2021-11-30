@@ -155,6 +155,7 @@ public class TokenInitializer {
                 .seedForTrait(seedForTrait * SEED_MULTIPLIER)
                 .weightedTraits(weightedTraits)
                 .traitTypeWeights(availableTraitTypeWeights)
+                .weightlessTraits(new ArrayList<>())
                 .build());
       } else {
         return "invalid weightlessTraitValue";
