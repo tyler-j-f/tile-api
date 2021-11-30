@@ -148,7 +148,7 @@ public class MergeTokenInitializer {
       throws TokenInitializeException, WeightlessTraitException {
     Long weightTraitId = weightlessTraitRepository.read().size() + 1L;
     String traitValue = getWeightlessTraitValue(weightlessTraitType, seedForTrait);
-    if (traitValue.equals("")) {
+    if (traitValue == null || traitValue.equals("")) {
       return null;
     }
     return WeightlessTraitDTO.builder()
