@@ -1,5 +1,6 @@
 package com.tylerfitzgerald.demo_api.config.beans;
 
+import com.tylerfitzgerald.demo_api.erc721.token.MergeTokenInitializer;
 import com.tylerfitzgerald.demo_api.ethEvents.RemoveDuplicateMergeEthEvents;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMergeEventsTask;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleSetColorsEventsTask;
@@ -45,5 +46,10 @@ public class EthEventsBeansConfig {
   @Bean
   public RemoveDuplicateMergeEthEvents removeDuplicateMergeEthEvents() {
     return new RemoveDuplicateMergeEthEvents();
+  }
+
+  @Bean
+  public MergeTokenInitializer mergeTokenInitializer() {
+    return new MergeTokenInitializer();
   }
 }

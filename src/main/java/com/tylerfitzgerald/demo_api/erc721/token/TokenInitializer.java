@@ -1,7 +1,6 @@
 package com.tylerfitzgerald.demo_api.erc721.token;
 
 import com.tylerfitzgerald.demo_api.config.TokenConfig;
-import com.tylerfitzgerald.demo_api.config.TraitsConfig;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitContext;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.ColorTraitPicker;
@@ -35,7 +34,6 @@ public class TokenInitializer {
   @Autowired private WeightlessTraitRepository weightlessTraitRepository;
   @Autowired private WeightlessTraitTypeRepository weightlessTraitTypeRepository;
   @Autowired private TokenConfig tokenConfig;
-  @Autowired private TraitsConfig traitsConfig;
   @Autowired private EmojiTraitPicker emojiTraitPicker;
   @Autowired private ColorTraitPicker colorTraitPicker;
   @Autowired private RarityTraitPicker rarityTraitPicker;

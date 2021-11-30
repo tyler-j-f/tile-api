@@ -3,8 +3,11 @@
 // another token will be minted.
 package com.tylerfitzgerald.demo_api.scheduler.tasks;
 
+import com.tylerfitzgerald.demo_api.erc721.token.MergeTokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
+import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitException;
 import com.tylerfitzgerald.demo_api.ethEvents.EthEventException;
 import com.tylerfitzgerald.demo_api.ethEvents.RemoveDuplicateMergeEthEvents;
 import com.tylerfitzgerald.demo_api.ethEvents.events.MergeEvent;
@@ -17,18 +20,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
 
   @Autowired private TokenRetriever tokenRetriever;
-  @Autowired protected RemoveDuplicateMergeEthEvents removeDuplicateMergeEthEvents;
+  @Autowired private RemoveDuplicateMergeEthEvents removeDuplicateMergeEthEvents;
+  @Autowired private MergeTokenInitializer mergeTokenInitializer;
 
   @Override
   public void execute() throws TaskSchedulerException {
     try {
       getMergeEventsAndMintNewTokens();
-    } catch (EthEventException | IOException e) {
+    } catch (EthEventException
+        | IOException
+        | TokenInitializeException
+        | WeightlessTraitException e) {
       throw new TaskSchedulerException(e.getMessage(), e.getCause());
     }
   }
 
-  public void getMergeEventsAndMintNewTokens() throws EthEventException, IOException {
+  public void getMergeEventsAndMintNewTokens()
+      throws EthEventException, IOException, TokenInitializeException, WeightlessTraitException {
     List<MergeEvent> events =
         (List<MergeEvent>)
             getEthEvents(
@@ -65,7 +73,8 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
     return trait;
   }
 
-  private void updateTraitValuesForBurnEvents(List<MergeEvent> events) {
+  private void updateTraitValuesForBurnEvents(List<MergeEvent> events)
+      throws TokenInitializeException, WeightlessTraitException {
     for (MergeEvent event : events) {
       TokenFacadeDTO burnedNft1 =
           tokenRetriever.get(Long.valueOf(strip0xFromHexString(event.getBurnedToken1Id())));
@@ -83,7 +92,8 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
   }
 
   private void mintNewTokenForMerge(
-      MergeEvent event, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2) {
+      MergeEvent event, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2)
+      throws TokenInitializeException, WeightlessTraitException {
     System.out.println(
         "mintNewTokenForMerge called. burnedNft1: "
             + burnedNft1.getTokenDTO().getTokenId()
@@ -91,9 +101,14 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
             + burnedNft2.getTokenDTO().getTokenId()
             + ",  newTokenId: "
             + event.getNewTokenId());
+    mergeTokenInitializer.initialize(
+        getLongFromHexString(event.getNewTokenId()),
+        burnedNft1,
+        burnedNft2,
+        getLongFromHexString(event.getTransactionHash(), 0, 9));
   }
 
   private void updateTokenTraitValuesForBurnEvent(TokenFacadeDTO nft) {
-    System.out.println("updateTraitValuesForBurnEvent called. \n event: " + nft);
+    // System.out.println("updateTraitValuesForBurnEvent called. \n event: " + nft);
   }
 }

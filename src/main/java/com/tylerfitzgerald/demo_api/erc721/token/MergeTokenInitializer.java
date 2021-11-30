@@ -1,7 +1,6 @@
 package com.tylerfitzgerald.demo_api.erc721.token;
 
 import com.tylerfitzgerald.demo_api.config.TokenConfig;
-import com.tylerfitzgerald.demo_api.config.TraitsConfig;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightedTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitContext;
@@ -10,7 +9,6 @@ import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.RarityTraitPicker;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
-import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightRepository;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeDTO;
@@ -29,7 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class MergeTokenInitializer {
 
-  @Autowired private TokenRepository tokenRepository;
   @Autowired private TraitRepository traitRepository;
   @Autowired private TraitTypeRepository traitTypeRepository;
   @Autowired private TraitTypeWeightRepository traitTypeWeightRepository;
@@ -37,7 +34,6 @@ public class MergeTokenInitializer {
   @Autowired private WeightlessTraitTypeRepository weightlessTraitTypeRepository;
   @Autowired private TokenConfig tokenConfig;
   @Autowired private TokenRetriever tokenRetriever;
-  @Autowired private TraitsConfig traitsConfig;
   @Autowired private EmojiTraitPicker emojiTraitPicker;
   @Autowired private ColorTraitPicker colorTraitPicker;
   @Autowired private RarityTraitPicker rarityTraitPicker;
@@ -63,11 +59,11 @@ public class MergeTokenInitializer {
   private Long seedForTraits;
 
   public TokenFacadeDTO initialize(
-      Long tokenId, Long burnedNft1Id, Long burnedNft2Id, Long seedForTraits)
+      Long tokenId, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2, Long seedForTraits)
       throws TokenInitializeException, WeightlessTraitException {
     this.seedForTraits = seedForTraits;
-    burnedNft1 = getToken(burnedNft1Id);
-    burnedNft2 = getToken(burnedNft2Id);
+    this.burnedNft1 = burnedNft1;
+    this.burnedNft2 = burnedNft2;
     if (burnedNft1 == null) {
       System.out.println(
           "TokenInitializer failed to load burned token 1. burnedNft1: " + burnedNft1);
@@ -88,8 +84,10 @@ public class MergeTokenInitializer {
     availableTraitTypeWeights = traitTypeWeightRepository.read();
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
     weightedTraits = createWeightedTraits(seedForTraits);
-    createWeightlessTraits();
-    return buildNFTFacade();
+    createWeightlessTraits(seedForTraits);
+    TokenFacadeDTO nftFacade = buildNFTFacade();
+    System.out.println("Debug new nftFacade: " + nftFacade);
+    return nftFacade;
   }
 
   private TokenFacadeDTO buildNFTFacade() {
@@ -108,22 +106,32 @@ public class MergeTokenInitializer {
   }
 
   private TokenDTO createToken(Long tokenId) {
-    return tokenRepository.create(
-        TokenDTO.builder()
-            .tokenId(tokenId)
-            .saleId(1L)
-            .name(tokenConfig.getBase_name() + " " + tokenId.toString())
-            .description(tokenConfig.getDescription())
-            .externalUrl(tokenConfig.getBase_external_url() + tokenId)
-            .imageUrl(tokenConfig.getBase_image_url() + tokenId)
-            .build());
+    return TokenDTO.builder()
+        .tokenId(tokenId)
+        .saleId(1L)
+        .name(tokenConfig.getBase_name() + " " + tokenId.toString())
+        .description(tokenConfig.getDescription())
+        .externalUrl(tokenConfig.getBase_external_url() + tokenId)
+        .imageUrl(tokenConfig.getBase_image_url() + tokenId)
+        .build();
+    //    TODO: remove comments
+    //    return tokenRepository.create(
+    //        TokenDTO.builder()
+    //            .tokenId(tokenId)
+    //            .saleId(1L)
+    //            .name(tokenConfig.getBase_name() + " " + tokenId.toString())
+    //            .description(tokenConfig.getDescription())
+    //            .externalUrl(tokenConfig.getBase_external_url() + tokenId)
+    //            .imageUrl(tokenConfig.getBase_image_url() + tokenId)
+    //            .build());
   }
 
-  private List<WeightlessTraitDTO> createWeightlessTraits()
+  private List<WeightlessTraitDTO> createWeightlessTraits(Long seedForTraits)
       throws TokenInitializeException, WeightlessTraitException {
     for (WeightlessTraitTypeDTO weightlessTraitType : weightlessTraitTypes) {
       // Increment the seed so that we use a unique random value for each trait
-      WeightlessTraitDTO weightlessTraitDTO = createWeightlessTrait(weightlessTraitType);
+      WeightlessTraitDTO weightlessTraitDTO =
+          createWeightlessTrait(weightlessTraitType, seedForTraits++);
       if (weightlessTraitDTO != null) {
         weightlessTraits.add(weightlessTraitDTO);
       }
@@ -131,21 +139,32 @@ public class MergeTokenInitializer {
     return weightlessTraits;
   }
 
-  private WeightlessTraitDTO createWeightlessTrait(WeightlessTraitTypeDTO weightlessTraitType)
+  private WeightlessTraitDTO createWeightlessTrait(
+      WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
       throws TokenInitializeException, WeightlessTraitException {
     Long weightTraitId = weightlessTraitRepository.read().size() + 1L;
-    return weightlessTraitRepository.create(
-        WeightlessTraitDTO.builder()
-            .id(null)
-            .traitId(weightTraitId)
-            .tokenId(tokenDTO.getTokenId())
-            .traitTypeId(weightlessTraitType.getWeightlessTraitTypeId())
-            .value(getWeightlessTraitValue(weightlessTraitType))
-            .displayTypeValue(getWeightlessTraitDisplayTypeValue(weightlessTraitType))
-            .build());
+    return WeightlessTraitDTO.builder()
+        .id(null)
+        .traitId(weightTraitId)
+        .tokenId(tokenDTO.getTokenId())
+        .traitTypeId(weightlessTraitType.getWeightlessTraitTypeId())
+        .value(getWeightlessTraitValue(weightlessTraitType, seedForTrait))
+        .displayTypeValue(getWeightlessTraitDisplayTypeValue(weightlessTraitType, seedForTrait))
+        .build();
+    //    TODO: Remove comments
+    //    return weightlessTraitRepository.create(
+    //        WeightlessTraitDTO.builder()
+    //            .id(null)
+    //            .traitId(weightTraitId)
+    //            .tokenId(tokenDTO.getTokenId())
+    //            .traitTypeId(weightlessTraitType.getWeightlessTraitTypeId())
+    //            .value(getWeightlessTraitValue(weightlessTraitType))
+    //            .displayTypeValue(getWeightlessTraitDisplayTypeValue(weightlessTraitType))
+    //            .build());
   }
 
-  private String getWeightlessTraitValue(WeightlessTraitTypeDTO weightlessTraitType)
+  private String getWeightlessTraitValue(
+      WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
       throws WeightlessTraitException {
     Long traitTypeId = weightlessTraitType.getWeightlessTraitTypeId();
     String burnedWeightlessTrait1Value =
@@ -170,7 +189,7 @@ public class MergeTokenInitializer {
     } else if (traitTypeId == WeightlessTraitTypeConstants.OVERALL_RARITY) {
       rarityTraitPicker.getValue(
           WeightlessTraitContext.builder()
-              .seedForTrait(null)
+              .seedForTrait(seedForTrait)
               .weightedTraits(weightedTraits)
               .traitTypeWeights(availableTraitTypeWeights)
               .weightlessTraits(weightlessTraits)
@@ -204,6 +223,8 @@ public class MergeTokenInitializer {
 
   private WeightlessTraitDTO findWeightlessTraitFromListByType(
       List<WeightlessTraitDTO> traits, Long weightlessTraitTypeId) {
+    System.out.println("DEBUG traits: " + traits);
+    System.out.println("DEBUG weightlessTraitTypeId: " + weightlessTraitTypeId);
     return traits.stream()
         .filter(trait -> trait.getTraitTypeId().equals(weightlessTraitTypeId))
         .findFirst()
@@ -233,7 +254,8 @@ public class MergeTokenInitializer {
             + (Long.parseLong(tile2Rarity) * Long.parseLong(tile1Multiplier)));
   }
 
-  private String getWeightlessTraitDisplayTypeValue(WeightlessTraitTypeDTO weightlessTraitType) {
+  private String getWeightlessTraitDisplayTypeValue(
+      WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait) {
     return null;
   }
 
@@ -254,14 +276,22 @@ public class MergeTokenInitializer {
     List<TraitTypeWeightDTO> weights = getTraitTypeWeightsForTraitTypeId(traitTypeId);
     TraitTypeWeightDTO traitTypeWeight = getRandomTraitTypeWeightFromList(weights, seedForTrait);
     Long traitId = traitRepository.read().size() + 1L;
-    return traitRepository.create(
-        TraitDTO.builder()
-            .id(null)
-            .traitId(traitId)
-            .tokenId(tokenDTO.getTokenId())
-            .traitTypeId(traitTypeId)
-            .traitTypeWeightId(traitTypeWeight.getTraitTypeWeightId())
-            .build());
+    return TraitDTO.builder()
+        .id(null)
+        .traitId(traitId)
+        .tokenId(tokenDTO.getTokenId())
+        .traitTypeId(traitTypeId)
+        .traitTypeWeightId(traitTypeWeight.getTraitTypeWeightId())
+        .build();
+    //    TODO: Remove comments
+    //    return traitRepository.create(
+    //        TraitDTO.builder()
+    //            .id(null)
+    //            .traitId(traitId)
+    //            .tokenId(tokenDTO.getTokenId())
+    //            .traitTypeId(traitTypeId)
+    //            .traitTypeWeightId(traitTypeWeight.getTraitTypeWeightId())
+    //            .build());
   }
 
   private List<TraitTypeWeightDTO> getTraitTypeWeightsForTraitTypeId(Long traitTypeId) {
