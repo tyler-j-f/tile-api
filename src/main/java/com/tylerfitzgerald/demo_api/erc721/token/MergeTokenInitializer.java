@@ -101,15 +101,14 @@ public class MergeTokenInitializer {
   }
 
   private TokenDTO createToken(Long tokenId) {
-    return tokenRepository.create(
-        TokenDTO.builder()
-            .tokenId(tokenId)
-            .saleId(1L)
-            .name(tokenConfig.getBase_name() + " " + tokenId.toString())
-            .description(tokenConfig.getDescription())
-            .externalUrl(tokenConfig.getBase_external_url() + tokenId)
-            .imageUrl(tokenConfig.getBase_image_url() + tokenId)
-            .build());
+    return TokenDTO.builder()
+        .tokenId(tokenId)
+        .saleId(1L)
+        .name(tokenConfig.getBase_name() + " " + tokenId.toString())
+        .description(tokenConfig.getDescription())
+        .externalUrl(tokenConfig.getBase_external_url() + tokenId)
+        .imageUrl(tokenConfig.getBase_image_url() + tokenId)
+        .build();
   }
 
   private List<WeightlessTraitDTO> createWeightlessTraits(Long seedForTraits)
@@ -133,15 +132,14 @@ public class MergeTokenInitializer {
     if (traitValue == null || traitValue.equals("")) {
       return null;
     }
-    return weightlessTraitRepository.create(
-        WeightlessTraitDTO.builder()
-            .id(null)
-            .traitId(weightTraitId)
-            .tokenId(tokenDTO.getTokenId())
-            .traitTypeId(weightlessTraitType.getWeightlessTraitTypeId())
-            .value(traitValue)
-            .displayTypeValue(getWeightlessTraitDisplayTypeValue(weightlessTraitType, seedForTrait))
-            .build());
+    return WeightlessTraitDTO.builder()
+        .id(null)
+        .traitId(weightTraitId)
+        .tokenId(tokenDTO.getTokenId())
+        .traitTypeId(weightlessTraitType.getWeightlessTraitTypeId())
+        .value(traitValue)
+        .displayTypeValue(getWeightlessTraitDisplayTypeValue(weightlessTraitType, seedForTrait))
+        .build();
   }
 
   private String getWeightlessTraitValue(
@@ -365,14 +363,13 @@ public class MergeTokenInitializer {
     List<TraitTypeWeightDTO> weights = getTraitTypeWeightsForTraitTypeId(traitTypeId);
     TraitTypeWeightDTO traitTypeWeight = getRandomTraitTypeWeightFromList(weights, seedForTrait);
     Long traitId = traitRepository.read().size() + 1L;
-    return traitRepository.create(
-        TraitDTO.builder()
-            .id(null)
-            .traitId(traitId)
-            .tokenId(tokenDTO.getTokenId())
-            .traitTypeId(traitTypeId)
-            .traitTypeWeightId(traitTypeWeight.getTraitTypeWeightId())
-            .build());
+    return TraitDTO.builder()
+        .id(null)
+        .traitId(traitId)
+        .tokenId(tokenDTO.getTokenId())
+        .traitTypeId(traitTypeId)
+        .traitTypeWeightId(traitTypeWeight.getTraitTypeWeightId())
+        .build();
   }
 
   private List<TraitTypeWeightDTO> getTraitTypeWeightsForTraitTypeId(Long traitTypeId) {
