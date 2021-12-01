@@ -18,7 +18,7 @@ public class ImageDrawer {
   @Autowired BurntTokenDrawer burntTokenDrawer;
 
   public byte[] drawImage(
-      Long tokenId, Long rarityScore, Resource[] emojiiResources, List<String> tileColors)
+      Long tokenId, Long rarityScore, Resource[] emojiiResources, List<String> tileColors, boolean isBurntToken)
       throws IOException, ImageException {
     Mat tiles = tilesDrawer.drawTiles(tileColors);
     titleDrawer.drawTitle(tiles, tokenId);
@@ -27,7 +27,7 @@ public class ImageDrawer {
       emojiDrawer.drawEmoji(x++, tiles, emojiLoader.loadEmojiMat(emojiiResource));
     }
     subTitleDrawer.drawSubTitle(tiles, rarityScore);
-    if (false) {
+    if (isBurntToken) {
       burntTokenDrawer.drawBurntTokenText(tiles);
     }
     return getBufferedImageFromMat(tiles);

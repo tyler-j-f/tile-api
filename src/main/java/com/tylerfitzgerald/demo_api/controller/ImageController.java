@@ -45,7 +45,9 @@ public class ImageController extends BaseController {
             tokenId,
             getRarityScore(nft),
             imageResourcesLoader.getResourcesByName(emojiFileNames),
-            getTileColors(nft));
+            getTileColors(nft),
+            true
+    );
     writeBufferedImageToOutput(byteArray, response);
     return;
   }
