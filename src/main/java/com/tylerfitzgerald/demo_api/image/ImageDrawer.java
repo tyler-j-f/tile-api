@@ -18,7 +18,11 @@ public class ImageDrawer {
   @Autowired BurntTokenDrawer burntTokenDrawer;
 
   public byte[] drawImage(
-      Long tokenId, Long rarityScore, Resource[] emojiiResources, List<String> tileColors, boolean isBurntToken)
+      Long tokenId,
+      Long rarityScore,
+      Resource[] emojiiResources,
+      List<String> tileColors,
+      boolean isBurntToken)
       throws IOException, ImageException {
     Mat tiles = tilesDrawer.drawTiles(tileColors);
     titleDrawer.drawTitle(tiles, tokenId);
