@@ -248,7 +248,7 @@ public class TokenInitializer {
     return weightlessTraitTypes.stream()
         .filter(
             traitType -> {
-              for (int typeId : WEIGHTLESS_TRAIT_TYPES_TO_IGNORE) {
+              for (int typeId : WEIGHTED_TRAIT_TYPES_TO_IGNORE) {
                 if (traitType.getTraitTypeId().equals(Long.valueOf(typeId))) {
                   return false;
                 }

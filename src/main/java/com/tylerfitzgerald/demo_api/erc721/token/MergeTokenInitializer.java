@@ -33,7 +33,6 @@ public class MergeTokenInitializer {
   @Autowired private WeightlessTraitRepository weightlessTraitRepository;
   @Autowired private WeightlessTraitTypeRepository weightlessTraitTypeRepository;
   @Autowired private TokenConfig tokenConfig;
-  @Autowired private TokenRetriever tokenRetriever;
   @Autowired private RarityTraitPicker rarityTraitPicker;
   @Autowired private TokenRepository tokenRepository;
 

@@ -26,7 +26,7 @@ spring:
         - {id: null, traitTypeId: 8, traitTypeName: "Tile 4 Multiplier", description: "Rarity multiplier value of the bottom right 'sub-tile'. The higher the rarity value, the better!"}
         - {id: null, traitTypeId: 9, traitTypeName: "Merge Multiplier", description: "Merge (and burn) Two TileNFTs to output ONE, even more rare TileNFT!!! The merge multiplier value of each TileNFT will be used to increase the rarity of the outputted TileNFT after merging two!! The higher the rarity value, the better!"}
         - {id: null, traitTypeId: 10, traitTypeName: "Emoji Source", description: "Attribution/credit details for the emoji type used by the TileNFT"}
-        - {id: null, traitTypeId: 23, traitTypeName: "Is Burnt Token", description: "A token with this attribute has been burnt. The token is no longer tradable." }
+        - {id: null, traitTypeId: 24, traitTypeName: "Is Burnt Token", description: "A token with this attribute has been burnt. The token is no longer tradable." }
       type-weights:
         - {id: null, traitTypeWeightId: 1, traitTypeId: 1, likelihood: 24, value: 1, displayTypeValue: null}
         - {id: null, traitTypeWeightId: 2, traitTypeId: 1, likelihood: 19, value: 2, displayTypeValue: null}
@@ -119,3 +119,5 @@ spring:
         - {id: null, traitTypeWeightId: 89, traitTypeId: 9, likelihood: 2, value: 9, displayTypeValue: null}
         - {id: null, traitTypeWeightId: 90, traitTypeId: 9, likelihood: 1, value: 10, displayTypeValue: null}
         - {id: null, traitTypeWeightId: 91, traitTypeId: 10, likelihood: 100, value: "openmoji.org - https://creativecommons.org/licenses/by-sa/4.0/ (Attribution-ShareAlike 4.0 International — CC BY-SA 4.0) Changes were not made", displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 92, traitTypeId: 24, likelihood: 100, value: "true", displayTypeValue: null}
+
