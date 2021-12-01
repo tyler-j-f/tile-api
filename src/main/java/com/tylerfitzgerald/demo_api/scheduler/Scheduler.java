@@ -27,7 +27,7 @@ public class Scheduler {
    */
   @Scheduled(fixedRateString = "${spring.application.events-config.schedulerFixedRateMs}")
   public void executeTasks() throws TaskSchedulerException {
-    //    handleMintEventsTask.execute();
+    handleMintEventsTask.execute();
     //    handleSetColorsEventsTask.execute();
     //    handleSetEmojisEventsTask.execute();
     handleMergeEventsTask.execute();
