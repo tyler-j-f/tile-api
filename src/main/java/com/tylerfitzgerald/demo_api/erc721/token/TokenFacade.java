@@ -25,23 +25,23 @@ public class TokenFacade {
     return nftFacadeDTO.getTokenDTO();
   }
 
-  public List<TraitDTO> getWeightedTokenTraits() {
-    return nftFacadeDTO.getTokenTraits();
-  }
-
-  public List<WeightlessTraitDTO> getWeightlessTokenTraits() {
+  public List<WeightlessTraitDTO> getWeightlessTraits() {
     return nftFacadeDTO.getWeightlessTraits();
   }
 
-  public List<WeightlessTraitTypeDTO> getWeightlessTokenTraitTypes() {
+  public List<WeightlessTraitTypeDTO> getWeightlessTraitTypes() {
     return nftFacadeDTO.getWeightlessTraitTypes();
   }
 
-  public List<TraitTypeDTO> getAvailableTraitTypes() {
+  public List<TraitDTO> getWeightedTraits() {
+    return nftFacadeDTO.getTokenTraits();
+  }
+
+  public List<TraitTypeDTO> getWeightedTraitTypes() {
     return nftFacadeDTO.getAvailableTraitTypes();
   }
 
-  public List<TraitTypeWeightDTO> getAvailableTraitTypeWeights() {
+  public List<TraitTypeWeightDTO> getWeightedTraitTypeWeights() {
     return nftFacadeDTO.getAvailableTraitTypeWeights();
   }
 
@@ -68,7 +68,7 @@ public class TokenFacade {
   private ArrayList<Object> buildWeightlessAttributes() {
     ArrayList<Object> traits = new ArrayList<>();
     String traitType, traitValue, displayType;
-    for (WeightlessTraitDTO weightlessTraitDTO : getWeightlessTokenTraits()) {
+    for (WeightlessTraitDTO weightlessTraitDTO : getWeightlessTraits()) {
       traitType = getTraitType(weightlessTraitDTO.getTraitTypeId());
       traitValue = weightlessTraitDTO.getValue();
       displayType = weightlessTraitDTO.getDisplayTypeValue();
@@ -87,7 +87,7 @@ public class TokenFacade {
   }
 
   private String getTraitType(Long traitTypeId) {
-    List<WeightlessTraitTypeDTO> weightlessTraitTypes = getWeightlessTokenTraitTypes();
+    List<WeightlessTraitTypeDTO> weightlessTraitTypes = getWeightlessTraitTypes();
     WeightlessTraitTypeDTO weightlessTraitType =
         weightlessTraitTypes.stream()
             .filter(
@@ -102,12 +102,12 @@ public class TokenFacade {
   }
 
   private ArrayList<Object> buildWeightedAttributes() {
-    List<TraitDTO> tokenTraitDTOs = getWeightedTokenTraits();
+    List<TraitDTO> tokenTraitDTOs = getWeightedTraits();
     TraitTypeWeightDTO weight;
     TraitTypeDTO type;
     String traitType, traitValue, displayType;
-    List<TraitTypeWeightDTO> traitWeightDTOs = getAvailableTraitTypeWeights();
-    List<TraitTypeDTO> traitTypeDTOs = getAvailableTraitTypes();
+    List<TraitTypeWeightDTO> traitWeightDTOs = getWeightedTraitTypeWeights();
+    List<TraitTypeDTO> traitTypeDTOs = getWeightedTraitTypes();
     ArrayList<Object> traits = new ArrayList<>();
     for (TraitDTO traitDTO : tokenTraitDTOs) {
       weight = getTraitWeightForTraitDTO(traitWeightDTOs, traitDTO);

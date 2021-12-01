@@ -20,4 +20,20 @@ public class TraitDTO extends BaseTraitDTO {
     this.traitTypeWeightId = traitTypeWeightId;
     return;
   }
+
+  @Override
+  public String toString() {
+    return "TraitDTO{"
+        + "id="
+        + getId()
+        + ", traitTypeWeightId='"
+        + getTraitTypeWeightId()
+        + ", traitId="
+        + getTraitId()
+        + ", tokenId="
+        + getTokenId()
+        + ", traitTypeId="
+        + getTraitTypeId()
+        + '}';
+  }
 }

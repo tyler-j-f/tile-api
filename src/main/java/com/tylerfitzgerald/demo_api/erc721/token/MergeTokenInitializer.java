@@ -89,7 +89,20 @@ public class MergeTokenInitializer {
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
     weightedTraits = createWeightedTraits(seedForTraits);
     createWeightlessTraits(seedForTraits);
-    return new TokenFacade(buildNFTFacade()).buildTokenDataDTO();
+    TokenFacade token = new TokenFacade(buildNFTFacade());
+    System.out.println(
+        "DEBUG Merged Token: "
+            + "\n\ngetWeightlessTraits: "
+            + token.getWeightlessTraits()
+            + "\n\ngetWeightlessTraitTypes: "
+            + token.getWeightlessTraitTypes()
+            + "\n\ngetWeightedTraits: "
+            + token.getWeightedTraits()
+            + "\n\ngetWeightedTraitTypeWeights: "
+            + token.getWeightedTraitTypeWeights()
+            + "\n\ngetWeightedTraitTypes: "
+            + token.getWeightedTraitTypes());
+    return token.buildTokenDataDTO();
   }
 
   private TokenFacadeDTO buildNFTFacade() {
@@ -227,9 +240,6 @@ public class MergeTokenInitializer {
     try {
       List<TraitDTO> weightedTraits = nft.getTokenTraits();
       List<WeightlessTraitDTO> weightLessTraits = nft.getWeightlessTraits();
-      System.out.println("DEBUG weightedTraits: " + weightedTraits);
-      System.out.println("DEBUG weightLessTraits: " + weightLessTraits);
-      System.out.println("DEBUG weightlessTraitTypeId: " + traitTypeId);
       WeightlessTraitDTO weightlessTrait =
           weightLessTraits.stream()
               .filter(trait -> trait.getTraitTypeId().equals(traitTypeId))

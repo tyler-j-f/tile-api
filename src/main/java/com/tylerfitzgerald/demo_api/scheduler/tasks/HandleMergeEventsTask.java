@@ -4,6 +4,7 @@
 package com.tylerfitzgerald.demo_api.scheduler.tasks;
 
 import com.tylerfitzgerald.demo_api.erc721.token.MergeTokenInitializer;
+import com.tylerfitzgerald.demo_api.erc721.token.TokenDataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
@@ -101,13 +102,13 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
             + burnedNft2.getTokenDTO().getTokenId()
             + ",  newTokenId: "
             + event.getNewTokenId());
-    System.out.println(
-        "Debug new nftFacade: "
-            + mergeTokenInitializer.initialize(
-                getLongFromHexString(event.getNewTokenId()),
-                burnedNft1,
-                burnedNft2,
-                getLongFromHexString(event.getTransactionHash(), 0, 9)));
+    TokenDataDTO token =
+        mergeTokenInitializer.initialize(
+            getLongFromHexString(event.getNewTokenId()),
+            burnedNft1,
+            burnedNft2,
+            getLongFromHexString(event.getTransactionHash(), 0, 9));
+    System.out.println("\n\nDebug new TokenDataDTO: " + token);
   }
 
   private void updateTokenTraitValuesForBurnEvent(TokenFacadeDTO nft) {
