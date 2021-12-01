@@ -174,16 +174,16 @@ public class MergeTokenInitializer {
     burnedToken2Value = burnedTokenValues[1];
     if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_RARITY) {
       return getRarityValue(
-          burnedToken1Value, burnedToken2Value, WeightedTraitTypeConstants.TILE_1_RARITY);
+          burnedToken1Value, burnedToken2Value, WeightedTraitTypeConstants.TILE_1_MULTIPLIER);
     } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_2_RARITY) {
       return getRarityValue(
-          burnedToken1Value, burnedToken2Value, WeightedTraitTypeConstants.TILE_2_RARITY);
+          burnedToken1Value, burnedToken2Value, WeightedTraitTypeConstants.TILE_2_MULTIPLIER);
     } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_3_RARITY) {
       return getRarityValue(
-          burnedToken1Value, burnedToken2Value, WeightedTraitTypeConstants.TILE_3_RARITY);
+          burnedToken1Value, burnedToken2Value, WeightedTraitTypeConstants.TILE_3_MULTIPLIER);
     } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_4_RARITY) {
       return getRarityValue(
-          burnedToken1Value, burnedToken2Value, WeightedTraitTypeConstants.TILE_4_RARITY);
+          burnedToken1Value, burnedToken2Value, WeightedTraitTypeConstants.TILE_4_MULTIPLIER);
     } else if (traitTypeId == WeightlessTraitTypeConstants.OVERALL_RARITY) {
       rarityTraitPicker.getValue(
           WeightlessTraitContext.builder()
@@ -237,6 +237,7 @@ public class MergeTokenInitializer {
             burnedNft2.getTokenTraits(),
             burnedNft2.getAvailableTraitTypeWeights(),
             (long) WeightedTraitTypeConstants.MERGE_MULTIPLIER);
+    System.out.println("DEBUG getRarityValue.\ntraitTypeId: " + traitTypeId);
     return calculateSubTileRarity(
         burnedToken1Rarity,
         burnedToken2Rarity,
@@ -355,13 +356,27 @@ public class MergeTokenInitializer {
       String tile2Multiplier,
       String tile1MergeMultiplier,
       String tile2MergeMultiplier) {
+    System.out.println(
+        "DEBUG calculateSubTileRarity "
+            + "\ntile1Rarity: "
+            + tile1Rarity
+            + "\ntile2Rarity: "
+            + tile2Rarity
+            + "\ntile1Multiplier: "
+            + tile1Multiplier
+            + "\ntile2Multiplier: "
+            + tile2Multiplier
+            + "\ntile1MergeMultiplier: "
+            + tile1MergeMultiplier
+            + "\ntile2MergeMultiplier: "
+            + tile2MergeMultiplier);
     return String.valueOf(
         (Long.parseLong(tile1Rarity)
-                * Long.parseLong(tile2Multiplier)
-                * Long.parseLong(tile1MergeMultiplier))
-            + (Long.parseLong(tile2Rarity)
                 * Long.parseLong(tile1Multiplier)
-                * Long.parseLong(tile2MergeMultiplier)));
+                * Long.parseLong(tile2MergeMultiplier))
+            + (Long.parseLong(tile2Rarity)
+                * Long.parseLong(tile2Multiplier)
+                * Long.parseLong(tile1MergeMultiplier)));
   }
 
   private String getWeightlessTraitDisplayTypeValue(
