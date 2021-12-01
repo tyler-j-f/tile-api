@@ -77,6 +77,12 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
   private void updateTraitValuesForBurnEvents(List<MergeEvent> events)
       throws TokenInitializeException, WeightlessTraitException {
     for (MergeEvent event : events) {
+      Long newTokenId = Long.valueOf(strip0xFromHexString(event.getNewTokenId()));
+      if (tokenRetriever.get(newTokenId) != null) {
+        System.out.println(
+            "Token for mint event was already created. Found merge for tokenId: " + newTokenId);
+        continue;
+      }
       TokenFacadeDTO burnedNft1 =
           tokenRetriever.get(Long.valueOf(strip0xFromHexString(event.getBurnedToken1Id())));
       TokenFacadeDTO burnedNft2 =

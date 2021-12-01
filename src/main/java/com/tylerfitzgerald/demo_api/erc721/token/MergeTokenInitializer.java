@@ -7,6 +7,7 @@ import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTra
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitException;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.RarityTraitPicker;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
+import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightRepository;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeDTO;
@@ -34,6 +35,7 @@ public class MergeTokenInitializer {
   @Autowired private TokenConfig tokenConfig;
   @Autowired private TokenRetriever tokenRetriever;
   @Autowired private RarityTraitPicker rarityTraitPicker;
+  @Autowired private TokenRepository tokenRepository;
 
   private static final int[] WEIGHTED_TRAIT_TYPES_TO_IGNORE = {
     WeightedTraitTypeConstants.TILE_1_RARITY,
@@ -99,24 +101,15 @@ public class MergeTokenInitializer {
   }
 
   private TokenDTO createToken(Long tokenId) {
-    return TokenDTO.builder()
-        .tokenId(tokenId)
-        .saleId(1L)
-        .name(tokenConfig.getBase_name() + " " + tokenId.toString())
-        .description(tokenConfig.getDescription())
-        .externalUrl(tokenConfig.getBase_external_url() + tokenId)
-        .imageUrl(tokenConfig.getBase_image_url() + tokenId)
-        .build();
-    //    TODO: remove comments
-    //    return tokenRepository.create(
-    //        TokenDTO.builder()
-    //            .tokenId(tokenId)
-    //            .saleId(1L)
-    //            .name(tokenConfig.getBase_name() + " " + tokenId.toString())
-    //            .description(tokenConfig.getDescription())
-    //            .externalUrl(tokenConfig.getBase_external_url() + tokenId)
-    //            .imageUrl(tokenConfig.getBase_image_url() + tokenId)
-    //            .build());
+    return tokenRepository.create(
+        TokenDTO.builder()
+            .tokenId(tokenId)
+            .saleId(1L)
+            .name(tokenConfig.getBase_name() + " " + tokenId.toString())
+            .description(tokenConfig.getDescription())
+            .externalUrl(tokenConfig.getBase_external_url() + tokenId)
+            .imageUrl(tokenConfig.getBase_image_url() + tokenId)
+            .build());
   }
 
   private List<WeightlessTraitDTO> createWeightlessTraits(Long seedForTraits)
@@ -140,24 +133,15 @@ public class MergeTokenInitializer {
     if (traitValue == null || traitValue.equals("")) {
       return null;
     }
-    return WeightlessTraitDTO.builder()
-        .id(null)
-        .traitId(weightTraitId)
-        .tokenId(tokenDTO.getTokenId())
-        .traitTypeId(weightlessTraitType.getWeightlessTraitTypeId())
-        .value(traitValue)
-        .displayTypeValue(getWeightlessTraitDisplayTypeValue(weightlessTraitType, seedForTrait))
-        .build();
-    //    TODO: Remove comments
-    //    return weightlessTraitRepository.create(
-    //        WeightlessTraitDTO.builder()
-    //            .id(null)
-    //            .traitId(weightTraitId)
-    //            .tokenId(tokenDTO.getTokenId())
-    //            .traitTypeId(weightlessTraitType.getWeightlessTraitTypeId())
-    //            .value(getWeightlessTraitValue(weightlessTraitType))
-    //            .displayTypeValue(getWeightlessTraitDisplayTypeValue(weightlessTraitType))
-    //            .build());
+    return weightlessTraitRepository.create(
+        WeightlessTraitDTO.builder()
+            .id(null)
+            .traitId(weightTraitId)
+            .tokenId(tokenDTO.getTokenId())
+            .traitTypeId(weightlessTraitType.getWeightlessTraitTypeId())
+            .value(traitValue)
+            .displayTypeValue(getWeightlessTraitDisplayTypeValue(weightlessTraitType, seedForTrait))
+            .build());
   }
 
   private String getWeightlessTraitValue(
@@ -349,8 +333,7 @@ public class MergeTokenInitializer {
       String tile1Multiplier,
       String tile2Multiplier,
       String tile1MergeMultiplier,
-      String tile2MergeMultiplier
-  ) {
+      String tile2MergeMultiplier) {
     return String.valueOf(
         (Long.parseLong(tile1Rarity)
                 * Long.parseLong(tile1Multiplier)
@@ -382,22 +365,14 @@ public class MergeTokenInitializer {
     List<TraitTypeWeightDTO> weights = getTraitTypeWeightsForTraitTypeId(traitTypeId);
     TraitTypeWeightDTO traitTypeWeight = getRandomTraitTypeWeightFromList(weights, seedForTrait);
     Long traitId = traitRepository.read().size() + 1L;
-    return TraitDTO.builder()
-        .id(null)
-        .traitId(traitId)
-        .tokenId(tokenDTO.getTokenId())
-        .traitTypeId(traitTypeId)
-        .traitTypeWeightId(traitTypeWeight.getTraitTypeWeightId())
-        .build();
-    //    TODO: Remove comments
-    //    return traitRepository.create(
-    //        TraitDTO.builder()
-    //            .id(null)
-    //            .traitId(traitId)
-    //            .tokenId(tokenDTO.getTokenId())
-    //            .traitTypeId(traitTypeId)
-    //            .traitTypeWeightId(traitTypeWeight.getTraitTypeWeightId())
-    //            .build());
+    return traitRepository.create(
+        TraitDTO.builder()
+            .id(null)
+            .traitId(traitId)
+            .tokenId(tokenDTO.getTokenId())
+            .traitTypeId(traitTypeId)
+            .traitTypeWeightId(traitTypeWeight.getTraitTypeWeightId())
+            .build());
   }
 
   private List<TraitTypeWeightDTO> getTraitTypeWeightsForTraitTypeId(Long traitTypeId) {
