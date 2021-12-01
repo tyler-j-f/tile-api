@@ -1,5 +1,6 @@
 package com.tylerfitzgerald.demo_api.config.beans;
 
+import com.tylerfitzgerald.demo_api.image.BurntTokenDrawer;
 import com.tylerfitzgerald.demo_api.image.EmojiDrawer;
 import com.tylerfitzgerald.demo_api.image.EmojiLoader;
 import com.tylerfitzgerald.demo_api.image.ImageDrawer;
@@ -41,6 +42,11 @@ public class ImageBeansConfig {
   @Bean
   public SubTitleDrawer subTitleDrawer() {
     return new SubTitleDrawer();
+  }
+
+  @Bean
+  public BurntTokenDrawer burntTokenDrawer() {
+    return new BurntTokenDrawer();
   }
 
   @Bean

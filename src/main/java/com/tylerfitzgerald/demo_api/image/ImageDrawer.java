@@ -11,14 +11,11 @@ import org.springframework.core.io.Resource;
 public class ImageDrawer {
 
   @Autowired EmojiDrawer emojiDrawer;
-
   @Autowired EmojiLoader emojiLoader;
-
   @Autowired TilesDrawer tilesDrawer;
-
   @Autowired TitleDrawer titleDrawer;
-
   @Autowired SubTitleDrawer subTitleDrawer;
+  @Autowired BurntTokenDrawer burntTokenDrawer;
 
   public byte[] drawImage(
       Long tokenId, Long rarityScore, Resource[] emojiiResources, List<String> tileColors)
@@ -30,6 +27,9 @@ public class ImageDrawer {
       emojiDrawer.drawEmoji(x++, tiles, emojiLoader.loadEmojiMat(emojiiResource));
     }
     subTitleDrawer.drawSubTitle(tiles, rarityScore);
+    if (false) {
+      burntTokenDrawer.drawBurntTokenText(tiles);
+    }
     return getBufferedImageFromMat(tiles);
   }
 
