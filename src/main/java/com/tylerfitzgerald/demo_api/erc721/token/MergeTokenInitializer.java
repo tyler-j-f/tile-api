@@ -61,7 +61,7 @@ public class MergeTokenInitializer {
   private TokenFacadeDTO burnedNft2;
   private Long seedForTraits;
 
-  public TokenFacadeDTO initialize(
+  public TokenDataDTO initialize(
       Long tokenId, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2, Long seedForTraits)
       throws TokenInitializeException, WeightlessTraitException {
     this.seedForTraits = seedForTraits;
@@ -89,9 +89,7 @@ public class MergeTokenInitializer {
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
     weightedTraits = createWeightedTraits(seedForTraits);
     createWeightlessTraits(seedForTraits);
-    TokenFacadeDTO nftFacade = buildNFTFacade();
-    System.out.println("Debug new nftFacade: " + nftFacade);
-    return nftFacade;
+    return new TokenFacade(buildNFTFacade()).buildTokenDataDTO();
   }
 
   private TokenFacadeDTO buildNFTFacade() {
@@ -279,7 +277,7 @@ public class MergeTokenInitializer {
 
   private String getWeightlessTraitDisplayTypeValue(
       WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait) {
-    return null;
+    return "";
   }
 
   private List<TraitDTO> createWeightedTraits(Long seedForTraits) {

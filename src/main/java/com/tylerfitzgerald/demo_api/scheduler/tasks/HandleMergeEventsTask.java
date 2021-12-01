@@ -101,11 +101,13 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
             + burnedNft2.getTokenDTO().getTokenId()
             + ",  newTokenId: "
             + event.getNewTokenId());
-    mergeTokenInitializer.initialize(
-        getLongFromHexString(event.getNewTokenId()),
-        burnedNft1,
-        burnedNft2,
-        getLongFromHexString(event.getTransactionHash(), 0, 9));
+    System.out.println(
+        "Debug new nftFacade: "
+            + mergeTokenInitializer.initialize(
+                getLongFromHexString(event.getNewTokenId()),
+                burnedNft1,
+                burnedNft2,
+                getLongFromHexString(event.getTransactionHash(), 0, 9)));
   }
 
   private void updateTokenTraitValuesForBurnEvent(TokenFacadeDTO nft) {
