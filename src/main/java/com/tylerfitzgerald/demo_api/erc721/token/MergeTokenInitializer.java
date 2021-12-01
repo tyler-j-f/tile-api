@@ -5,8 +5,6 @@ import com.tylerfitzgerald.demo_api.erc721.traits.WeightedTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitContext;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitException;
-import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.ColorTraitPicker;
-import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.RarityTraitPicker;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
@@ -44,9 +42,8 @@ public class MergeTokenInitializer {
     WeightedTraitTypeConstants.TILE_4_RARITY
   };
 
-  private List<TraitTypeDTO> availableTraitTypes = new ArrayList<>();
-  private List<TraitTypeDTO> allWeightedTraitTypes = new ArrayList<>();
-  private List<TraitTypeWeightDTO> availableTraitTypeWeights = new ArrayList<>();
+  private List<TraitTypeDTO> weightedTraitTypes = new ArrayList<>();
+  private List<TraitTypeWeightDTO> weightedTraitTypeWeights = new ArrayList<>();
   private List<TraitDTO> weightedTraits = new ArrayList<>();
   private List<WeightlessTraitDTO> weightlessTraits = new ArrayList<>();
   private List<WeightlessTraitTypeDTO> weightlessTraitTypes = new ArrayList<>();
@@ -77,9 +74,8 @@ public class MergeTokenInitializer {
           "TokenInitializer failed to initialize the token with tokenId: " + tokenId);
       return null;
     }
-    allWeightedTraitTypes = traitTypeRepository.read();
-    availableTraitTypes = filterOutWeightedTraitTypesToIgnore(allWeightedTraitTypes);
-    availableTraitTypeWeights = traitTypeWeightRepository.read();
+    weightedTraitTypes = filterOutWeightedTraitTypesToIgnore(traitTypeRepository.read());
+    weightedTraitTypeWeights = traitTypeWeightRepository.read();
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
     weightedTraits = createWeightedTraits(seedForTraits);
     createWeightlessTraits(seedForTraits);
@@ -91,8 +87,8 @@ public class MergeTokenInitializer {
     return TokenFacadeDTO.builder()
         .tokenDTO(tokenDTO)
         .tokenTraits(weightedTraits)
-        .availableTraitTypes(availableTraitTypes)
-        .availableTraitTypeWeights(availableTraitTypeWeights)
+        .availableTraitTypes(weightedTraitTypes)
+        .availableTraitTypeWeights(weightedTraitTypeWeights)
         .weightlessTraits(weightlessTraits)
         .weightlessTraitTypes(weightlessTraitTypes)
         .build();
@@ -185,14 +181,13 @@ public class MergeTokenInitializer {
       return getRarityValue(
           burnedToken1Value, burnedToken2Value, WeightedTraitTypeConstants.TILE_4_MULTIPLIER);
     } else if (traitTypeId == WeightlessTraitTypeConstants.OVERALL_RARITY) {
-      rarityTraitPicker.getValue(
+      return rarityTraitPicker.getValue(
           WeightlessTraitContext.builder()
               .seedForTrait(seedForTrait)
               .weightedTraits(weightedTraits)
-              .traitTypeWeights(availableTraitTypeWeights)
+              .traitTypeWeights(weightedTraitTypeWeights)
               .weightlessTraits(weightlessTraits)
               .build());
-      return "3";
     } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_EMOJI) {
       return "3";
     } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_2_EMOJI) {
@@ -237,7 +232,6 @@ public class MergeTokenInitializer {
             burnedNft2.getTokenTraits(),
             burnedNft2.getAvailableTraitTypeWeights(),
             (long) WeightedTraitTypeConstants.MERGE_MULTIPLIER);
-    System.out.println("DEBUG getRarityValue.\ntraitTypeId: " + traitTypeId);
     return calculateSubTileRarity(
         burnedToken1Rarity,
         burnedToken2Rarity,
@@ -330,7 +324,7 @@ public class MergeTokenInitializer {
             .findFirst()
             .get();
     return findWeightedTraitValue(
-        weightedTraits, availableTraitTypeWeights, weightedTraitFound.getTraitTypeId());
+        weightedTraits, weightedTraitTypeWeights, weightedTraitFound.getTraitTypeId());
   }
 
   private String findWeightedTraitValue(
@@ -355,21 +349,8 @@ public class MergeTokenInitializer {
       String tile1Multiplier,
       String tile2Multiplier,
       String tile1MergeMultiplier,
-      String tile2MergeMultiplier) {
-    System.out.println(
-        "DEBUG calculateSubTileRarity "
-            + "\ntile1Rarity: "
-            + tile1Rarity
-            + "\ntile2Rarity: "
-            + tile2Rarity
-            + "\ntile1Multiplier: "
-            + tile1Multiplier
-            + "\ntile2Multiplier: "
-            + tile2Multiplier
-            + "\ntile1MergeMultiplier: "
-            + tile1MergeMultiplier
-            + "\ntile2MergeMultiplier: "
-            + tile2MergeMultiplier);
+      String tile2MergeMultiplier
+  ) {
     return String.valueOf(
         (Long.parseLong(tile1Rarity)
                 * Long.parseLong(tile1Multiplier)
@@ -386,7 +367,7 @@ public class MergeTokenInitializer {
 
   private List<TraitDTO> createWeightedTraits(Long seedForTraits) {
     List<TraitDTO> traits = new ArrayList<>();
-    for (TraitTypeDTO type : availableTraitTypes) {
+    for (TraitTypeDTO type : weightedTraitTypes) {
       // Increment the seed so that we use a unique random value for each trait
       TraitDTO trait = createWeightedTrait(type, seedForTraits++);
       if (trait != null) {
@@ -420,7 +401,7 @@ public class MergeTokenInitializer {
   }
 
   private List<TraitTypeWeightDTO> getTraitTypeWeightsForTraitTypeId(Long traitTypeId) {
-    return availableTraitTypeWeights.stream()
+    return weightedTraitTypeWeights.stream()
         .filter(typeWeight -> typeWeight.getTraitTypeId().equals(traitTypeId))
         .collect(Collectors.toList());
   }
