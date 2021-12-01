@@ -1,6 +1,7 @@
 package com.tylerfitzgerald.demo_api.erc721.token;
 
 import com.tylerfitzgerald.demo_api.config.TokenConfig;
+import com.tylerfitzgerald.demo_api.erc721.traits.WeightedTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitContext;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.ColorTraitPicker;
@@ -52,6 +53,10 @@ public class TokenInitializer {
     WeightlessTraitTypeConstants.TILE_4_RARITY
   };
 
+  private static final int[] WEIGHTED_TRAIT_TYPES_TO_IGNORE = {
+    WeightedTraitTypeConstants.IS_BURNT_TOKEN
+  };
+
   private List<TraitTypeDTO> availableTraitTypes = new ArrayList<>();
   private List<TraitTypeWeightDTO> availableTraitTypeWeights = new ArrayList<>();
   private List<TraitDTO> weightedTraits = new ArrayList<>();
@@ -71,7 +76,7 @@ public class TokenInitializer {
           "TokenInitializer failed to initialize the token with tokenId: " + tokenId);
       return null;
     }
-    availableTraitTypes = traitTypeRepository.read();
+    availableTraitTypes = filterOutWeightedTraitTypesToIgnore(traitTypeRepository.read());
     availableTraitTypeWeights = traitTypeWeightRepository.read();
     weightlessTraitTypes =
         filterOutWeightlessTraitTypesToIgnore(weightlessTraitTypeRepository.read());
@@ -230,6 +235,21 @@ public class TokenInitializer {
             traitType -> {
               for (int typeId : WEIGHTLESS_TRAIT_TYPES_TO_IGNORE) {
                 if (traitType.getWeightlessTraitTypeId().equals(Long.valueOf(typeId))) {
+                  return false;
+                }
+              }
+              return true;
+            })
+        .collect(Collectors.toList());
+  }
+
+  private List<TraitTypeDTO> filterOutWeightedTraitTypesToIgnore(
+      List<TraitTypeDTO> weightlessTraitTypes) {
+    return weightlessTraitTypes.stream()
+        .filter(
+            traitType -> {
+              for (int typeId : WEIGHTLESS_TRAIT_TYPES_TO_IGNORE) {
+                if (traitType.getTraitTypeId().equals(Long.valueOf(typeId))) {
                   return false;
                 }
               }
