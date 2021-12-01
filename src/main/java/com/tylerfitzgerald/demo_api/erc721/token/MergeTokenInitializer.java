@@ -41,7 +41,7 @@ public class MergeTokenInitializer {
     WeightedTraitTypeConstants.TILE_2_RARITY,
     WeightedTraitTypeConstants.TILE_3_RARITY,
     WeightedTraitTypeConstants.TILE_4_RARITY,
-    WeightedTraitTypeConstants.IS_BURNT_TOKEN
+    WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE
   };
 
   private List<TraitTypeDTO> weightedTraitTypes = new ArrayList<>();

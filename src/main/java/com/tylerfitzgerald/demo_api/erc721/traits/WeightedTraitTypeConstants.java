@@ -11,5 +11,5 @@ public class WeightedTraitTypeConstants {
   public static final int TILE_4_MULTIPLIER = 8;
   public static final int MERGE_MULTIPLIER = 9;
   public static final int EMOJI_SOURCE = 10;
-  public static final int IS_BURNT_TOKEN = 24;
+  public static final int IS_BURNT_TOKEN_EQUALS_TRUE = 24;
 }

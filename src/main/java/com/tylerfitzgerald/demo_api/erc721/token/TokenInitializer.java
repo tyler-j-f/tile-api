@@ -54,7 +54,7 @@ public class TokenInitializer {
   };
 
   private static final int[] WEIGHTED_TRAIT_TYPES_TO_IGNORE = {
-    WeightedTraitTypeConstants.IS_BURNT_TOKEN
+    WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE
   };
 
   private List<TraitTypeDTO> availableTraitTypes = new ArrayList<>();

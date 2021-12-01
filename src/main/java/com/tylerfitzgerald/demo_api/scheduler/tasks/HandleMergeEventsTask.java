@@ -8,11 +8,15 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenDataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
+import com.tylerfitzgerald.demo_api.erc721.traits.WeightedTraitTypeConstants;
+import com.tylerfitzgerald.demo_api.erc721.traits.WeightedTraitWeightConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitException;
 import com.tylerfitzgerald.demo_api.ethEvents.EthEventException;
 import com.tylerfitzgerald.demo_api.ethEvents.RemoveDuplicateMergeEthEvents;
 import com.tylerfitzgerald.demo_api.ethEvents.events.MergeEvent;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitRepository;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import java.io.IOException;
 import java.util.List;
@@ -23,6 +27,7 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
   @Autowired private TokenRetriever tokenRetriever;
   @Autowired private RemoveDuplicateMergeEthEvents removeDuplicateMergeEthEvents;
   @Autowired private MergeTokenInitializer mergeTokenInitializer;
+  @Autowired private TraitRepository traitRepository;
 
   @Override
   public void execute() throws TaskSchedulerException {
@@ -92,8 +97,8 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
             "ERROR!!! One of the requested tokens to burn, during merging, is not able to be retrieved.");
         continue;
       }
-      updateTokenTraitValuesForBurnEvent(burnedNft1);
-      updateTokenTraitValuesForBurnEvent(burnedNft2);
+      updateTraitForBurnEvent(burnedNft1);
+      updateTraitForBurnEvent(burnedNft2);
       mintNewTokenForMerge(event, burnedNft1, burnedNft2);
     }
   }
@@ -117,7 +122,18 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
     System.out.println("\n\nDebug new TokenDataDTO: " + token);
   }
 
-  private void updateTokenTraitValuesForBurnEvent(TokenFacadeDTO nft) {
-    // System.out.println("updateTraitValuesForBurnEvent called. \n event: " + nft);
+  private void updateTraitForBurnEvent(TokenFacadeDTO nft) {
+    Long traitId = traitRepository.read().size() + 1L;
+    System.out.println(
+        "updateTraitValuesForBurnEvent called. \n traitAddedForBurn: "
+            + traitRepository.create(
+                TraitDTO.builder()
+                    .id(null)
+                    .traitId(traitId)
+                    .tokenId(nft.getTokenDTO().getTokenId())
+                    .traitTypeId((long) WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE)
+                    .traitTypeWeightId(
+                        (long) WeightedTraitWeightConstants.IS_BURNT_TOKEN_EQUALS_TRUE)
+                    .build()));
   }
 }
