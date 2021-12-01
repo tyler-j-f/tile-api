@@ -62,7 +62,6 @@ public class TokenFacade {
   private ArrayList<Object> buildAttributes() {
     ArrayList<Object> attributes = buildWeightedAttributes();
     attributes.addAll(buildWeightlessAttributes());
-    System.out.println("\nDEBUG traits: " + attributes);
     return attributes;
   }
 
@@ -70,7 +69,6 @@ public class TokenFacade {
     ArrayList<Object> traits = new ArrayList<>();
     String traitType, traitValue, displayType;
     for (WeightlessTraitDTO weightlessTraitDTO : getWeightlessTraits()) {
-      System.out.println("\nDEBUG buildWeightlessAttributes: " + weightlessTraitDTO);
       traitType = getTraitType(weightlessTraitDTO.getTraitTypeId());
       traitValue = weightlessTraitDTO.getValue();
       displayType = weightlessTraitDTO.getDisplayTypeValue();
@@ -85,7 +83,6 @@ public class TokenFacade {
                 .build());
       }
     }
-    System.out.println("\nDEBUG building weightlessTraits: " + traits);
     return traits;
   }
 
