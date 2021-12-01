@@ -49,9 +49,9 @@ public class TokenRetriever {
   private TokenFacadeDTO buildNFTFacade() {
     return TokenFacadeDTO.builder()
         .tokenDTO(tokenDTO)
-        .tokenTraits(weightedTraits)
-        .availableTraitTypes(availableTraitTypes)
-        .availableTraitTypeWeights(availableTraitTypeWeights)
+        .weightedTraits(weightedTraits)
+        .weightedTraitTypes(availableTraitTypes)
+        .weightedTraitTypeWeights(availableTraitTypeWeights)
         .weightlessTraitTypes(weightlessTraitTypes)
         .weightlessTraits(weightlessTraits)
         .build();

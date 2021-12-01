@@ -34,15 +34,15 @@ public class TokenFacade {
   }
 
   public List<TraitDTO> getWeightedTraits() {
-    return nftFacadeDTO.getTokenTraits();
+    return nftFacadeDTO.getWeightedTraits();
   }
 
   public List<TraitTypeDTO> getWeightedTraitTypes() {
-    return nftFacadeDTO.getAvailableTraitTypes();
+    return nftFacadeDTO.getWeightedTraitTypes();
   }
 
   public List<TraitTypeWeightDTO> getWeightedTraitTypeWeights() {
-    return nftFacadeDTO.getAvailableTraitTypeWeights();
+    return nftFacadeDTO.getWeightedTraitTypeWeights();
   }
 
   public TokenDataDTO buildTokenDataDTO() {

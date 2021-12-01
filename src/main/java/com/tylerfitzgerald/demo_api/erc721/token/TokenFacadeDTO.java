@@ -18,9 +18,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class TokenFacadeDTO {
   private TokenDTO tokenDTO;
-  private List<TraitDTO> tokenTraits;
-  private List<TraitTypeDTO> availableTraitTypes;
-  private List<TraitTypeWeightDTO> availableTraitTypeWeights;
+  private List<TraitDTO> weightedTraits;
+  private List<TraitTypeDTO> weightedTraitTypes;
+  private List<TraitTypeWeightDTO> weightedTraitTypeWeights;
   private List<WeightlessTraitDTO> weightlessTraits;
   private List<WeightlessTraitTypeDTO> weightlessTraitTypes;
 }

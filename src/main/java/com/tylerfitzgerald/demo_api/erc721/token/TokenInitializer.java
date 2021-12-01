@@ -88,9 +88,9 @@ public class TokenInitializer {
   private TokenFacadeDTO buildNFTFacade() {
     return TokenFacadeDTO.builder()
         .tokenDTO(tokenDTO)
-        .tokenTraits(weightedTraits)
-        .availableTraitTypes(availableTraitTypes)
-        .availableTraitTypeWeights(availableTraitTypeWeights)
+        .weightedTraits(weightedTraits)
+        .weightedTraitTypes(availableTraitTypes)
+        .weightedTraitTypeWeights(availableTraitTypeWeights)
         .weightlessTraits(weightlessTraits)
         .weightlessTraitTypes(weightlessTraitTypes)
         .build();

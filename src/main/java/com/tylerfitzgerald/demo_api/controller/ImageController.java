@@ -2,20 +2,19 @@ package com.tylerfitzgerald.demo_api.controller;
 
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
+import com.tylerfitzgerald.demo_api.erc721.traits.WeightedTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.RarityCalculator;
 import com.tylerfitzgerald.demo_api.image.ImageDrawer;
 import com.tylerfitzgerald.demo_api.image.ImageException;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.NoSuchElementException;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,14 +45,14 @@ public class ImageController extends BaseController {
             getRarityScore(nft),
             imageResourcesLoader.getResourcesByName(emojiFileNames),
             getTileColors(nft),
-            true);
+            getIsTokenBurnt(nft));
     writeBufferedImageToOutput(byteArray, response);
     return;
   }
 
   private Long getRarityScore(TokenFacadeDTO nft) {
     return rarityCalculator.calculateRarity(
-        nft.getTokenTraits(), nft.getAvailableTraitTypeWeights());
+        nft.getWeightedTraits(), nft.getWeightedTraitTypeWeights());
   }
 
   private List<String> getTileColors(TokenFacadeDTO nft) {
@@ -68,6 +67,22 @@ public class ImageController extends BaseController {
       }
     }
     return tileColors;
+  }
+
+  private boolean getIsTokenBurnt(TokenFacadeDTO nft) {
+    try {
+      nft.getWeightedTraits().stream()
+          .filter(
+              weightedTrait ->
+                  weightedTrait
+                      .getTraitTypeId()
+                      .equals((long) WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE))
+          .findFirst()
+          .get();
+      return true;
+    } catch (NoSuchElementException e) {
+      return false;
+    }
   }
 
   private String[] getEmojiFileNames(TokenFacadeDTO nft) {
