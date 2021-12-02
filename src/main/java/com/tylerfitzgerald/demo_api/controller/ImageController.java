@@ -33,10 +33,11 @@ public class ImageController extends BaseController {
 
   @GetMapping(value = "tile/get/{tokenId}", produces = MediaType.IMAGE_PNG_VALUE)
   public void getTokenImage(HttpServletResponse response, @PathVariable Long tokenId)
-      throws ImageException, IOException, ControllerException, WeightlessTraitException {
+      throws ImageException, IOException {
     TokenFacadeDTO nft = tokenRetriever.get(tokenId);
     if (nft == null) {
-      throw new ControllerException("Token id not able to be found");
+      System.out.println("Token id not able to be found. TokenId: " + tokenId);
+      return;
     }
     String[] emojiFileNames = getEmojiFileNames(nft);
     response.setContentType(MediaType.IMAGE_PNG_VALUE);
