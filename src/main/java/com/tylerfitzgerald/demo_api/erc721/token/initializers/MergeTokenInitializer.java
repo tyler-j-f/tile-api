@@ -314,7 +314,7 @@ public class MergeTokenInitializer {
   private String findWeightlessTraitValueFromListByType(TokenFacadeDTO nft, Long traitTypeId) {
     try {
       return weightlessTraitInListFinder
-          .findTraitInList(nft.getWeightlessTraits(), traitTypeId)
+          .findWeightlessTraitInList(nft.getWeightlessTraits(), traitTypeId)
           .getValue();
     } catch (NoSuchElementException e) {
       return findWeightedTraitValueFromWeightlessTraitListByType(weightedTraits, traitTypeId);
@@ -327,13 +327,14 @@ public class MergeTokenInitializer {
         weightedTraits,
         weightedTraitTypeWeights,
         weightedTraitInListFinder
-            .findTraitInList(weightedTraits, weightedTraitTypeId)
+            .findWeightedTraitInList(weightedTraits, weightedTraitTypeId)
             .getTraitTypeId());
   }
 
   private String findWeightedTraitValue(
       List<TraitDTO> weightedTraits, List<TraitTypeWeightDTO> traitWeights, Long traitTypeId) {
-    TraitDTO foundTrait = weightedTraitInListFinder.findTraitInList(weightedTraits, traitTypeId);
+    TraitDTO foundTrait =
+        weightedTraitInListFinder.findWeightedTraitInList(weightedTraits, traitTypeId);
     return traitWeights.stream()
         .filter(
             traitWeight ->
