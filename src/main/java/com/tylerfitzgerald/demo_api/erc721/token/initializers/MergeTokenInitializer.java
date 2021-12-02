@@ -4,8 +4,9 @@ import com.tylerfitzgerald.demo_api.config.TokenConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenDataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
-import com.tylerfitzgerald.demo_api.erc721.token.finders.WeightedListFinder;
-import com.tylerfitzgerald.demo_api.erc721.token.finders.WeightlessListFinder;
+import com.tylerfitzgerald.demo_api.erc721.token.finders.WeightedTraitTypeWeightsListFinder;
+import com.tylerfitzgerald.demo_api.erc721.token.finders.WeightedTraitsListFinder;
+import com.tylerfitzgerald.demo_api.erc721.token.finders.WeightlessTraitsListFinder;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightedTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitContext;
@@ -40,8 +41,9 @@ public class MergeTokenInitializer {
   @Autowired private TokenConfig tokenConfig;
   @Autowired private OverallRarityTraitPicker rarityTraitPicker;
   @Autowired private TokenRepository tokenRepository;
-  @Autowired private WeightlessListFinder weightlessTraitInListFinder;
-  @Autowired private WeightedListFinder weightedTraitInListFinder;
+  @Autowired private WeightlessTraitsListFinder weightlessTraitInListFinder;
+  @Autowired private WeightedTraitsListFinder weightedTraitInListFinder;
+  @Autowired private WeightedTraitTypeWeightsListFinder weightedTraitTypeWeightsListFinder;
 
   private static final int[] WEIGHTED_TRAIT_TYPES_TO_IGNORE = {
     WeightedTraitTypeConstants.TILE_1_RARITY,
@@ -335,12 +337,8 @@ public class MergeTokenInitializer {
       List<TraitDTO> weightedTraits, List<TraitTypeWeightDTO> traitWeights, Long traitTypeId) {
     TraitDTO foundTrait =
         weightedTraitInListFinder.findWeightedTraitInList(weightedTraits, traitTypeId);
-    return traitWeights.stream()
-        .filter(
-            traitWeight ->
-                traitWeight.getTraitTypeWeightId().equals(foundTrait.getTraitTypeWeightId()))
-        .findFirst()
-        .get()
+    return weightedTraitTypeWeightsListFinder
+        .findWeightedTraitTypeWeightInList(traitWeights, foundTrait.getTraitTypeWeightId())
         .getValue();
   }
 

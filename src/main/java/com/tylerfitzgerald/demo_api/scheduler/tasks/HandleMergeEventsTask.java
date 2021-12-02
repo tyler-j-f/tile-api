@@ -17,7 +17,6 @@ import com.tylerfitzgerald.demo_api.ethEvents.events.MergeEvent;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitRepository;
-import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,32 +53,11 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
       System.out.println("HandleMergeEventsTask: Found no tasks.");
       return;
     }
-    updateTraitValuesForBurnEvents(removeDuplicateMergeEthEvents.remove(events));
+    addTokensAndNewTraitsForMergeEvents(removeDuplicateMergeEthEvents.remove(events));
     return;
   }
 
-  // TODO move updateTraitValue to another class or to a common parent.
-  private WeightlessTraitDTO updateTraitValue(
-      List<WeightlessTraitDTO> traits, String tileEmojiValue, Long traitTypeId) {
-    WeightlessTraitDTO trait =
-        traits.stream()
-            .filter(weightlessTraitDTO -> weightlessTraitDTO.getTraitTypeId().equals(traitTypeId))
-            .findFirst()
-            .get();
-    System.out.println("Pre updated trait. Trait: " + trait);
-    if (tileEmojiValue.equals(trait.getValue())) {
-      System.out.println(
-          "Will not update emoji value trait for tile # "
-              + trait.getTokenId()
-              + " . Trait Values: "
-              + trait);
-      return null;
-    }
-    trait.setValue(tileEmojiValue);
-    return trait;
-  }
-
-  private void updateTraitValuesForBurnEvents(List<MergeEvent> events)
+  private void addTokensAndNewTraitsForMergeEvents(List<MergeEvent> events)
       throws TokenInitializeException, WeightlessTraitException {
     for (MergeEvent event : events) {
       Long newTokenId = Long.valueOf(strip0xFromHexString(event.getNewTokenId()));
@@ -113,7 +91,7 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
             burnedNft1,
             burnedNft2,
             getLongFromHexString(event.getTransactionHash(), 0, 9));
-    System.out.println("New token created from merge event. tokenId: : " + tokenId);
+    System.out.println("New token created from merge event. tokenId: " + tokenId);
   }
 
   private void addNewTraitForBurnEvent(TokenFacadeDTO nft) {

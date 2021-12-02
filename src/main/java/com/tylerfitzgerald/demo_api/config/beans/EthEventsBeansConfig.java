@@ -1,7 +1,5 @@
 package com.tylerfitzgerald.demo_api.config.beans;
 
-import com.tylerfitzgerald.demo_api.erc721.token.finders.WeightedListFinder;
-import com.tylerfitzgerald.demo_api.erc721.token.finders.WeightlessListFinder;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.MergeTokenInitializer;
 import com.tylerfitzgerald.demo_api.ethEvents.EthEventsRetriever;
 import com.tylerfitzgerald.demo_api.ethEvents.RemoveDuplicateEthEventsForToken;
@@ -53,15 +51,5 @@ public class EthEventsBeansConfig {
   @Bean
   public MergeTokenInitializer mergeTokenInitializer() {
     return new MergeTokenInitializer();
-  }
-
-  @Bean
-  public WeightlessListFinder weightlessTraitInListFinder() {
-    return new WeightlessListFinder();
-  }
-
-  @Bean
-  public WeightedListFinder weightedTraitInListFinder() {
-    return new WeightedListFinder();
   }
 }
