@@ -4,6 +4,8 @@ import com.tylerfitzgerald.demo_api.config.TokenConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenDataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
+import com.tylerfitzgerald.demo_api.erc721.token.finders.WeightedTraitInListFinder;
+import com.tylerfitzgerald.demo_api.erc721.token.finders.WeightlessTraitInListFinder;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightedTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitContext;
@@ -38,6 +40,8 @@ public class MergeTokenInitializer {
   @Autowired private TokenConfig tokenConfig;
   @Autowired private OverallRarityTraitPicker rarityTraitPicker;
   @Autowired private TokenRepository tokenRepository;
+  @Autowired private WeightlessTraitInListFinder weightlessTraitInListFinder;
+  @Autowired private WeightedTraitInListFinder weightedTraitInListFinder;
 
   private static final int[] WEIGHTED_TRAIT_TYPES_TO_IGNORE = {
     WeightedTraitTypeConstants.TILE_1_RARITY,
@@ -55,12 +59,10 @@ public class MergeTokenInitializer {
   private TokenDTO tokenDTO;
   private TokenFacadeDTO burnedNft1;
   private TokenFacadeDTO burnedNft2;
-  private Long seedForTraits;
 
   public TokenDataDTO initialize(
       Long tokenId, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2, Long seedForTraits)
       throws TokenInitializeException, WeightlessTraitException {
-    this.seedForTraits = seedForTraits;
     this.burnedNft1 = burnedNft1;
     this.burnedNft2 = burnedNft2;
     if (burnedNft1 == null) {
@@ -311,13 +313,9 @@ public class MergeTokenInitializer {
 
   private String findWeightlessTraitValueFromListByType(TokenFacadeDTO nft, Long traitTypeId) {
     try {
-      List<WeightlessTraitDTO> weightLessTraits = nft.getWeightlessTraits();
-      WeightlessTraitDTO weightlessTrait =
-          weightLessTraits.stream()
-              .filter(trait -> trait.getTraitTypeId().equals(traitTypeId))
-              .findFirst()
-              .get();
-      return weightlessTrait.getValue();
+      return weightlessTraitInListFinder
+          .findTraitInList(nft.getWeightlessTraits(), traitTypeId)
+          .getValue();
     } catch (NoSuchElementException e) {
       return findWeightedTraitValueFromWeightlessTraitListByType(weightedTraits, traitTypeId);
     }
@@ -325,22 +323,17 @@ public class MergeTokenInitializer {
 
   private String findWeightedTraitValueFromWeightlessTraitListByType(
       List<TraitDTO> weightedTraits, Long weightedTraitTypeId) {
-    TraitDTO weightedTraitFound =
-        weightedTraits.stream()
-            .filter(weightedTrait -> weightedTrait.getTraitTypeId().equals(weightedTraitTypeId))
-            .findFirst()
-            .get();
     return findWeightedTraitValue(
-        weightedTraits, weightedTraitTypeWeights, weightedTraitFound.getTraitTypeId());
+        weightedTraits,
+        weightedTraitTypeWeights,
+        weightedTraitInListFinder
+            .findTraitInList(weightedTraits, weightedTraitTypeId)
+            .getTraitTypeId());
   }
 
   private String findWeightedTraitValue(
-      List<TraitDTO> traits, List<TraitTypeWeightDTO> traitWeights, Long traitTypeId) {
-    TraitDTO foundTrait =
-        traits.stream()
-            .filter(trait -> trait.getTraitTypeId().equals(traitTypeId))
-            .findFirst()
-            .get();
+      List<TraitDTO> weightedTraits, List<TraitTypeWeightDTO> traitWeights, Long traitTypeId) {
+    TraitDTO foundTrait = weightedTraitInListFinder.findTraitInList(weightedTraits, traitTypeId);
     return traitWeights.stream()
         .filter(
             traitWeight ->
