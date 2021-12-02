@@ -4,8 +4,8 @@ import com.tylerfitzgerald.demo_api.config.TokenConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenDataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
-import com.tylerfitzgerald.demo_api.erc721.token.finders.WeightedTraitInListFinder;
-import com.tylerfitzgerald.demo_api.erc721.token.finders.WeightlessTraitInListFinder;
+import com.tylerfitzgerald.demo_api.erc721.token.finders.WeightedListFinder;
+import com.tylerfitzgerald.demo_api.erc721.token.finders.WeightlessListFinder;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightedTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitContext;
@@ -40,8 +40,8 @@ public class MergeTokenInitializer {
   @Autowired private TokenConfig tokenConfig;
   @Autowired private OverallRarityTraitPicker rarityTraitPicker;
   @Autowired private TokenRepository tokenRepository;
-  @Autowired private WeightlessTraitInListFinder weightlessTraitInListFinder;
-  @Autowired private WeightedTraitInListFinder weightedTraitInListFinder;
+  @Autowired private WeightlessListFinder weightlessTraitInListFinder;
+  @Autowired private WeightedListFinder weightedTraitInListFinder;
 
   private static final int[] WEIGHTED_TRAIT_TYPES_TO_IGNORE = {
     WeightedTraitTypeConstants.TILE_1_RARITY,
