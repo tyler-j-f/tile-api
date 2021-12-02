@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.erc721.token;
+package com.tylerfitzgerald.demo_api.erc721.token.initializers;
 
 public class TokenInitializeException extends Exception {
 

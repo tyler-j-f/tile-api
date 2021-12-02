@@ -12,7 +12,7 @@ import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitsTable;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenTable;
-import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
+import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightRepository;

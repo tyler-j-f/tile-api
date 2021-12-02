@@ -3,10 +3,10 @@
 // another token will be minted.
 package com.tylerfitzgerald.demo_api.scheduler.tasks;
 
-import com.tylerfitzgerald.demo_api.erc721.token.MergeTokenInitializer;
+import com.tylerfitzgerald.demo_api.erc721.token.initializers.MergeTokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenDataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
-import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
+import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightedTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightedTraitWeightConstants;
@@ -83,9 +83,9 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
       throws TokenInitializeException, WeightlessTraitException {
     for (MergeEvent event : events) {
       Long newTokenId = Long.valueOf(strip0xFromHexString(event.getNewTokenId()));
+      System.out.println("\nFound merge event for new token. newTokenId: " + newTokenId);
       if (tokenRetriever.get(newTokenId) != null) {
-        System.out.println(
-            "Token for mint event was already created. Found merge for tokenId: " + newTokenId);
+        System.out.println("Token for merge event was already created. tokenId: " + newTokenId);
         continue;
       }
       TokenFacadeDTO burnedNft1 =
@@ -97,8 +97,8 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
             "ERROR!!! One of the requested tokens to burn, during merging, is not able to be retrieved.");
         continue;
       }
-      updateTraitForBurnEvent(burnedNft1);
-      updateTraitForBurnEvent(burnedNft2);
+      addNewTraitForBurnEvent(burnedNft1);
+      addNewTraitForBurnEvent(burnedNft2);
       mintNewTokenForMerge(event, burnedNft1, burnedNft2);
     }
   }
@@ -106,34 +106,30 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
   private void mintNewTokenForMerge(
       MergeEvent event, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2)
       throws TokenInitializeException, WeightlessTraitException {
-    System.out.println(
-        "mintNewTokenForMerge called. burnedNft1: "
-            + burnedNft1.getTokenDTO().getTokenId()
-            + ",  burnedNft2: "
-            + burnedNft2.getTokenDTO().getTokenId()
-            + ",  newTokenId: "
-            + event.getNewTokenId());
+    Long tokenId = getLongFromHexString(event.getNewTokenId());
     TokenDataDTO token =
         mergeTokenInitializer.initialize(
-            getLongFromHexString(event.getNewTokenId()),
+            tokenId,
             burnedNft1,
             burnedNft2,
             getLongFromHexString(event.getTransactionHash(), 0, 9));
-    System.out.println("\n\nDebug new TokenDataDTO: " + token);
+    System.out.println("New token created from merge event. tokenId: : " + tokenId);
   }
 
-  private void updateTraitForBurnEvent(TokenFacadeDTO nft) {
+  private void addNewTraitForBurnEvent(TokenFacadeDTO nft) {
     Long traitId = traitRepository.read().size() + 1L;
+    traitRepository.create(
+        TraitDTO.builder()
+            .id(null)
+            .traitId(traitId)
+            .tokenId(nft.getTokenDTO().getTokenId())
+            .traitTypeId((long) WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE)
+            .traitTypeWeightId((long) WeightedTraitWeightConstants.IS_BURNT_TOKEN_EQUALS_TRUE)
+            .build());
     System.out.println(
-        "updateTraitValuesForBurnEvent called. \n traitAddedForBurn: "
-            + traitRepository.create(
-                TraitDTO.builder()
-                    .id(null)
-                    .traitId(traitId)
-                    .tokenId(nft.getTokenDTO().getTokenId())
-                    .traitTypeId((long) WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE)
-                    .traitTypeWeightId(
-                        (long) WeightedTraitWeightConstants.IS_BURNT_TOKEN_EQUALS_TRUE)
-                    .build()));
+        "Added burn trait for burnt token. tokenId: "
+            + nft.getTokenDTO().getTokenId()
+            + ", newTraitId: "
+            + traitId);
   }
 }

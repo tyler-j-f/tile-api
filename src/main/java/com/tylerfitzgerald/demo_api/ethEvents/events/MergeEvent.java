@@ -22,7 +22,7 @@ public class MergeEvent extends AbstractEvent {
 
   @Override
   public String toString() {
-    return "MintEvent{"
+    return "MergeEvent{"
         + "tokenId="
         + getBurnedToken1Id()
         + ", "

@@ -1,6 +1,6 @@
 package com.tylerfitzgerald.demo_api.config.beans;
 
-import com.tylerfitzgerald.demo_api.erc721.token.MergeTokenInitializer;
+import com.tylerfitzgerald.demo_api.erc721.token.initializers.MergeTokenInitializer;
 import com.tylerfitzgerald.demo_api.ethEvents.RemoveDuplicateMergeEthEvents;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMergeEventsTask;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleSetColorsEventsTask;

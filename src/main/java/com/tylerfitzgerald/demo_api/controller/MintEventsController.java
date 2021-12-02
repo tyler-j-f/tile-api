@@ -4,8 +4,8 @@ import com.tylerfitzgerald.demo_api.config.EventsConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenDataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
-import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializeException;
-import com.tylerfitzgerald.demo_api.erc721.token.TokenInitializer;
+import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;
+import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializer;
 import com.tylerfitzgerald.demo_api.etc.BigIntegerFactory;
 import com.tylerfitzgerald.demo_api.ethEvents.EthEventException;
 import com.tylerfitzgerald.demo_api.ethEvents.EthEventsRetriever;
@@ -20,9 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigInteger;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping(value = {"/api/events/mint"})
@@ -84,23 +82,20 @@ public class MintEventsController extends BaseController {
       tokenId = getLongFromHexString(event.getTokenId());
       transactionHash = getLongFromHexString(event.getTransactionHash());
       TokenDTO existingTokenDTO = tokenRepository.readById(tokenId);
+      System.out.println("\nFound mint event for new token. newTokenId: " + tokenId);
       if (existingTokenDTO != null) {
         System.out.println(
-            "\nToken from mint event was already previously added to the token DB. \ntokenId: "
-                + tokenId
-                + "\nexistingTokenDTO: "
-                + existingTokenDTO.toString()
-                + "\n");
+            "Token for mint event was previously added to the DB. tokenId: " + tokenId);
         continue;
       }
       TokenDataDTO token = addTokenToDB(tokenId, transactionHash);
       if (token == null) {
         System.out.println(
-            "\nError adding token from mint event to token DB. TokenId: " + tokenId + "\n");
+            "\nError adding Token for mint event to token DB. TokenId: " + tokenId + "\n");
         continue;
       }
       tokens.add(token);
-      System.out.println("\nAdded token from mint event to token DB. TokenId: " + tokenId + "\n");
+      System.out.println("\nAdded Token for mint event to token DB. TokenId: " + tokenId + "\n");
     }
     return tokens;
   }
