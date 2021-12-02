@@ -1,11 +1,10 @@
 package com.tylerfitzgerald.demo_api.erc721.token.finders;
 
-import com.tylerfitzgerald.demo_api.sql.BaseTraitDTO;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-public abstract class AbstractListFinder<T extends BaseTraitDTO> implements ListFinderInterface<T> {
+public abstract class AbstractListFinder<T> implements ListFinderInterface<T> {
 
   public T findInList(List<T> listHaystack, Long needleValue, String needleValueGetterMethodName) {
     return listHaystack.stream()
