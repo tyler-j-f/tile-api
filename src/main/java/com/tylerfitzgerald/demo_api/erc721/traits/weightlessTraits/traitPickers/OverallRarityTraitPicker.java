@@ -5,21 +5,21 @@ import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTra
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class RarityTraitPicker implements WeightlessTraitInterface {
+public class OverallRarityTraitPicker implements WeightlessTraitInterface {
 
-  @Autowired private RarityCalculator rarityCalculator;
+  @Autowired private OverallRarityCalculator overallRarityCalculator;
 
   @Override
   public String getValue(WeightlessTraitContext context) throws WeightlessTraitException {
     if (context.getWeightlessTraits().size() == 0) {
-      return rarityCalculator
-          .calculateRarity(context.getWeightedTraits(), context.getTraitTypeWeights())
+      return overallRarityCalculator
+          .calculateRarity(context.getWeightedTraits(), context.getWeightedTraitTypeWeights())
           .toString();
     }
-    return rarityCalculator
+    return overallRarityCalculator
         .calculateRarity(
             context.getWeightedTraits(),
-            context.getTraitTypeWeights(),
+            context.getWeightedTraitTypeWeights(),
             context.getWeightlessTraits())
         .toString();
   }

@@ -7,7 +7,7 @@ import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTra
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.ColorTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitException;
-import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.RarityTraitPicker;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
@@ -37,7 +37,7 @@ public class TokenInitializer {
   @Autowired private TokenConfig tokenConfig;
   @Autowired private EmojiTraitPicker emojiTraitPicker;
   @Autowired private ColorTraitPicker colorTraitPicker;
-  @Autowired private RarityTraitPicker rarityTraitPicker;
+  @Autowired private OverallRarityTraitPicker rarityTraitPicker;
 
   /**
    * For creating deterministic traits we increment the random seed value after creating a trait.
@@ -157,9 +157,9 @@ public class TokenInitializer {
       } else if (traitTypeId == WeightlessTraitTypeConstants.OVERALL_RARITY) {
         return rarityTraitPicker.getValue(
             WeightlessTraitContext.builder()
-                .seedForTrait(seedForTrait * SEED_MULTIPLIER)
+                .seedForTrait(null)
                 .weightedTraits(weightedTraits)
-                .traitTypeWeights(availableTraitTypeWeights)
+                .weightedTraitTypeWeights(availableTraitTypeWeights)
                 .weightlessTraits(new ArrayList<>())
                 .build());
       } else {

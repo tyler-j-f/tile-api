@@ -5,7 +5,7 @@ import com.tylerfitzgerald.demo_api.erc721.traits.WeightedTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitContext;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitException;
-import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.RarityTraitPicker;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
@@ -33,7 +33,7 @@ public class MergeTokenInitializer {
   @Autowired private WeightlessTraitRepository weightlessTraitRepository;
   @Autowired private WeightlessTraitTypeRepository weightlessTraitTypeRepository;
   @Autowired private TokenConfig tokenConfig;
-  @Autowired private RarityTraitPicker rarityTraitPicker;
+  @Autowired private OverallRarityTraitPicker rarityTraitPicker;
   @Autowired private TokenRepository tokenRepository;
 
   private static final int[] WEIGHTED_TRAIT_TYPES_TO_IGNORE = {
@@ -159,9 +159,9 @@ public class MergeTokenInitializer {
     } else if (traitTypeId == WeightlessTraitTypeConstants.OVERALL_RARITY) {
       return rarityTraitPicker.getValue(
           WeightlessTraitContext.builder()
-              .seedForTrait(seedForTrait)
+              .seedForTrait(null)
               .weightedTraits(weightedTraits)
-              .traitTypeWeights(weightedTraitTypeWeights)
+              .weightedTraitTypeWeights(weightedTraitTypeWeights)
               .weightlessTraits(weightlessTraits)
               .build());
     } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_EMOJI) {

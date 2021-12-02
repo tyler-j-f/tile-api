@@ -7,7 +7,7 @@ import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import java.util.List;
 
-public class RarityCalculator {
+public class OverallRarityCalculator {
   private Long tile1Value = 1L;
   private Long tile2Value = 1L;
   private Long tile3Value = 1L;

@@ -3,11 +3,13 @@ package com.tylerfitzgerald.demo_api.controller;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightedTraitTypeConstants;
-import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.RarityCalculator;
+import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitContext;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitException;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.image.ImageDrawer;
 import com.tylerfitzgerald.demo_api.image.ImageException;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
-import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,11 +30,11 @@ public class ImageController extends BaseController {
   @Autowired private ImageDrawer imageDrawer;
   @Autowired private ImageResourcesLoader imageResourcesLoader;
   @Autowired private TokenRetriever tokenRetriever;
-  @Autowired private RarityCalculator rarityCalculator;
+  @Autowired private OverallRarityTraitPicker overallRarityTraitPicker;
 
   @GetMapping(value = "tile/get/{tokenId}", produces = MediaType.IMAGE_PNG_VALUE)
   public void getTokenImage(HttpServletResponse response, @PathVariable Long tokenId)
-      throws ImageException, IOException, ControllerException {
+      throws ImageException, IOException, ControllerException, WeightlessTraitException {
     TokenFacadeDTO nft = tokenRetriever.get(tokenId);
     if (nft == null) {
       throw new ControllerException("Token id not able to be found");
@@ -50,9 +52,43 @@ public class ImageController extends BaseController {
     return;
   }
 
-  private Long getRarityScore(TokenFacadeDTO nft) {
-    return rarityCalculator.calculateRarity(
-        nft.getWeightedTraits(), nft.getWeightedTraitTypeWeights());
+  private Long getRarityScore(TokenFacadeDTO nft) throws WeightlessTraitException {
+    List<WeightlessTraitDTO> weightlessTraits = nft.getWeightlessTraits();
+    if (getIsTokenAMergedToken(weightlessTraits)) {
+      return Long.valueOf(
+          overallRarityTraitPicker.getValue(
+              WeightlessTraitContext.builder()
+                  .seedForTrait(null)
+                  .weightedTraits(nft.getWeightedTraits())
+                  .weightedTraitTypeWeights(nft.getWeightedTraitTypeWeights())
+                  .weightlessTraits(weightlessTraits)
+                  .build()));
+    }
+    return Long.valueOf(
+        overallRarityTraitPicker.getValue(
+            WeightlessTraitContext.builder()
+                .seedForTrait(null)
+                .weightedTraits(nft.getWeightedTraits())
+                .weightedTraitTypeWeights(nft.getWeightedTraitTypeWeights())
+                .weightlessTraits(new ArrayList<>())
+                .build()));
+  }
+
+  private boolean getIsTokenAMergedToken(List<WeightlessTraitDTO> weightlessTraits) {
+    try {
+      // A token that has been merged will have a
+      weightlessTraits.stream()
+          .filter(
+              weightlessTrait ->
+                  weightlessTrait
+                      .getTraitTypeId()
+                      .equals((long) WeightlessTraitTypeConstants.TILE_1_RARITY))
+          .findFirst()
+          .get();
+      return true;
+    } catch (NoSuchElementException e) {
+      return false;
+    }
   }
 
   private List<String> getTileColors(TokenFacadeDTO nft) {
