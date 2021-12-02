@@ -2,7 +2,6 @@ package com.tylerfitzgerald.demo_api.ethEvents;
 
 import com.tylerfitzgerald.demo_api.ethEvents.events.MergeEvent;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class RemoveDuplicateMergeEthEvents {

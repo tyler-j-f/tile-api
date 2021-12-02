@@ -1,9 +1,8 @@
 package com.tylerfitzgerald.demo_api.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public abstract class BaseController {

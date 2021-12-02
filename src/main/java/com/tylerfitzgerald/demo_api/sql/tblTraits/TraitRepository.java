@@ -1,13 +1,12 @@
 package com.tylerfitzgerald.demo_api.sql.tblTraits;
 
 import com.tylerfitzgerald.demo_api.sql.RepositoryInterface;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 public class TraitRepository implements RepositoryInterface<TraitDTO, Long> {
 

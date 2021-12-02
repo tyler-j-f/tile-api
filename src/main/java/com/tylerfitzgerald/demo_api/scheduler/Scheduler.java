@@ -4,11 +4,10 @@ import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMergeEventsTask;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEventsTask;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleSetColorsEventsTask;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleSetEmojisEventsTask;
+import java.util.concurrent.ExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.ExecutionException;
 
 @Component
 public class Scheduler {

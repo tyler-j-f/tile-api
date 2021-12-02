@@ -1,9 +1,9 @@
 package com.tylerfitzgerald.demo_api.sql.tblTraits;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class TraitDTOTest {

@@ -2,7 +2,6 @@ package com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes;
 
 import com.tylerfitzgerald.demo_api.config.TraitsConfig;
 import com.tylerfitzgerald.demo_api.sql.TableInterface;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 

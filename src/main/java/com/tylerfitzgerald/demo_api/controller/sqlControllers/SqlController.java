@@ -2,7 +2,6 @@ package com.tylerfitzgerald.demo_api.controller.sqlControllers;
 
 import com.tylerfitzgerald.demo_api.controller.BaseController;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenTable;
-
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightsTable;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypesTable;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitsTable;

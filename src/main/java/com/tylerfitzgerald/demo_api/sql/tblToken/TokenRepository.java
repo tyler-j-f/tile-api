@@ -2,12 +2,11 @@ package com.tylerfitzgerald.demo_api.sql.tblToken;
 
 import com.tylerfitzgerald.demo_api.sql.RepositoryInterface;
 import java.util.ArrayList;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
-
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
 

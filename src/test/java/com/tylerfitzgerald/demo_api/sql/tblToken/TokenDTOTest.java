@@ -1,10 +1,9 @@
 package com.tylerfitzgerald.demo_api.sql.tblToken;
 
-import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class TokenDTOTest {

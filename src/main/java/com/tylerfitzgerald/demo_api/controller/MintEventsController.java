@@ -9,18 +9,17 @@ import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializer;
 import com.tylerfitzgerald.demo_api.etc.BigIntegerFactory;
 import com.tylerfitzgerald.demo_api.ethEvents.EthEventException;
 import com.tylerfitzgerald.demo_api.ethEvents.EthEventsRetriever;
-import com.tylerfitzgerald.demo_api.scheduler.tasks.AbstractEthEventsRetrieverTask;
 import com.tylerfitzgerald.demo_api.ethEvents.events.MintEvent;
+import com.tylerfitzgerald.demo_api.scheduler.tasks.AbstractEthEventsRetrieverTask;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value = {"/api/events/mint"})
