@@ -229,55 +229,72 @@ public class MergeTokenInitializer {
   }
 
   private String[] getBurnedTokenValues(Long traitTypeId) {
-    String burnedWeightlessTrait1Value, burnedWeightlessTrait2Value;
+    String burnedWeightlessTrait1Value = null;
+    String burnedWeightlessTrait2Value = null;
     try {
       burnedWeightlessTrait1Value = findWeightlessTraitValueFromListByType(burnedNft1, traitTypeId);
       burnedWeightlessTrait2Value = findWeightlessTraitValueFromListByType(burnedNft2, traitTypeId);
     } catch (NoSuchElementException e) {
       if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_RARITY) {
         burnedWeightlessTrait1Value =
-            findWeightedTraitValue(
-                burnedNft1.getWeightedTraits(),
-                burnedNft1.getWeightedTraitTypeWeights(),
-                (long) WeightedTraitTypeConstants.TILE_1_RARITY);
+            burnedWeightlessTrait1Value != null
+                ? burnedWeightlessTrait1Value
+                : findWeightedTraitValue(
+                    burnedNft1.getWeightedTraits(),
+                    burnedNft1.getWeightedTraitTypeWeights(),
+                    (long) WeightedTraitTypeConstants.TILE_1_RARITY);
         burnedWeightlessTrait2Value =
-            findWeightedTraitValue(
-                burnedNft2.getWeightedTraits(),
-                burnedNft2.getWeightedTraitTypeWeights(),
-                (long) WeightedTraitTypeConstants.TILE_1_RARITY);
+            burnedWeightlessTrait2Value != null
+                ? burnedWeightlessTrait2Value
+                : findWeightedTraitValue(
+                    burnedNft2.getWeightedTraits(),
+                    burnedNft2.getWeightedTraitTypeWeights(),
+                    (long) WeightedTraitTypeConstants.TILE_1_RARITY);
       } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_2_RARITY) {
         burnedWeightlessTrait1Value =
-            findWeightedTraitValue(
-                burnedNft1.getWeightedTraits(),
-                burnedNft1.getWeightedTraitTypeWeights(),
-                (long) WeightedTraitTypeConstants.TILE_2_RARITY);
+            burnedWeightlessTrait1Value != null
+                ? burnedWeightlessTrait1Value
+                : findWeightedTraitValue(
+                    burnedNft1.getWeightedTraits(),
+                    burnedNft1.getWeightedTraitTypeWeights(),
+                    (long) WeightedTraitTypeConstants.TILE_2_RARITY);
         burnedWeightlessTrait2Value =
-            findWeightedTraitValue(
-                burnedNft2.getWeightedTraits(),
-                burnedNft2.getWeightedTraitTypeWeights(),
-                (long) WeightedTraitTypeConstants.TILE_2_RARITY);
+            burnedWeightlessTrait2Value != null
+                ? burnedWeightlessTrait2Value
+                : findWeightedTraitValue(
+                    burnedNft2.getWeightedTraits(),
+                    burnedNft2.getWeightedTraitTypeWeights(),
+                    (long) WeightedTraitTypeConstants.TILE_2_RARITY);
       } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_3_RARITY) {
         burnedWeightlessTrait1Value =
-            findWeightedTraitValue(
-                burnedNft1.getWeightedTraits(),
-                burnedNft1.getWeightedTraitTypeWeights(),
-                (long) WeightedTraitTypeConstants.TILE_3_RARITY);
+            burnedWeightlessTrait1Value != null
+                ? burnedWeightlessTrait1Value
+                : findWeightedTraitValue(
+                    burnedNft1.getWeightedTraits(),
+                    burnedNft1.getWeightedTraitTypeWeights(),
+                    (long) WeightedTraitTypeConstants.TILE_3_RARITY);
         burnedWeightlessTrait2Value =
-            findWeightedTraitValue(
-                burnedNft2.getWeightedTraits(),
-                burnedNft2.getWeightedTraitTypeWeights(),
-                (long) WeightedTraitTypeConstants.TILE_3_RARITY);
+            burnedWeightlessTrait2Value != null
+                ? burnedWeightlessTrait2Value
+                : findWeightedTraitValue(
+                    burnedNft2.getWeightedTraits(),
+                    burnedNft2.getWeightedTraitTypeWeights(),
+                    (long) WeightedTraitTypeConstants.TILE_3_RARITY);
       } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_4_RARITY) {
         burnedWeightlessTrait1Value =
-            findWeightedTraitValue(
-                burnedNft1.getWeightedTraits(),
-                burnedNft1.getWeightedTraitTypeWeights(),
-                (long) WeightedTraitTypeConstants.TILE_4_RARITY);
+            burnedWeightlessTrait1Value != null
+                ? burnedWeightlessTrait1Value
+                : findWeightedTraitValue(
+                    burnedNft1.getWeightedTraits(),
+                    burnedNft1.getWeightedTraitTypeWeights(),
+                    (long) WeightedTraitTypeConstants.TILE_4_RARITY);
         burnedWeightlessTrait2Value =
-            findWeightedTraitValue(
-                burnedNft2.getWeightedTraits(),
-                burnedNft2.getWeightedTraitTypeWeights(),
-                (long) WeightedTraitTypeConstants.TILE_4_RARITY);
+            burnedWeightlessTrait2Value != null
+                ? burnedWeightlessTrait2Value
+                : findWeightedTraitValue(
+                    burnedNft2.getWeightedTraits(),
+                    burnedNft2.getWeightedTraitTypeWeights(),
+                    (long) WeightedTraitTypeConstants.TILE_4_RARITY);
       } else {
         System.out.println("ERROR, cannot find burned token weightless trait values");
         return null;

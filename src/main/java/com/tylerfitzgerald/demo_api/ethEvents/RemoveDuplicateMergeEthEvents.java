@@ -11,8 +11,6 @@ public class RemoveDuplicateMergeEthEvents {
 
   public List<MergeEvent> remove(List<MergeEvent> events) {
     List<MergeEvent> sortedEventsList = new ArrayList<>();
-    // Reverse the events so that most recent events are first.
-    Collections.reverse(events);
     for (MergeEvent event : events) {
       if (!doesEventsListAlreadyHaveTokenIdPair(
           sortedEventsList,
