@@ -30,7 +30,6 @@ public class ImageController extends BaseController {
   @Autowired private ImageDrawer imageDrawer;
   @Autowired private ImageResourcesLoader imageResourcesLoader;
   @Autowired private TokenRetriever tokenRetriever;
-  @Autowired private OverallRarityTraitPicker overallRarityTraitPicker;
 
   @GetMapping(value = "tile/get/{tokenId}", produces = MediaType.IMAGE_PNG_VALUE)
   public void getTokenImage(HttpServletResponse response, @PathVariable Long tokenId)
@@ -44,7 +43,7 @@ public class ImageController extends BaseController {
     byte[] byteArray =
         imageDrawer.drawImage(
             tokenId,
-            getRarityScore(nft),
+            getOverallRarityScore(nft.getWeightlessTraits()),
             imageResourcesLoader.getResourcesByName(emojiFileNames),
             getTileColors(nft),
             getIsTokenBurnt(nft));
@@ -52,42 +51,20 @@ public class ImageController extends BaseController {
     return;
   }
 
-  private Long getRarityScore(TokenFacadeDTO nft) throws WeightlessTraitException {
-    List<WeightlessTraitDTO> weightlessTraits = nft.getWeightlessTraits();
-    if (getIsTokenAMergedToken(weightlessTraits)) {
-      return Long.valueOf(
-          overallRarityTraitPicker.getValue(
-              WeightlessTraitContext.builder()
-                  .seedForTrait(null)
-                  .weightedTraits(nft.getWeightedTraits())
-                  .weightedTraitTypeWeights(nft.getWeightedTraitTypeWeights())
-                  .weightlessTraits(weightlessTraits)
-                  .build()));
-    }
-    return Long.valueOf(
-        overallRarityTraitPicker.getValue(
-            WeightlessTraitContext.builder()
-                .seedForTrait(null)
-                .weightedTraits(nft.getWeightedTraits())
-                .weightedTraitTypeWeights(nft.getWeightedTraitTypeWeights())
-                .weightlessTraits(new ArrayList<>())
-                .build()));
-  }
-
-  private boolean getIsTokenAMergedToken(List<WeightlessTraitDTO> weightlessTraits) {
+  private Long getOverallRarityScore(List<WeightlessTraitDTO> weightlessTraits) {
     try {
-      // A token that has been merged will have a
-      weightlessTraits.stream()
-          .filter(
-              weightlessTrait ->
-                  weightlessTrait
-                      .getTraitTypeId()
-                      .equals((long) WeightlessTraitTypeConstants.TILE_1_RARITY))
-          .findFirst()
-          .get();
-      return true;
+      return Long.valueOf(
+          weightlessTraits.stream()
+              .filter(
+                  weightlessTrait ->
+                      weightlessTrait
+                          .getTraitTypeId()
+                          .equals((long) WeightlessTraitTypeConstants.OVERALL_RARITY))
+              .findFirst()
+              .get()
+              .getValue());
     } catch (NoSuchElementException e) {
-      return false;
+      return 0L;
     }
   }
 
