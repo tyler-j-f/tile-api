@@ -2,7 +2,7 @@ package com.tylerfitzgerald.demo_api.erc721.token;
 
 import com.tylerfitzgerald.demo_api.erc721.traits.DisplayTypeTrait;
 import com.tylerfitzgerald.demo_api.erc721.traits.Trait;
-import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypeWeightsListFinder;
+import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypeWeightsListHelper;
 import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypesListFinder;
 import com.tylerfitzgerald.demo_api.listUtils.finders.WeightlessTraitTypesListFinder;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
@@ -25,7 +25,7 @@ public class TokenFacade {
 
   private TokenFacadeDTO nftFacadeDTO;
   @Autowired private WeightedTraitTypesListFinder weightedTraitTypesListFinder;
-  @Autowired private WeightedTraitTypeWeightsListFinder weightedTraitTypeWeightsListFinder;
+  @Autowired private WeightedTraitTypeWeightsListHelper weightedTraitTypeWeightsListHelper;
   @Autowired private WeightlessTraitTypesListFinder weightlessTraitTypesListFinder;
 
   public TokenFacade setTokenFacadeDTO(TokenFacadeDTO nftFacadeDTO) {
@@ -139,7 +139,7 @@ public class TokenFacade {
   private WeightedTraitTypeWeightDTO getTraitWeightForTraitDTO(
       List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeightDTOs,
       WeightedTraitDTO weightedTraitDTO) {
-    return weightedTraitTypeWeightsListFinder.findByTraitTypeWeightId(
+    return weightedTraitTypeWeightsListHelper.findByTraitTypeWeightId(
         weightedTraitTypeWeightDTOs, weightedTraitDTO.getTraitTypeWeightId());
   }
 

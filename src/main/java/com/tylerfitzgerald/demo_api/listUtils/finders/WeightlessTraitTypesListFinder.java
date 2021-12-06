@@ -7,6 +7,6 @@ public class WeightlessTraitTypesListFinder extends AbstractListFinder {
   public WeightlessTraitTypeDTO findByWeightlessTraitTypeId(
       List<WeightlessTraitTypeDTO> weightlessTraitTypesList, Long traitTypeId) {
     return (WeightlessTraitTypeDTO)
-        findInList(weightlessTraitTypesList, traitTypeId, "getWeightlessTraitTypeId");
+        getFirst(weightlessTraitTypesList, traitTypeId, "getWeightlessTraitTypeId");
   }
 }

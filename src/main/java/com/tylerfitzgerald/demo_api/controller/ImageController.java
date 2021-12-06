@@ -7,7 +7,7 @@ import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.image.ImageDrawer;
 import com.tylerfitzgerald.demo_api.image.ImageException;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
-import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitsListFinder;
+import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitsListHelper;
 import com.tylerfitzgerald.demo_api.listUtils.finders.WeightlessTraitsListFinder;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import java.io.IOException;
@@ -29,7 +29,7 @@ public class ImageController extends BaseController {
   @Autowired private ImageResourcesLoader imageResourcesLoader;
   @Autowired private TokenRetriever tokenRetriever;
   @Autowired private WeightlessTraitsListFinder weightlessTraitsListFinder;
-  @Autowired private WeightedTraitsListFinder weightedTraitsListFinder;
+  @Autowired private WeightedTraitsListHelper weightedTraitsListHelper;
 
   @GetMapping(value = "tile/get/{tokenId}", produces = MediaType.IMAGE_PNG_VALUE)
   public void getTokenImage(HttpServletResponse response, @PathVariable Long tokenId)
@@ -77,7 +77,7 @@ public class ImageController extends BaseController {
   }
 
   private boolean getIsTokenBurnt(TokenFacadeDTO nft) {
-    return weightedTraitsListFinder.findByTraitTypeId(
+    return weightedTraitsListHelper.findByTraitTypeId(
             nft.getWeightedTraits(), (long) WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE)
         != null;
   }

@@ -9,8 +9,8 @@ import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitContext;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitException;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
-import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypeWeightsListFinder;
-import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitsListFinder;
+import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypeWeightsListHelper;
+import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitsListHelper;
 import com.tylerfitzgerald.demo_api.listUtils.finders.WeightlessTraitsListFinder;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
@@ -41,8 +41,8 @@ public class MergeTokenInitializer {
   @Autowired private OverallRarityTraitPicker rarityTraitPicker;
   @Autowired private TokenRepository tokenRepository;
   @Autowired private WeightlessTraitsListFinder weightlessTraitInListFinder;
-  @Autowired private WeightedTraitsListFinder weightedTraitInListFinder;
-  @Autowired private WeightedTraitTypeWeightsListFinder weightedTraitTypeWeightsListFinder;
+  @Autowired private WeightedTraitsListHelper weightedTraitListHelper;
+  @Autowired private WeightedTraitTypeWeightsListHelper weightedTraitTypeWeightsListHelper;
   @Autowired private TokenFacade tokenFacade;
 
   private static final int[] WEIGHTED_TRAIT_TYPES_TO_IGNORE = {
@@ -338,7 +338,7 @@ public class MergeTokenInitializer {
     return findWeightedTraitValue(
         weightedTraits,
         weightedTraitTypeWeights,
-        weightedTraitInListFinder
+        weightedTraitListHelper
             .findByTraitTypeId(weightedTraits, weightedTraitTypeId)
             .getTraitTypeId());
   }
@@ -348,8 +348,8 @@ public class MergeTokenInitializer {
       List<WeightedTraitTypeWeightDTO> traitWeights,
       Long traitTypeId) {
     WeightedTraitDTO foundTrait =
-        weightedTraitInListFinder.findByTraitTypeId(weightedTraits, traitTypeId);
-    return weightedTraitTypeWeightsListFinder
+        weightedTraitListHelper.findByTraitTypeId(weightedTraits, traitTypeId);
+    return weightedTraitTypeWeightsListHelper
         .findByTraitTypeWeightId(traitWeights, foundTrait.getTraitTypeWeightId())
         .getValue();
   }
@@ -404,9 +404,8 @@ public class MergeTokenInitializer {
   }
 
   private List<WeightedTraitTypeWeightDTO> getTraitTypeWeightsForTraitTypeId(Long traitTypeId) {
-    return weightedTraitTypeWeights.stream()
-        .filter(typeWeight -> typeWeight.getTraitTypeId().equals(traitTypeId))
-        .collect(Collectors.toList());
+    return weightedTraitTypeWeightsListHelper.findListByTraitTypeId(
+        weightedTraitTypeWeights, traitTypeId);
   }
 
   private WeightedTraitTypeWeightDTO getRandomTraitTypeWeightFromList(
