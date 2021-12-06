@@ -1,6 +1,7 @@
 package com.tylerfitzgerald.demo_api.config.beans;
 
 import com.tylerfitzgerald.demo_api.config.EnvConfig;
+import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.ColorTraitPicker;
@@ -157,5 +158,10 @@ public class AppBeansConfig {
   @Bean
   public BigIntegerFactory bigIntegerFactory() {
     return new BigIntegerFactory();
+  }
+
+  @Bean
+  public TokenFacade tokenFacade() {
+    return new TokenFacade();
   }
 }

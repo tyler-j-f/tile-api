@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class TileController extends BaseController {
 
   @Autowired private TokenRetriever tokenRetriever;
-
   @Autowired private TokenInitializer tokenInitializer;
+  @Autowired private TokenFacade tokenFacade;
 
   @GetMapping("create/{tokenId}")
   public String createTileNFT(@PathVariable Long tokenId)
@@ -29,7 +29,7 @@ public class TileController extends BaseController {
       return "Could not create tokenId: " + tokenId;
     }
     return new ObjectMapper()
-        .writeValueAsString(new TokenFacade().setTokenFacadeDTO(nft).buildTokenDataDTO());
+        .writeValueAsString(tokenFacade.setTokenFacadeDTO(nft).buildTokenDataDTO());
   }
 
   @GetMapping("get/{tokenId}")
@@ -39,6 +39,6 @@ public class TileController extends BaseController {
       return "Could not find tokenId: " + tokenId;
     }
     return new ObjectMapper()
-        .writeValueAsString(new TokenFacade().setTokenFacadeDTO(nft).buildTokenDataDTO());
+        .writeValueAsString(tokenFacade.setTokenFacadeDTO(nft).buildTokenDataDTO());
   }
 }

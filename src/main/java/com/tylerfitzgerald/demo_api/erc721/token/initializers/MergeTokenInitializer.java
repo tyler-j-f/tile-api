@@ -44,6 +44,7 @@ public class MergeTokenInitializer {
   @Autowired private WeightlessTraitsListFinder weightlessTraitInListFinder;
   @Autowired private WeightedTraitsListFinder weightedTraitInListFinder;
   @Autowired private WeightedTraitTypeWeightsListFinder weightedTraitTypeWeightsListFinder;
+  @Autowired private TokenFacade tokenFacade;
 
   private static final int[] WEIGHTED_TRAIT_TYPES_TO_IGNORE = {
     WeightedTraitTypeConstants.TILE_1_RARITY,
@@ -88,7 +89,7 @@ public class MergeTokenInitializer {
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
     weightedTraits = createWeightedTraits(seedForTraits);
     createWeightlessTraits(seedForTraits);
-    TokenFacade token = new TokenFacade().setTokenFacadeDTO(buildNFTFacade());
+    TokenFacade token = tokenFacade.setTokenFacadeDTO(buildNFTFacade());
     return token.buildTokenDataDTO();
   }
 

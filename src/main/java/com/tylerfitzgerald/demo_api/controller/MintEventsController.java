@@ -29,7 +29,8 @@ public class MintEventsController extends BaseController {
   @Autowired private BigIntegerFactory bigIntegerFactory;
   @Autowired private TokenInitializer tokenInitializer;
   @Autowired private EventsConfig eventsConfig;
-  @Autowired protected EthEventsRetriever ethEventsRetriever;
+  @Autowired private EthEventsRetriever ethEventsRetriever;
+  @Autowired private TokenFacade tokenFacade;
 
   @GetMapping(value = {"getAll/{numberOfBlocksAgo}", "getAll"})
   public String getAll(@PathVariable(required = false) String numberOfBlocksAgo)
@@ -105,7 +106,7 @@ public class MintEventsController extends BaseController {
     if (token == null) {
       return null;
     }
-    return new TokenFacade().setTokenFacadeDTO(token).buildTokenDataDTO();
+    return tokenFacade.setTokenFacadeDTO(token).buildTokenDataDTO();
   }
 
   private Long getLongFromHexString(String hexString) {

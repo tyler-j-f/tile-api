@@ -21,6 +21,7 @@ public class HandleMintEventsTask extends AbstractEthEventsRetrieverTask {
   @Autowired private TokenRepository tokenRepository;
   @Autowired private TokenInitializer tokenInitializer;
   @Autowired private EventsConfig eventsConfig;
+  @Autowired private TokenFacade tokenFacade;
 
   @Override
   public void execute() throws TaskSchedulerException {
@@ -86,6 +87,6 @@ public class HandleMintEventsTask extends AbstractEthEventsRetrieverTask {
     if (token == null) {
       return null;
     }
-    return new TokenFacade().setTokenFacadeDTO(token).buildTokenDataDTO();
+    return tokenFacade.setTokenFacadeDTO(token).buildTokenDataDTO();
   }
 }
