@@ -2,9 +2,9 @@ package com.tylerfitzgerald.demo_api.erc721.token;
 
 import com.tylerfitzgerald.demo_api.erc721.traits.DisplayTypeTrait;
 import com.tylerfitzgerald.demo_api.erc721.traits.Trait;
-import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypeWeightsListHelper;
-import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypesListFinder;
-import com.tylerfitzgerald.demo_api.listUtils.finders.WeightlessTraitTypesListFinder;
+import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypeWeightsFinder;
+import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypesFinder;
+import com.tylerfitzgerald.demo_api.listUtils.finders.WeightlessTraitTypesFinder;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.WeightedTraitTypeDTO;
@@ -24,9 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class TokenFacade {
 
   private TokenFacadeDTO nftFacadeDTO;
-  @Autowired private WeightedTraitTypesListFinder weightedTraitTypesListFinder;
-  @Autowired private WeightedTraitTypeWeightsListHelper weightedTraitTypeWeightsListHelper;
-  @Autowired private WeightlessTraitTypesListFinder weightlessTraitTypesListFinder;
+  @Autowired private WeightedTraitTypesFinder weightedTraitTypesFinder;
+  @Autowired private WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder;
+  @Autowired private WeightlessTraitTypesFinder weightlessTraitTypesFinder;
 
   public TokenFacade setTokenFacadeDTO(TokenFacadeDTO nftFacadeDTO) {
     this.nftFacadeDTO = nftFacadeDTO;
@@ -100,7 +100,7 @@ public class TokenFacade {
 
   private String getTraitType(Long traitTypeId) {
     WeightlessTraitTypeDTO weightlessTraitType =
-        weightlessTraitTypesListFinder.findByWeightlessTraitTypeId(
+        weightlessTraitTypesFinder.findFirstByWeightlessTraitTypeId(
             getWeightlessTraitTypes(), traitTypeId);
     if (weightlessTraitType == null) {
       return "ERROR";
@@ -139,13 +139,13 @@ public class TokenFacade {
   private WeightedTraitTypeWeightDTO getTraitWeightForTraitDTO(
       List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeightDTOs,
       WeightedTraitDTO weightedTraitDTO) {
-    return weightedTraitTypeWeightsListHelper.findByTraitTypeWeightId(
+    return weightedTraitTypeWeightsFinder.findFirstByTraitTypeId(
         weightedTraitTypeWeightDTOs, weightedTraitDTO.getTraitTypeWeightId());
   }
 
   private WeightedTraitTypeDTO getTraitTypeForTraitDTO(
       List<WeightedTraitTypeDTO> weightedTraitTypeDTOS, WeightedTraitDTO weightedTraitDTO) {
-    return weightedTraitTypesListFinder.findByTraitTypeId(
+    return weightedTraitTypesFinder.findFirstByTraitTypeId(
         weightedTraitTypeDTOS, weightedTraitDTO.getTraitTypeId());
   }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class WeightedTraitsListHelperTest {
+public class WeightedTraitsFinderTest {
 
   private List<WeightedTraitDTO> weightedTraitsList;
   // Value set 1
@@ -67,20 +67,20 @@ public class WeightedTraitsListHelperTest {
 
   @Test
   void testConstructor() {
-    assertThat(new WeightedTraitsListHelper()).isInstanceOf(WeightedTraitsListHelper.class);
+    assertThat(new WeightedTraitsFinder()).isInstanceOf(WeightedTraitsFinder.class);
   }
 
   @Test
   void testCanFindElementInList() {
-    WeightedTraitsListHelper weightedTraitsListHelper = new WeightedTraitsListHelper();
-    assertThat(weightedTraitsListHelper.findByTraitTypeId(weightedTraitsList, TRAIT_TYPE_ID_1))
+    WeightedTraitsFinder weightedTraitsFinder = new WeightedTraitsFinder();
+    assertThat(weightedTraitsFinder.findFirstByTraitTypeId(weightedTraitsList, TRAIT_TYPE_ID_1))
         .isNotNull();
-    assertThat(weightedTraitsListHelper.findByTraitTypeId(weightedTraitsList, TRAIT_TYPE_ID_2))
+    assertThat(weightedTraitsFinder.findFirstByTraitTypeId(weightedTraitsList, TRAIT_TYPE_ID_2))
         .isNotNull();
-    assertThat(weightedTraitsListHelper.findByTraitTypeId(weightedTraitsList, TRAIT_TYPE_ID_3))
+    assertThat(weightedTraitsFinder.findFirstByTraitTypeId(weightedTraitsList, TRAIT_TYPE_ID_3))
         .isNotNull();
     assertThat(
-            weightedTraitsListHelper.findByTraitTypeId(
+            weightedTraitsFinder.findFirstByTraitTypeId(
                 weightedTraitsList, TRAIT_TYPE_ID_NOT_IN_LIST))
         .isNull();
   }

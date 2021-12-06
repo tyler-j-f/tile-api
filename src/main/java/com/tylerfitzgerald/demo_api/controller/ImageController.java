@@ -7,8 +7,8 @@ import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.image.ImageDrawer;
 import com.tylerfitzgerald.demo_api.image.ImageException;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
-import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitsListHelper;
-import com.tylerfitzgerald.demo_api.listUtils.finders.WeightlessTraitsListFinder;
+import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitsFinder;
+import com.tylerfitzgerald.demo_api.listUtils.finders.WeightlessTraitsFinder;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,8 +28,8 @@ public class ImageController extends BaseController {
   @Autowired private ImageDrawer imageDrawer;
   @Autowired private ImageResourcesLoader imageResourcesLoader;
   @Autowired private TokenRetriever tokenRetriever;
-  @Autowired private WeightlessTraitsListFinder weightlessTraitsListFinder;
-  @Autowired private WeightedTraitsListHelper weightedTraitsListHelper;
+  @Autowired private WeightlessTraitsFinder weightlessTraitsFinder;
+  @Autowired private WeightedTraitsFinder weightedTraitsFinder;
 
   @GetMapping(value = "tile/get/{tokenId}", produces = MediaType.IMAGE_PNG_VALUE)
   public void getTokenImage(HttpServletResponse response, @PathVariable Long tokenId)
@@ -54,7 +54,7 @@ public class ImageController extends BaseController {
 
   private Long getOverallRarityScore(List<WeightlessTraitDTO> weightlessTraits) {
     WeightlessTraitDTO weightlessTrait =
-        weightlessTraitsListFinder.findByTraitTypeId(
+        weightlessTraitsFinder.findFirstByTraitTypeId(
             weightlessTraits, (long) WeightlessTraitTypeConstants.OVERALL_RARITY);
     if (weightlessTrait == null) {
       return 0L;
@@ -77,7 +77,7 @@ public class ImageController extends BaseController {
   }
 
   private boolean getIsTokenBurnt(TokenFacadeDTO nft) {
-    return weightedTraitsListHelper.findByTraitTypeId(
+    return weightedTraitsFinder.findFirstByTraitTypeId(
             nft.getWeightedTraits(), (long) WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE)
         != null;
   }

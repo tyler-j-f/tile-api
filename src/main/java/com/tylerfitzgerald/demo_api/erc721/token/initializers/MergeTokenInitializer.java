@@ -9,9 +9,9 @@ import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitContext;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitException;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
-import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypeWeightsListHelper;
-import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitsListHelper;
-import com.tylerfitzgerald.demo_api.listUtils.finders.WeightlessTraitsListFinder;
+import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypeWeightsFinder;
+import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitsFinder;
+import com.tylerfitzgerald.demo_api.listUtils.finders.WeightlessTraitsFinder;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightDTO;
@@ -40,9 +40,9 @@ public class MergeTokenInitializer {
   @Autowired private TokenConfig tokenConfig;
   @Autowired private OverallRarityTraitPicker rarityTraitPicker;
   @Autowired private TokenRepository tokenRepository;
-  @Autowired private WeightlessTraitsListFinder weightlessTraitInListFinder;
-  @Autowired private WeightedTraitsListHelper weightedTraitListHelper;
-  @Autowired private WeightedTraitTypeWeightsListHelper weightedTraitTypeWeightsListHelper;
+  @Autowired private WeightlessTraitsFinder weightlessTraitInListFinder;
+  @Autowired private WeightedTraitsFinder weightedTraitListHelper;
+  @Autowired private WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder;
   @Autowired private TokenFacade tokenFacade;
 
   private static final int[] WEIGHTED_TRAIT_TYPES_TO_IGNORE = {
@@ -326,7 +326,7 @@ public class MergeTokenInitializer {
 
   private String findWeightlessTraitValueFromListByType(TokenFacadeDTO nft, Long traitTypeId) {
     WeightlessTraitDTO weightedTrait =
-        weightlessTraitInListFinder.findByTraitTypeId(nft.getWeightlessTraits(), traitTypeId);
+        weightlessTraitInListFinder.findFirstByTraitTypeId(nft.getWeightlessTraits(), traitTypeId);
     if (weightedTrait != null) {
       return weightedTrait.getValue();
     }
@@ -339,7 +339,7 @@ public class MergeTokenInitializer {
         weightedTraits,
         weightedTraitTypeWeights,
         weightedTraitListHelper
-            .findByTraitTypeId(weightedTraits, weightedTraitTypeId)
+            .findFirstByTraitTypeId(weightedTraits, weightedTraitTypeId)
             .getTraitTypeId());
   }
 
@@ -348,9 +348,9 @@ public class MergeTokenInitializer {
       List<WeightedTraitTypeWeightDTO> traitWeights,
       Long traitTypeId) {
     WeightedTraitDTO foundTrait =
-        weightedTraitListHelper.findByTraitTypeId(weightedTraits, traitTypeId);
-    return weightedTraitTypeWeightsListHelper
-        .findByTraitTypeWeightId(traitWeights, foundTrait.getTraitTypeWeightId())
+        weightedTraitListHelper.findFirstByTraitTypeId(weightedTraits, traitTypeId);
+    return weightedTraitTypeWeightsFinder
+        .findFirstByTraitTypeId(traitWeights, foundTrait.getTraitTypeWeightId())
         .getValue();
   }
 
@@ -404,8 +404,7 @@ public class MergeTokenInitializer {
   }
 
   private List<WeightedTraitTypeWeightDTO> getTraitTypeWeightsForTraitTypeId(Long traitTypeId) {
-    return weightedTraitTypeWeightsListHelper.findListByTraitTypeId(
-        weightedTraitTypeWeights, traitTypeId);
+    return weightedTraitTypeWeightsFinder.findByTraitTypeId(weightedTraitTypeWeights, traitTypeId);
   }
 
   private WeightedTraitTypeWeightDTO getRandomTraitTypeWeightFromList(
