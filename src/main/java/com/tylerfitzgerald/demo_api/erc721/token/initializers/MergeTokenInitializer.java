@@ -26,7 +26,6 @@ import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitRepository;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -326,13 +325,13 @@ public class MergeTokenInitializer {
   }
 
   private String findWeightlessTraitValueFromListByType(TokenFacadeDTO nft, Long traitTypeId) {
-    try {
-      return weightlessTraitInListFinder
-          .findWeightlessTraitInList(nft.getWeightlessTraits(), traitTypeId)
-          .getValue();
-    } catch (NoSuchElementException e) {
-      return findWeightedTraitValueFromWeightlessTraitListByType(weightedTraits, traitTypeId);
+    WeightlessTraitDTO weightedTrait =
+        weightlessTraitInListFinder.findWeightlessTraitInList(
+            nft.getWeightlessTraits(), traitTypeId);
+    if (weightedTrait != null) {
+      return weightedTrait.getValue();
     }
+    return null;
   }
 
   private String findWeightedTraitValueFromWeightlessTraitListByType(

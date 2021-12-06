@@ -8,20 +8,26 @@ import java.util.NoSuchElementException;
 public abstract class AbstractListFinder<T> implements ListFinderInterface<T> {
 
   public T findInList(List<T> listHaystack, Long needleValue, String needleValueGetterMethodName) {
-    return listHaystack.stream()
-        .filter(
-            trait -> {
-              try {
-                Method method = trait.getClass().getMethod(needleValueGetterMethodName);
-                return method.invoke(trait).equals(needleValue);
-              } catch (NoSuchMethodException
-                  | IllegalAccessException
-                  | InvocationTargetException
-                  | NoSuchElementException e) {
-                return false;
-              }
-            })
-        .findFirst()
-        .get();
+    T results;
+    try {
+      results =
+          listHaystack.stream()
+              .filter(
+                  trait -> {
+                    try {
+                      Method method = trait.getClass().getMethod(needleValueGetterMethodName);
+                      return method.invoke(trait).equals(needleValue);
+                    } catch (NoSuchMethodException
+                        | IllegalAccessException
+                        | InvocationTargetException e) {
+                      return false;
+                    }
+                  })
+              .findFirst()
+              .get();
+    } catch (NoSuchElementException e) {
+      results = null;
+    }
+    return results;
   }
 }
