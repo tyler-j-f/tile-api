@@ -54,7 +54,7 @@ public class ImageController extends BaseController {
 
   private Long getOverallRarityScore(List<WeightlessTraitDTO> weightlessTraits) {
     WeightlessTraitDTO weightlessTrait =
-        weightlessTraitsListFinder.findWeightlessTraitInList(
+        weightlessTraitsListFinder.findByTraitTypeId(
             weightlessTraits, (long) WeightlessTraitTypeConstants.OVERALL_RARITY);
     if (weightlessTrait == null) {
       return 0L;

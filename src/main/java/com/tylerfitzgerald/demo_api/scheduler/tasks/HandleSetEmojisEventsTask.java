@@ -148,8 +148,7 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
 
   private WeightlessTraitDTO updateTraitValue(
       List<WeightlessTraitDTO> traits, String tileEmojiValue, Long traitTypeId) {
-    WeightlessTraitDTO trait =
-        weightlessTraitsListFinder.findWeightlessTraitInList(traits, traitTypeId);
+    WeightlessTraitDTO trait = weightlessTraitsListFinder.findByTraitTypeId(traits, traitTypeId);
     System.out.println("Pre updated trait. Trait: " + trait);
     if (tileEmojiValue.equals(trait.getValue())) {
       System.out.println(

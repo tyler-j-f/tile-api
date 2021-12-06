@@ -326,8 +326,7 @@ public class MergeTokenInitializer {
 
   private String findWeightlessTraitValueFromListByType(TokenFacadeDTO nft, Long traitTypeId) {
     WeightlessTraitDTO weightedTrait =
-        weightlessTraitInListFinder.findWeightlessTraitInList(
-            nft.getWeightlessTraits(), traitTypeId);
+        weightlessTraitInListFinder.findByTraitTypeId(nft.getWeightlessTraits(), traitTypeId);
     if (weightedTrait != null) {
       return weightedTrait.getValue();
     }

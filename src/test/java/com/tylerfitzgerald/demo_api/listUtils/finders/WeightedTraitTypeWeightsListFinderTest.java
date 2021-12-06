@@ -19,21 +19,21 @@ public class WeightedTraitTypeWeightsListFinderTest {
   private static final String VALUE_1 = "STRING_A";
   private static final String DISPLAY_TYPE_VALUE_1 = "STRING_B";
   // Value set 2
-  private static final Long ID_2 = 1L;
-  private static final Long TRAIT_TYPE_WEIGHT_ID_2 = 2L;
-  private static final Long TRAIT_TYPE_ID_2 = 3L;
-  private static final Long LIKELIHOOD_2 = 4L;
-  private static final String VALUE_2 = "STRING_A";
-  private static final String DISPLAY_TYPE_VALUE_2 = "STRING_B";
+  private static final Long ID_2 = 5L;
+  private static final Long TRAIT_TYPE_WEIGHT_ID_2 = 6L;
+  private static final Long TRAIT_TYPE_ID_2 = 7L;
+  private static final Long LIKELIHOOD_2 = 8L;
+  private static final String VALUE_2 = "STRING_C";
+  private static final String DISPLAY_TYPE_VALUE_2 = "STRING_D";
   // Value set 3
-  private static final Long ID_3 = 1L;
-  private static final Long TRAIT_TYPE_WEIGHT_ID_3 = 2L;
-  private static final Long TRAIT_TYPE_ID_3 = 3L;
-  private static final Long LIKELIHOOD_3 = 4L;
-  private static final String VALUE_3 = "STRING_A";
-  private static final String DISPLAY_TYPE_VALUE_3 = "STRING_B";
+  private static final Long ID_3 = 9L;
+  private static final Long TRAIT_TYPE_WEIGHT_ID_3 = 10L;
+  private static final Long TRAIT_TYPE_ID_3 = 11L;
+  private static final Long LIKELIHOOD_3 = 12L;
+  private static final String VALUE_3 = "STRING_E";
+  private static final String DISPLAY_TYPE_VALUE_3 = "STRING_F";
   // Not in list values
-  private static final Long TRAIT_TYPE_WEIGHT_ID_NOT_IN_LIST = 7L;
+  private static final Long TRAIT_TYPE_WEIGHT_ID_NOT_IN_LIST = 13L;
 
   @BeforeEach
   public void setup() {
