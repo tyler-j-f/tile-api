@@ -19,6 +19,7 @@ import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class AbstractTokenInitializer implements TokenInitializerInterface {
@@ -61,5 +62,58 @@ public class AbstractTokenInitializer implements TokenInitializerInterface {
             .externalUrl(tokenConfig.getBase_external_url() + tokenId)
             .imageUrl(tokenConfig.getBase_image_url() + tokenId)
             .build());
+  }
+
+  protected WeightedTraitTypeWeightDTO getRandomTraitTypeWeightFromList(
+      List<WeightedTraitTypeWeightDTO> traitTypeWeights, Long randomNumberSeed) {
+    int randomNumber = new Random(randomNumberSeed).nextInt(1, 100);
+    Long count = 0L;
+    for (WeightedTraitTypeWeightDTO traitTypeWeight : traitTypeWeights) {
+      count = count + traitTypeWeight.getLikelihood();
+      if (count >= randomNumber) {
+        return traitTypeWeight;
+      }
+    }
+    /**
+     * We should never return null. If we get here: DB values for trait type weights (for a
+     * particular trait type) are misconfigured.
+     */
+    return null;
+  }
+
+  protected String getWeightlessTraitDisplayTypeValue() {
+    return "";
+  }
+
+  protected List<WeightedTraitDTO> createWeightedTraits(Long seedForTraits) {
+    List<WeightedTraitDTO> traits = new ArrayList<>();
+    for (WeightedTraitTypeDTO type : weightedTraitTypes) {
+      // Increment the seed so that we use a unique random value for each trait
+      WeightedTraitDTO trait = createWeightedTrait(type, seedForTraits++);
+      if (trait != null) {
+        traits.add(trait);
+      }
+    }
+    return traits;
+  }
+
+  protected WeightedTraitDTO createWeightedTrait(WeightedTraitTypeDTO type, Long seedForTrait) {
+    Long traitTypeId = type.getTraitTypeId();
+    List<WeightedTraitTypeWeightDTO> weights = getTraitTypeWeightsForTraitTypeId(traitTypeId);
+    WeightedTraitTypeWeightDTO traitTypeWeight =
+        getRandomTraitTypeWeightFromList(weights, seedForTrait);
+    Long traitId = weightedTraitRepository.read().size() + 1L;
+    return weightedTraitRepository.create(
+        WeightedTraitDTO.builder()
+            .id(null)
+            .traitId(traitId)
+            .tokenId(tokenDTO.getTokenId())
+            .traitTypeId(traitTypeId)
+            .traitTypeWeightId(traitTypeWeight.getTraitTypeWeightId())
+            .build());
+  }
+
+  protected List<WeightedTraitTypeWeightDTO> getTraitTypeWeightsForTraitTypeId(Long traitTypeId) {
+    return weightedTraitTypeWeightsFinder.findByTraitTypeId(weightedTraitTypeWeights, traitTypeId);
   }
 }
