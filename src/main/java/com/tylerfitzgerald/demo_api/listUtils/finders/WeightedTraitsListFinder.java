@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.erc721.token.finders;
+package com.tylerfitzgerald.demo_api.listUtils.finders;
 
 import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
 import java.util.List;
