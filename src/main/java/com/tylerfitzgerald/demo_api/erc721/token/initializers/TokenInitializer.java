@@ -58,8 +58,8 @@ public class TokenInitializer {
     WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE
   };
 
-  private List<WeightedTraitTypeDTO> availableTraitTypes = new ArrayList<>();
-  private List<WeightedTraitTypeWeightDTO> availableTraitTypeWeights = new ArrayList<>();
+  private List<WeightedTraitTypeDTO> weightedTraitTypes = new ArrayList<>();
+  private List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeights = new ArrayList<>();
   private List<WeightedTraitDTO> weightedTraits = new ArrayList<>();
   private List<WeightlessTraitDTO> weightlessTraits = new ArrayList<>();
   private List<WeightlessTraitTypeDTO> weightlessTraitTypes = new ArrayList<>();
@@ -77,8 +77,8 @@ public class TokenInitializer {
           "TokenInitializer failed to initialize the token with tokenId: " + tokenId);
       return null;
     }
-    availableTraitTypes = filterOutWeightedTraitTypesToIgnore(weightedTraitTypeRepository.read());
-    availableTraitTypeWeights = weightedTraitTypeWeightRepository.read();
+    weightedTraitTypes = filterOutWeightedTraitTypesToIgnore(weightedTraitTypeRepository.read());
+    weightedTraitTypeWeights = weightedTraitTypeWeightRepository.read();
     weightlessTraitTypes =
         filterOutWeightlessTraitTypesToIgnore(weightlessTraitTypeRepository.read());
     weightedTraits = createWeightedTraits(seedForTraits);
@@ -90,8 +90,8 @@ public class TokenInitializer {
     return TokenFacadeDTO.builder()
         .tokenDTO(tokenDTO)
         .weightedTraits(weightedTraits)
-        .weightedTraitTypes(availableTraitTypes)
-        .weightedTraitTypeWeights(availableTraitTypeWeights)
+        .weightedTraitTypes(weightedTraitTypes)
+        .weightedTraitTypeWeights(weightedTraitTypeWeights)
         .weightlessTraits(weightlessTraits)
         .weightlessTraitTypes(weightlessTraitTypes)
         .build();
@@ -160,7 +160,7 @@ public class TokenInitializer {
             WeightlessTraitContext.builder()
                 .seedForTrait(null)
                 .weightedTraits(weightedTraits)
-                .weightedTraitTypeWeights(availableTraitTypeWeights)
+                .weightedTraitTypeWeights(weightedTraitTypeWeights)
                 .weightlessTraits(new ArrayList<>())
                 .build());
       } else {
@@ -198,7 +198,7 @@ public class TokenInitializer {
 
   private List<WeightedTraitDTO> createWeightedTraits(Long seedForTraits) {
     List<WeightedTraitDTO> traits = new ArrayList<>();
-    for (WeightedTraitTypeDTO type : availableTraitTypes) {
+    for (WeightedTraitTypeDTO type : weightedTraitTypes) {
       // Increment the seed so that we use a unique random value for each trait
       WeightedTraitDTO trait = createWeightedTrait(type, seedForTraits++);
       if (trait != null) {
@@ -225,7 +225,7 @@ public class TokenInitializer {
   }
 
   private List<WeightedTraitTypeWeightDTO> getTraitTypeWeightsForTraitTypeId(Long traitTypeId) {
-    return availableTraitTypeWeights.stream()
+    return weightedTraitTypeWeights.stream()
         .filter(typeWeight -> typeWeight.getTraitTypeId().equals(traitTypeId))
         .collect(Collectors.toList());
   }
