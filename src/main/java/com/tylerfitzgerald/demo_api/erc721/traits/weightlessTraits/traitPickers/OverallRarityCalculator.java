@@ -2,12 +2,15 @@ package com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers
 
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightedTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
+import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypeWeightsListFinder;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class OverallRarityCalculator {
+  @Autowired private WeightedTraitTypeWeightsListFinder weightedTraitTypeWeightsListFinder;
   private Long tile1Value = 1L;
   private Long tile2Value = 1L;
   private Long tile3Value = 1L;
@@ -108,10 +111,8 @@ public class OverallRarityCalculator {
   private Long getValueFromTraitWeightsList(
       Long traitTypeWeightId, List<WeightedTraitTypeWeightDTO> traitTypeWeights) {
     return Long.valueOf(
-        traitTypeWeights.stream()
-            .filter(typeWeight -> typeWeight.getTraitTypeWeightId().equals(traitTypeWeightId))
-            .findFirst()
-            .get()
+        weightedTraitTypeWeightsListFinder
+            .findWeightedTraitTypeWeightInList(traitTypeWeights, traitTypeWeightId)
             .getValue());
   }
 
