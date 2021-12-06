@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TraitTypeDTO {
+public class WeightedTraitTypeDTO {
   private Long id;
   private Long traitTypeId;
   private String traitTypeName;

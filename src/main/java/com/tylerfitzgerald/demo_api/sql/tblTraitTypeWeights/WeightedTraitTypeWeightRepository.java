@@ -8,35 +8,36 @@ import java.util.stream.Stream;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeWeightDTO, Long> {
+public class WeightedTraitTypeWeightRepository
+    implements RepositoryInterface<WeightedTraitTypeWeightDTO, Long> {
 
   private final JdbcTemplate jdbcTemplate;
   private final BeanPropertyRowMapper beanPropertyRowMapper;
 
-  public static final String READ_SQL = "SELECT * FROM " + TraitTypeWeightsTable.TABLE_NAME;
+  public static final String READ_SQL = "SELECT * FROM " + WeightedTraitTypeWeightsTable.TABLE_NAME;
   // CRUD SQL
   public static final String CREATE_SQL =
-      "INSERT INTO " + TraitTypeWeightsTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?, ?)";
+      "INSERT INTO " + WeightedTraitTypeWeightsTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?, ?)";
   public static final String READ_BY_ID_SQL =
-      "SELECT * FROM " + TraitTypeWeightsTable.TABLE_NAME + " WHERE traitTypeWeightId = ?";
+      "SELECT * FROM " + WeightedTraitTypeWeightsTable.TABLE_NAME + " WHERE traitTypeWeightId = ?";
   public static final String UPDATE_SQL =
       "UPDATE "
-          + TraitTypeWeightsTable.TABLE_NAME
+          + WeightedTraitTypeWeightsTable.TABLE_NAME
           + " set traitTypeId = ?, likelihood = ?, value = ?, displayTypeValue = ? WHERE traitTypeWeightId = ?";
   public static final String UPDATE_BASE_SQL =
-      "UPDATE " + TraitTypeWeightsTable.TABLE_NAME + " set ";
+      "UPDATE " + WeightedTraitTypeWeightsTable.TABLE_NAME + " set ";
   public static final String DELETE_BY_ID_SQL =
-      "DELETE FROM " + TraitTypeWeightsTable.TABLE_NAME + " WHERE traitTypeWeightId = ?";
+      "DELETE FROM " + WeightedTraitTypeWeightsTable.TABLE_NAME + " WHERE traitTypeWeightId = ?";
 
-  public TraitTypeWeightRepository(
+  public WeightedTraitTypeWeightRepository(
       JdbcTemplate jdbcTemplate, BeanPropertyRowMapper beanPropertyRowMapper) {
     this.jdbcTemplate = jdbcTemplate;
     this.beanPropertyRowMapper = beanPropertyRowMapper;
   }
 
   @Override
-  public List<TraitTypeWeightDTO> read() {
-    Stream<TraitTypeWeightDTO> stream = null;
+  public List<WeightedTraitTypeWeightDTO> read() {
+    Stream<WeightedTraitTypeWeightDTO> stream = null;
     try {
       stream = jdbcTemplate.queryForStream(READ_SQL, beanPropertyRowMapper);
       return stream.collect(Collectors.toList());
@@ -48,8 +49,8 @@ public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeW
   }
 
   @Override
-  public TraitTypeWeightDTO readById(Long traitTypeWeightId) {
-    Stream<TraitTypeWeightDTO> stream = null;
+  public WeightedTraitTypeWeightDTO readById(Long traitTypeWeightId) {
+    Stream<WeightedTraitTypeWeightDTO> stream = null;
     try {
       if (traitTypeWeightId == 0) {
         // TokenId starts at index 1
@@ -57,7 +58,7 @@ public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeW
       }
       stream =
           jdbcTemplate.queryForStream(READ_BY_ID_SQL, beanPropertyRowMapper, traitTypeWeightId);
-      List<TraitTypeWeightDTO> traitTypeWeights = stream.collect(Collectors.toList());
+      List<WeightedTraitTypeWeightDTO> traitTypeWeights = stream.collect(Collectors.toList());
       if (traitTypeWeights.size() == 0) {
         return null;
       }
@@ -70,7 +71,7 @@ public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeW
   }
 
   @Override
-  public TraitTypeWeightDTO create(TraitTypeWeightDTO entity) {
+  public WeightedTraitTypeWeightDTO create(WeightedTraitTypeWeightDTO entity) {
     if (doesTraitTypeWeightIdExist(entity)) {
       return null;
     }
@@ -90,7 +91,7 @@ public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeW
 
   @Override
   /** NOTE: Only the sale id can be updated */
-  public TraitTypeWeightDTO update(TraitTypeWeightDTO entity) {
+  public WeightedTraitTypeWeightDTO update(WeightedTraitTypeWeightDTO entity) {
     if (!doesTraitTypeWeightIdExist(entity)) {
       return null;
     }
@@ -141,7 +142,7 @@ public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeW
         && !shouldUpdateLikelihood
         && !shouldUpdateValue
         && !shouldUpdateDisplayTypeValue) {
-      // There's nothing to update from the inputted TraitTypeDTO
+      // There's nothing to update from the inputted WeightedTraitTypeDTO
       return null;
     }
     Long traitTypeWeightId = entity.getTraitTypeWeightId();
@@ -155,7 +156,7 @@ public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeW
   }
 
   @Override
-  public boolean delete(TraitTypeWeightDTO entity) {
+  public boolean delete(WeightedTraitTypeWeightDTO entity) {
     if (!doesTraitTypeWeightIdExist(entity)) {
       return false;
     }
@@ -163,7 +164,7 @@ public class TraitTypeWeightRepository implements RepositoryInterface<TraitTypeW
     return !doesTraitTypeWeightIdExist(entity);
   }
 
-  private boolean doesTraitTypeWeightIdExist(TraitTypeWeightDTO entity) {
+  private boolean doesTraitTypeWeightIdExist(WeightedTraitTypeWeightDTO entity) {
     return readById(entity.getTraitTypeWeightId()) != null;
   }
 }

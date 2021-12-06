@@ -5,11 +5,11 @@ import com.tylerfitzgerald.demo_api.sql.TableInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class TraitTypeWeightsTable implements TableInterface {
+public class WeightedTraitTypeWeightsTable implements TableInterface {
 
   @Autowired private TraitsConfig traitsConfig;
 
-  @Autowired private TraitTypeWeightRepository traitTypeWeightRepository;
+  @Autowired private WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository;
 
   /*
    * NOTE: 2083 is the max VARCHAR length for a URL on the internet explorer browser.
@@ -24,7 +24,7 @@ public class TraitTypeWeightsTable implements TableInterface {
 
   private final JdbcTemplate jdbcTemplate;
 
-  public TraitTypeWeightsTable(JdbcTemplate jdbcTemplate) {
+  public WeightedTraitTypeWeightsTable(JdbcTemplate jdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;
   }
 
@@ -41,11 +41,11 @@ public class TraitTypeWeightsTable implements TableInterface {
   }
 
   public boolean initialize() {
-    TraitTypeWeightDTO[] traitTypeWeights = traitsConfig.getTypeWeights();
-    for (TraitTypeWeightDTO traitTypeWeight : traitTypeWeights) {
-      TraitTypeWeightDTO createResultTraitTypeWeightDTO =
-          traitTypeWeightRepository.create(traitTypeWeight);
-      if (createResultTraitTypeWeightDTO == null) {
+    WeightedTraitTypeWeightDTO[] traitTypeWeights = traitsConfig.getTypeWeights();
+    for (WeightedTraitTypeWeightDTO traitTypeWeight : traitTypeWeights) {
+      WeightedTraitTypeWeightDTO createResultWeightedTraitTypeWeightDTO =
+          weightedTraitTypeWeightRepository.create(traitTypeWeight);
+      if (createResultWeightedTraitTypeWeightDTO == null) {
         System.out.println(
             "Failed to insert trait type weight into "
                 + TABLE_NAME
@@ -56,7 +56,7 @@ public class TraitTypeWeightsTable implements TableInterface {
             "Inserted trait type weight into "
                 + TABLE_NAME
                 + ".\nTrait: "
-                + createResultTraitTypeWeightDTO.toString());
+                + createResultWeightedTraitTypeWeightDTO.toString());
       }
     }
     return true;

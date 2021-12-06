@@ -15,8 +15,8 @@ import com.tylerfitzgerald.demo_api.ethEvents.EthEventException;
 import com.tylerfitzgerald.demo_api.ethEvents.RemoveDuplicateMergeEthEvents;
 import com.tylerfitzgerald.demo_api.ethEvents.events.MergeEvent;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
-import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitRepository;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitRepository;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
   @Autowired private TokenRetriever tokenRetriever;
   @Autowired private RemoveDuplicateMergeEthEvents removeDuplicateMergeEthEvents;
   @Autowired private MergeTokenInitializer mergeTokenInitializer;
-  @Autowired private TraitRepository traitRepository;
+  @Autowired private WeightedTraitRepository weightedTraitRepository;
 
   @Override
   public void execute() throws TaskSchedulerException {
@@ -95,9 +95,9 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
   }
 
   private void addNewTraitForBurnEvent(TokenFacadeDTO nft) {
-    Long traitId = traitRepository.read().size() + 1L;
-    traitRepository.create(
-        TraitDTO.builder()
+    Long traitId = weightedTraitRepository.read().size() + 1L;
+    weightedTraitRepository.create(
+        WeightedTraitDTO.builder()
             .id(null)
             .traitId(traitId)
             .tokenId(nft.getTokenDTO().getTokenId())

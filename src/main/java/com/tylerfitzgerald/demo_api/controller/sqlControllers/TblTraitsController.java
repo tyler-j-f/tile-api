@@ -1,8 +1,8 @@
 package com.tylerfitzgerald.demo_api.controller.sqlControllers;
 
 import com.tylerfitzgerald.demo_api.controller.BaseController;
-import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitRepository;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = {"/api/traits"})
 public class TblTraitsController extends BaseController {
 
-  @Autowired private TraitRepository traitRepository;
+  @Autowired private WeightedTraitRepository weightedTraitRepository;
 
   @GetMapping("getAll")
   public String getAllTraits() {
-    return traitRepository.read().toString();
+    return weightedTraitRepository.read().toString();
   }
 
   @GetMapping("get/{traitId}")
   public String getTrait(@PathVariable Long traitId) {
-    return traitRepository.readById(traitId).toString();
+    return weightedTraitRepository.readById(traitId).toString();
   }
 
   @GetMapping("insert/{traitId}")
@@ -31,18 +31,18 @@ public class TblTraitsController extends BaseController {
     if (tokenId == null || traitTypeId == null || traitTypeWeightId == null) {
       return "Please pass a 'tokenId', 'traitTypeId', AND 'traitTypeWeightId' to create a trait";
     }
-    TraitDTO traitDTO =
-        traitRepository.create(
-            TraitDTO.builder()
+    WeightedTraitDTO weightedTraitDTO =
+        weightedTraitRepository.create(
+            WeightedTraitDTO.builder()
                 .traitId(traitId)
                 .tokenId(tokenId)
                 .traitTypeId(traitTypeId)
                 .traitTypeWeightId(traitTypeWeightId)
                 .build());
-    if (traitDTO == null) {
+    if (weightedTraitDTO == null) {
       return "Cannot create traitId: " + traitId;
     }
-    return traitDTO.toString();
+    return weightedTraitDTO.toString();
   }
 
   @GetMapping("update/{traitId}")
@@ -54,7 +54,8 @@ public class TblTraitsController extends BaseController {
     if (traitTypeId == null && traitTypeWeightId == null) {
       return "Please pass a 'tokenId', 'traitTypeId', OR 'traitTypeWeightId' to update a trait";
     }
-    TraitDTO.TraitDTOBuilder traitDTOBuilder = TraitDTO.builder().traitId(traitId);
+    WeightedTraitDTO.WeightedTraitDTOBuilder traitDTOBuilder =
+        WeightedTraitDTO.builder().traitId(traitId);
     if (tokenId != null) {
       traitDTOBuilder = traitDTOBuilder.tokenId(tokenId);
     }
@@ -64,17 +65,17 @@ public class TblTraitsController extends BaseController {
     if (traitTypeWeightId != null) {
       traitDTOBuilder = traitDTOBuilder.traitTypeWeightId(traitTypeWeightId);
     }
-    TraitDTO traitDTO = traitRepository.update(traitDTOBuilder.build());
-    if (traitDTO == null) {
+    WeightedTraitDTO weightedTraitDTO = weightedTraitRepository.update(traitDTOBuilder.build());
+    if (weightedTraitDTO == null) {
       return "Cannot update traitId: " + traitId;
     }
-    return traitDTO.toString();
+    return weightedTraitDTO.toString();
   }
 
   @GetMapping("delete/{traitId}")
   public String deleteTrait(@PathVariable Long traitId) {
-    TraitDTO traitDTO = traitRepository.readById(traitId);
-    if (!traitRepository.delete(traitDTO)) {
+    WeightedTraitDTO weightedTraitDTO = weightedTraitRepository.readById(traitId);
+    if (!weightedTraitRepository.delete(weightedTraitDTO)) {
       return "Could not delete traitId: " + traitId;
     }
     return "Deleted traitId: " + traitId;

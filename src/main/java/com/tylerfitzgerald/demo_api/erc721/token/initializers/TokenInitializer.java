@@ -11,12 +11,12 @@ import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightRepository;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeRepository;
-import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitRepository;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightRepository;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.WeightedTraitTypeDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.WeightedTraitTypeRepository;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitRepository;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitTypeRepository;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
@@ -30,9 +30,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class TokenInitializer {
 
   @Autowired private TokenRepository tokenRepository;
-  @Autowired private TraitRepository traitRepository;
-  @Autowired private TraitTypeRepository traitTypeRepository;
-  @Autowired private TraitTypeWeightRepository traitTypeWeightRepository;
+  @Autowired private WeightedTraitRepository weightedTraitRepository;
+  @Autowired private WeightedTraitTypeRepository weightedTraitTypeRepository;
+  @Autowired private WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository;
   @Autowired private WeightlessTraitRepository weightlessTraitRepository;
   @Autowired private WeightlessTraitTypeRepository weightlessTraitTypeRepository;
   @Autowired private TokenConfig tokenConfig;
@@ -58,9 +58,9 @@ public class TokenInitializer {
     WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE
   };
 
-  private List<TraitTypeDTO> availableTraitTypes = new ArrayList<>();
-  private List<TraitTypeWeightDTO> availableTraitTypeWeights = new ArrayList<>();
-  private List<TraitDTO> weightedTraits = new ArrayList<>();
+  private List<WeightedTraitTypeDTO> availableTraitTypes = new ArrayList<>();
+  private List<WeightedTraitTypeWeightDTO> availableTraitTypeWeights = new ArrayList<>();
+  private List<WeightedTraitDTO> weightedTraits = new ArrayList<>();
   private List<WeightlessTraitDTO> weightlessTraits = new ArrayList<>();
   private List<WeightlessTraitTypeDTO> weightlessTraitTypes = new ArrayList<>();
   private TokenDTO tokenDTO;
@@ -77,8 +77,8 @@ public class TokenInitializer {
           "TokenInitializer failed to initialize the token with tokenId: " + tokenId);
       return null;
     }
-    availableTraitTypes = filterOutWeightedTraitTypesToIgnore(traitTypeRepository.read());
-    availableTraitTypeWeights = traitTypeWeightRepository.read();
+    availableTraitTypes = filterOutWeightedTraitTypesToIgnore(weightedTraitTypeRepository.read());
+    availableTraitTypeWeights = weightedTraitTypeWeightRepository.read();
     weightlessTraitTypes =
         filterOutWeightlessTraitTypesToIgnore(weightlessTraitTypeRepository.read());
     weightedTraits = createWeightedTraits(seedForTraits);
@@ -196,11 +196,11 @@ public class TokenInitializer {
     }
   }
 
-  private List<TraitDTO> createWeightedTraits(Long seedForTraits) {
-    List<TraitDTO> traits = new ArrayList<>();
-    for (TraitTypeDTO type : availableTraitTypes) {
+  private List<WeightedTraitDTO> createWeightedTraits(Long seedForTraits) {
+    List<WeightedTraitDTO> traits = new ArrayList<>();
+    for (WeightedTraitTypeDTO type : availableTraitTypes) {
       // Increment the seed so that we use a unique random value for each trait
-      TraitDTO trait = createWeightedTrait(type, seedForTraits++);
+      WeightedTraitDTO trait = createWeightedTrait(type, seedForTraits++);
       if (trait != null) {
         traits.add(trait);
       }
@@ -208,13 +208,14 @@ public class TokenInitializer {
     return traits;
   }
 
-  private TraitDTO createWeightedTrait(TraitTypeDTO type, Long seedForTrait) {
+  private WeightedTraitDTO createWeightedTrait(WeightedTraitTypeDTO type, Long seedForTrait) {
     Long traitTypeId = type.getTraitTypeId();
-    List<TraitTypeWeightDTO> weights = getTraitTypeWeightsForTraitTypeId(traitTypeId);
-    TraitTypeWeightDTO traitTypeWeight = getRandomTraitTypeWeightFromList(weights, seedForTrait);
-    Long traitId = traitRepository.read().size() + 1L;
-    return traitRepository.create(
-        TraitDTO.builder()
+    List<WeightedTraitTypeWeightDTO> weights = getTraitTypeWeightsForTraitTypeId(traitTypeId);
+    WeightedTraitTypeWeightDTO traitTypeWeight =
+        getRandomTraitTypeWeightFromList(weights, seedForTrait);
+    Long traitId = weightedTraitRepository.read().size() + 1L;
+    return weightedTraitRepository.create(
+        WeightedTraitDTO.builder()
             .id(null)
             .traitId(traitId)
             .tokenId(tokenDTO.getTokenId())
@@ -223,7 +224,7 @@ public class TokenInitializer {
             .build());
   }
 
-  private List<TraitTypeWeightDTO> getTraitTypeWeightsForTraitTypeId(Long traitTypeId) {
+  private List<WeightedTraitTypeWeightDTO> getTraitTypeWeightsForTraitTypeId(Long traitTypeId) {
     return availableTraitTypeWeights.stream()
         .filter(typeWeight -> typeWeight.getTraitTypeId().equals(traitTypeId))
         .collect(Collectors.toList());
@@ -244,8 +245,8 @@ public class TokenInitializer {
         .collect(Collectors.toList());
   }
 
-  private List<TraitTypeDTO> filterOutWeightedTraitTypesToIgnore(
-      List<TraitTypeDTO> weightlessTraitTypes) {
+  private List<WeightedTraitTypeDTO> filterOutWeightedTraitTypesToIgnore(
+      List<WeightedTraitTypeDTO> weightlessTraitTypes) {
     return weightlessTraitTypes.stream()
         .filter(
             traitType -> {
@@ -259,11 +260,11 @@ public class TokenInitializer {
         .collect(Collectors.toList());
   }
 
-  private TraitTypeWeightDTO getRandomTraitTypeWeightFromList(
-      List<TraitTypeWeightDTO> traitTypeWeights, Long randomNumberSeed) {
+  private WeightedTraitTypeWeightDTO getRandomTraitTypeWeightFromList(
+      List<WeightedTraitTypeWeightDTO> traitTypeWeights, Long randomNumberSeed) {
     int randomNumber = new Random(randomNumberSeed).nextInt(1, 100);
     Long count = 0L;
-    for (TraitTypeWeightDTO traitTypeWeight : traitTypeWeights) {
+    for (WeightedTraitTypeWeightDTO traitTypeWeight : traitTypeWeights) {
       count = count + traitTypeWeight.getLikelihood();
       if (count >= randomNumber) {
         return traitTypeWeight;

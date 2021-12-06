@@ -1,8 +1,8 @@
 package com.tylerfitzgerald.demo_api.controller.sqlControllers;
 
 import com.tylerfitzgerald.demo_api.controller.BaseController;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeRepository;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.WeightedTraitTypeDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.WeightedTraitTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,16 +12,16 @@ public class TblTraitTypesController extends BaseController {
 
   private static final String EMPTY_STRING = "";
 
-  @Autowired private TraitTypeRepository traitTypeRepository;
+  @Autowired private WeightedTraitTypeRepository weightedTraitTypeRepository;
 
   @GetMapping("getAll")
   public String getAllTraitTypes() {
-    return traitTypeRepository.read().toString();
+    return weightedTraitTypeRepository.read().toString();
   }
 
   @GetMapping("get/{traitTypeId}")
   public String getTraitType(@PathVariable Long traitTypeId) {
-    return traitTypeRepository.readById(traitTypeId).toString();
+    return weightedTraitTypeRepository.readById(traitTypeId).toString();
   }
 
   @GetMapping("insert/{traitTypeId}")
@@ -32,17 +32,17 @@ public class TblTraitTypesController extends BaseController {
     if (traitTypeName == null || description == null) {
       return "Please pass a 'traitTypeName' AND 'description' value to create a trait type";
     }
-    TraitTypeDTO traitTypeDTO =
-        traitTypeRepository.create(
-            TraitTypeDTO.builder()
+    WeightedTraitTypeDTO weightedTraitTypeDTO =
+        weightedTraitTypeRepository.create(
+            WeightedTraitTypeDTO.builder()
                 .traitTypeId(traitTypeId)
                 .traitTypeName(traitTypeName)
                 .description(description)
                 .build());
-    if (traitTypeDTO == null) {
+    if (weightedTraitTypeDTO == null) {
       return "Cannot create traitTypeId: " + traitTypeId;
     }
-    return traitTypeDTO.toString();
+    return weightedTraitTypeDTO.toString();
   }
 
   @GetMapping("update/{traitTypeId}")
@@ -50,8 +50,8 @@ public class TblTraitTypesController extends BaseController {
       @PathVariable Long traitTypeId,
       @RequestParam(required = false) String traitTypeName,
       @RequestParam(required = false) String description) {
-    TraitTypeDTO.TraitTypeDTOBuilder traitTypeDTOBuilder =
-        TraitTypeDTO.builder().traitTypeId(traitTypeId);
+    WeightedTraitTypeDTO.WeightedTraitTypeDTOBuilder traitTypeDTOBuilder =
+        WeightedTraitTypeDTO.builder().traitTypeId(traitTypeId);
     if (traitTypeName == null && description == null) {
       return "Please pass a 'traitTypeName' OR 'description' value to update a trait type";
     }
@@ -61,17 +61,18 @@ public class TblTraitTypesController extends BaseController {
     if (description != null) {
       traitTypeDTOBuilder = traitTypeDTOBuilder.description(description);
     }
-    TraitTypeDTO traitTypeDTO = traitTypeRepository.update(traitTypeDTOBuilder.build());
-    if (traitTypeDTO == null) {
+    WeightedTraitTypeDTO weightedTraitTypeDTO =
+        weightedTraitTypeRepository.update(traitTypeDTOBuilder.build());
+    if (weightedTraitTypeDTO == null) {
       return "Cannot update traitTypeId: " + traitTypeId;
     }
-    return traitTypeDTO.toString();
+    return weightedTraitTypeDTO.toString();
   }
 
   @GetMapping("delete/{traitTypeId}")
   public String deleteTraitType(@PathVariable Long traitTypeId) {
-    TraitTypeDTO traitTypeDTO = traitTypeRepository.readById(traitTypeId);
-    if (!traitTypeRepository.delete(traitTypeDTO)) {
+    WeightedTraitTypeDTO weightedTraitTypeDTO = weightedTraitTypeRepository.readById(traitTypeId);
+    if (!weightedTraitTypeRepository.delete(weightedTraitTypeDTO)) {
       return "Could not delete traitTypeId: " + traitTypeId;
     }
     return "Deleted traitTypeId: " + traitTypeId;

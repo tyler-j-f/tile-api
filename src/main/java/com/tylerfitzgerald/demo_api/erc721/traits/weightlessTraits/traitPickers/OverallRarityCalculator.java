@@ -2,8 +2,8 @@ package com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers
 
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightedTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import java.util.List;
 
@@ -18,9 +18,9 @@ public class OverallRarityCalculator {
   private Long tile4Multiplier = 1L;
 
   public Long calculateRarity(
-      List<TraitDTO> weightedTraits, List<TraitTypeWeightDTO> traitTypeWeights) {
+      List<WeightedTraitDTO> weightedTraits, List<WeightedTraitTypeWeightDTO> traitTypeWeights) {
     Long traitTypeWeightId;
-    for (TraitDTO weightedTrait : weightedTraits) {
+    for (WeightedTraitDTO weightedTrait : weightedTraits) {
       traitTypeWeightId = weightedTrait.getTraitTypeWeightId();
       switch (Math.toIntExact(weightedTrait.getTraitTypeId())) {
         case WeightedTraitTypeConstants.TILE_1_RARITY:
@@ -57,11 +57,11 @@ public class OverallRarityCalculator {
   }
 
   public Long calculateRarity(
-      List<TraitDTO> weightedTraits,
-      List<TraitTypeWeightDTO> traitTypeWeights,
+      List<WeightedTraitDTO> weightedTraits,
+      List<WeightedTraitTypeWeightDTO> traitTypeWeights,
       List<WeightlessTraitDTO> weightlessTraits) {
     Long traitTypeWeightId;
-    for (TraitDTO weightedTrait : weightedTraits) {
+    for (WeightedTraitDTO weightedTrait : weightedTraits) {
       traitTypeWeightId = weightedTrait.getTraitTypeWeightId();
       switch (Math.toIntExact(weightedTrait.getTraitTypeId())) {
         case WeightedTraitTypeConstants.TILE_1_MULTIPLIER:
@@ -106,7 +106,7 @@ public class OverallRarityCalculator {
   }
 
   private Long getValueFromTraitWeightsList(
-      Long traitTypeWeightId, List<TraitTypeWeightDTO> traitTypeWeights) {
+      Long traitTypeWeightId, List<WeightedTraitTypeWeightDTO> traitTypeWeights) {
     return Long.valueOf(
         traitTypeWeights.stream()
             .filter(typeWeight -> typeWeight.getTraitTypeWeightId().equals(traitTypeWeightId))

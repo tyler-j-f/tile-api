@@ -1,8 +1,8 @@
 package com.tylerfitzgerald.demo_api.controller.sqlControllers;
 
 import com.tylerfitzgerald.demo_api.controller.BaseController;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightRepository;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,16 +12,16 @@ public class TblTraitTypeWeightsController extends BaseController {
 
   private static final String EMPTY_STRING = "";
 
-  @Autowired private TraitTypeWeightRepository traitTypeWeightRepository;
+  @Autowired private WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository;
 
   @GetMapping("getAll")
   public String getAllTraitTypeWeights() {
-    return traitTypeWeightRepository.read().toString();
+    return weightedTraitTypeWeightRepository.read().toString();
   }
 
   @GetMapping("get/{traitTypeWeightId}")
   public String getTraitTypeWeight(@PathVariable Long traitTypeWeightId) {
-    return traitTypeWeightRepository.readById(traitTypeWeightId).toString();
+    return weightedTraitTypeWeightRepository.readById(traitTypeWeightId).toString();
   }
 
   @GetMapping("insert/{traitTypeWeightId}")
@@ -34,9 +34,9 @@ public class TblTraitTypeWeightsController extends BaseController {
     if (traitTypeId == null || likelihood == null || value == null || displayTypeValue == null) {
       return "Please pass a 'traitTypeId', 'likelihood', 'value', AND 'displayTypeValue' to create a trait type weight";
     }
-    TraitTypeWeightDTO traitWeightTypeDTO =
-        traitTypeWeightRepository.create(
-            TraitTypeWeightDTO.builder()
+    WeightedTraitTypeWeightDTO traitWeightTypeDTO =
+        weightedTraitTypeWeightRepository.create(
+            WeightedTraitTypeWeightDTO.builder()
                 .traitTypeWeightId(traitTypeWeightId)
                 .traitTypeId(traitTypeId)
                 .likelihood(likelihood)
@@ -59,8 +59,8 @@ public class TblTraitTypeWeightsController extends BaseController {
     if (traitTypeId == null && likelihood == null && value == null && displayTypeValue == null) {
       return "Please pass a 'traitTypeId', 'likelihood', 'value', OR 'displayTypeValue' to update a trait type weight";
     }
-    TraitTypeWeightDTO.TraitTypeWeightDTOBuilder traitTypeWeightDTOBuilder =
-        TraitTypeWeightDTO.builder().traitTypeWeightId(traitTypeWeightId);
+    WeightedTraitTypeWeightDTO.WeightedTraitTypeWeightDTOBuilder traitTypeWeightDTOBuilder =
+        WeightedTraitTypeWeightDTO.builder().traitTypeWeightId(traitTypeWeightId);
     if (traitTypeId != null) {
       traitTypeWeightDTOBuilder = traitTypeWeightDTOBuilder.traitTypeId(traitTypeId);
     }
@@ -73,8 +73,8 @@ public class TblTraitTypeWeightsController extends BaseController {
     if (displayTypeValue != null) {
       traitTypeWeightDTOBuilder = traitTypeWeightDTOBuilder.displayTypeValue(displayTypeValue);
     }
-    TraitTypeWeightDTO traitWeightTypeDTO =
-        traitTypeWeightRepository.update(traitTypeWeightDTOBuilder.build());
+    WeightedTraitTypeWeightDTO traitWeightTypeDTO =
+        weightedTraitTypeWeightRepository.update(traitTypeWeightDTOBuilder.build());
     if (traitWeightTypeDTO == null) {
       return "Cannot update traitTypeWeightId: " + traitTypeWeightId;
     }
@@ -83,8 +83,9 @@ public class TblTraitTypeWeightsController extends BaseController {
 
   @GetMapping("delete/{traitTypeWeightId}")
   public String deleteTraitTypeWeight(@PathVariable Long traitTypeWeightId) {
-    TraitTypeWeightDTO traitWeightTypeDTO = traitTypeWeightRepository.readById(traitTypeWeightId);
-    if (!traitTypeWeightRepository.delete(traitWeightTypeDTO)) {
+    WeightedTraitTypeWeightDTO traitWeightTypeDTO =
+        weightedTraitTypeWeightRepository.readById(traitTypeWeightId);
+    if (!weightedTraitTypeWeightRepository.delete(traitWeightTypeDTO)) {
       return "Could not delete traitTypeWeightId: " + traitTypeWeightId;
     }
     return "Deleted traitTypeWeightId: " + traitTypeWeightId;

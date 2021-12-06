@@ -5,11 +5,11 @@ import com.tylerfitzgerald.demo_api.sql.TableInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class TraitTypesTable implements TableInterface {
+public class WeightedTraitTypesTable implements TableInterface {
 
   @Autowired private TraitsConfig traitsConfig;
 
-  @Autowired private TraitTypeRepository traitTypeWeightRepository;
+  @Autowired private WeightedTraitTypeRepository traitTypeWeightRepository;
 
   /*
    * NOTE: 2083 is the max VARCHAR length for a URL on the internet explorer browser.
@@ -24,7 +24,7 @@ public class TraitTypesTable implements TableInterface {
 
   private final JdbcTemplate jdbcTemplate;
 
-  public TraitTypesTable(JdbcTemplate jdbcTemplate) {
+  public WeightedTraitTypesTable(JdbcTemplate jdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;
   }
 
@@ -41,10 +41,11 @@ public class TraitTypesTable implements TableInterface {
   }
 
   public boolean initialize() {
-    TraitTypeDTO[] traitTypes = traitsConfig.getWeightedTypes();
-    for (TraitTypeDTO traitType : traitTypes) {
-      TraitTypeDTO createResultTraitTypeDTO = traitTypeWeightRepository.create(traitType);
-      if (createResultTraitTypeDTO == null) {
+    WeightedTraitTypeDTO[] traitTypes = traitsConfig.getWeightedTypes();
+    for (WeightedTraitTypeDTO traitType : traitTypes) {
+      WeightedTraitTypeDTO createResultWeightedTraitTypeDTO =
+          traitTypeWeightRepository.create(traitType);
+      if (createResultWeightedTraitTypeDTO == null) {
         System.out.println(
             "Failed to insert trait type into "
                 + TABLE_NAME
@@ -55,7 +56,7 @@ public class TraitTypesTable implements TableInterface {
             "Inserted trait type into "
                 + TABLE_NAME
                 + ".\nTrait Type: "
-                + createResultTraitTypeDTO.toString());
+                + createResultWeightedTraitTypeDTO.toString());
       }
     }
     return true;

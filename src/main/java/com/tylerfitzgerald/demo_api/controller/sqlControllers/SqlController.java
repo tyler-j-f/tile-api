@@ -2,9 +2,9 @@ package com.tylerfitzgerald.demo_api.controller.sqlControllers;
 
 import com.tylerfitzgerald.demo_api.controller.BaseController;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenTable;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightsTable;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypesTable;
-import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitsTable;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightsTable;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.WeightedTraitTypesTable;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitsTable;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitTypesTable;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitsTable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +18,11 @@ public class SqlController extends BaseController {
 
   @Autowired private TokenTable tokenTable;
 
-  @Autowired private TraitTypesTable traitTypesTable;
+  @Autowired private WeightedTraitTypesTable weightedTraitTypesTable;
 
-  @Autowired private TraitTypeWeightsTable traitTypeWeightsTable;
+  @Autowired private WeightedTraitTypeWeightsTable weightedTraitTypeWeightsTable;
 
-  @Autowired private TraitsTable traitsTable;
+  @Autowired private WeightedTraitsTable weightedTraitsTable;
 
   @Autowired private WeightlessTraitsTable weightlessTraitsTable;
 
@@ -36,17 +36,17 @@ public class SqlController extends BaseController {
     } else {
       output = "Token table failed to create";
     }
-    if (traitTypesTable.create()) {
+    if (weightedTraitTypesTable.create()) {
       output = output + "\n" + "Trait types table created successfully";
     } else {
       output = output + "\n" + "Trait types table failed to create";
     }
-    if (traitTypeWeightsTable.create()) {
+    if (weightedTraitTypeWeightsTable.create()) {
       output = output + "\n" + "Trait type weights table created successfully";
     } else {
       output = output + "\n" + "Trait type weights table failed to create";
     }
-    if (traitsTable.create()) {
+    if (weightedTraitsTable.create()) {
       output = output + "\n" + "Traits table created successfully";
     } else {
       output = output + "\n" + "Traits table failed to create";
@@ -66,8 +66,8 @@ public class SqlController extends BaseController {
 
   @GetMapping("initialTablesPopulate")
   public String initialTablesPopulate() {
-    traitTypesTable.initialize();
-    traitTypeWeightsTable.initialize();
+    weightedTraitTypesTable.initialize();
+    weightedTraitTypeWeightsTable.initialize();
     weightlessTraitTypesTable.initialize();
     return "Trait types table initialized with initial data successfully";
   }
@@ -80,17 +80,17 @@ public class SqlController extends BaseController {
     } else {
       output = "Token table failed to delete";
     }
-    if (traitTypesTable.delete()) {
+    if (weightedTraitTypesTable.delete()) {
       output = output + "\n" + "Trait types table deleted successfully";
     } else {
       output = output + "\n" + "Trait types table failed to delete";
     }
-    if (traitTypeWeightsTable.delete()) {
+    if (weightedTraitTypeWeightsTable.delete()) {
       output = output + "\n" + "Trait type weights table deleted successfully";
     } else {
       output = output + "\n" + "Trait type weights table failed to delete";
     }
-    if (traitsTable.delete()) {
+    if (weightedTraitsTable.delete()) {
       output = output + "\n" + "Traits table deleted successfully";
     } else {
       output = output + "\n" + "Traits table failed to delete";

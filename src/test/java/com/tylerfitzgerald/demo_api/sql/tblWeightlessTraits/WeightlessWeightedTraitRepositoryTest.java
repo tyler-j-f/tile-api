@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @SpringBootTest
-public class WeightlessTraitRepositoryTest {
+public class WeightlessWeightedTraitRepositoryTest {
 
   private JdbcTemplate jdbcTemplate;
   private BeanPropertyRowMapper beanPropertyRowMapper;

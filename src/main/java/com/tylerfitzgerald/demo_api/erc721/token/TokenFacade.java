@@ -3,9 +3,9 @@ package com.tylerfitzgerald.demo_api.erc721.token;
 import com.tylerfitzgerald.demo_api.erc721.traits.DisplayTypeTrait;
 import com.tylerfitzgerald.demo_api.erc721.traits.Trait;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.WeightedTraitTypeDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import java.util.ArrayList;
@@ -33,15 +33,15 @@ public class TokenFacade {
     return nftFacadeDTO.getWeightlessTraitTypes();
   }
 
-  public List<TraitDTO> getWeightedTraits() {
+  public List<WeightedTraitDTO> getWeightedTraits() {
     return nftFacadeDTO.getWeightedTraits();
   }
 
-  public List<TraitTypeDTO> getWeightedTraitTypes() {
+  public List<WeightedTraitTypeDTO> getWeightedTraitTypes() {
     return nftFacadeDTO.getWeightedTraitTypes();
   }
 
-  public List<TraitTypeWeightDTO> getWeightedTraitTypeWeights() {
+  public List<WeightedTraitTypeWeightDTO> getWeightedTraitTypeWeights() {
     return nftFacadeDTO.getWeightedTraitTypeWeights();
   }
 
@@ -102,16 +102,16 @@ public class TokenFacade {
   }
 
   private ArrayList<Object> buildWeightedAttributes() {
-    List<TraitDTO> tokenTraitDTOs = getWeightedTraits();
-    TraitTypeWeightDTO weight;
-    TraitTypeDTO type;
+    List<WeightedTraitDTO> tokenWeightedTraitDTOS = getWeightedTraits();
+    WeightedTraitTypeWeightDTO weight;
+    WeightedTraitTypeDTO type;
     String traitType, traitValue, displayType;
-    List<TraitTypeWeightDTO> traitWeightDTOs = getWeightedTraitTypeWeights();
-    List<TraitTypeDTO> traitTypeDTOs = getWeightedTraitTypes();
+    List<WeightedTraitTypeWeightDTO> traitWeightDTOs = getWeightedTraitTypeWeights();
+    List<WeightedTraitTypeDTO> weightedTraitTypeDTOS = getWeightedTraitTypes();
     ArrayList<Object> traits = new ArrayList<>();
-    for (TraitDTO traitDTO : tokenTraitDTOs) {
-      weight = getTraitWeightForTraitDTO(traitWeightDTOs, traitDTO);
-      type = getTraitTypeForTraitDTO(traitTypeDTOs, traitDTO);
+    for (WeightedTraitDTO weightedTraitDTO : tokenWeightedTraitDTOS) {
+      weight = getTraitWeightForTraitDTO(traitWeightDTOs, weightedTraitDTO);
+      type = getTraitTypeForTraitDTO(weightedTraitTypeDTOS, weightedTraitDTO);
       traitType = type.getTraitTypeName();
       traitValue = weight.getValue();
       displayType = weight.getDisplayTypeValue();
@@ -129,20 +129,23 @@ public class TokenFacade {
     return traits;
   }
 
-  private TraitTypeWeightDTO getTraitWeightForTraitDTO(
-      List<TraitTypeWeightDTO> traitWeightsDTOs, TraitDTO traitDTO) {
+  private WeightedTraitTypeWeightDTO getTraitWeightForTraitDTO(
+      List<WeightedTraitTypeWeightDTO> traitWeightsDTOs, WeightedTraitDTO weightedTraitDTO) {
     return traitWeightsDTOs.stream()
         .filter(
             traitWeightsDTO ->
-                traitWeightsDTO.getTraitTypeWeightId().equals(traitDTO.getTraitTypeWeightId()))
+                traitWeightsDTO
+                    .getTraitTypeWeightId()
+                    .equals(weightedTraitDTO.getTraitTypeWeightId()))
         .findFirst()
         .get();
   }
 
-  private TraitTypeDTO getTraitTypeForTraitDTO(
-      List<TraitTypeDTO> traitTypeDTOs, TraitDTO traitDTO) {
-    return traitTypeDTOs.stream()
-        .filter(traitTypeDTO -> traitTypeDTO.getTraitTypeId().equals(traitDTO.getTraitTypeId()))
+  private WeightedTraitTypeDTO getTraitTypeForTraitDTO(
+      List<WeightedTraitTypeDTO> weightedTraitTypeDTOS, WeightedTraitDTO weightedTraitDTO) {
+    return weightedTraitTypeDTOS.stream()
+        .filter(
+            traitTypeDTO -> traitTypeDTO.getTraitTypeId().equals(weightedTraitDTO.getTraitTypeId()))
         .findFirst()
         .get();
   }

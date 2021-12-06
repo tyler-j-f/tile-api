@@ -2,12 +2,12 @@ package com.tylerfitzgerald.demo_api.erc721.token;
 
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightRepository;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeRepository;
-import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitRepository;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightRepository;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.WeightedTraitTypeDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.WeightedTraitTypeRepository;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitRepository;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitTypeRepository;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
@@ -19,15 +19,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class TokenRetriever {
 
   @Autowired private TokenRepository tokenRepository;
-  @Autowired private TraitRepository traitRepository;
-  @Autowired private TraitTypeRepository traitTypeRepository;
-  @Autowired private TraitTypeWeightRepository traitTypeWeightRepository;
+  @Autowired private WeightedTraitRepository weightedTraitRepository;
+  @Autowired private WeightedTraitTypeRepository weightedTraitTypeRepository;
+  @Autowired private WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository;
   @Autowired private WeightlessTraitRepository weightlessTraitRepository;
   @Autowired private WeightlessTraitTypeRepository weightlessTraitTypeRepository;
 
-  private List<TraitTypeDTO> availableTraitTypes = new ArrayList<>();
-  private List<TraitTypeWeightDTO> availableTraitTypeWeights = new ArrayList<>();
-  private List<TraitDTO> weightedTraits = new ArrayList<>();
+  private List<WeightedTraitTypeDTO> availableTraitTypes = new ArrayList<>();
+  private List<WeightedTraitTypeWeightDTO> availableTraitTypeWeights = new ArrayList<>();
+  private List<WeightedTraitDTO> weightedTraits = new ArrayList<>();
   private List<WeightlessTraitDTO> weightlessTraits = new ArrayList<>();
   private List<WeightlessTraitTypeDTO> weightlessTraitTypes = new ArrayList<>();
   private TokenDTO tokenDTO;
@@ -38,8 +38,8 @@ public class TokenRetriever {
       System.out.println("NFTRetriever failed to retrieve the token with tokenId: " + tokenId);
       return null;
     }
-    availableTraitTypes = traitTypeRepository.read();
-    availableTraitTypeWeights = traitTypeWeightRepository.read();
+    availableTraitTypes = weightedTraitTypeRepository.read();
+    availableTraitTypeWeights = weightedTraitTypeWeightRepository.read();
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
     weightedTraits = getWeightedTraits(tokenId);
     weightlessTraits = getWeightlessTraits(tokenId);
@@ -61,8 +61,8 @@ public class TokenRetriever {
     return tokenRepository.readById(tokenId);
   }
 
-  private List<TraitDTO> getWeightedTraits(Long tokenId) {
-    return traitRepository.readByTokenId(tokenId);
+  private List<WeightedTraitDTO> getWeightedTraits(Long tokenId) {
+    return weightedTraitRepository.readByTokenId(tokenId);
   }
 
   private List<WeightlessTraitDTO> getWeightlessTraits(Long tokenId) {

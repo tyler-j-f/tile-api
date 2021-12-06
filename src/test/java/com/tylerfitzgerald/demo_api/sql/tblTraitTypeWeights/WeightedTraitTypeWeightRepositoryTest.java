@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @SpringBootTest
-public class TraitTypeWeightRepositoryTest {
+public class WeightedTraitTypeWeightRepositoryTest {
 
   private JdbcTemplate jdbcTemplate;
   private BeanPropertyRowMapper beanPropertyRowMapper;
@@ -34,19 +34,19 @@ public class TraitTypeWeightRepositoryTest {
   @BeforeEach
   public void setup() {
     this.jdbcTemplate = Mockito.mock(JdbcTemplate.class);
-    this.beanPropertyRowMapper = new BeanPropertyRowMapper(TraitTypeWeightDTO.class);
+    this.beanPropertyRowMapper = new BeanPropertyRowMapper(WeightedTraitTypeWeightDTO.class);
   }
 
   @Test
   void testConstructor() {
-    assertThat(new TraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper))
-        .isInstanceOf(TraitTypeWeightRepository.class);
+    assertThat(new WeightedTraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper))
+        .isInstanceOf(WeightedTraitTypeWeightRepository.class);
   }
 
   @Test
   void testCreateNonExisting() {
-    TraitTypeWeightDTO traitWeightTypeDTO =
-        TraitTypeWeightDTO.builder()
+    WeightedTraitTypeWeightDTO traitWeightTypeDTO =
+        WeightedTraitTypeWeightDTO.builder()
             .id(ID)
             .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
             .traitTypeId(TRAIT_TYPE_ID)
@@ -56,28 +56,30 @@ public class TraitTypeWeightRepositoryTest {
             .build();
     Mockito.when(
             jdbcTemplate.queryForStream(
-                TraitTypeWeightRepository.READ_BY_ID_SQL,
+                WeightedTraitTypeWeightRepository.READ_BY_ID_SQL,
                 beanPropertyRowMapper,
                 TRAIT_TYPE_WEIGHT_ID))
         .thenReturn(Stream.empty(), Stream.of(traitWeightTypeDTO));
     Mockito.when(
             jdbcTemplate.update(
-                TraitTypeWeightRepository.CREATE_SQL,
+                WeightedTraitTypeWeightRepository.CREATE_SQL,
                 TRAIT_TYPE_WEIGHT_ID,
                 TRAIT_TYPE_ID,
                 LIKELIHOOD,
                 VALUE,
                 DISPLAY_TYPE_VALUE))
         .thenReturn(1);
-    TraitTypeWeightDTO traitTypeDTOResult =
-        new TraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper)
+    WeightedTraitTypeWeightDTO traitTypeDTOResult =
+        new WeightedTraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper)
             .create(traitWeightTypeDTO);
     Mockito.verify(jdbcTemplate, Mockito.times(2))
         .queryForStream(
-            TraitTypeWeightRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TRAIT_TYPE_WEIGHT_ID);
+            WeightedTraitTypeWeightRepository.READ_BY_ID_SQL,
+            beanPropertyRowMapper,
+            TRAIT_TYPE_WEIGHT_ID);
     Mockito.verify(jdbcTemplate, Mockito.times(1))
         .update(
-            TraitTypeWeightRepository.CREATE_SQL,
+            WeightedTraitTypeWeightRepository.CREATE_SQL,
             TRAIT_TYPE_WEIGHT_ID,
             TRAIT_TYPE_ID,
             LIKELIHOOD,
@@ -88,8 +90,8 @@ public class TraitTypeWeightRepositoryTest {
 
   @Test
   void testCreateExisting() {
-    TraitTypeWeightDTO traitWeightTypeDTO =
-        TraitTypeWeightDTO.builder()
+    WeightedTraitTypeWeightDTO traitWeightTypeDTO =
+        WeightedTraitTypeWeightDTO.builder()
             .id(ID)
             .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
             .traitTypeId(TRAIT_TYPE_ID)
@@ -99,31 +101,33 @@ public class TraitTypeWeightRepositoryTest {
             .build();
     Mockito.when(
             jdbcTemplate.queryForStream(
-                TraitTypeWeightRepository.READ_BY_ID_SQL,
+                WeightedTraitTypeWeightRepository.READ_BY_ID_SQL,
                 beanPropertyRowMapper,
                 TRAIT_TYPE_WEIGHT_ID))
         .thenReturn(Stream.of(traitWeightTypeDTO));
-    TraitTypeWeightDTO traitTypeWeightDTOResult =
-        new TraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper)
+    WeightedTraitTypeWeightDTO weightedTraitTypeWeightDTOResult =
+        new WeightedTraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper)
             .create(traitWeightTypeDTO);
     Mockito.verify(jdbcTemplate, Mockito.times(1))
         .queryForStream(
-            TraitTypeWeightRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TRAIT_TYPE_WEIGHT_ID);
+            WeightedTraitTypeWeightRepository.READ_BY_ID_SQL,
+            beanPropertyRowMapper,
+            TRAIT_TYPE_WEIGHT_ID);
     Mockito.verify(jdbcTemplate, Mockito.times(0))
         .update(
-            TraitTypeWeightRepository.CREATE_SQL,
+            WeightedTraitTypeWeightRepository.CREATE_SQL,
             TRAIT_TYPE_WEIGHT_ID,
             TRAIT_TYPE_ID,
             LIKELIHOOD,
             VALUE,
             DISPLAY_TYPE_VALUE);
-    assertThat(traitTypeWeightDTOResult).isEqualTo(null);
+    assertThat(weightedTraitTypeWeightDTOResult).isEqualTo(null);
   }
 
   @Test
   void testRead() {
-    TraitTypeWeightDTO traitTypeWeightDTO =
-        TraitTypeWeightDTO.builder()
+    WeightedTraitTypeWeightDTO weightedTraitTypeWeightDTO =
+        WeightedTraitTypeWeightDTO.builder()
             .id(ID)
             .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
             .traitTypeId(TRAIT_TYPE_ID)
@@ -131,8 +135,8 @@ public class TraitTypeWeightRepositoryTest {
             .value(VALUE)
             .displayTypeValue(DISPLAY_TYPE_VALUE)
             .build();
-    TraitTypeWeightDTO traitTypeWeightDTO2 =
-        TraitTypeWeightDTO.builder()
+    WeightedTraitTypeWeightDTO weightedTraitTypeWeightDTO2 =
+        WeightedTraitTypeWeightDTO.builder()
             .id(ID_2)
             .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID_2)
             .traitTypeId(TRAIT_TYPE_ID_2)
@@ -141,32 +145,34 @@ public class TraitTypeWeightRepositoryTest {
             .displayTypeValue(DISPLAY_TYPE_VALUE_2)
             .build();
     Mockito.when(
-            jdbcTemplate.queryForStream(TraitTypeWeightRepository.READ_SQL, beanPropertyRowMapper))
-        .thenReturn(Stream.of(traitTypeWeightDTO, traitTypeWeightDTO2));
-    List<TraitTypeWeightDTO> traitTypeWeights =
-        new TraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper).read();
+            jdbcTemplate.queryForStream(
+                WeightedTraitTypeWeightRepository.READ_SQL, beanPropertyRowMapper))
+        .thenReturn(Stream.of(weightedTraitTypeWeightDTO, weightedTraitTypeWeightDTO2));
+    List<WeightedTraitTypeWeightDTO> traitTypeWeights =
+        new WeightedTraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper).read();
     Mockito.verify(jdbcTemplate, Mockito.times(1))
-        .queryForStream(TraitTypeWeightRepository.READ_SQL, beanPropertyRowMapper);
-    assertThat(traitTypeWeights.get(0)).isEqualTo(traitTypeWeightDTO);
-    assertThat(traitTypeWeights.get(1)).isEqualTo(traitTypeWeightDTO2);
+        .queryForStream(WeightedTraitTypeWeightRepository.READ_SQL, beanPropertyRowMapper);
+    assertThat(traitTypeWeights.get(0)).isEqualTo(weightedTraitTypeWeightDTO);
+    assertThat(traitTypeWeights.get(1)).isEqualTo(weightedTraitTypeWeightDTO2);
   }
 
   @Test
   void testReadEmptyTable() {
     Mockito.when(
-            jdbcTemplate.queryForStream(TraitTypeWeightRepository.READ_SQL, beanPropertyRowMapper))
+            jdbcTemplate.queryForStream(
+                WeightedTraitTypeWeightRepository.READ_SQL, beanPropertyRowMapper))
         .thenReturn(Stream.empty());
-    List<TraitTypeWeightDTO> traitTypeWeights =
-        new TraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper).read();
+    List<WeightedTraitTypeWeightDTO> traitTypeWeights =
+        new WeightedTraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper).read();
     Mockito.verify(jdbcTemplate, Mockito.times(1))
-        .queryForStream(TraitTypeWeightRepository.READ_SQL, beanPropertyRowMapper);
+        .queryForStream(WeightedTraitTypeWeightRepository.READ_SQL, beanPropertyRowMapper);
     assertThat(traitTypeWeights.isEmpty()).isEqualTo(true);
   }
 
   @Test
   void testReadExistingById() {
-    TraitTypeWeightDTO traitTypeWeightDTO =
-        TraitTypeWeightDTO.builder()
+    WeightedTraitTypeWeightDTO weightedTraitTypeWeightDTO =
+        WeightedTraitTypeWeightDTO.builder()
             .id(ID)
             .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
             .traitTypeId(TRAIT_TYPE_ID)
@@ -176,32 +182,34 @@ public class TraitTypeWeightRepositoryTest {
             .build();
     Mockito.when(
             jdbcTemplate.queryForStream(
-                TraitTypeWeightRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID))
-        .thenReturn(Stream.of(traitTypeWeightDTO));
-    TraitTypeWeightDTO traitTypeWeightDTOResult =
-        new TraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper).readById(ID);
+                WeightedTraitTypeWeightRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID))
+        .thenReturn(Stream.of(weightedTraitTypeWeightDTO));
+    WeightedTraitTypeWeightDTO weightedTraitTypeWeightDTOResult =
+        new WeightedTraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper).readById(ID);
     Mockito.verify(jdbcTemplate, Mockito.times(1))
-        .queryForStream(TraitTypeWeightRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID);
-    assertThat(traitTypeWeightDTOResult).isEqualTo(traitTypeWeightDTO);
+        .queryForStream(
+            WeightedTraitTypeWeightRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID);
+    assertThat(weightedTraitTypeWeightDTOResult).isEqualTo(weightedTraitTypeWeightDTO);
   }
 
   @Test
   void testReadNonExistingById() {
     Mockito.when(
             jdbcTemplate.queryForStream(
-                TraitTypeWeightRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID))
+                WeightedTraitTypeWeightRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID))
         .thenReturn(Stream.empty());
-    TraitTypeWeightDTO traitDTOResult =
-        new TraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper).readById(ID);
+    WeightedTraitTypeWeightDTO traitDTOResult =
+        new WeightedTraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper).readById(ID);
     Mockito.verify(jdbcTemplate, Mockito.times(1))
-        .queryForStream(TraitTypeWeightRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID);
+        .queryForStream(
+            WeightedTraitTypeWeightRepository.READ_BY_ID_SQL, beanPropertyRowMapper, ID);
     assertThat(traitDTOResult).isEqualTo(null);
   }
 
   @Test
   void testUpdateExistingEntry() {
-    TraitTypeWeightDTO traitTypeWeightDTO =
-        TraitTypeWeightDTO.builder()
+    WeightedTraitTypeWeightDTO weightedTraitTypeWeightDTO =
+        WeightedTraitTypeWeightDTO.builder()
             .id(ID)
             .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
             .traitTypeId(TRAIT_TYPE_ID)
@@ -210,8 +218,8 @@ public class TraitTypeWeightRepositoryTest {
             .displayTypeValue(DISPLAY_TYPE_VALUE)
             .build();
     // traitTypeWeightDTO2 Will have the same id and trait type weight id as traitTypeWeightDTO
-    TraitTypeWeightDTO traitTypeWeightDTO2 =
-        TraitTypeWeightDTO.builder()
+    WeightedTraitTypeWeightDTO weightedTraitTypeWeightDTO2 =
+        WeightedTraitTypeWeightDTO.builder()
             .id(ID)
             .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
             .traitTypeId(TRAIT_TYPE_ID_2)
@@ -221,40 +229,42 @@ public class TraitTypeWeightRepositoryTest {
             .build();
     Mockito.when(
             jdbcTemplate.queryForStream(
-                TraitTypeWeightRepository.READ_BY_ID_SQL,
+                WeightedTraitTypeWeightRepository.READ_BY_ID_SQL,
                 beanPropertyRowMapper,
                 TRAIT_TYPE_WEIGHT_ID))
-        .thenReturn(Stream.of(traitTypeWeightDTO), Stream.of(traitTypeWeightDTO2));
+        .thenReturn(Stream.of(weightedTraitTypeWeightDTO), Stream.of(weightedTraitTypeWeightDTO2));
     Mockito.when(
             jdbcTemplate.update(
-                TraitTypeWeightRepository.UPDATE_SQL,
+                WeightedTraitTypeWeightRepository.UPDATE_SQL,
                 TRAIT_TYPE_ID_2,
                 LIKELIHOOD_2,
                 VALUE_2,
                 DISPLAY_TYPE_VALUE_2,
                 TRAIT_TYPE_WEIGHT_ID))
         .thenReturn(1);
-    TraitTypeWeightDTO traitTypeDTOResults =
-        new TraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper)
-            .update(traitTypeWeightDTO2);
+    WeightedTraitTypeWeightDTO traitTypeDTOResults =
+        new WeightedTraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper)
+            .update(weightedTraitTypeWeightDTO2);
     Mockito.verify(jdbcTemplate, Mockito.times(2))
         .queryForStream(
-            TraitTypeWeightRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TRAIT_TYPE_WEIGHT_ID);
+            WeightedTraitTypeWeightRepository.READ_BY_ID_SQL,
+            beanPropertyRowMapper,
+            TRAIT_TYPE_WEIGHT_ID);
     Mockito.verify(jdbcTemplate, Mockito.times(1))
         .update(
-            TraitTypeWeightRepository.UPDATE_SQL,
+            WeightedTraitTypeWeightRepository.UPDATE_SQL,
             TRAIT_TYPE_ID_2,
             LIKELIHOOD_2,
             VALUE_2,
             DISPLAY_TYPE_VALUE_2,
             TRAIT_TYPE_WEIGHT_ID);
-    assertThat(traitTypeDTOResults).isEqualTo(traitTypeWeightDTO2);
+    assertThat(traitTypeDTOResults).isEqualTo(weightedTraitTypeWeightDTO2);
   }
 
   @Test
   void testUpdateNonExistingEntry() {
-    TraitTypeWeightDTO traitTypeWeightDTO =
-        TraitTypeWeightDTO.builder()
+    WeightedTraitTypeWeightDTO weightedTraitTypeWeightDTO =
+        WeightedTraitTypeWeightDTO.builder()
             .id(ID)
             .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
             .traitTypeId(TRAIT_TYPE_ID)
@@ -265,19 +275,21 @@ public class TraitTypeWeightRepositoryTest {
     // Return a Stream.empty() from the read by id call to imitate a non-existing entry.
     Mockito.when(
             jdbcTemplate.queryForStream(
-                TraitTypeWeightRepository.READ_BY_ID_SQL,
+                WeightedTraitTypeWeightRepository.READ_BY_ID_SQL,
                 beanPropertyRowMapper,
                 TRAIT_TYPE_WEIGHT_ID))
         .thenReturn(Stream.empty());
-    TraitTypeWeightDTO traitTypeDTOResults =
-        new TraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper)
-            .update(traitTypeWeightDTO);
+    WeightedTraitTypeWeightDTO traitTypeDTOResults =
+        new WeightedTraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper)
+            .update(weightedTraitTypeWeightDTO);
     Mockito.verify(jdbcTemplate, Mockito.times(1))
         .queryForStream(
-            TraitTypeWeightRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TRAIT_TYPE_WEIGHT_ID);
+            WeightedTraitTypeWeightRepository.READ_BY_ID_SQL,
+            beanPropertyRowMapper,
+            TRAIT_TYPE_WEIGHT_ID);
     Mockito.verify(jdbcTemplate, Mockito.times(0))
         .update(
-            TraitTypeWeightRepository.UPDATE_SQL,
+            WeightedTraitTypeWeightRepository.UPDATE_SQL,
             TRAIT_TYPE_ID_2,
             LIKELIHOOD_2,
             VALUE_2,
@@ -288,8 +300,8 @@ public class TraitTypeWeightRepositoryTest {
 
   @Test
   void testDeleteExistingEntry() {
-    TraitTypeWeightDTO traitTypeWeightDTO =
-        TraitTypeWeightDTO.builder()
+    WeightedTraitTypeWeightDTO weightedTraitTypeWeightDTO =
+        WeightedTraitTypeWeightDTO.builder()
             .id(ID)
             .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
             .traitTypeId(TRAIT_TYPE_ID)
@@ -299,27 +311,29 @@ public class TraitTypeWeightRepositoryTest {
             .build();
     Mockito.when(
             jdbcTemplate.queryForStream(
-                TraitTypeWeightRepository.READ_BY_ID_SQL,
+                WeightedTraitTypeWeightRepository.READ_BY_ID_SQL,
                 beanPropertyRowMapper,
                 TRAIT_TYPE_WEIGHT_ID))
-        .thenReturn(Stream.of(traitTypeWeightDTO), Stream.empty());
+        .thenReturn(Stream.of(weightedTraitTypeWeightDTO), Stream.empty());
     boolean isDeletedSuccessfully =
-        new TraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper)
-            .delete(traitTypeWeightDTO);
+        new WeightedTraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper)
+            .delete(weightedTraitTypeWeightDTO);
     // Read by id is called twice. Once at the start of the delete method and once at the end of the
     // delete method.
     Mockito.verify(jdbcTemplate, Mockito.times(2))
         .queryForStream(
-            TraitTypeWeightRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TRAIT_TYPE_WEIGHT_ID);
+            WeightedTraitTypeWeightRepository.READ_BY_ID_SQL,
+            beanPropertyRowMapper,
+            TRAIT_TYPE_WEIGHT_ID);
     Mockito.verify(jdbcTemplate, Mockito.times(1))
-        .update(TraitTypeWeightRepository.DELETE_BY_ID_SQL, TRAIT_TYPE_WEIGHT_ID);
+        .update(WeightedTraitTypeWeightRepository.DELETE_BY_ID_SQL, TRAIT_TYPE_WEIGHT_ID);
     assertThat(isDeletedSuccessfully).isEqualTo(true);
   }
 
   @Test
   void testDeleteNonExistingEntry() {
-    TraitTypeWeightDTO traitTypeWeightDTO =
-        TraitTypeWeightDTO.builder()
+    WeightedTraitTypeWeightDTO weightedTraitTypeWeightDTO =
+        WeightedTraitTypeWeightDTO.builder()
             .id(ID)
             .traitTypeWeightId(TRAIT_TYPE_WEIGHT_ID)
             .traitTypeId(TRAIT_TYPE_ID)
@@ -329,20 +343,22 @@ public class TraitTypeWeightRepositoryTest {
             .build();
     Mockito.when(
             jdbcTemplate.queryForStream(
-                TraitTypeWeightRepository.READ_BY_ID_SQL,
+                WeightedTraitTypeWeightRepository.READ_BY_ID_SQL,
                 beanPropertyRowMapper,
                 TRAIT_TYPE_WEIGHT_ID))
         .thenReturn(Stream.empty());
     boolean isDeletedSuccessfully =
-        new TraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper)
-            .delete(traitTypeWeightDTO);
+        new WeightedTraitTypeWeightRepository(jdbcTemplate, beanPropertyRowMapper)
+            .delete(weightedTraitTypeWeightDTO);
     // Read by id is called twice. Once at the start of the delete method and once at the end of the
     // delete method.
     Mockito.verify(jdbcTemplate, Mockito.times(1))
         .queryForStream(
-            TraitTypeWeightRepository.READ_BY_ID_SQL, beanPropertyRowMapper, TRAIT_TYPE_WEIGHT_ID);
+            WeightedTraitTypeWeightRepository.READ_BY_ID_SQL,
+            beanPropertyRowMapper,
+            TRAIT_TYPE_WEIGHT_ID);
     Mockito.verify(jdbcTemplate, Mockito.times(0))
-        .update(TraitTypeWeightRepository.DELETE_BY_ID_SQL, TRAIT_TYPE_WEIGHT_ID);
+        .update(WeightedTraitTypeWeightRepository.DELETE_BY_ID_SQL, TRAIT_TYPE_WEIGHT_ID);
     assertThat(isDeletedSuccessfully).isEqualTo(false);
   }
 }

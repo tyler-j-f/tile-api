@@ -11,11 +11,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TraitDTO extends BaseTraitDTO {
+public class WeightedTraitDTO extends BaseTraitDTO {
   private Long traitTypeWeightId;
 
   @Builder
-  public TraitDTO(Long id, Long traitId, Long tokenId, Long traitTypeId, Long traitTypeWeightId) {
+  public WeightedTraitDTO(
+      Long id, Long traitId, Long tokenId, Long traitTypeId, Long traitTypeWeightId) {
     super(id, traitId, tokenId, traitTypeId);
     this.traitTypeWeightId = traitTypeWeightId;
     return;

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class WeightlessTraitDTOTest {
+public class WeightlessWeightedTraitDTOTest {
 
   // Value set 1
   private static final Long ID = 1L;

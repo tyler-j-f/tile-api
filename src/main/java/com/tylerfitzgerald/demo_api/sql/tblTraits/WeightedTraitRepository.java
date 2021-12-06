@@ -8,34 +8,35 @@ import java.util.stream.Stream;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class TraitRepository implements RepositoryInterface<TraitDTO, Long> {
+public class WeightedTraitRepository implements RepositoryInterface<WeightedTraitDTO, Long> {
 
   private final JdbcTemplate jdbcTemplate;
   private final BeanPropertyRowMapper beanPropertyRowMapper;
 
-  public static final String READ_SQL = "SELECT * FROM " + TraitsTable.TABLE_NAME;
+  public static final String READ_SQL = "SELECT * FROM " + WeightedTraitsTable.TABLE_NAME;
   // CRUD SQL
   public static final String CREATE_SQL =
-      "INSERT INTO " + TraitsTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?)";
+      "INSERT INTO " + WeightedTraitsTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?)";
   public static final String READ_BY_ID_SQL =
-      "SELECT * FROM " + TraitsTable.TABLE_NAME + " WHERE traitId = ?";
+      "SELECT * FROM " + WeightedTraitsTable.TABLE_NAME + " WHERE traitId = ?";
   public static final String READ_BY_TOKEN_ID_SQL =
-      "SELECT * FROM " + TraitsTable.TABLE_NAME + " WHERE tokenId = ?";
-  public static final String UPDATE_SQL_BASE = "UPDATE " + TraitsTable.TABLE_NAME + " set ";
+      "SELECT * FROM " + WeightedTraitsTable.TABLE_NAME + " WHERE tokenId = ?";
+  public static final String UPDATE_SQL_BASE = "UPDATE " + WeightedTraitsTable.TABLE_NAME + " set ";
   public static final String UPDATE_SQL =
       "UPDATE "
-          + TraitsTable.TABLE_NAME
+          + WeightedTraitsTable.TABLE_NAME
           + " set tokenId = ?, traitTypeId = ?, traitTypeWeightId = ? WHERE traitId = ?";
   public static final String DELETE_BY_ID_SQL =
-      "DELETE FROM " + TraitsTable.TABLE_NAME + " WHERE traitId = ?";
+      "DELETE FROM " + WeightedTraitsTable.TABLE_NAME + " WHERE traitId = ?";
 
-  public TraitRepository(JdbcTemplate jdbcTemplate, BeanPropertyRowMapper beanPropertyRowMapper) {
+  public WeightedTraitRepository(
+      JdbcTemplate jdbcTemplate, BeanPropertyRowMapper beanPropertyRowMapper) {
     this.jdbcTemplate = jdbcTemplate;
     this.beanPropertyRowMapper = beanPropertyRowMapper;
   }
 
   @Override
-  public TraitDTO create(TraitDTO entity) {
+  public WeightedTraitDTO create(WeightedTraitDTO entity) {
     if (doesTraitIdExist(entity)) {
       return null;
     }
@@ -53,8 +54,8 @@ public class TraitRepository implements RepositoryInterface<TraitDTO, Long> {
   }
 
   @Override
-  public List<TraitDTO> read() {
-    Stream<TraitDTO> stream = null;
+  public List<WeightedTraitDTO> read() {
+    Stream<WeightedTraitDTO> stream = null;
     try {
       stream = jdbcTemplate.queryForStream(READ_SQL, beanPropertyRowMapper);
       return stream.collect(Collectors.toList());
@@ -66,11 +67,11 @@ public class TraitRepository implements RepositoryInterface<TraitDTO, Long> {
   }
 
   @Override
-  public TraitDTO readById(Long traitId) {
-    Stream<TraitDTO> stream = null;
+  public WeightedTraitDTO readById(Long traitId) {
+    Stream<WeightedTraitDTO> stream = null;
     try {
       stream = jdbcTemplate.queryForStream(READ_BY_ID_SQL, beanPropertyRowMapper, traitId);
-      List<TraitDTO> traits = stream.collect(Collectors.toList());
+      List<WeightedTraitDTO> traits = stream.collect(Collectors.toList());
       if (traits.size() == 0) {
         return null;
       }
@@ -82,11 +83,11 @@ public class TraitRepository implements RepositoryInterface<TraitDTO, Long> {
     }
   }
 
-  public List<TraitDTO> readByTokenId(Long tokenId) {
-    Stream<TraitDTO> stream = null;
+  public List<WeightedTraitDTO> readByTokenId(Long tokenId) {
+    Stream<WeightedTraitDTO> stream = null;
     try {
       stream = jdbcTemplate.queryForStream(READ_BY_TOKEN_ID_SQL, beanPropertyRowMapper, tokenId);
-      List<TraitDTO> traits = stream.collect(Collectors.toList());
+      List<WeightedTraitDTO> traits = stream.collect(Collectors.toList());
       if (traits.size() == 0) {
         return null;
       }
@@ -100,7 +101,7 @@ public class TraitRepository implements RepositoryInterface<TraitDTO, Long> {
 
   @Override
   /** NOTE: Only the sale id can be updated */
-  public TraitDTO update(TraitDTO entity) {
+  public WeightedTraitDTO update(WeightedTraitDTO entity) {
     if (!doesTraitIdExist(entity)) {
       return null;
     }
@@ -146,7 +147,7 @@ public class TraitRepository implements RepositoryInterface<TraitDTO, Long> {
   }
 
   @Override
-  public boolean delete(TraitDTO entity) {
+  public boolean delete(WeightedTraitDTO entity) {
     if (!doesTraitIdExist(entity)) {
       return false;
     }
@@ -154,7 +155,7 @@ public class TraitRepository implements RepositoryInterface<TraitDTO, Long> {
     return !doesTraitIdExist(entity);
   }
 
-  private boolean doesTraitIdExist(TraitDTO entity) {
+  private boolean doesTraitIdExist(WeightedTraitDTO entity) {
     return readById(entity.getTraitId()) != null;
   }
 }

@@ -12,15 +12,15 @@ import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenTable;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightRepository;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.TraitTypeWeightsTable;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypeRepository;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.TraitTypesTable;
-import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitRepository;
-import com.tylerfitzgerald.demo_api.sql.tblTraits.TraitsTable;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightRepository;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightsTable;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.WeightedTraitTypeDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.WeightedTraitTypeRepository;
+import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.WeightedTraitTypesTable;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitDTO;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitRepository;
+import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitsTable;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitTypeRepository;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitTypesTable;
@@ -65,34 +65,36 @@ public class AppBeansConfig {
   }
 
   @Bean
-  public TraitTypesTable traitTypesTable() {
-    return new TraitTypesTable(jdbcTemplate);
+  public WeightedTraitTypesTable traitTypesTable() {
+    return new WeightedTraitTypesTable(jdbcTemplate);
   }
 
   @Bean
-  public TraitTypeRepository traitTypeRepository() {
-    return new TraitTypeRepository(jdbcTemplate, new BeanPropertyRowMapper(TraitTypeDTO.class));
+  public WeightedTraitTypeRepository traitTypeRepository() {
+    return new WeightedTraitTypeRepository(
+        jdbcTemplate, new BeanPropertyRowMapper(WeightedTraitTypeDTO.class));
   }
 
   @Bean
-  public TraitTypeWeightsTable traitTypeWeightsTable() {
-    return new TraitTypeWeightsTable(jdbcTemplate);
+  public WeightedTraitTypeWeightsTable traitTypeWeightsTable() {
+    return new WeightedTraitTypeWeightsTable(jdbcTemplate);
   }
 
   @Bean
-  public TraitTypeWeightRepository traitTypeWeightRepository() {
-    return new TraitTypeWeightRepository(
-        jdbcTemplate, new BeanPropertyRowMapper(TraitTypeWeightDTO.class));
+  public WeightedTraitTypeWeightRepository traitTypeWeightRepository() {
+    return new WeightedTraitTypeWeightRepository(
+        jdbcTemplate, new BeanPropertyRowMapper(WeightedTraitTypeWeightDTO.class));
   }
 
   @Bean
-  public TraitsTable traitsTable() {
-    return new TraitsTable(jdbcTemplate);
+  public WeightedTraitsTable traitsTable() {
+    return new WeightedTraitsTable(jdbcTemplate);
   }
 
   @Bean
-  public TraitRepository traitRepository() {
-    return new TraitRepository(jdbcTemplate, new BeanPropertyRowMapper(TraitDTO.class));
+  public WeightedTraitRepository traitRepository() {
+    return new WeightedTraitRepository(
+        jdbcTemplate, new BeanPropertyRowMapper(WeightedTraitDTO.class));
   }
 
   @Bean

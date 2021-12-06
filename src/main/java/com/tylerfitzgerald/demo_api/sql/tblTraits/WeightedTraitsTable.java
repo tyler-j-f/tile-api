@@ -3,7 +3,7 @@ package com.tylerfitzgerald.demo_api.sql.tblTraits;
 import com.tylerfitzgerald.demo_api.sql.TableInterface;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class TraitsTable implements TableInterface {
+public class WeightedTraitsTable implements TableInterface {
 
   /*
    * NOTE: 2083 is the max VARCHAR length for a URL on the internet explorer browser.
@@ -18,7 +18,7 @@ public class TraitsTable implements TableInterface {
 
   private final JdbcTemplate jdbcTemplate;
 
-  public TraitsTable(JdbcTemplate jdbcTemplate) {
+  public WeightedTraitsTable(JdbcTemplate jdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;
   }
 
