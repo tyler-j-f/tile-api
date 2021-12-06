@@ -100,7 +100,7 @@ public class TokenFacade {
 
   private String getTraitType(Long traitTypeId) {
     WeightlessTraitTypeDTO weightlessTraitType =
-        weightlessTraitTypesListFinder.findWeightlessTraitTypeInList(
+        weightlessTraitTypesListFinder.findByWeightlessTraitTypeId(
             getWeightlessTraitTypes(), traitTypeId);
     if (weightlessTraitType == null) {
       return "ERROR";

@@ -4,7 +4,7 @@ import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitT
 import java.util.List;
 
 public class WeightlessTraitTypesListFinder extends AbstractListFinder {
-  public WeightlessTraitTypeDTO findWeightlessTraitTypeInList(
+  public WeightlessTraitTypeDTO findByWeightlessTraitTypeId(
       List<WeightlessTraitTypeDTO> weightlessTraitTypesList, Long traitTypeId) {
     return (WeightlessTraitTypeDTO)
         findInList(weightlessTraitTypesList, traitTypeId, "getWeightlessTraitTypeId");
