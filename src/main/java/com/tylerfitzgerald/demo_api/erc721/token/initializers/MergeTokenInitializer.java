@@ -10,6 +10,7 @@ import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTra
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitException;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypeWeightsFinder;
+import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypesFinder;
 import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitsFinder;
 import com.tylerfitzgerald.demo_api.listUtils.finders.WeightlessTraitsFinder;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
@@ -27,7 +28,6 @@ import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitRepos
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class MergeTokenInitializer {
@@ -44,6 +44,8 @@ public class MergeTokenInitializer {
   @Autowired private WeightedTraitsFinder weightedTraitListHelper;
   @Autowired private WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder;
   @Autowired private TokenFacade tokenFacade;
+  @Autowired private WeightedTraitTypesFinder weightedTraitTypesFinder;
+
 
   private static final int[] WEIGHTED_TRAIT_TYPES_TO_IGNORE = {
     WeightedTraitTypeConstants.TILE_1_RARITY,
@@ -426,16 +428,6 @@ public class MergeTokenInitializer {
 
   private List<WeightedTraitTypeDTO> filterOutWeightedTraitTypesToIgnore(
       List<WeightedTraitTypeDTO> traitTypes) {
-    return traitTypes.stream()
-        .filter(
-            traitType -> {
-              for (int typeId : WEIGHTED_TRAIT_TYPES_TO_IGNORE) {
-                if (traitType.getTraitTypeId().equals(Long.valueOf(typeId))) {
-                  return false;
-                }
-              }
-              return true;
-            })
-        .collect(Collectors.toList());
+    return weightedTraitTypesFinder.findByIgnoringTraitTypeIdList(traitTypes, WEIGHTED_TRAIT_TYPES_TO_IGNORE);
   }
 }

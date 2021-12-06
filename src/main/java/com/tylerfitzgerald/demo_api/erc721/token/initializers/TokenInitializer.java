@@ -9,6 +9,9 @@ import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTra
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.ColorTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
+import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypeWeightsFinder;
+import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypesFinder;
+import com.tylerfitzgerald.demo_api.listUtils.finders.WeightlessTraitTypesFinder;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightDTO;
@@ -24,7 +27,6 @@ import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitRepos
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class TokenInitializer {
@@ -39,6 +41,9 @@ public class TokenInitializer {
   @Autowired private EmojiTraitPicker emojiTraitPicker;
   @Autowired private ColorTraitPicker colorTraitPicker;
   @Autowired private OverallRarityTraitPicker rarityTraitPicker;
+  @Autowired private WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder;
+  @Autowired private WeightedTraitTypesFinder weightedTraitTypesFinder;
+  @Autowired private WeightlessTraitTypesFinder weightlessTraitTypesFinder;
 
   /**
    * For creating deterministic traits we increment the random seed value after creating a trait.
@@ -225,39 +230,19 @@ public class TokenInitializer {
   }
 
   private List<WeightedTraitTypeWeightDTO> getTraitTypeWeightsForTraitTypeId(Long traitTypeId) {
-    return weightedTraitTypeWeights.stream()
-        .filter(typeWeight -> typeWeight.getTraitTypeId().equals(traitTypeId))
-        .collect(Collectors.toList());
+    return weightedTraitTypeWeightsFinder.findByTraitTypeId(weightedTraitTypeWeights, traitTypeId);
   }
 
   private List<WeightlessTraitTypeDTO> filterOutWeightlessTraitTypesToIgnore(
       List<WeightlessTraitTypeDTO> weightlessTraitTypes) {
-    return weightlessTraitTypes.stream()
-        .filter(
-            traitType -> {
-              for (int typeId : WEIGHTLESS_TRAIT_TYPES_TO_IGNORE) {
-                if (traitType.getWeightlessTraitTypeId().equals(Long.valueOf(typeId))) {
-                  return false;
-                }
-              }
-              return true;
-            })
-        .collect(Collectors.toList());
+    return weightlessTraitTypesFinder.findByIgnoringTraitTypeIdList(
+        weightlessTraitTypes, WEIGHTLESS_TRAIT_TYPES_TO_IGNORE);
   }
 
   private List<WeightedTraitTypeDTO> filterOutWeightedTraitTypesToIgnore(
-      List<WeightedTraitTypeDTO> weightlessTraitTypes) {
-    return weightlessTraitTypes.stream()
-        .filter(
-            traitType -> {
-              for (int typeId : WEIGHTED_TRAIT_TYPES_TO_IGNORE) {
-                if (traitType.getTraitTypeId().equals(Long.valueOf(typeId))) {
-                  return false;
-                }
-              }
-              return true;
-            })
-        .collect(Collectors.toList());
+      List<WeightedTraitTypeDTO> weightedTraitTypes) {
+    return weightedTraitTypesFinder.findByIgnoringTraitTypeIdList(
+        weightedTraitTypes, WEIGHTED_TRAIT_TYPES_TO_IGNORE);
   }
 
   private WeightedTraitTypeWeightDTO getRandomTraitTypeWeightFromList(
