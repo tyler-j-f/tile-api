@@ -105,7 +105,7 @@ public class MintEventsController extends BaseController {
     if (token == null) {
       return null;
     }
-    return new TokenFacade(token).buildTokenDataDTO();
+    return new TokenFacade().setTokenFacadeDTO(token).buildTokenDataDTO();
   }
 
   private Long getLongFromHexString(String hexString) {

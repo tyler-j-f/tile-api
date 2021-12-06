@@ -86,6 +86,6 @@ public class HandleMintEventsTask extends AbstractEthEventsRetrieverTask {
     if (token == null) {
       return null;
     }
-    return new TokenFacade(token).buildTokenDataDTO();
+    return new TokenFacade().setTokenFacadeDTO(token).buildTokenDataDTO();
   }
 }

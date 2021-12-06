@@ -5,7 +5,7 @@ import java.util.List;
 
 public class WeightedTraitsListFinder extends AbstractListFinder {
   public WeightedTraitDTO findWeightedTraitInList(
-      List<WeightedTraitDTO> weightlessTraitsList, Long traitTypeId) {
-    return (WeightedTraitDTO) findInList(weightlessTraitsList, traitTypeId, "getTraitTypeId");
+      List<WeightedTraitDTO> weightedTraitsList, Long traitTypeId) {
+    return (WeightedTraitDTO) findInList(weightedTraitsList, traitTypeId, "getTraitTypeId");
   }
 }

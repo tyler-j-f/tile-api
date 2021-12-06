@@ -88,7 +88,7 @@ public class MergeTokenInitializer {
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
     weightedTraits = createWeightedTraits(seedForTraits);
     createWeightlessTraits(seedForTraits);
-    TokenFacade token = new TokenFacade(buildNFTFacade());
+    TokenFacade token = new TokenFacade().setTokenFacadeDTO(buildNFTFacade());
     return token.buildTokenDataDTO();
   }
 

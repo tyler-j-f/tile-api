@@ -28,7 +28,8 @@ public class TileController extends BaseController {
     if (nft == null) {
       return "Could not create tokenId: " + tokenId;
     }
-    return new ObjectMapper().writeValueAsString(new TokenFacade(nft).buildTokenDataDTO());
+    return new ObjectMapper()
+        .writeValueAsString(new TokenFacade().setTokenFacadeDTO(nft).buildTokenDataDTO());
   }
 
   @GetMapping("get/{tokenId}")
@@ -37,6 +38,7 @@ public class TileController extends BaseController {
     if (nft == null) {
       return "Could not find tokenId: " + tokenId;
     }
-    return new ObjectMapper().writeValueAsString(new TokenFacade(nft).buildTokenDataDTO());
+    return new ObjectMapper()
+        .writeValueAsString(new TokenFacade().setTokenFacadeDTO(nft).buildTokenDataDTO());
   }
 }
