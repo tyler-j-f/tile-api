@@ -3,6 +3,7 @@ package com.tylerfitzgerald.demo_api.listUtils.finders;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public abstract class AbstractListFinder<T> implements ListFinderInterface<T> {
 
@@ -15,7 +16,8 @@ public abstract class AbstractListFinder<T> implements ListFinderInterface<T> {
                 return method.invoke(trait).equals(needleValue);
               } catch (NoSuchMethodException
                   | IllegalAccessException
-                  | InvocationTargetException e) {
+                  | InvocationTargetException
+                  | NoSuchElementException e) {
                 return false;
               }
             })

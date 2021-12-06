@@ -13,7 +13,6 @@ import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -54,15 +53,13 @@ public class ImageController extends BaseController {
   }
 
   private Long getOverallRarityScore(List<WeightlessTraitDTO> weightlessTraits) {
-    try {
-      return Long.valueOf(
-          weightlessTraitsListFinder
-              .findWeightlessTraitInList(
-                  weightlessTraits, (long) WeightlessTraitTypeConstants.OVERALL_RARITY)
-              .getValue());
-    } catch (NoSuchElementException e) {
+    WeightlessTraitDTO weightlessTrait =
+        weightlessTraitsListFinder.findWeightlessTraitInList(
+            weightlessTraits, (long) WeightlessTraitTypeConstants.OVERALL_RARITY);
+    if (weightlessTrait == null) {
       return 0L;
     }
+    return Long.valueOf(weightlessTrait.getValue());
   }
 
   private List<String> getTileColors(TokenFacadeDTO nft) {
@@ -80,13 +77,9 @@ public class ImageController extends BaseController {
   }
 
   private boolean getIsTokenBurnt(TokenFacadeDTO nft) {
-    try {
-      weightedTraitsListFinder.findWeightedTraitInList(
-          nft.getWeightedTraits(), (long) WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE);
-      return true;
-    } catch (NoSuchElementException e) {
-      return false;
-    }
+    return weightedTraitsListFinder.findWeightedTraitInList(
+            nft.getWeightedTraits(), (long) WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE)
+        != null;
   }
 
   private String[] getEmojiFileNames(TokenFacadeDTO nft) {
