@@ -340,7 +340,7 @@ public class MergeTokenInitializer {
         weightedTraits,
         weightedTraitTypeWeights,
         weightedTraitInListFinder
-            .findWeightedTraitInList(weightedTraits, weightedTraitTypeId)
+            .findByTraitTypeId(weightedTraits, weightedTraitTypeId)
             .getTraitTypeId());
   }
 
@@ -349,9 +349,9 @@ public class MergeTokenInitializer {
       List<WeightedTraitTypeWeightDTO> traitWeights,
       Long traitTypeId) {
     WeightedTraitDTO foundTrait =
-        weightedTraitInListFinder.findWeightedTraitInList(weightedTraits, traitTypeId);
+        weightedTraitInListFinder.findByTraitTypeId(weightedTraits, traitTypeId);
     return weightedTraitTypeWeightsListFinder
-        .findWeightedTraitTypeWeightInList(traitWeights, foundTrait.getTraitTypeWeightId())
+        .findByTraitTypeWeightId(traitWeights, foundTrait.getTraitTypeWeightId())
         .getValue();
   }
 

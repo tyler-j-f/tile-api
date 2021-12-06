@@ -66,21 +66,19 @@ public class WeightedTraitTypesListFinderTest {
 
   @Test
   void testCanFindElementInList() {
+    WeightedTraitTypesListFinder weightedTraitTypesListFinder = new WeightedTraitTypesListFinder();
     assertThat(
-            new WeightedTraitTypesListFinder()
-                .findWeightedTraitTypeInList(weightedTraitTypesList, TRAIT_TYPE_ID_1))
+            weightedTraitTypesListFinder.findByTraitTypeId(weightedTraitTypesList, TRAIT_TYPE_ID_1))
         .isNotNull();
     assertThat(
-            new WeightedTraitTypesListFinder()
-                .findWeightedTraitTypeInList(weightedTraitTypesList, TRAIT_TYPE_ID_2))
+            weightedTraitTypesListFinder.findByTraitTypeId(weightedTraitTypesList, TRAIT_TYPE_ID_2))
         .isNotNull();
     assertThat(
-            new WeightedTraitTypesListFinder()
-                .findWeightedTraitTypeInList(weightedTraitTypesList, TRAIT_TYPE_ID_3))
+            weightedTraitTypesListFinder.findByTraitTypeId(weightedTraitTypesList, TRAIT_TYPE_ID_3))
         .isNotNull();
     assertThat(
-            new WeightedTraitTypesListFinder()
-                .findWeightedTraitTypeInList(weightedTraitTypesList, TRAIT_TYPE_ID_NOT_IN_LIST))
+            weightedTraitTypesListFinder.findByTraitTypeId(
+                weightedTraitTypesList, TRAIT_TYPE_ID_NOT_IN_LIST))
         .isNull();
   }
 }

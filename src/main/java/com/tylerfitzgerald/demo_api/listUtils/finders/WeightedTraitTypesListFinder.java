@@ -4,7 +4,7 @@ import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.WeightedTraitTypeDTO;
 import java.util.List;
 
 public class WeightedTraitTypesListFinder extends AbstractListFinder {
-  public WeightedTraitTypeDTO findWeightedTraitTypeInList(
+  public WeightedTraitTypeDTO findByTraitTypeId(
       List<WeightedTraitTypeDTO> weightedTraitTypesList, Long traitTypeId) {
     return (WeightedTraitTypeDTO) findInList(weightedTraitTypesList, traitTypeId, "getTraitTypeId");
   }

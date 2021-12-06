@@ -77,7 +77,7 @@ public class ImageController extends BaseController {
   }
 
   private boolean getIsTokenBurnt(TokenFacadeDTO nft) {
-    return weightedTraitsListFinder.findWeightedTraitInList(
+    return weightedTraitsListFinder.findByTraitTypeId(
             nft.getWeightedTraits(), (long) WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE)
         != null;
   }

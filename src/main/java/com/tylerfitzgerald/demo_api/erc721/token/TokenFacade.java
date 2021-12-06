@@ -139,13 +139,13 @@ public class TokenFacade {
   private WeightedTraitTypeWeightDTO getTraitWeightForTraitDTO(
       List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeightDTOs,
       WeightedTraitDTO weightedTraitDTO) {
-    return weightedTraitTypeWeightsListFinder.findWeightedTraitTypeWeightInList(
+    return weightedTraitTypeWeightsListFinder.findByTraitTypeWeightId(
         weightedTraitTypeWeightDTOs, weightedTraitDTO.getTraitTypeWeightId());
   }
 
   private WeightedTraitTypeDTO getTraitTypeForTraitDTO(
       List<WeightedTraitTypeDTO> weightedTraitTypeDTOS, WeightedTraitDTO weightedTraitDTO) {
-    return weightedTraitTypesListFinder.findWeightedTraitTypeInList(
+    return weightedTraitTypesListFinder.findByTraitTypeId(
         weightedTraitTypeDTOS, weightedTraitDTO.getTraitTypeId());
   }
 }
