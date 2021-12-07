@@ -10,7 +10,6 @@ import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTra
 import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitsFinder;
 import com.tylerfitzgerald.demo_api.listUtils.finders.WeightlessTraitsFinder;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.WeightedTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
@@ -55,7 +54,9 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
           "TokenInitializer failed to initialize the token with tokenId: " + tokenId);
       return null;
     }
-    weightedTraitTypes = filterOutWeightedTraitTypesToIgnore(weightedTraitTypeRepository.read());
+    weightedTraitTypes =
+        filterOutWeightedTraitTypesToIgnore(
+            weightedTraitTypeRepository.read(), WEIGHTED_TRAIT_TYPES_TO_IGNORE);
     weightedTraitTypeWeights = weightedTraitTypeWeightRepository.read();
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
     weightedTraits = createWeightedTraits(seedForTraits);
@@ -293,11 +294,5 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
             + (Long.parseLong(tile2Rarity)
                 * Long.parseLong(tile2Multiplier)
                 * Long.parseLong(tile1MergeMultiplier)));
-  }
-
-  private List<WeightedTraitTypeDTO> filterOutWeightedTraitTypesToIgnore(
-      List<WeightedTraitTypeDTO> traitTypes) {
-    return weightedTraitTypesFinder.findByIgnoringTraitTypeIdList(
-        traitTypes, WEIGHTED_TRAIT_TYPES_TO_IGNORE);
   }
 }

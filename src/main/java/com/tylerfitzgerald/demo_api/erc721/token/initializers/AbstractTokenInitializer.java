@@ -6,6 +6,7 @@ import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTra
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypeWeightsFinder;
 import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypesFinder;
+import com.tylerfitzgerald.demo_api.listUtils.finders.WeightlessTraitTypesFinder;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightDTO;
@@ -25,16 +26,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractTokenInitializer implements TokenInitializerInterface {
 
-  @Autowired private TokenRepository tokenRepository;
-  @Autowired private TokenConfig tokenConfig;
+  @Autowired protected TokenRepository tokenRepository;
+  @Autowired protected TokenConfig tokenConfig;
   @Autowired protected WeightedTraitRepository weightedTraitRepository;
+  @Autowired protected WeightedTraitTypesFinder weightedTraitTypesFinder;
+  @Autowired protected WeightlessTraitTypesFinder weightlessTraitTypesFinder;
   @Autowired protected WeightedTraitTypeRepository weightedTraitTypeRepository;
   @Autowired protected WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository;
   @Autowired protected WeightlessTraitRepository weightlessTraitRepository;
   @Autowired protected WeightlessTraitTypeRepository weightlessTraitTypeRepository;
   @Autowired protected OverallRarityTraitPicker rarityTraitPicker;
   @Autowired protected WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder;
-  @Autowired protected WeightedTraitTypesFinder weightedTraitTypesFinder;
   protected List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeights = new ArrayList<>();
   protected TokenDTO tokenDTO;
   protected List<WeightedTraitDTO> weightedTraits = new ArrayList<>();
@@ -129,6 +131,17 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
       }
     }
     return weightlessTraits;
+  }
+
+  protected List<WeightedTraitTypeDTO> filterOutWeightedTraitTypesToIgnore(
+      List<WeightedTraitTypeDTO> traitTypes, int[] traitTypesToIgnore) {
+    return weightedTraitTypesFinder.findByIgnoringTraitTypeIdList(traitTypes, traitTypesToIgnore);
+  }
+
+  protected List<WeightlessTraitTypeDTO> filterOutWeightlessTraitTypesToIgnore(
+      List<WeightlessTraitTypeDTO> weightlessTraitTypes, int[] traitTypesToIgnore) {
+    return weightlessTraitTypesFinder.findByIgnoringTraitTypeIdList(
+        weightlessTraitTypes, traitTypesToIgnore);
   }
 
   protected abstract WeightlessTraitDTO createWeightlessTrait(

@@ -7,8 +7,6 @@ import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTra
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitException;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.ColorTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
-import com.tylerfitzgerald.demo_api.listUtils.finders.WeightlessTraitTypesFinder;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.WeightedTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import java.util.ArrayList;
@@ -19,7 +17,6 @@ public class TokenInitializer extends AbstractTokenInitializer {
 
   @Autowired private EmojiTraitPicker emojiTraitPicker;
   @Autowired private ColorTraitPicker colorTraitPicker;
-  @Autowired private WeightlessTraitTypesFinder weightlessTraitTypesFinder;
 
   /**
    * For creating deterministic traits we increment the random seed value after creating a trait.
@@ -51,10 +48,13 @@ public class TokenInitializer extends AbstractTokenInitializer {
           "TokenInitializer failed to initialize the token with tokenId: " + tokenId);
       return null;
     }
-    weightedTraitTypes = filterOutWeightedTraitTypesToIgnore(weightedTraitTypeRepository.read());
+    weightedTraitTypes =
+        filterOutWeightedTraitTypesToIgnore(
+            weightedTraitTypeRepository.read(), WEIGHTED_TRAIT_TYPES_TO_IGNORE);
     weightedTraitTypeWeights = weightedTraitTypeWeightRepository.read();
     weightlessTraitTypes =
-        filterOutWeightlessTraitTypesToIgnore(weightlessTraitTypeRepository.read());
+        filterOutWeightlessTraitTypesToIgnore(
+            weightlessTraitTypeRepository.read(), WEIGHTLESS_TRAIT_TYPES_TO_IGNORE);
     weightedTraits = createWeightedTraits(seedForTraits);
     createWeightlessTraits(seedForTraits);
     return buildNFTFacade();
@@ -119,17 +119,5 @@ public class TokenInitializer extends AbstractTokenInitializer {
     } catch (WeightlessTraitException e) {
       throw new TokenInitializeException(e.getMessage(), e.getCause());
     }
-  }
-
-  private List<WeightlessTraitTypeDTO> filterOutWeightlessTraitTypesToIgnore(
-      List<WeightlessTraitTypeDTO> weightlessTraitTypes) {
-    return weightlessTraitTypesFinder.findByIgnoringTraitTypeIdList(
-        weightlessTraitTypes, WEIGHTLESS_TRAIT_TYPES_TO_IGNORE);
-  }
-
-  private List<WeightedTraitTypeDTO> filterOutWeightedTraitTypesToIgnore(
-      List<WeightedTraitTypeDTO> weightedTraitTypes) {
-    return weightedTraitTypesFinder.findByIgnoringTraitTypeIdList(
-        weightedTraitTypes, WEIGHTED_TRAIT_TYPES_TO_IGNORE);
   }
 }
