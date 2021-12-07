@@ -68,58 +68,53 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
   protected String getWeightlessTraitValue(
       WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
       throws WeightlessTraitException {
-    Long traitTypeId = weightlessTraitType.getWeightlessTraitTypeId();
-    if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_RARITY) {
-      return getRarityValue(
-          WeightlessTraitTypeConstants.TILE_1_RARITY, WeightedTraitTypeConstants.TILE_1_MULTIPLIER);
-    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_2_RARITY) {
-      return getRarityValue(
-          WeightlessTraitTypeConstants.TILE_2_RARITY, WeightedTraitTypeConstants.TILE_2_MULTIPLIER);
-    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_3_RARITY) {
-      return getRarityValue(
-          WeightlessTraitTypeConstants.TILE_3_RARITY, WeightedTraitTypeConstants.TILE_3_MULTIPLIER);
-    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_4_RARITY) {
-      return getRarityValue(
-          WeightlessTraitTypeConstants.TILE_4_RARITY, WeightedTraitTypeConstants.TILE_4_MULTIPLIER);
-    } else if (traitTypeId == WeightlessTraitTypeConstants.OVERALL_RARITY) {
-      return rarityTraitPicker.getValue(
-          WeightlessTraitContext.builder()
-              .seedForTrait(null)
-              .weightedTraits(weightedTraits)
-              .weightedTraitTypeWeights(weightedTraitTypeWeights)
-              .weightlessTraits(weightlessTraits)
-              .build());
-    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_EMOJI) {
-      return findWeightlessTraitValueFromListByType(
-          burnedNft1, (long) WeightlessTraitTypeConstants.TILE_1_EMOJI);
-    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_2_EMOJI) {
-      return findWeightlessTraitValueFromListByType(
-          burnedNft1, (long) WeightlessTraitTypeConstants.TILE_2_EMOJI);
-    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_3_EMOJI) {
-      return findWeightlessTraitValueFromListByType(
-          burnedNft1, (long) WeightlessTraitTypeConstants.TILE_3_EMOJI);
-    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_4_EMOJI) {
-      return findWeightlessTraitValueFromListByType(
-          burnedNft1, (long) WeightlessTraitTypeConstants.TILE_4_EMOJI);
-    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_COLOR) {
-      return findWeightlessTraitValueFromListByType(
-          burnedNft1, (long) WeightlessTraitTypeConstants.TILE_1_COLOR);
-    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_2_COLOR) {
-      return findWeightlessTraitValueFromListByType(
-          burnedNft1, (long) WeightlessTraitTypeConstants.TILE_2_COLOR);
-    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_3_COLOR) {
-      return findWeightlessTraitValueFromListByType(
-          burnedNft1, (long) WeightlessTraitTypeConstants.TILE_3_COLOR);
-    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_4_COLOR) {
-      return findWeightlessTraitValueFromListByType(
-          burnedNft1, (long) WeightlessTraitTypeConstants.TILE_4_COLOR);
-    } else {
-      System.out.println("ERROR: Invalid mergeWeightlessTraitValue. traitTypeId: " + traitTypeId);
-      return "invalid mergeWeightlessTraitValue";
+    int traitTypeId = Math.toIntExact(weightlessTraitType.getWeightlessTraitTypeId());
+    switch (traitTypeId) {
+      case WeightlessTraitTypeConstants.TILE_1_RARITY:
+      case WeightlessTraitTypeConstants.TILE_2_RARITY:
+      case WeightlessTraitTypeConstants.TILE_3_RARITY:
+      case WeightlessTraitTypeConstants.TILE_4_RARITY:
+        return getRarityValue(WeightlessTraitTypeConstants.TILE_4_RARITY);
+      case WeightlessTraitTypeConstants.OVERALL_RARITY:
+        return rarityTraitPicker.getValue(
+            WeightlessTraitContext.builder()
+                .seedForTrait(null)
+                .weightedTraits(weightedTraits)
+                .weightedTraitTypeWeights(weightedTraitTypeWeights)
+                .weightlessTraits(weightlessTraits)
+                .build());
+      case WeightlessTraitTypeConstants.TILE_1_EMOJI:
+      case WeightlessTraitTypeConstants.TILE_2_EMOJI:
+      case WeightlessTraitTypeConstants.TILE_3_EMOJI:
+      case WeightlessTraitTypeConstants.TILE_4_EMOJI:
+      case WeightlessTraitTypeConstants.TILE_1_COLOR:
+      case WeightlessTraitTypeConstants.TILE_2_COLOR:
+      case WeightlessTraitTypeConstants.TILE_3_COLOR:
+      case WeightlessTraitTypeConstants.TILE_4_COLOR:
+        return findWeightlessTraitValueFromListByType(burnedNft1, (long) traitTypeId);
+      default:
+        System.out.println("ERROR: Invalid mergeWeightlessTraitValue. traitTypeId: " + traitTypeId);
+        return "invalid mergeWeightlessTraitValue";
     }
   }
 
-  private String getRarityValue(int traitTypeId, int multiplierTraitTypeId) {
+  private int getMultiplierTraitTypeId(int traitTypeId) throws WeightlessTraitException {
+    switch (traitTypeId) {
+      case WeightlessTraitTypeConstants.TILE_1_RARITY:
+        return WeightedTraitTypeConstants.TILE_1_MULTIPLIER;
+      case WeightlessTraitTypeConstants.TILE_2_RARITY:
+        return WeightedTraitTypeConstants.TILE_2_MULTIPLIER;
+      case WeightlessTraitTypeConstants.TILE_3_RARITY:
+        return WeightedTraitTypeConstants.TILE_3_MULTIPLIER;
+      case WeightlessTraitTypeConstants.TILE_4_RARITY:
+        return WeightedTraitTypeConstants.TILE_4_MULTIPLIER;
+      default:
+        throw new WeightlessTraitException("Unexpected value. traitTypeId: " + traitTypeId);
+    }
+  }
+
+  private String getRarityValue(int traitTypeId) throws WeightlessTraitException {
+    int multiplierTraitTypeId = getMultiplierTraitTypeId(traitTypeId);
     String burnedToken1Rarity, burnedToken2Rarity;
     String[] burnedTokenRarityValues = getBurnedTokenTraitValues((long) traitTypeId);
     burnedToken1Rarity = burnedTokenRarityValues[0];
