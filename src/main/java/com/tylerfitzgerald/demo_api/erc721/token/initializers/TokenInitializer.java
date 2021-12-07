@@ -62,29 +62,33 @@ public class TokenInitializer extends AbstractTokenInitializer {
       WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
       throws TokenInitializeException {
     try {
-      Long traitTypeId = weightlessTraitType.getWeightlessTraitTypeId();
-      if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_EMOJI
-          || traitTypeId == WeightlessTraitTypeConstants.TILE_2_EMOJI
-          || traitTypeId == WeightlessTraitTypeConstants.TILE_3_EMOJI
-          || traitTypeId == WeightlessTraitTypeConstants.TILE_4_EMOJI) {
-        return emojiTraitPicker.getValue(
-            WeightlessTraitContext.builder().seedForTrait(seedForTrait * SEED_MULTIPLIER).build());
-      } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_COLOR
-          || traitTypeId == WeightlessTraitTypeConstants.TILE_2_COLOR
-          || traitTypeId == WeightlessTraitTypeConstants.TILE_3_COLOR
-          || traitTypeId == WeightlessTraitTypeConstants.TILE_4_COLOR) {
-        return colorTraitPicker.getValue(
-            WeightlessTraitContext.builder().seedForTrait(seedForTrait * SEED_MULTIPLIER).build());
-      } else if (traitTypeId == WeightlessTraitTypeConstants.OVERALL_RARITY) {
-        return rarityTraitPicker.getValue(
-            WeightlessTraitContext.builder()
-                .seedForTrait(null)
-                .weightedTraits(weightedTraits)
-                .weightedTraitTypeWeights(weightedTraitTypeWeights)
-                .weightlessTraits(new ArrayList<>())
-                .build());
-      } else {
-        return "invalid weightlessTraitValue";
+      switch (Math.toIntExact(weightlessTraitType.getWeightlessTraitTypeId())) {
+        case WeightlessTraitTypeConstants.TILE_1_EMOJI:
+        case WeightlessTraitTypeConstants.TILE_2_EMOJI:
+        case WeightlessTraitTypeConstants.TILE_3_EMOJI:
+        case WeightlessTraitTypeConstants.TILE_4_EMOJI:
+          return emojiTraitPicker.getValue(
+              WeightlessTraitContext.builder()
+                  .seedForTrait(seedForTrait * SEED_MULTIPLIER)
+                  .build());
+        case WeightlessTraitTypeConstants.TILE_1_COLOR:
+        case WeightlessTraitTypeConstants.TILE_2_COLOR:
+        case WeightlessTraitTypeConstants.TILE_3_COLOR:
+        case WeightlessTraitTypeConstants.TILE_4_COLOR:
+          return colorTraitPicker.getValue(
+              WeightlessTraitContext.builder()
+                  .seedForTrait(seedForTrait * SEED_MULTIPLIER)
+                  .build());
+        case WeightlessTraitTypeConstants.OVERALL_RARITY:
+          return rarityTraitPicker.getValue(
+              WeightlessTraitContext.builder()
+                  .seedForTrait(null)
+                  .weightedTraits(weightedTraits)
+                  .weightedTraitTypeWeights(weightedTraitTypeWeights)
+                  .weightlessTraits(new ArrayList<>())
+                  .build());
+        default:
+          return "invalid weightlessTraitValue";
       }
     } catch (WeightlessTraitException e) {
       throw new TokenInitializeException(e.getMessage(), e.getCause());
