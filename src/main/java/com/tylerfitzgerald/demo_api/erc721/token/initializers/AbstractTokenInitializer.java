@@ -151,7 +151,7 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
   protected WeightlessTraitDTO createWeightlessTrait(
       WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
       throws TokenInitializeException, WeightlessTraitException {
-    Long weightTraitId = weightlessTraitRepository.read().size() + 1L;
+    Long weightTraitId = weightlessTraitRepository.getCount() + 1L;
     String traitValue = getWeightlessTraitValue(weightlessTraitType, seedForTrait);
     if (traitValue == null || traitValue.equals("")) {
       return null;

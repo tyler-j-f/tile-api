@@ -1,6 +1,6 @@
 package com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights;
 
-import com.tylerfitzgerald.demo_api.sql.RepositoryInterface;
+import com.tylerfitzgerald.demo_api.sql.AbstractRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class WeightedTraitTypeWeightRepository
-    implements RepositoryInterface<WeightedTraitTypeWeightDTO, Long> {
+    extends AbstractRepository<WeightedTraitTypeWeightDTO> {
 
   private final JdbcTemplate jdbcTemplate;
   private final BeanPropertyRowMapper beanPropertyRowMapper;
@@ -31,6 +31,7 @@ public class WeightedTraitTypeWeightRepository
 
   public WeightedTraitTypeWeightRepository(
       JdbcTemplate jdbcTemplate, BeanPropertyRowMapper beanPropertyRowMapper) {
+    super(jdbcTemplate, WeightedTraitTypeWeightsTable.TABLE_NAME);
     this.jdbcTemplate = jdbcTemplate;
     this.beanPropertyRowMapper = beanPropertyRowMapper;
   }

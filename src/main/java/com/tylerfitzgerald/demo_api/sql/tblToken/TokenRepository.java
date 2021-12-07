@@ -1,6 +1,6 @@
 package com.tylerfitzgerald.demo_api.sql.tblToken;
 
-import com.tylerfitzgerald.demo_api.sql.RepositoryInterface;
+import com.tylerfitzgerald.demo_api.sql.AbstractRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
+public class TokenRepository extends AbstractRepository<TokenDTO> {
 
   private final JdbcTemplate jdbcTemplate;
   private final BeanPropertyRowMapper beanPropertyRowMapper;
@@ -28,6 +28,7 @@ public class TokenRepository implements RepositoryInterface<TokenDTO, Long> {
       "DELETE FROM " + TokenTable.TABLE_NAME + " WHERE tokenId = ?";
 
   public TokenRepository(JdbcTemplate jdbcTemplate, BeanPropertyRowMapper beanPropertyRowMapper) {
+    super(jdbcTemplate, TokenTable.TABLE_NAME);
     this.jdbcTemplate = jdbcTemplate;
     this.beanPropertyRowMapper = beanPropertyRowMapper;
   }

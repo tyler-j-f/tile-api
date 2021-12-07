@@ -13,5 +13,5 @@ public interface RepositoryInterface<T, K> {
 
   boolean delete(T entity);
 
-  // Long getCount();
+  Long getCount();
 }

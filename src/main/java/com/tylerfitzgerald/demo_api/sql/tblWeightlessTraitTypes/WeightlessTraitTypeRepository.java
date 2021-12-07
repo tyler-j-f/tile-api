@@ -1,6 +1,6 @@
 package com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes;
 
-import com.tylerfitzgerald.demo_api.sql.RepositoryInterface;
+import com.tylerfitzgerald.demo_api.sql.AbstractRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,8 +8,7 @@ import java.util.stream.Stream;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class WeightlessTraitTypeRepository
-    implements RepositoryInterface<WeightlessTraitTypeDTO, Long> {
+public class WeightlessTraitTypeRepository extends AbstractRepository<WeightlessTraitTypeDTO> {
 
   private final JdbcTemplate jdbcTemplate;
   private final BeanPropertyRowMapper beanPropertyRowMapper;
@@ -31,6 +30,7 @@ public class WeightlessTraitTypeRepository
 
   public WeightlessTraitTypeRepository(
       JdbcTemplate jdbcTemplate, BeanPropertyRowMapper beanPropertyRowMapper) {
+    super(jdbcTemplate, WeightlessTraitTypesTable.TABLE_NAME);
     this.jdbcTemplate = jdbcTemplate;
     this.beanPropertyRowMapper = beanPropertyRowMapper;
   }
