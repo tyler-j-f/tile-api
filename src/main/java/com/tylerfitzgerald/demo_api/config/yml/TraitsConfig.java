@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.config;
+package com.tylerfitzgerald.demo_api.config.yml;
 
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.WeightedTraitTypeDTO;

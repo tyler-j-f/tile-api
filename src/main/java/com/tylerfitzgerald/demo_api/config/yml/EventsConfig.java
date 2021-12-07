@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.config;
+package com.tylerfitzgerald.demo_api.config.yml;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

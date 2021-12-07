@@ -1,7 +1,7 @@
 // Handling mint events will ALWAYS mean that we mint a new token. IT WAS ALWAYS THE NEW TOKENS!!!
 package com.tylerfitzgerald.demo_api.scheduler.tasks;
 
-import com.tylerfitzgerald.demo_api.config.EventsConfig;
+import com.tylerfitzgerald.demo_api.config.yml.EventsConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenMetadataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;

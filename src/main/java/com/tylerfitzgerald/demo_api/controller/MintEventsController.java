@@ -1,6 +1,6 @@
 package com.tylerfitzgerald.demo_api.controller;
 
-import com.tylerfitzgerald.demo_api.config.EventsConfig;
+import com.tylerfitzgerald.demo_api.config.yml.EventsConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenMetadataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;

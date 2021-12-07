@@ -2,7 +2,7 @@ package com.tylerfitzgerald.demo_api.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tylerfitzgerald.demo_api.config.SalesConfig;
+import com.tylerfitzgerald.demo_api.config.yml.SalesConfig;
 import com.tylerfitzgerald.demo_api.erc721.sales.SaleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
