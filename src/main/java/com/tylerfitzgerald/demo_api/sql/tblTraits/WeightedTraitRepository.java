@@ -1,6 +1,6 @@
 package com.tylerfitzgerald.demo_api.sql.tblTraits;
 
-import com.tylerfitzgerald.demo_api.sql.RepositoryInterface;
+import com.tylerfitzgerald.demo_api.sql.AbstractRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,9 +8,8 @@ import java.util.stream.Stream;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class WeightedTraitRepository implements RepositoryInterface<WeightedTraitDTO, Long> {
+public class WeightedTraitRepository extends AbstractRepository<WeightedTraitDTO> {
 
-  private final JdbcTemplate jdbcTemplate;
   private final BeanPropertyRowMapper beanPropertyRowMapper;
 
   // CRUD SQL
@@ -28,11 +27,10 @@ public class WeightedTraitRepository implements RepositoryInterface<WeightedTrai
           + " set tokenId = ?, traitTypeId = ?, traitTypeWeightId = ? WHERE traitId = ?";
   public static final String DELETE_BY_ID_SQL =
       "DELETE FROM " + WeightedTraitsTable.TABLE_NAME + " WHERE traitId = ?";
-  public static final String COUNT_SQL = "SELECT COUNT(*) FROM " + WeightedTraitsTable.TABLE_NAME;
 
   public WeightedTraitRepository(
       JdbcTemplate jdbcTemplate, BeanPropertyRowMapper beanPropertyRowMapper) {
-    this.jdbcTemplate = jdbcTemplate;
+    super(jdbcTemplate, WeightedTraitsTable.TABLE_NAME);
     this.beanPropertyRowMapper = beanPropertyRowMapper;
   }
 
@@ -154,10 +152,6 @@ public class WeightedTraitRepository implements RepositoryInterface<WeightedTrai
     }
     jdbcTemplate.update(DELETE_BY_ID_SQL, entity.getTraitId());
     return !doesTraitIdExist(entity);
-  }
-
-  public Long getCount() {
-    return jdbcTemplate.queryForObject(COUNT_SQL, Long.class);
   }
 
   private boolean doesTraitIdExist(WeightedTraitDTO entity) {
