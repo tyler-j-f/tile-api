@@ -1,12 +1,12 @@
 package com.tylerfitzgerald.demo_api.config.beans;
 
-import com.tylerfitzgerald.demo_api.image.BurntTokenDrawer;
-import com.tylerfitzgerald.demo_api.image.EmojiDrawer;
 import com.tylerfitzgerald.demo_api.image.EmojiLoader;
-import com.tylerfitzgerald.demo_api.image.ImageDrawer;
-import com.tylerfitzgerald.demo_api.image.SubTitleDrawer;
-import com.tylerfitzgerald.demo_api.image.TilesDrawer;
-import com.tylerfitzgerald.demo_api.image.TitleDrawer;
+import com.tylerfitzgerald.demo_api.image.drawers.BurntTokenDrawer;
+import com.tylerfitzgerald.demo_api.image.drawers.EmojiDrawer;
+import com.tylerfitzgerald.demo_api.image.drawers.ImageDrawer;
+import com.tylerfitzgerald.demo_api.image.drawers.SubTitleDrawer;
+import com.tylerfitzgerald.demo_api.image.drawers.TilesDrawer;
+import com.tylerfitzgerald.demo_api.image.drawers.TitleDrawer;
 import java.text.NumberFormat;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

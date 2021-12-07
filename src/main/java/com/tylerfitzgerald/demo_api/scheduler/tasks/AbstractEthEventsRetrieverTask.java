@@ -1,11 +1,11 @@
 package com.tylerfitzgerald.demo_api.scheduler.tasks;
 
-import com.tylerfitzgerald.demo_api.config.yml.EventsConfig;
-import com.tylerfitzgerald.demo_api.ethEvents.EthEventException;
-import com.tylerfitzgerald.demo_api.ethEvents.EthEventsRetriever;
-import com.tylerfitzgerald.demo_api.ethEvents.RemoveDuplicateEthEventsForToken;
-import com.tylerfitzgerald.demo_api.ethEvents.etc.BigIntegerFactory;
-import com.tylerfitzgerald.demo_api.listUtils.finders.WeightlessTraitsFinder;
+import com.tylerfitzgerald.demo_api.config.external.EventsConfig;
+import com.tylerfitzgerald.demo_api.erc721.ethEvents.EthEventException;
+import com.tylerfitzgerald.demo_api.erc721.ethEvents.EthEventsRetriever;
+import com.tylerfitzgerald.demo_api.erc721.ethEvents.RemoveDuplicateEthEventsForToken;
+import com.tylerfitzgerald.demo_api.etc.BigIntegerFactory;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitsFinder;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;

@@ -3,16 +3,16 @@
 // another token will be minted.
 package com.tylerfitzgerald.demo_api.scheduler.tasks;
 
+import com.tylerfitzgerald.demo_api.erc721.ethEvents.EthEventException;
+import com.tylerfitzgerald.demo_api.erc721.ethEvents.RemoveDuplicateMergeEthEvents;
+import com.tylerfitzgerald.demo_api.erc721.ethEvents.events.MergeEvent;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.MergeTokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;
-import com.tylerfitzgerald.demo_api.erc721.traits.WeightedTraitTypeConstants;
-import com.tylerfitzgerald.demo_api.erc721.traits.WeightedTraitWeightConstants;
-import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitException;
-import com.tylerfitzgerald.demo_api.ethEvents.EthEventException;
-import com.tylerfitzgerald.demo_api.ethEvents.RemoveDuplicateMergeEthEvents;
-import com.tylerfitzgerald.demo_api.ethEvents.events.MergeEvent;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitTypeConstants;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitWeightConstants;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitException;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitRepository;

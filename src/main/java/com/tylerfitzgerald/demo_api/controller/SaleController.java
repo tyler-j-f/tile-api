@@ -2,8 +2,8 @@ package com.tylerfitzgerald.demo_api.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tylerfitzgerald.demo_api.config.yml.SalesConfig;
-import com.tylerfitzgerald.demo_api.erc721.sales.SaleDTO;
+import com.tylerfitzgerald.demo_api.config.external.SalesConfig;
+import com.tylerfitzgerald.demo_api.erc721.metadata.SaleMetadataDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +20,7 @@ public class SaleController extends BaseController {
   public String getSaleJSON(@PathVariable String id) throws JsonProcessingException {
     return new ObjectMapper()
         .writeValueAsString(
-            SaleDTO.builder()
+            SaleMetadataDTO.builder()
                 .attributes(salesConfig.getAttributes())
                 .description(salesConfig.getDescription())
                 .external_url(salesConfig.getExternal_url())

@@ -1,12 +1,12 @@
 package com.tylerfitzgerald.demo_api.erc721.token.initializers;
 
-import com.tylerfitzgerald.demo_api.config.yml.TokenConfig;
+import com.tylerfitzgerald.demo_api.config.external.TokenConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
-import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitException;
-import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
-import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypeWeightsFinder;
-import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypesFinder;
-import com.tylerfitzgerald.demo_api.listUtils.finders.WeightlessTraitTypesFinder;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitException;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypeWeightsFinder;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypesFinder;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitTypesFinder;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightDTO;

@@ -2,13 +2,13 @@ package com.tylerfitzgerald.demo_api.controller;
 
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
-import com.tylerfitzgerald.demo_api.erc721.traits.WeightedTraitTypeConstants;
-import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
-import com.tylerfitzgerald.demo_api.image.ImageDrawer;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitTypeConstants;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConstants;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitsFinder;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitsFinder;
 import com.tylerfitzgerald.demo_api.image.ImageException;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
-import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitsFinder;
-import com.tylerfitzgerald.demo_api.listUtils.finders.WeightlessTraitsFinder;
+import com.tylerfitzgerald.demo_api.image.drawers.ImageDrawer;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import java.io.IOException;
 import java.util.ArrayList;
