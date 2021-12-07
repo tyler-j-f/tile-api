@@ -102,7 +102,7 @@ public class MintEventsController extends BaseController {
 
   private TokenMetadataDTO addTokenToDB(Long tokenId, Long transactionHash)
       throws TokenInitializeException {
-    return tokenFacade.initializeToken(tokenId, transactionHash).buildTokenDataDTO();
+    return tokenFacade.initializeToken(tokenId, transactionHash).buildTokenMetadataDTO();
   }
 
   private Long getLongFromHexString(String hexString) {

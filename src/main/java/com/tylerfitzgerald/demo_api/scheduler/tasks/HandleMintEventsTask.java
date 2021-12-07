@@ -81,6 +81,6 @@ public class HandleMintEventsTask extends AbstractEthEventsRetrieverTask {
 
   private TokenMetadataDTO addTokenToDB(Long tokenId, Long transactionHash)
       throws TokenInitializeException {
-    return tokenFacade.initializeToken(tokenId, transactionHash).buildTokenDataDTO();
+    return tokenFacade.initializeToken(tokenId, transactionHash).buildTokenMetadataDTO();
   }
 }

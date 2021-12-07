@@ -48,14 +48,14 @@ public class TokenFacade implements TokenFacadeInterface {
     return this;
   }
 
-  public TokenMetadataDTO getTokenMetadataDTO(Long tokenId) throws TokenInitializeException {
+  public TokenFacade loadToken(Long tokenId) throws TokenInitializeException {
     TokenFacadeDTO token = tokenRetriever.get(tokenId);
     if (token == null) {
       String out = "tokenRetriever failed to retrieve token. tokenId: " + tokenId;
       System.out.println(out);
       throw new TokenInitializeException(out);
     }
-    return setTokenFacadeDTO(token).buildTokenDataDTO();
+    return setTokenFacadeDTO(token);
   }
 
   public TokenFacade setTokenFacadeDTO(TokenFacadeDTO nftFacadeDTO) {
@@ -63,7 +63,7 @@ public class TokenFacade implements TokenFacadeInterface {
     return this;
   }
 
-  public TokenMetadataDTO buildTokenDataDTO() {
+  public TokenMetadataDTO buildTokenMetadataDTO() {
     TokenDTO tokenDTO = tokenFacadeDTO.getTokenDTO();
     if (tokenDTO == null) {
       return null;

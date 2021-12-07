@@ -21,12 +21,15 @@ public class TileController extends BaseController {
       throws JsonProcessingException, TokenInitializeException {
     return new ObjectMapper()
         .writeValueAsString(
-            tokenFacade.initializeToken(tokenId, System.currentTimeMillis()).buildTokenDataDTO());
+            tokenFacade
+                .initializeToken(tokenId, System.currentTimeMillis())
+                .buildTokenMetadataDTO());
   }
 
   @GetMapping("get/{tokenId}")
   public String getTileJSON(@PathVariable Long tokenId)
       throws JsonProcessingException, TokenInitializeException {
-    return new ObjectMapper().writeValueAsString(tokenFacade.getTokenMetadataDTO(tokenId));
+    return new ObjectMapper()
+        .writeValueAsString(tokenFacade.loadToken(tokenId).buildTokenMetadataDTO());
   }
 }

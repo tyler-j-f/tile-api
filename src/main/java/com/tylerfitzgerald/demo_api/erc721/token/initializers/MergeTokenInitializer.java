@@ -57,7 +57,7 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
     weightedTraits = createWeightedTraits(seedForTraits);
     createWeightlessTraits(seedForTraits);
-    return tokenFacade.setTokenFacadeDTO(buildTokenFacadeDTO()).buildTokenDataDTO();
+    return tokenFacade.setTokenFacadeDTO(buildTokenFacadeDTO()).buildTokenMetadataDTO();
   }
 
   protected String getWeightlessTraitValue(
