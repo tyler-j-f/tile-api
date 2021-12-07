@@ -6,6 +6,7 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.ColorTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.MergeRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.OverallRarityCalculator;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.etc.BigIntegerFactory;
@@ -146,7 +147,12 @@ public class AppBeansConfig {
   }
 
   @Bean
-  public OverallRarityTraitPicker rarityTraitPicker() {
+  public MergeRarityTraitPicker mergeRarityTraitPicker() {
+    return new MergeRarityTraitPicker();
+  }
+
+  @Bean
+  public OverallRarityTraitPicker overallRarityTraitPicker() {
     return new OverallRarityTraitPicker();
   }
 

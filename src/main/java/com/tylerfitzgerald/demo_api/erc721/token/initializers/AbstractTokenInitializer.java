@@ -35,7 +35,7 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
   @Autowired protected WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository;
   @Autowired protected WeightlessTraitRepository weightlessTraitRepository;
   @Autowired protected WeightlessTraitTypeRepository weightlessTraitTypeRepository;
-  @Autowired protected OverallRarityTraitPicker rarityTraitPicker;
+  @Autowired protected OverallRarityTraitPicker overallRarityTraitPicker;
   @Autowired protected WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder;
   protected List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeights = new ArrayList<>();
   protected TokenDTO tokenDTO;

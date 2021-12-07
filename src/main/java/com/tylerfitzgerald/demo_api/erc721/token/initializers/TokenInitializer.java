@@ -80,7 +80,7 @@ public class TokenInitializer extends AbstractTokenInitializer {
                   .seedForTrait(seedForTrait * SEED_MULTIPLIER)
                   .build());
         case WeightlessTraitTypeConstants.OVERALL_RARITY:
-          return rarityTraitPicker.getValue(
+          return overallRarityTraitPicker.getValue(
               WeightlessTraitContext.builder()
                   .seedForTrait(null)
                   .weightedTraits(weightedTraits)
