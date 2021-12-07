@@ -74,7 +74,7 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
       case WeightlessTraitTypeConstants.TILE_2_RARITY:
       case WeightlessTraitTypeConstants.TILE_3_RARITY:
       case WeightlessTraitTypeConstants.TILE_4_RARITY:
-        return getRarityValue(WeightlessTraitTypeConstants.TILE_4_RARITY);
+        return getRarityValue(traitTypeId);
       case WeightlessTraitTypeConstants.OVERALL_RARITY:
         return rarityTraitPicker.getValue(
             WeightlessTraitContext.builder()
