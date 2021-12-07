@@ -66,7 +66,20 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
     return token.buildTokenDataDTO();
   }
 
-  public WeightlessTraitDTO createWeightlessTrait(
+  private List<WeightlessTraitDTO> createWeightlessTraits(Long seedForTraits)
+      throws WeightlessTraitException {
+    for (WeightlessTraitTypeDTO weightlessTraitType : weightlessTraitTypes) {
+      // Increment the seed so that we use a unique random value for each trait
+      WeightlessTraitDTO weightlessTraitDTO =
+          createWeightlessTrait(weightlessTraitType, seedForTraits++);
+      if (weightlessTraitDTO != null) {
+        weightlessTraits.add(weightlessTraitDTO);
+      }
+    }
+    return weightlessTraits;
+  }
+
+  private WeightlessTraitDTO createWeightlessTrait(
       WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
       throws WeightlessTraitException {
     Long weightTraitId = weightlessTraitRepository.read().size() + 1L;

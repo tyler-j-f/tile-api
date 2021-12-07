@@ -56,15 +56,25 @@ public class TokenInitializer extends AbstractTokenInitializer {
     weightlessTraitTypes =
         filterOutWeightlessTraitTypesToIgnore(weightlessTraitTypeRepository.read());
     weightedTraits = createWeightedTraits(seedForTraits);
-    try {
-      createWeightlessTraits(seedForTraits);
-    } catch (WeightlessTraitException e) {
-      throw new TokenInitializeException(e.getMessage(), e.getCause());
-    }
+    createWeightlessTraits(seedForTraits);
     return buildNFTFacade();
   }
 
-  public WeightlessTraitDTO createWeightlessTrait(
+  private List<WeightlessTraitDTO> createWeightlessTraits(Long seedForTraits)
+      throws TokenInitializeException {
+    List<WeightlessTraitDTO> weightlessTraits = new ArrayList<>();
+    for (WeightlessTraitTypeDTO weightlessTraitType : weightlessTraitTypes) {
+      // Increment the seed so that we use a unique random value for each trait
+      WeightlessTraitDTO weightlessTraitDTO =
+          createWeightlessTrait(weightlessTraitType, seedForTraits++);
+      if (weightlessTraitDTO != null) {
+        weightlessTraits.add(weightlessTraitDTO);
+      }
+    }
+    return weightlessTraits;
+  }
+
+  private WeightlessTraitDTO createWeightlessTrait(
       WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
       throws TokenInitializeException {
     Long weightTraitId = weightlessTraitRepository.read().size() + 1L;
