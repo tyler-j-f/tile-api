@@ -116,7 +116,7 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
   private String getRarityValue(int traitTypeId) throws WeightlessTraitException {
     int multiplierTraitTypeId = getMultiplierTraitTypeId(traitTypeId);
     String burnedToken1Rarity, burnedToken2Rarity;
-    String[] burnedTokenRarityValues = getBurnedTokenTraitValues((long) traitTypeId);
+    String[] burnedTokenRarityValues = getBurnedTokenRarityTraitValues((long) traitTypeId);
     burnedToken1Rarity = burnedTokenRarityValues[0];
     burnedToken2Rarity = burnedTokenRarityValues[1];
     String multiplier1 =
@@ -155,7 +155,8 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
     };
   }
 
-  private String[] getBurnedTokenTraitValues(Long traitTypeId) {
+  private String[] getBurnedTokenRarityTraitValues(Long traitTypeId)
+      throws WeightlessTraitException {
     String[] burnedTokenTraitValues = getBurnedTokenWeightlessTraitValues(traitTypeId);
     if (burnedTokenTraitValues[0] == null || burnedTokenTraitValues[1] == null) {
       burnedTokenTraitValues =
@@ -166,75 +167,41 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
   }
 
   private String[] getBurnedTokenWeightedTraitValues(
-      Long traitTypeId, String burnedWeightlessTrait1Value, String burnedWeightlessTrait2Value) {
-    if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_RARITY) {
-      burnedWeightlessTrait1Value =
-          burnedWeightlessTrait1Value != null
-              ? burnedWeightlessTrait1Value
-              : findWeightedTraitValue(
-                  burnedNft1.getWeightedTraits(),
-                  burnedNft1.getWeightedTraitTypeWeights(),
-                  (long) WeightedTraitTypeConstants.TILE_1_RARITY);
-      burnedWeightlessTrait2Value =
-          burnedWeightlessTrait2Value != null
-              ? burnedWeightlessTrait2Value
-              : findWeightedTraitValue(
-                  burnedNft2.getWeightedTraits(),
-                  burnedNft2.getWeightedTraitTypeWeights(),
-                  (long) WeightedTraitTypeConstants.TILE_1_RARITY);
-    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_2_RARITY) {
-      burnedWeightlessTrait1Value =
-          burnedWeightlessTrait1Value != null
-              ? burnedWeightlessTrait1Value
-              : findWeightedTraitValue(
-                  burnedNft1.getWeightedTraits(),
-                  burnedNft1.getWeightedTraitTypeWeights(),
-                  (long) WeightedTraitTypeConstants.TILE_2_RARITY);
-      burnedWeightlessTrait2Value =
-          burnedWeightlessTrait2Value != null
-              ? burnedWeightlessTrait2Value
-              : findWeightedTraitValue(
-                  burnedNft2.getWeightedTraits(),
-                  burnedNft2.getWeightedTraitTypeWeights(),
-                  (long) WeightedTraitTypeConstants.TILE_2_RARITY);
-    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_3_RARITY) {
-      burnedWeightlessTrait1Value =
-          burnedWeightlessTrait1Value != null
-              ? burnedWeightlessTrait1Value
-              : findWeightedTraitValue(
-                  burnedNft1.getWeightedTraits(),
-                  burnedNft1.getWeightedTraitTypeWeights(),
-                  (long) WeightedTraitTypeConstants.TILE_3_RARITY);
-      burnedWeightlessTrait2Value =
-          burnedWeightlessTrait2Value != null
-              ? burnedWeightlessTrait2Value
-              : findWeightedTraitValue(
-                  burnedNft2.getWeightedTraits(),
-                  burnedNft2.getWeightedTraitTypeWeights(),
-                  (long) WeightedTraitTypeConstants.TILE_3_RARITY);
-    } else if (traitTypeId == WeightlessTraitTypeConstants.TILE_4_RARITY) {
-      burnedWeightlessTrait1Value =
-          burnedWeightlessTrait1Value != null
-              ? burnedWeightlessTrait1Value
-              : findWeightedTraitValue(
-                  burnedNft1.getWeightedTraits(),
-                  burnedNft1.getWeightedTraitTypeWeights(),
-                  (long) WeightedTraitTypeConstants.TILE_4_RARITY);
-      burnedWeightlessTrait2Value =
-          burnedWeightlessTrait2Value != null
-              ? burnedWeightlessTrait2Value
-              : findWeightedTraitValue(
-                  burnedNft2.getWeightedTraits(),
-                  burnedNft2.getWeightedTraitTypeWeights(),
-                  (long) WeightedTraitTypeConstants.TILE_4_RARITY);
-    } else {
-      System.out.println("ERROR, cannot find burned token weightless trait values");
-      return null;
+      Long traitTypeId, String burnedWeightlessTrait1Value, String burnedWeightlessTrait2Value)
+      throws WeightlessTraitException {
+    int traitTypeIdInt = Math.toIntExact(traitTypeId);
+    Long weightedTraitTypeId;
+    switch (traitTypeIdInt) {
+      case WeightlessTraitTypeConstants.TILE_1_RARITY:
+        weightedTraitTypeId = (long) WeightedTraitTypeConstants.TILE_1_RARITY;
+        break;
+      case WeightlessTraitTypeConstants.TILE_2_RARITY:
+        weightedTraitTypeId = (long) WeightedTraitTypeConstants.TILE_2_RARITY;
+        break;
+      case WeightlessTraitTypeConstants.TILE_3_RARITY:
+        weightedTraitTypeId = (long) WeightedTraitTypeConstants.TILE_3_RARITY;
+        break;
+      case WeightlessTraitTypeConstants.TILE_4_RARITY:
+        weightedTraitTypeId = (long) WeightedTraitTypeConstants.TILE_4_RARITY;
+        break;
+      default:
+        throw new WeightlessTraitException("Unexpected value: " + traitTypeIdInt);
     }
-    String[] returnValues = new String[2];
-    returnValues[0] = burnedWeightlessTrait1Value;
-    returnValues[1] = burnedWeightlessTrait2Value;
-    return returnValues;
+    burnedWeightlessTrait1Value =
+        burnedWeightlessTrait1Value != null
+            ? burnedWeightlessTrait1Value
+            : findWeightedTraitValue(
+                burnedNft1.getWeightedTraits(),
+                burnedNft1.getWeightedTraitTypeWeights(),
+                weightedTraitTypeId);
+    burnedWeightlessTrait2Value =
+        burnedWeightlessTrait2Value != null
+            ? burnedWeightlessTrait2Value
+            : findWeightedTraitValue(
+                burnedNft2.getWeightedTraits(),
+                burnedNft2.getWeightedTraitTypeWeights(),
+                weightedTraitTypeId);
+    return new String[] {burnedWeightlessTrait1Value, burnedWeightlessTrait2Value};
   }
 
   private String findWeightlessTraitValueFromListByType(TokenFacadeDTO nft, Long traitTypeId) {
@@ -249,9 +216,9 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
   private String findWeightedTraitValue(
       List<WeightedTraitDTO> weightedTraits,
       List<WeightedTraitTypeWeightDTO> traitWeights,
-      Long traitTypeId) {
+      Long weightedTraitTypeId) {
     WeightedTraitDTO foundTrait =
-        weightedTraitListHelper.findFirstByTraitTypeId(weightedTraits, traitTypeId);
+        weightedTraitListHelper.findFirstByTraitTypeId(weightedTraits, weightedTraitTypeId);
     return weightedTraitTypeWeightsFinder
         .findFirstByTraitTypeId(traitWeights, foundTrait.getTraitTypeWeightId())
         .getValue();
