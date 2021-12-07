@@ -34,10 +34,6 @@ public class TokenInitializer extends AbstractTokenInitializer {
     WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE
   };
 
-  public TokenFacadeDTO initialize(Long tokenId) throws TokenInitializeException {
-    return initialize(tokenId, System.currentTimeMillis());
-  }
-
   public TokenFacadeDTO initialize(Long tokenId, Long seedForTraits)
       throws TokenInitializeException {
     tokenDTO = createToken(tokenId);

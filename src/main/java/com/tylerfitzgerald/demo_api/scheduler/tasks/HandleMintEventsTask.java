@@ -4,9 +4,7 @@ package com.tylerfitzgerald.demo_api.scheduler.tasks;
 import com.tylerfitzgerald.demo_api.config.EventsConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenDataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
-import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;
-import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializer;
 import com.tylerfitzgerald.demo_api.ethEvents.EthEventException;
 import com.tylerfitzgerald.demo_api.ethEvents.events.MintEvent;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
@@ -19,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class HandleMintEventsTask extends AbstractEthEventsRetrieverTask {
 
   @Autowired private TokenRepository tokenRepository;
-  @Autowired private TokenInitializer tokenInitializer;
   @Autowired private EventsConfig eventsConfig;
   @Autowired private TokenFacade tokenFacade;
 
@@ -83,10 +80,6 @@ public class HandleMintEventsTask extends AbstractEthEventsRetrieverTask {
 
   private TokenDataDTO addTokenToDB(Long tokenId, Long transactionHash)
       throws TokenInitializeException {
-    TokenFacadeDTO token = tokenInitializer.initialize(tokenId, transactionHash);
-    if (token == null) {
-      return null;
-    }
-    return tokenFacade.setTokenFacadeDTO(token).buildTokenDataDTO();
+    return tokenFacade.initializeToken(tokenId, transactionHash).buildTokenDataDTO();
   }
 }

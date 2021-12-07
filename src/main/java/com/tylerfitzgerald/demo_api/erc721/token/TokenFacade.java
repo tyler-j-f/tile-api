@@ -1,5 +1,7 @@
 package com.tylerfitzgerald.demo_api.erc721.token;
 
+import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;
+import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.traits.DisplayTypeTrait;
 import com.tylerfitzgerald.demo_api.erc721.traits.Trait;
 import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypeWeightsFinder;
@@ -27,13 +29,41 @@ public class TokenFacade {
   @Autowired private WeightedTraitTypesFinder weightedTraitTypesFinder;
   @Autowired private WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder;
   @Autowired private WeightlessTraitTypesFinder weightlessTraitTypesFinder;
+  @Autowired private TokenInitializer tokenInitializer;
+  @Autowired private TokenRetriever tokenRetriever;
+
+  public TokenFacade initializeToken(Long tokenId, Long seedForTraits)
+      throws TokenInitializeException {
+    TokenFacadeDTO token = tokenInitializer.initialize(tokenId, seedForTraits);
+    if (token == null) {
+      String out =
+          "tokenInitializer failed to initialize token. tokenId: "
+              + tokenId
+              + ", seedForTraits: "
+              + seedForTraits;
+      System.out.println(out);
+      throw new TokenInitializeException(out);
+    }
+    setTokenFacadeDTO(token);
+    return this;
+  }
+
+  public TokenDataDTO getTokenDataDTO(Long tokenId) throws TokenInitializeException {
+    TokenFacadeDTO token = tokenRetriever.get(tokenId);
+    if (token == null) {
+      String out = "tokenRetriever failed to retrieve token. tokenId: " + tokenId;
+      System.out.println(out);
+      throw new TokenInitializeException(out);
+    }
+    return setTokenFacadeDTO(token).buildTokenDataDTO();
+  }
 
   public TokenFacade setTokenFacadeDTO(TokenFacadeDTO nftFacadeDTO) {
     this.nftFacadeDTO = nftFacadeDTO;
     return this;
   }
 
-  public TokenDTO getToken() {
+  public TokenDTO getTokenDTO() {
     return nftFacadeDTO.getTokenDTO();
   }
 
@@ -58,7 +88,7 @@ public class TokenFacade {
   }
 
   public TokenDataDTO buildTokenDataDTO() {
-    TokenDTO tokenDTO = getToken();
+    TokenDTO tokenDTO = getTokenDTO();
     if (tokenDTO == null) {
       return null;
     }

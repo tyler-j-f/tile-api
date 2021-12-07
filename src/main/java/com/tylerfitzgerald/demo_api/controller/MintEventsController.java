@@ -3,7 +3,6 @@ package com.tylerfitzgerald.demo_api.controller;
 import com.tylerfitzgerald.demo_api.config.EventsConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenDataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
-import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializer;
 import com.tylerfitzgerald.demo_api.etc.BigIntegerFactory;
@@ -102,11 +101,7 @@ public class MintEventsController extends BaseController {
 
   private TokenDataDTO addTokenToDB(Long tokenId, Long transactionHash)
       throws TokenInitializeException {
-    TokenFacadeDTO token = tokenInitializer.initialize(tokenId, transactionHash);
-    if (token == null) {
-      return null;
-    }
-    return tokenFacade.setTokenFacadeDTO(token).buildTokenDataDTO();
+    return tokenFacade.initializeToken(tokenId, transactionHash).buildTokenDataDTO();
   }
 
   private Long getLongFromHexString(String hexString) {
