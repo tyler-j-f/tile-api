@@ -2,6 +2,7 @@ package com.tylerfitzgerald.demo_api.erc721.token.initializers;
 
 import com.tylerfitzgerald.demo_api.config.TokenConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
+import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitException;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypeWeightsFinder;
 import com.tylerfitzgerald.demo_api.listUtils.finders.WeightedTraitTypesFinder;
@@ -116,4 +117,21 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
   protected List<WeightedTraitTypeWeightDTO> getTraitTypeWeightsForTraitTypeId(Long traitTypeId) {
     return weightedTraitTypeWeightsFinder.findByTraitTypeId(weightedTraitTypeWeights, traitTypeId);
   }
+
+  protected List<WeightlessTraitDTO> createWeightlessTraits(Long seedForTraits)
+      throws WeightlessTraitException, TokenInitializeException {
+    for (WeightlessTraitTypeDTO weightlessTraitType : weightlessTraitTypes) {
+      // Increment the seed so that we use a unique random value for each trait
+      WeightlessTraitDTO weightlessTraitDTO =
+          createWeightlessTrait(weightlessTraitType, seedForTraits++);
+      if (weightlessTraitDTO != null) {
+        weightlessTraits.add(weightlessTraitDTO);
+      }
+    }
+    return weightlessTraits;
+  }
+
+  protected abstract WeightlessTraitDTO createWeightlessTrait(
+      WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
+      throws TokenInitializeException, WeightlessTraitException;
 }

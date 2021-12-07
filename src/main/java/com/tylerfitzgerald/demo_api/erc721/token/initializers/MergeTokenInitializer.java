@@ -14,7 +14,6 @@ import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.WeightedTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -32,7 +31,6 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
     WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE
   };
 
-  private List<WeightlessTraitDTO> weightlessTraits = new ArrayList<>();
   private TokenFacadeDTO burnedNft1;
   private TokenFacadeDTO burnedNft2;
 
@@ -66,20 +64,7 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
     return token.buildTokenDataDTO();
   }
 
-  private List<WeightlessTraitDTO> createWeightlessTraits(Long seedForTraits)
-      throws WeightlessTraitException {
-    for (WeightlessTraitTypeDTO weightlessTraitType : weightlessTraitTypes) {
-      // Increment the seed so that we use a unique random value for each trait
-      WeightlessTraitDTO weightlessTraitDTO =
-          createWeightlessTrait(weightlessTraitType, seedForTraits++);
-      if (weightlessTraitDTO != null) {
-        weightlessTraits.add(weightlessTraitDTO);
-      }
-    }
-    return weightlessTraits;
-  }
-
-  private WeightlessTraitDTO createWeightlessTrait(
+  protected WeightlessTraitDTO createWeightlessTrait(
       WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
       throws WeightlessTraitException {
     Long weightTraitId = weightlessTraitRepository.read().size() + 1L;

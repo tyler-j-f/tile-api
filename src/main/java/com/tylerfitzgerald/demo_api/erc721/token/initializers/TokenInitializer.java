@@ -60,9 +60,8 @@ public class TokenInitializer extends AbstractTokenInitializer {
     return buildNFTFacade();
   }
 
-  private List<WeightlessTraitDTO> createWeightlessTraits(Long seedForTraits)
+  protected List<WeightlessTraitDTO> createWeightlessTraits(Long seedForTraits)
       throws TokenInitializeException {
-    List<WeightlessTraitDTO> weightlessTraits = new ArrayList<>();
     for (WeightlessTraitTypeDTO weightlessTraitType : weightlessTraitTypes) {
       // Increment the seed so that we use a unique random value for each trait
       WeightlessTraitDTO weightlessTraitDTO =
@@ -74,7 +73,7 @@ public class TokenInitializer extends AbstractTokenInitializer {
     return weightlessTraits;
   }
 
-  private WeightlessTraitDTO createWeightlessTrait(
+  protected WeightlessTraitDTO createWeightlessTrait(
       WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
       throws TokenInitializeException {
     Long weightTraitId = weightlessTraitRepository.read().size() + 1L;
