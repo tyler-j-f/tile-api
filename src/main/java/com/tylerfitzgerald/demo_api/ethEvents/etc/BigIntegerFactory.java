@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.etc;
+package com.tylerfitzgerald.demo_api.ethEvents.etc;
 
 import java.math.BigInteger;
 
