@@ -105,7 +105,8 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
     List<WeightedTraitTypeWeightDTO> weights = getTraitTypeWeightsForTraitTypeId(traitTypeId);
     WeightedTraitTypeWeightDTO traitTypeWeight =
         getRandomTraitTypeWeightFromList(weights, seedForTrait);
-    Long traitId = weightedTraitRepository.read().size() + 1L;
+    Long traitId = weightedTraitRepository.getCount() + 1L;
+    System.out.println("DEBUG getCount: " + traitId);
     return weightedTraitRepository.create(
         WeightedTraitDTO.builder()
             .id(null)

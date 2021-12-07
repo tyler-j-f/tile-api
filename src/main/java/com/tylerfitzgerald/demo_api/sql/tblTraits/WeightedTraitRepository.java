@@ -13,8 +13,8 @@ public class WeightedTraitRepository implements RepositoryInterface<WeightedTrai
   private final JdbcTemplate jdbcTemplate;
   private final BeanPropertyRowMapper beanPropertyRowMapper;
 
-  public static final String READ_SQL = "SELECT * FROM " + WeightedTraitsTable.TABLE_NAME;
   // CRUD SQL
+  public static final String READ_SQL = "SELECT * FROM " + WeightedTraitsTable.TABLE_NAME;
   public static final String CREATE_SQL =
       "INSERT INTO " + WeightedTraitsTable.TABLE_NAME + " VALUES (null, ?, ?, ?, ?)";
   public static final String READ_BY_ID_SQL =
@@ -28,6 +28,7 @@ public class WeightedTraitRepository implements RepositoryInterface<WeightedTrai
           + " set tokenId = ?, traitTypeId = ?, traitTypeWeightId = ? WHERE traitId = ?";
   public static final String DELETE_BY_ID_SQL =
       "DELETE FROM " + WeightedTraitsTable.TABLE_NAME + " WHERE traitId = ?";
+  public static final String COUNT_SQL = "SELECT COUNT(*) FROM " + WeightedTraitsTable.TABLE_NAME;
 
   public WeightedTraitRepository(
       JdbcTemplate jdbcTemplate, BeanPropertyRowMapper beanPropertyRowMapper) {
@@ -153,6 +154,10 @@ public class WeightedTraitRepository implements RepositoryInterface<WeightedTrai
     }
     jdbcTemplate.update(DELETE_BY_ID_SQL, entity.getTraitId());
     return !doesTraitIdExist(entity);
+  }
+
+  public Long getCount() {
+    return jdbcTemplate.queryForObject(COUNT_SQL, Long.class);
   }
 
   private boolean doesTraitIdExist(WeightedTraitDTO entity) {

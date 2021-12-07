@@ -90,7 +90,8 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
   }
 
   private void addNewTraitForBurnEvent(TokenFacadeDTO nft) {
-    Long traitId = weightedTraitRepository.read().size() + 1L;
+    Long traitId = weightedTraitRepository.getCount() + 1L;
+    System.out.println("DEBUG getCount: " + traitId);
     weightedTraitRepository.create(
         WeightedTraitDTO.builder()
             .id(null)
