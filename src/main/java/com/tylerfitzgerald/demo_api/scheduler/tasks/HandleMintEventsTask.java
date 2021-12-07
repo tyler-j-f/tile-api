@@ -2,8 +2,8 @@
 package com.tylerfitzgerald.demo_api.scheduler.tasks;
 
 import com.tylerfitzgerald.demo_api.config.EventsConfig;
-import com.tylerfitzgerald.demo_api.erc721.token.TokenDataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
+import com.tylerfitzgerald.demo_api.erc721.token.TokenMetadataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.ethEvents.EthEventException;
 import com.tylerfitzgerald.demo_api.ethEvents.events.MintEvent;
@@ -54,8 +54,9 @@ public class HandleMintEventsTask extends AbstractEthEventsRetrieverTask {
     return events;
   }
 
-  private List<TokenDataDTO> addTokensToDB(List<MintEvent> events) throws TokenInitializeException {
-    List<TokenDataDTO> tokens = new ArrayList<>();
+  private List<TokenMetadataDTO> addTokensToDB(List<MintEvent> events)
+      throws TokenInitializeException {
+    List<TokenMetadataDTO> tokens = new ArrayList<>();
     Long tokenId, transactionHash;
     for (MintEvent event : events) {
       tokenId = getLongFromHexString(event.getTokenId());
@@ -67,7 +68,7 @@ public class HandleMintEventsTask extends AbstractEthEventsRetrieverTask {
             "Token for mint event was previously added to the DB. tokenId: " + tokenId);
         continue;
       }
-      TokenDataDTO token = addTokenToDB(tokenId, transactionHash);
+      TokenMetadataDTO token = addTokenToDB(tokenId, transactionHash);
       if (token == null) {
         System.out.println("Error adding Token for mint event to token DB. TokenId: " + tokenId);
         continue;
@@ -78,7 +79,7 @@ public class HandleMintEventsTask extends AbstractEthEventsRetrieverTask {
     return tokens;
   }
 
-  private TokenDataDTO addTokenToDB(Long tokenId, Long transactionHash)
+  private TokenMetadataDTO addTokenToDB(Long tokenId, Long transactionHash)
       throws TokenInitializeException {
     return tokenFacade.initializeToken(tokenId, transactionHash).buildTokenDataDTO();
   }

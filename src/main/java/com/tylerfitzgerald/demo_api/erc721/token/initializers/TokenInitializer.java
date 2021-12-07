@@ -51,7 +51,7 @@ public class TokenInitializer extends AbstractTokenInitializer {
             weightlessTraitTypeRepository.read(), WEIGHTLESS_TRAIT_TYPES_TO_IGNORE);
     weightedTraits = createWeightedTraits(seedForTraits);
     createWeightlessTraits(seedForTraits);
-    return buildNFTFacade();
+    return buildTokenFacadeDTO();
   }
 
   protected String getWeightlessTraitValue(

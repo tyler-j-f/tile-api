@@ -23,9 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TokenFacade {
+public class TokenFacade implements TokenFacadeInterface {
 
-  private TokenFacadeDTO nftFacadeDTO;
+  private TokenFacadeDTO tokenFacadeDTO;
   @Autowired private WeightedTraitTypesFinder weightedTraitTypesFinder;
   @Autowired private WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder;
   @Autowired private WeightlessTraitTypesFinder weightlessTraitTypesFinder;
@@ -48,7 +48,7 @@ public class TokenFacade {
     return this;
   }
 
-  public TokenDataDTO getTokenDataDTO(Long tokenId) throws TokenInitializeException {
+  public TokenMetadataDTO getTokenMetadataDTO(Long tokenId) throws TokenInitializeException {
     TokenFacadeDTO token = tokenRetriever.get(tokenId);
     if (token == null) {
       String out = "tokenRetriever failed to retrieve token. tokenId: " + tokenId;
@@ -59,40 +59,16 @@ public class TokenFacade {
   }
 
   public TokenFacade setTokenFacadeDTO(TokenFacadeDTO nftFacadeDTO) {
-    this.nftFacadeDTO = nftFacadeDTO;
+    this.tokenFacadeDTO = nftFacadeDTO;
     return this;
   }
 
-  public TokenDTO getTokenDTO() {
-    return nftFacadeDTO.getTokenDTO();
-  }
-
-  public List<WeightlessTraitDTO> getWeightlessTraits() {
-    return nftFacadeDTO.getWeightlessTraits();
-  }
-
-  public List<WeightlessTraitTypeDTO> getWeightlessTraitTypes() {
-    return nftFacadeDTO.getWeightlessTraitTypes();
-  }
-
-  public List<WeightedTraitDTO> getWeightedTraits() {
-    return nftFacadeDTO.getWeightedTraits();
-  }
-
-  public List<WeightedTraitTypeDTO> getWeightedTraitTypes() {
-    return nftFacadeDTO.getWeightedTraitTypes();
-  }
-
-  public List<WeightedTraitTypeWeightDTO> getWeightedTraitTypeWeights() {
-    return nftFacadeDTO.getWeightedTraitTypeWeights();
-  }
-
-  public TokenDataDTO buildTokenDataDTO() {
-    TokenDTO tokenDTO = getTokenDTO();
+  public TokenMetadataDTO buildTokenDataDTO() {
+    TokenDTO tokenDTO = tokenFacadeDTO.getTokenDTO();
     if (tokenDTO == null) {
       return null;
     }
-    return TokenDataDTO.builder()
+    return TokenMetadataDTO.builder()
         .attributes(buildAttributes())
         .description(tokenDTO.getDescription())
         .external_url(tokenDTO.getExternalUrl())
@@ -177,5 +153,25 @@ public class TokenFacade {
       List<WeightedTraitTypeDTO> weightedTraitTypeDTOS, WeightedTraitDTO weightedTraitDTO) {
     return weightedTraitTypesFinder.findFirstByTraitTypeId(
         weightedTraitTypeDTOS, weightedTraitDTO.getTraitTypeId());
+  }
+
+  private List<WeightlessTraitDTO> getWeightlessTraits() {
+    return tokenFacadeDTO.getWeightlessTraits();
+  }
+
+  private List<WeightlessTraitTypeDTO> getWeightlessTraitTypes() {
+    return tokenFacadeDTO.getWeightlessTraitTypes();
+  }
+
+  private List<WeightedTraitDTO> getWeightedTraits() {
+    return tokenFacadeDTO.getWeightedTraits();
+  }
+
+  private List<WeightedTraitTypeDTO> getWeightedTraitTypes() {
+    return tokenFacadeDTO.getWeightedTraitTypes();
+  }
+
+  private List<WeightedTraitTypeWeightDTO> getWeightedTraitTypeWeights() {
+    return tokenFacadeDTO.getWeightedTraitTypeWeights();
   }
 }

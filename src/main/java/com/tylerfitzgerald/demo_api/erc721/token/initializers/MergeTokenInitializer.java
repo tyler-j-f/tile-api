@@ -1,8 +1,8 @@
 package com.tylerfitzgerald.demo_api.erc721.token.initializers;
 
-import com.tylerfitzgerald.demo_api.erc721.token.TokenDataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
+import com.tylerfitzgerald.demo_api.erc721.token.TokenMetadataDTO;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightedTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTraitContext;
@@ -29,9 +29,9 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
   private TokenFacadeDTO burnedNft1;
   private TokenFacadeDTO burnedNft2;
 
-  public TokenDataDTO initialize(
+  public TokenMetadataDTO initialize(
       Long tokenId, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2, Long seedForTraits)
-      throws TokenInitializeException, WeightlessTraitException {
+      throws TokenInitializeException {
     this.burnedNft1 = burnedNft1;
     this.burnedNft2 = burnedNft2;
     if (burnedNft1 == null) {
@@ -57,8 +57,7 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
     weightedTraits = createWeightedTraits(seedForTraits);
     createWeightlessTraits(seedForTraits);
-    TokenFacade token = tokenFacade.setTokenFacadeDTO(buildNFTFacade());
-    return token.buildTokenDataDTO();
+    return tokenFacade.setTokenFacadeDTO(buildTokenFacadeDTO()).buildTokenDataDTO();
   }
 
   protected String getWeightlessTraitValue(

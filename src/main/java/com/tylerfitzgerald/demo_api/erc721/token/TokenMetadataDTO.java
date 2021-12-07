@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
-public class TokenDataDTO {
+public class TokenMetadataDTO {
   private ArrayList<Object> attributes;
   private String description;
   private String external_url;

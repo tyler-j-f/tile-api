@@ -3,7 +3,6 @@
 // another token will be minted.
 package com.tylerfitzgerald.demo_api.scheduler.tasks;
 
-import com.tylerfitzgerald.demo_api.erc721.token.TokenDataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.MergeTokenInitializer;
@@ -85,12 +84,8 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
       MergeEvent event, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2)
       throws TokenInitializeException, WeightlessTraitException {
     Long tokenId = getLongFromHexString(event.getNewTokenId());
-    TokenDataDTO token =
-        mergeTokenInitializer.initialize(
-            tokenId,
-            burnedNft1,
-            burnedNft2,
-            getLongFromHexString(event.getTransactionHash(), 0, 9));
+    mergeTokenInitializer.initialize(
+        tokenId, burnedNft1, burnedNft2, getLongFromHexString(event.getTransactionHash(), 0, 9));
     System.out.println("New token created from merge event. tokenId: " + tokenId);
   }
 

@@ -27,6 +27,6 @@ public class TileController extends BaseController {
   @GetMapping("get/{tokenId}")
   public String getTileJSON(@PathVariable Long tokenId)
       throws JsonProcessingException, TokenInitializeException {
-    return new ObjectMapper().writeValueAsString(tokenFacade.getTokenDataDTO(tokenId));
+    return new ObjectMapper().writeValueAsString(tokenFacade.getTokenMetadataDTO(tokenId));
   }
 }
