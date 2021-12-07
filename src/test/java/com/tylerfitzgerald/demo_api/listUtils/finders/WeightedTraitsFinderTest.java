@@ -71,7 +71,7 @@ public class WeightedTraitsFinderTest {
   }
 
   @Test
-  void testCanFindElementInList() {
+  void testFindFirstByTraitTypeId() {
     WeightedTraitsFinder weightedTraitsFinder = new WeightedTraitsFinder();
     assertThat(weightedTraitsFinder.findFirstByTraitTypeId(weightedTraitsList, TRAIT_TYPE_ID_1))
         .isNotNull();

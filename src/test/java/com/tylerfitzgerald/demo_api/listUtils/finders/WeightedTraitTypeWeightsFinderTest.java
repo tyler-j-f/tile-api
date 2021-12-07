@@ -77,7 +77,7 @@ public class WeightedTraitTypeWeightsFinderTest {
   }
 
   @Test
-  void testCanFindElementInList() {
+  void testFindFirstByTraitTypeId() {
     WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder =
         new WeightedTraitTypeWeightsFinder();
     assertThat(

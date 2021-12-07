@@ -77,7 +77,7 @@ public class WeightlessTraitsFinderTest {
   }
 
   @Test
-  void testCanFindElementInList() {
+  void testFindFirstByTraitTypeId() {
     WeightlessTraitsFinder weightlessTraitsFinder = new WeightlessTraitsFinder();
     assertThat(
             weightlessTraitsFinder.findFirstByTraitTypeId(

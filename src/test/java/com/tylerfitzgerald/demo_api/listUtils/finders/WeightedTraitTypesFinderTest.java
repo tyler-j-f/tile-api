@@ -29,6 +29,10 @@ public class WeightedTraitTypesFinderTest {
   // Not in list values
   private static final Long TRAIT_TYPE_ID_NOT_IN_LIST = 7L;
 
+  private static final int[] WEIGHTED_TRAIT_TYPES_TO_IGNORE = {
+    Math.toIntExact(TRAIT_TYPE_ID_1), Math.toIntExact(TRAIT_TYPE_ID_3)
+  };
+
   @BeforeEach
   public void setup() {
     setupList();
@@ -65,7 +69,7 @@ public class WeightedTraitTypesFinderTest {
   }
 
   @Test
-  void testCanFindElementInList() {
+  void testFindFirstByTraitTypeId() {
     WeightedTraitTypesFinder weightedTraitTypesFinder = new WeightedTraitTypesFinder();
     assertThat(
             weightedTraitTypesFinder.findFirstByTraitTypeId(
@@ -83,5 +87,15 @@ public class WeightedTraitTypesFinderTest {
             weightedTraitTypesFinder.findFirstByTraitTypeId(
                 weightedTraitTypesList, TRAIT_TYPE_ID_NOT_IN_LIST))
         .isNull();
+  }
+
+  @Test
+  void testFindByIgnoringTraitTypeIdList() {
+    WeightedTraitTypesFinder weightedTraitTypesFinder = new WeightedTraitTypesFinder();
+    List<WeightedTraitTypeDTO> weightedTraitsList =
+        weightedTraitTypesFinder.findByIgnoringTraitTypeIdList(
+            weightedTraitTypesList, WEIGHTED_TRAIT_TYPES_TO_IGNORE);
+    assertThat(weightedTraitsList.size()).isEqualTo(1);
+    assertThat(weightedTraitsList.get(0).getTraitTypeId()).isEqualTo(TRAIT_TYPE_ID_2);
   }
 }

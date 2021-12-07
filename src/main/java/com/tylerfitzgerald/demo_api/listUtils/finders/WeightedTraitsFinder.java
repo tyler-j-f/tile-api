@@ -8,9 +8,4 @@ public class WeightedTraitsFinder extends AbstractListFinder {
       List<WeightedTraitDTO> weightedTraitsList, Long traitTypeId) {
     return (WeightedTraitDTO) getFirst(weightedTraitsList, traitTypeId, "getTraitTypeId");
   }
-
-  public List<WeightedTraitDTO> findByTraitTypeId(
-      List<WeightedTraitDTO> weightedTraitsList, Long traitTypeId) {
-    return get(weightedTraitsList, traitTypeId, "getTraitTypeId");
-  }
 }
