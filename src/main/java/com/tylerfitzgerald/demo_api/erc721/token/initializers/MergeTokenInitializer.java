@@ -65,26 +65,8 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
     return token.buildTokenDataDTO();
   }
 
-  protected WeightlessTraitDTO createWeightlessTrait(
+  protected String getWeightlessTraitValue(
       WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
-      throws WeightlessTraitException {
-    Long weightTraitId = weightlessTraitRepository.read().size() + 1L;
-    String traitValue = getWeightlessTraitValue(weightlessTraitType);
-    if (traitValue == null || traitValue.equals("")) {
-      return null;
-    }
-    return weightlessTraitRepository.create(
-        WeightlessTraitDTO.builder()
-            .id(null)
-            .traitId(weightTraitId)
-            .tokenId(tokenDTO.getTokenId())
-            .traitTypeId(weightlessTraitType.getWeightlessTraitTypeId())
-            .value(traitValue)
-            .displayTypeValue(getWeightlessTraitDisplayTypeValue())
-            .build());
-  }
-
-  private String getWeightlessTraitValue(WeightlessTraitTypeDTO weightlessTraitType)
       throws WeightlessTraitException {
     Long traitTypeId = weightlessTraitType.getWeightlessTraitTypeId();
     if (traitTypeId == WeightlessTraitTypeConstants.TILE_1_RARITY) {

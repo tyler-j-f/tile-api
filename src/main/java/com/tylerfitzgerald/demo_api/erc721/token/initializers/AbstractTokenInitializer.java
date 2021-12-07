@@ -121,11 +121,15 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
   }
 
   protected List<WeightlessTraitDTO> createWeightlessTraits(Long seedForTraits)
-      throws WeightlessTraitException, TokenInitializeException {
+      throws TokenInitializeException {
+    WeightlessTraitDTO weightlessTraitDTO;
     for (WeightlessTraitTypeDTO weightlessTraitType : weightlessTraitTypes) {
       // Increment the seed so that we use a unique random value for each trait
-      WeightlessTraitDTO weightlessTraitDTO =
-          createWeightlessTrait(weightlessTraitType, seedForTraits++);
+      try {
+        weightlessTraitDTO = createWeightlessTrait(weightlessTraitType, seedForTraits++);
+      } catch (WeightlessTraitException e) {
+        throw new TokenInitializeException(e.getMessage(), e.getCause());
+      }
       if (weightlessTraitDTO != null) {
         weightlessTraits.add(weightlessTraitDTO);
       }
@@ -144,7 +148,26 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
         weightlessTraitTypes, traitTypesToIgnore);
   }
 
-  protected abstract WeightlessTraitDTO createWeightlessTrait(
+  protected WeightlessTraitDTO createWeightlessTrait(
       WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
-      throws TokenInitializeException, WeightlessTraitException;
+      throws TokenInitializeException, WeightlessTraitException {
+    Long weightTraitId = weightlessTraitRepository.read().size() + 1L;
+    String traitValue = getWeightlessTraitValue(weightlessTraitType, seedForTrait);
+    if (traitValue == null || traitValue.equals("")) {
+      return null;
+    }
+    return weightlessTraitRepository.create(
+        WeightlessTraitDTO.builder()
+            .id(null)
+            .traitId(weightTraitId)
+            .tokenId(tokenDTO.getTokenId())
+            .traitTypeId(weightlessTraitType.getWeightlessTraitTypeId())
+            .value(traitValue)
+            .displayTypeValue(getWeightlessTraitDisplayTypeValue())
+            .build());
+  }
+
+  protected abstract String getWeightlessTraitValue(
+      WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
+      throws WeightlessTraitException, TokenInitializeException;
 }

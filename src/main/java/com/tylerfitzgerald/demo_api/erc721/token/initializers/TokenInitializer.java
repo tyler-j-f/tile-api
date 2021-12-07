@@ -8,9 +8,7 @@ import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.WeightlessTra
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.ColorTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
 import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitTypeDTO;
-import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
 import java.util.ArrayList;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class TokenInitializer extends AbstractTokenInitializer {
@@ -60,35 +58,7 @@ public class TokenInitializer extends AbstractTokenInitializer {
     return buildNFTFacade();
   }
 
-  protected List<WeightlessTraitDTO> createWeightlessTraits(Long seedForTraits)
-      throws TokenInitializeException {
-    for (WeightlessTraitTypeDTO weightlessTraitType : weightlessTraitTypes) {
-      // Increment the seed so that we use a unique random value for each trait
-      WeightlessTraitDTO weightlessTraitDTO =
-          createWeightlessTrait(weightlessTraitType, seedForTraits++);
-      if (weightlessTraitDTO != null) {
-        weightlessTraits.add(weightlessTraitDTO);
-      }
-    }
-    return weightlessTraits;
-  }
-
-  protected WeightlessTraitDTO createWeightlessTrait(
-      WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
-      throws TokenInitializeException {
-    Long weightTraitId = weightlessTraitRepository.read().size() + 1L;
-    return weightlessTraitRepository.create(
-        WeightlessTraitDTO.builder()
-            .id(null)
-            .traitId(weightTraitId)
-            .tokenId(tokenDTO.getTokenId())
-            .traitTypeId(weightlessTraitType.getWeightlessTraitTypeId())
-            .value(getWeightlessTraitValue(weightlessTraitType, seedForTrait))
-            .displayTypeValue(getWeightlessTraitDisplayTypeValue())
-            .build());
-  }
-
-  private String getWeightlessTraitValue(
+  protected String getWeightlessTraitValue(
       WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
       throws TokenInitializeException {
     try {
