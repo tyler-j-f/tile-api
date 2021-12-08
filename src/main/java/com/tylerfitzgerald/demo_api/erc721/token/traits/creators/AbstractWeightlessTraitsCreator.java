@@ -1,6 +1,5 @@
 package com.tylerfitzgerald.demo_api.erc721.token.traits.creators;
 
-import com.tylerfitzgerald.demo_api.erc721.token.initializers.SeedForTrait;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitException;
@@ -11,7 +10,6 @@ import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPi
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitTypesFinder;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitsFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
-import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
@@ -105,5 +103,4 @@ public abstract class AbstractWeightlessTraitsCreator {
   private String getWeightlessTraitDisplayTypeValue() {
     return "";
   }
-
 }

@@ -60,6 +60,8 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
             .burnedNft1(burnedNft1)
             .burnedNft2(burnedNft2)
             .build());
-    return tokenFacade.setTokenFacadeDTO(buildTokenFacadeDTO()).buildTokenMetadataDTO();
+    return tokenFacade
+        .setTokenFacadeDTO(buildTokenFacadeDTO(weightlessTraitsCreator))
+        .buildTokenMetadataDTO();
   }
 }

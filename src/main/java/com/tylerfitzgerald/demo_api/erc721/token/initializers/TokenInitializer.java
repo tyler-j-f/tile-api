@@ -39,6 +39,6 @@ public class TokenInitializer extends AbstractTokenInitializer {
             .weightedTraitTypes(weightedTraitTypes)
             .weightedTraitTypeWeights(weightedTraitTypeWeights)
             .build());
-    return buildTokenFacadeDTO();
+    return buildTokenFacadeDTO(weightlessTraitsCreator);
   }
 }
