@@ -3,7 +3,6 @@ package com.tylerfitzgerald.demo_api.config.beans;
 import com.tylerfitzgerald.demo_api.config.external.EnvConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
-import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.ColorTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.MergeRarityTraitPicker;
@@ -97,11 +96,6 @@ public class AppBeansConfig {
   public WeightedTraitRepository traitRepository() {
     return new WeightedTraitRepository(
         jdbcTemplate, new BeanPropertyRowMapper(WeightedTraitDTO.class));
-  }
-
-  @Bean
-  public TokenInitializer nftInitializer() {
-    return new TokenInitializer();
   }
 
   @Bean

@@ -31,9 +31,13 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
   protected List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeights = new ArrayList<>();
   protected List<WeightedTraitDTO> weightedTraits = new ArrayList<>();
   protected List<WeightedTraitTypeDTO> weightedTraitTypes = new ArrayList<>();
+  protected AbstractWeightlessTraitsCreator weightlessTraitsCreator;
 
-  public TokenFacadeDTO buildTokenFacadeDTO(
-      AbstractWeightlessTraitsCreator weightlessTraitsCreator) {
+  public AbstractTokenInitializer(AbstractWeightlessTraitsCreator weightlessTraitsCreator) {
+    this.weightlessTraitsCreator = weightlessTraitsCreator;
+  }
+
+  public TokenFacadeDTO buildTokenFacadeDTO() {
     return TokenFacadeDTO.builder()
         .tokenDTO(tokenDTO)
         .weightedTraits(weightedTraits)

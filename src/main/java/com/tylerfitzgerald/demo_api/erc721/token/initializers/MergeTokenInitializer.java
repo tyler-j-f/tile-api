@@ -1,15 +1,15 @@
 package com.tylerfitzgerald.demo_api.erc721.token.initializers;
 
-import com.tylerfitzgerald.demo_api.erc721.metadata.TokenMetadataDTO;
-import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitTypeConstants;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.AbstractWeightlessTraitsCreator;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.MergeTokenWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.WeightlessTraitsCreatorContext;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 public class MergeTokenInitializer extends AbstractTokenInitializer {
+
+  public MergeTokenInitializer(MergeTokenWeightlessTraitsCreator weightlessTraitsCreator) {
+    super(weightlessTraitsCreator);
+  }
 
   private static final int[] WEIGHTED_TRAIT_TYPES_TO_IGNORE = {
     WeightedTraitTypeConstants.TILE_1_RARITY,
@@ -19,13 +19,7 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
     WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE
   };
 
-  @Autowired private TokenFacade tokenFacade;
-
-  @Qualifier("mergeTokenWeightlessTraitsCreator")
-  @Autowired
-  protected AbstractWeightlessTraitsCreator weightlessTraitsCreator;
-
-  public TokenMetadataDTO initialize(
+  public TokenFacadeDTO initialize(
       Long tokenId, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2, Long seedForTraits)
       throws TokenInitializeException {
     this.seedForTraits = seedForTraits;
@@ -60,8 +54,6 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
             .burnedNft1(burnedNft1)
             .burnedNft2(burnedNft2)
             .build());
-    return tokenFacade
-        .setTokenFacadeDTO(buildTokenFacadeDTO(weightlessTraitsCreator))
-        .buildTokenMetadataDTO();
+    return buildTokenFacadeDTO();
   }
 }

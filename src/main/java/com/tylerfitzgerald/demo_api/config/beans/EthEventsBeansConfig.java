@@ -4,7 +4,7 @@ import com.tylerfitzgerald.demo_api.erc721.ethEvents.EthEventsRetriever;
 import com.tylerfitzgerald.demo_api.erc721.ethEvents.RemoveDuplicateEthEventsForToken;
 import com.tylerfitzgerald.demo_api.erc721.ethEvents.RemoveDuplicateMergeEthEvents;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.MergeTokenInitializer;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.AbstractWeightlessTraitsCreator;
+import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.InitializeTokenWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.MergeTokenWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMergeEventsTask;
@@ -53,16 +53,11 @@ public class EthEventsBeansConfig {
 
   @Bean
   public MergeTokenInitializer mergeTokenInitializer() {
-    return new MergeTokenInitializer();
+    return new MergeTokenInitializer(new MergeTokenWeightlessTraitsCreator());
   }
 
   @Bean
-  public AbstractWeightlessTraitsCreator initializeTokenWeightlessTraitsCreator() {
-    return new InitializeTokenWeightlessTraitsCreator();
-  }
-
-  @Bean
-  public AbstractWeightlessTraitsCreator mergeTokenWeightlessTraitsCreator() {
-    return new MergeTokenWeightlessTraitsCreator();
+  public TokenInitializer nftInitializer() {
+    return new TokenInitializer(new InitializeTokenWeightlessTraitsCreator());
   }
 }

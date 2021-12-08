@@ -82,7 +82,7 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
 
   private void mintNewTokenForMerge(
       MergeEvent event, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2)
-      throws TokenInitializeException, WeightlessTraitException {
+      throws TokenInitializeException {
     Long tokenId = getLongFromHexString(event.getNewTokenId());
     mergeTokenInitializer.initialize(
         tokenId, burnedNft1, burnedNft2, getLongFromHexString(event.getTransactionHash(), 0, 9));
