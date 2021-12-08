@@ -25,7 +25,6 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractTokenInitializer implements TokenInitializerInterface {
-
   @Autowired protected TokenRepository tokenRepository;
   @Autowired protected TokenConfig tokenConfig;
   @Autowired protected WeightedTraitRepository weightedTraitRepository;
@@ -37,8 +36,9 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
   @Autowired protected WeightlessTraitTypeRepository weightlessTraitTypeRepository;
   @Autowired protected OverallRarityTraitPicker overallRarityTraitPicker;
   @Autowired protected WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder;
-  protected List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeights = new ArrayList<>();
   protected TokenDTO tokenDTO;
+  protected Long seedForTraits;
+  protected List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeights = new ArrayList<>();
   protected List<WeightedTraitDTO> weightedTraits = new ArrayList<>();
   protected List<WeightedTraitTypeDTO> weightedTraitTypes = new ArrayList<>();
   protected List<WeightlessTraitDTO> weightlessTraits = new ArrayList<>();
@@ -88,11 +88,11 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
     return "";
   }
 
-  protected List<WeightedTraitDTO> createWeightedTraits(Long seedForTraits) {
+  protected List<WeightedTraitDTO> createWeightedTraits() {
     List<WeightedTraitDTO> traits = new ArrayList<>();
     for (WeightedTraitTypeDTO type : weightedTraitTypes) {
       // Increment the seed so that we use a unique random value for each trait
-      WeightedTraitDTO trait = createWeightedTrait(type, seedForTraits++);
+      WeightedTraitDTO trait = createWeightedTrait(type);
       if (trait != null) {
         traits.add(trait);
       }
@@ -100,11 +100,12 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
     return traits;
   }
 
-  protected WeightedTraitDTO createWeightedTrait(WeightedTraitTypeDTO type, Long seedForTrait) {
+  protected WeightedTraitDTO createWeightedTrait(WeightedTraitTypeDTO type) {
+    seedForTraits++;
     Long traitTypeId = type.getTraitTypeId();
     List<WeightedTraitTypeWeightDTO> weights = getTraitTypeWeightsForTraitTypeId(traitTypeId);
     WeightedTraitTypeWeightDTO traitTypeWeight =
-        getRandomTraitTypeWeightFromList(weights, seedForTrait);
+        getRandomTraitTypeWeightFromList(weights, seedForTraits);
     Long traitId = weightedTraitRepository.getCount() + 1L;
     return weightedTraitRepository.create(
         WeightedTraitDTO.builder()
@@ -120,13 +121,12 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
     return weightedTraitTypeWeightsFinder.findByTraitTypeId(weightedTraitTypeWeights, traitTypeId);
   }
 
-  protected List<WeightlessTraitDTO> createWeightlessTraits(Long seedForTraits)
-      throws TokenInitializeException {
+  protected List<WeightlessTraitDTO> createWeightlessTraits() throws TokenInitializeException {
     WeightlessTraitDTO weightlessTraitDTO;
     for (WeightlessTraitTypeDTO weightlessTraitType : weightlessTraitTypes) {
       // Increment the seed so that we use a unique random value for each trait
       try {
-        weightlessTraitDTO = createWeightlessTrait(weightlessTraitType, seedForTraits++);
+        weightlessTraitDTO = createWeightlessTrait(weightlessTraitType);
       } catch (WeightlessTraitException e) {
         throw new TokenInitializeException(e.getMessage(), e.getCause());
       }
@@ -148,11 +148,11 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
         weightlessTraitTypes, traitTypesToIgnore);
   }
 
-  protected WeightlessTraitDTO createWeightlessTrait(
-      WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
+  protected WeightlessTraitDTO createWeightlessTrait(WeightlessTraitTypeDTO weightlessTraitType)
       throws TokenInitializeException, WeightlessTraitException {
+    seedForTraits++;
     Long weightTraitId = weightlessTraitRepository.getCount() + 1L;
-    String traitValue = getWeightlessTraitValue(weightlessTraitType, seedForTrait);
+    String traitValue = getWeightlessTraitValue(weightlessTraitType);
     if (traitValue == null || traitValue.equals("")) {
       return null;
     }
@@ -167,7 +167,6 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
             .build());
   }
 
-  protected abstract String getWeightlessTraitValue(
-      WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
+  protected abstract String getWeightlessTraitValue(WeightlessTraitTypeDTO weightlessTraitType)
       throws WeightlessTraitException, TokenInitializeException;
 }

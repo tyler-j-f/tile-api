@@ -36,6 +36,7 @@ public class TokenInitializer extends AbstractTokenInitializer {
 
   public TokenFacadeDTO initialize(Long tokenId, Long seedForTraits)
       throws TokenInitializeException {
+    this.seedForTraits = seedForTraits;
     tokenDTO = createToken(tokenId);
     if (tokenDTO == null) {
       System.out.println(
@@ -49,13 +50,12 @@ public class TokenInitializer extends AbstractTokenInitializer {
     weightlessTraitTypes =
         filterOutWeightlessTraitTypesToIgnore(
             weightlessTraitTypeRepository.read(), WEIGHTLESS_TRAIT_TYPES_TO_IGNORE);
-    weightedTraits = createWeightedTraits(seedForTraits);
-    createWeightlessTraits(seedForTraits);
+    weightedTraits = createWeightedTraits();
+    createWeightlessTraits();
     return buildTokenFacadeDTO();
   }
 
-  protected String getWeightlessTraitValue(
-      WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
+  protected String getWeightlessTraitValue(WeightlessTraitTypeDTO weightlessTraitType)
       throws TokenInitializeException {
     try {
       switch (Math.toIntExact(weightlessTraitType.getWeightlessTraitTypeId())) {
@@ -65,7 +65,7 @@ public class TokenInitializer extends AbstractTokenInitializer {
         case WeightlessTraitTypeConstants.TILE_4_EMOJI:
           return emojiTraitPicker.getValue(
               WeightlessTraitContext.builder()
-                  .seedForTrait(seedForTrait * SEED_MULTIPLIER)
+                  .seedForTrait(seedForTraits * SEED_MULTIPLIER)
                   .build());
         case WeightlessTraitTypeConstants.TILE_1_COLOR:
         case WeightlessTraitTypeConstants.TILE_2_COLOR:
@@ -73,7 +73,7 @@ public class TokenInitializer extends AbstractTokenInitializer {
         case WeightlessTraitTypeConstants.TILE_4_COLOR:
           return colorTraitPicker.getValue(
               WeightlessTraitContext.builder()
-                  .seedForTrait(seedForTrait * SEED_MULTIPLIER)
+                  .seedForTrait(seedForTraits * SEED_MULTIPLIER)
                   .build());
         case WeightlessTraitTypeConstants.OVERALL_RARITY:
           return overallRarityTraitPicker.getValue(

@@ -32,6 +32,7 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
   public TokenMetadataDTO initialize(
       Long tokenId, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2, Long seedForTraits)
       throws TokenInitializeException {
+    this.seedForTraits = seedForTraits;
     this.burnedNft1 = burnedNft1;
     this.burnedNft2 = burnedNft2;
     if (burnedNft1 == null) {
@@ -55,13 +56,12 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
             weightedTraitTypeRepository.read(), WEIGHTED_TRAIT_TYPES_TO_IGNORE);
     weightedTraitTypeWeights = weightedTraitTypeWeightRepository.read();
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
-    weightedTraits = createWeightedTraits(seedForTraits);
-    createWeightlessTraits(seedForTraits);
+    weightedTraits = createWeightedTraits();
+    createWeightlessTraits();
     return tokenFacade.setTokenFacadeDTO(buildTokenFacadeDTO()).buildTokenMetadataDTO();
   }
 
-  protected String getWeightlessTraitValue(
-      WeightlessTraitTypeDTO weightlessTraitType, Long seedForTrait)
+  protected String getWeightlessTraitValue(WeightlessTraitTypeDTO weightlessTraitType)
       throws WeightlessTraitException {
     int traitTypeId = Math.toIntExact(weightlessTraitType.getWeightlessTraitTypeId());
     switch (traitTypeId) {
