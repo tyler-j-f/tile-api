@@ -5,6 +5,7 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.AbstractWeightlessTraitsCreator;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.WeightlessTraitsCreatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -19,8 +20,10 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
   };
 
   @Autowired private TokenFacade tokenFacade;
+
   @Qualifier("mergeTokenWeightlessTraitsCreator")
-  @Autowired protected AbstractWeightlessTraitsCreator weightlessTraitsCreator;
+  @Autowired
+  protected AbstractWeightlessTraitsCreator weightlessTraitsCreator;
 
   public TokenMetadataDTO initialize(
       Long tokenId, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2, Long seedForTraits)
@@ -47,7 +50,16 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
             weightedTraitTypeRepository.read(), WEIGHTED_TRAIT_TYPES_TO_IGNORE);
     weightedTraitTypeWeights = weightedTraitTypeWeightRepository.read();
     weightedTraits = createWeightedTraits();
-    weightlessTraitsCreator.createTraits(tokenId, seedForTraits);
+    weightlessTraitsCreator.createTraits(
+        WeightlessTraitsCreatorContext.builder()
+            .tokenId(tokenId)
+            .seedForTraits(seedForTraits)
+            .weightedTraits(weightedTraits)
+            .weightedTraitTypes(weightedTraitTypes)
+            .weightedTraitTypeWeights(weightedTraitTypeWeights)
+            .burnedNft1(burnedNft1)
+            .burnedNft2(burnedNft2)
+            .build());
     return tokenFacade.setTokenFacadeDTO(buildTokenFacadeDTO()).buildTokenMetadataDTO();
   }
 }

@@ -5,25 +5,10 @@ import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeExc
 import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitContext;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitException;
-import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
-import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;
-import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
 import java.util.ArrayList;
-import java.util.List;
 
 public class InitializeTokenWeightlessTraitsCreator extends AbstractWeightlessTraitsCreator {
-
-  public AbstractWeightlessTraitsCreator setContextData(
-      List<WeightedTraitDTO> weightedTraits,
-      List<WeightedTraitTypeDTO> weightedTraitTypes,
-      List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeights
-  ) {
-    this.weightedTraits = weightedTraits;
-    this.weightedTraitTypes = weightedTraitTypes;
-    this.weightedTraitTypeWeights = weightedTraitTypeWeights;
-    return this;
-  }
 
   @Override
   protected String getWeightlessTraitValue(WeightlessTraitTypeDTO weightlessTraitType)
