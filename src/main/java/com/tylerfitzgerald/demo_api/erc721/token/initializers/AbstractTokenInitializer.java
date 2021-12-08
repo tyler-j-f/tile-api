@@ -2,23 +2,18 @@ package com.tylerfitzgerald.demo_api.erc721.token.initializers;
 
 import com.tylerfitzgerald.demo_api.config.external.TokenConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitException;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.AbstractWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypeWeightsFinder;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypesFinder;
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitTypesFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeWeightDTO;
-import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
-import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.repositories.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitRepository;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitTypeRepository;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitTypeWeightRepository;
-import com.tylerfitzgerald.demo_api.sql.repositories.WeightlessTraitRepository;
-import com.tylerfitzgerald.demo_api.sql.repositories.WeightlessTraitTypeRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -29,20 +24,15 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
   @Autowired protected TokenConfig tokenConfig;
   @Autowired protected WeightedTraitRepository weightedTraitRepository;
   @Autowired protected WeightedTraitTypesFinder weightedTraitTypesFinder;
-  @Autowired protected WeightlessTraitTypesFinder weightlessTraitTypesFinder;
   @Autowired protected WeightedTraitTypeRepository weightedTraitTypeRepository;
   @Autowired protected WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository;
-  @Autowired protected WeightlessTraitRepository weightlessTraitRepository;
-  @Autowired protected WeightlessTraitTypeRepository weightlessTraitTypeRepository;
-  @Autowired protected OverallRarityTraitPicker overallRarityTraitPicker;
   @Autowired protected WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder;
   protected TokenDTO tokenDTO;
   protected Long seedForTraits;
   protected List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeights = new ArrayList<>();
   protected List<WeightedTraitDTO> weightedTraits = new ArrayList<>();
   protected List<WeightedTraitTypeDTO> weightedTraitTypes = new ArrayList<>();
-  protected List<WeightlessTraitDTO> weightlessTraits = new ArrayList<>();
-  protected List<WeightlessTraitTypeDTO> weightlessTraitTypes = new ArrayList<>();
+  protected AbstractWeightlessTraitsCreator weightlessTraitsCreator;
 
   public TokenFacadeDTO buildTokenFacadeDTO() {
     return TokenFacadeDTO.builder()
@@ -50,8 +40,8 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
         .weightedTraits(weightedTraits)
         .weightedTraitTypes(weightedTraitTypes)
         .weightedTraitTypeWeights(weightedTraitTypeWeights)
-        .weightlessTraits(weightlessTraits)
-        .weightlessTraitTypes(weightlessTraitTypes)
+        .weightlessTraits(weightlessTraitsCreator.getCreatedTraits())
+        .weightlessTraitTypes(weightlessTraitsCreator.getTraitTypes())
         .build();
   }
 
@@ -82,10 +72,6 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
      * particular trait type) are misconfigured.
      */
     return null;
-  }
-
-  protected String getWeightlessTraitDisplayTypeValue() {
-    return "";
   }
 
   protected List<WeightedTraitDTO> createWeightedTraits() {
@@ -120,61 +106,9 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
     return weightedTraitTypeWeightsFinder.findByTraitTypeId(weightedTraitTypeWeights, traitTypeId);
   }
 
-  protected List<WeightlessTraitDTO> createWeightlessTraits() throws TokenInitializeException {
-    WeightlessTraitDTO weightlessTraitDTO;
-    for (WeightlessTraitTypeDTO weightlessTraitType : weightlessTraitTypes) {
-      // Increment the seed so that we use a unique random value for each trait
-      try {
-        weightlessTraitDTO = createWeightlessTrait(weightlessTraitType);
-      } catch (WeightlessTraitException e) {
-        throw new TokenInitializeException(e.getMessage(), e.getCause());
-      }
-      if (weightlessTraitDTO != null) {
-        weightlessTraits.add(weightlessTraitDTO);
-      }
-    }
-    return weightlessTraits;
-  }
-
   protected List<WeightedTraitTypeDTO> filterOutWeightedTraitTypesToIgnore(
       List<WeightedTraitTypeDTO> traitTypes, int[] traitTypesToIgnore) {
     return weightedTraitTypesFinder.findByIgnoringTraitTypeIdList(traitTypes, traitTypesToIgnore);
-  }
-
-  protected List<WeightlessTraitTypeDTO> filterOutWeightlessTraitTypesToIgnore(
-      List<WeightlessTraitTypeDTO> weightlessTraitTypes, int[] traitTypesToIgnore) {
-    return weightlessTraitTypesFinder.findByIgnoringTraitTypeIdList(
-        weightlessTraitTypes, traitTypesToIgnore);
-  }
-
-  protected WeightlessTraitDTO createWeightlessTrait(WeightlessTraitTypeDTO weightlessTraitType)
-      throws TokenInitializeException, WeightlessTraitException {
-    Long weightTraitId = weightlessTraitRepository.getCount() + 1L;
-    String traitValue = getWeightlessTraitValue(weightlessTraitType);
-    if (traitValue == null || traitValue.equals("")) {
-      return null;
-    }
-    return weightlessTraitRepository.create(
-        WeightlessTraitDTO.builder()
-            .id(null)
-            .traitId(weightTraitId)
-            .tokenId(tokenDTO.getTokenId())
-            .traitTypeId(weightlessTraitType.getWeightlessTraitTypeId())
-            .value(traitValue)
-            .displayTypeValue(getWeightlessTraitDisplayTypeValue())
-            .build());
-  }
-
-  protected abstract String getWeightlessTraitValue(WeightlessTraitTypeDTO weightlessTraitType)
-      throws WeightlessTraitException, TokenInitializeException;
-
-  protected Long getSeedForTrait(Long seedForTraits, WeightlessTraitTypeDTO weightlessTraitType) {
-    return (long)
-        SeedForTrait.builder()
-            .seedForTraits(seedForTraits)
-            .weightlessTraitTypeDTO(weightlessTraitType)
-            .build()
-            .hashCode();
   }
 
   protected Long getSeedForTrait(Long seedForTraits, WeightedTraitTypeDTO weightedTraitTypeDTO) {

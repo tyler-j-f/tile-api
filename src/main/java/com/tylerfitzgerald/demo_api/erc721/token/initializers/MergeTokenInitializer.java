@@ -4,14 +4,9 @@ import com.tylerfitzgerald.demo_api.erc721.metadata.TokenMetadataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitTypeConstants;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConstants;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitContext;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitException;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.MergeRarityTraitPicker;
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitsFinder;
-import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
-import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.AbstractWeightlessTraitsCreator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 public class MergeTokenInitializer extends AbstractTokenInitializer {
 
@@ -23,18 +18,14 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
     WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE
   };
 
-  @Autowired private WeightlessTraitsFinder weightlessTraitInListFinder;
   @Autowired private TokenFacade tokenFacade;
-  @Autowired private MergeRarityTraitPicker mergeRarityTraitPicker;
-  private TokenFacadeDTO burnedNft1;
-  private TokenFacadeDTO burnedNft2;
+  @Qualifier("mergeTokenWeightlessTraitsCreator")
+  @Autowired protected AbstractWeightlessTraitsCreator weightlessTraitsCreator;
 
   public TokenMetadataDTO initialize(
       Long tokenId, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2, Long seedForTraits)
       throws TokenInitializeException {
     this.seedForTraits = seedForTraits;
-    this.burnedNft1 = burnedNft1;
-    this.burnedNft2 = burnedNft2;
     if (burnedNft1 == null) {
       System.out.println(
           "TokenInitializer failed to load burned token 1. burnedNft1: " + burnedNft1);
@@ -55,55 +46,8 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
         filterOutWeightedTraitTypesToIgnore(
             weightedTraitTypeRepository.read(), WEIGHTED_TRAIT_TYPES_TO_IGNORE);
     weightedTraitTypeWeights = weightedTraitTypeWeightRepository.read();
-    weightlessTraitTypes = weightlessTraitTypeRepository.read();
     weightedTraits = createWeightedTraits();
-    createWeightlessTraits();
+    weightlessTraitsCreator.createTraits(tokenId, seedForTraits);
     return tokenFacade.setTokenFacadeDTO(buildTokenFacadeDTO()).buildTokenMetadataDTO();
-  }
-
-  protected String getWeightlessTraitValue(WeightlessTraitTypeDTO weightlessTraitType)
-      throws WeightlessTraitException {
-    int traitTypeId = Math.toIntExact(weightlessTraitType.getWeightlessTraitTypeId());
-    switch (traitTypeId) {
-      case WeightlessTraitTypeConstants.TILE_1_RARITY:
-      case WeightlessTraitTypeConstants.TILE_2_RARITY:
-      case WeightlessTraitTypeConstants.TILE_3_RARITY:
-      case WeightlessTraitTypeConstants.TILE_4_RARITY:
-        return mergeRarityTraitPicker.getValue(
-            WeightlessTraitContext.builder()
-                .traitTypeId(traitTypeId)
-                .burnedNft1(burnedNft1)
-                .burnedNft2(burnedNft2)
-                .build());
-      case WeightlessTraitTypeConstants.OVERALL_RARITY:
-        return overallRarityTraitPicker.getValue(
-            WeightlessTraitContext.builder()
-                .seedForTrait(null)
-                .weightedTraits(weightedTraits)
-                .weightedTraitTypeWeights(weightedTraitTypeWeights)
-                .weightlessTraits(weightlessTraits)
-                .build());
-      case WeightlessTraitTypeConstants.TILE_1_EMOJI:
-      case WeightlessTraitTypeConstants.TILE_2_EMOJI:
-      case WeightlessTraitTypeConstants.TILE_3_EMOJI:
-      case WeightlessTraitTypeConstants.TILE_4_EMOJI:
-      case WeightlessTraitTypeConstants.TILE_1_COLOR:
-      case WeightlessTraitTypeConstants.TILE_2_COLOR:
-      case WeightlessTraitTypeConstants.TILE_3_COLOR:
-      case WeightlessTraitTypeConstants.TILE_4_COLOR:
-        return findWeightlessTraitValueFromListByType(burnedNft1, (long) traitTypeId);
-      default:
-        System.out.println("ERROR: Invalid mergeWeightlessTraitValue. traitTypeId: " + traitTypeId);
-        return "invalid mergeWeightlessTraitValue";
-    }
-  }
-
-  private String findWeightlessTraitValueFromListByType(TokenFacadeDTO nft, Long traitTypeId) {
-    WeightlessTraitDTO weightedTrait =
-        weightlessTraitInListFinder.findFirstByTraitTypeId(nft.getWeightlessTraits(), traitTypeId);
-    if (weightedTrait != null) {
-      return weightedTrait.getValue();
-    }
-    return null;
   }
 }

@@ -4,6 +4,9 @@ import com.tylerfitzgerald.demo_api.erc721.ethEvents.EthEventsRetriever;
 import com.tylerfitzgerald.demo_api.erc721.ethEvents.RemoveDuplicateEthEventsForToken;
 import com.tylerfitzgerald.demo_api.erc721.ethEvents.RemoveDuplicateMergeEthEvents;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.MergeTokenInitializer;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.AbstractWeightlessTraitsCreator;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.InitializeTokenWeightlessTraitsCreator;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.MergeTokenWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMergeEventsTask;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleMintEventsTask;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.HandleSetColorsEventsTask;
@@ -51,5 +54,15 @@ public class EthEventsBeansConfig {
   @Bean
   public MergeTokenInitializer mergeTokenInitializer() {
     return new MergeTokenInitializer();
+  }
+
+  @Bean
+  public AbstractWeightlessTraitsCreator initializeTokenWeightlessTraitsCreator() {
+    return new InitializeTokenWeightlessTraitsCreator();
+  }
+
+  @Bean
+  public AbstractWeightlessTraitsCreator mergeTokenWeightlessTraitsCreator() {
+    return new MergeTokenWeightlessTraitsCreator();
   }
 }
