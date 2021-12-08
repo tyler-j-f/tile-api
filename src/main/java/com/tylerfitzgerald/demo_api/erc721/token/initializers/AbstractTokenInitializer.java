@@ -101,11 +101,10 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
   }
 
   protected WeightedTraitDTO createWeightedTrait(WeightedTraitTypeDTO type) {
-    seedForTraits++;
     Long traitTypeId = type.getTraitTypeId();
     List<WeightedTraitTypeWeightDTO> weights = getTraitTypeWeightsForTraitTypeId(traitTypeId);
     WeightedTraitTypeWeightDTO traitTypeWeight =
-        getRandomTraitTypeWeightFromList(weights, seedForTraits);
+        getRandomTraitTypeWeightFromList(weights, getSeedForTrait(seedForTraits, type));
     Long traitId = weightedTraitRepository.getCount() + 1L;
     return weightedTraitRepository.create(
         WeightedTraitDTO.builder()
@@ -150,7 +149,6 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
 
   protected WeightlessTraitDTO createWeightlessTrait(WeightlessTraitTypeDTO weightlessTraitType)
       throws TokenInitializeException, WeightlessTraitException {
-    seedForTraits++;
     Long weightTraitId = weightlessTraitRepository.getCount() + 1L;
     String traitValue = getWeightlessTraitValue(weightlessTraitType);
     if (traitValue == null || traitValue.equals("")) {
@@ -169,4 +167,22 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
 
   protected abstract String getWeightlessTraitValue(WeightlessTraitTypeDTO weightlessTraitType)
       throws WeightlessTraitException, TokenInitializeException;
+
+  protected Long getSeedForTrait(Long seedForTraits, WeightlessTraitTypeDTO weightlessTraitType) {
+    return (long)
+        SeedForTrait.builder()
+            .seedForTraits(seedForTraits)
+            .weightlessTraitTypeDTO(weightlessTraitType)
+            .build()
+            .hashCode();
+  }
+
+  protected Long getSeedForTrait(Long seedForTraits, WeightedTraitTypeDTO weightedTraitTypeDTO) {
+    return (long)
+        SeedForTrait.builder()
+            .seedForTraits(seedForTraits)
+            .weightedTraitTypeDTO(weightedTraitTypeDTO)
+            .build()
+            .hashCode();
+  }
 }

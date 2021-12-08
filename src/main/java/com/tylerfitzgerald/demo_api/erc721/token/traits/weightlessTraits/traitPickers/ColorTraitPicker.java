@@ -27,7 +27,7 @@ public class ColorTraitPicker implements WeightlessTraitInterface {
       g = "0" + g;
     }
     // Get b value
-    bInt = new Random(seedForTrait++).nextInt(0, 255);
+    bInt = new Random(seedForTrait).nextInt(0, 255);
     b = String.valueOf(bInt);
     len = b.length();
     for (int x = 0; x < 3 - len; x++) {

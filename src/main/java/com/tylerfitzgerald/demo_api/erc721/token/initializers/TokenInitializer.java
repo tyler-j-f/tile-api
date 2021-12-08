@@ -16,13 +16,6 @@ public class TokenInitializer extends AbstractTokenInitializer {
   @Autowired private EmojiTraitPicker emojiTraitPicker;
   @Autowired private ColorTraitPicker colorTraitPicker;
 
-  /**
-   * For creating deterministic traits we increment the random seed value after creating a trait.
-   * For some trait types, doing this will could potentially result in repeated values for the next
-   * trait. Multiply bu this const value to introduce pseudo-randomness.
-   */
-  private static final int SEED_MULTIPLIER = 7;
-
   private static final int[] WEIGHTLESS_TRAIT_TYPES_TO_IGNORE = {
     WeightlessTraitTypeConstants.TILE_1_RARITY,
     WeightlessTraitTypeConstants.TILE_2_RARITY,
@@ -65,7 +58,7 @@ public class TokenInitializer extends AbstractTokenInitializer {
         case WeightlessTraitTypeConstants.TILE_4_EMOJI:
           return emojiTraitPicker.getValue(
               WeightlessTraitContext.builder()
-                  .seedForTrait(seedForTraits * SEED_MULTIPLIER)
+                  .seedForTrait(getSeedForTrait(seedForTraits, weightlessTraitType))
                   .build());
         case WeightlessTraitTypeConstants.TILE_1_COLOR:
         case WeightlessTraitTypeConstants.TILE_2_COLOR:
@@ -73,7 +66,7 @@ public class TokenInitializer extends AbstractTokenInitializer {
         case WeightlessTraitTypeConstants.TILE_4_COLOR:
           return colorTraitPicker.getValue(
               WeightlessTraitContext.builder()
-                  .seedForTrait(seedForTraits * SEED_MULTIPLIER)
+                  .seedForTrait(getSeedForTrait(seedForTraits, weightlessTraitType))
                   .build());
         case WeightlessTraitTypeConstants.OVERALL_RARITY:
           return overallRarityTraitPicker.getValue(
