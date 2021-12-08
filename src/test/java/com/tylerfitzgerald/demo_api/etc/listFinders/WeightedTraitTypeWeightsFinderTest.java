@@ -2,7 +2,7 @@ package com.tylerfitzgerald.demo_api.etc.listFinders;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightDTO;
+import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeWeightDTO;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

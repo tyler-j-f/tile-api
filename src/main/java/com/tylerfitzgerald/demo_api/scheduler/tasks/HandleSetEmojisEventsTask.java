@@ -8,8 +8,8 @@ import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConst
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
-import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
-import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitRepository;
+import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
+import com.tylerfitzgerald.demo_api.sql.repositories.WeightlessTraitRepository;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

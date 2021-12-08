@@ -14,8 +14,8 @@ import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitTypeConstan
 import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitWeightConstants;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitException;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
-import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitRepository;
+import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
+import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitRepository;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

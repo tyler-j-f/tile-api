@@ -9,7 +9,7 @@ import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitsFinder;
 import com.tylerfitzgerald.demo_api.image.ImageException;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
 import com.tylerfitzgerald.demo_api.image.drawers.ImageDrawer;
-import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
+import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.tylerfitzgerald.demo_api.etc.listFinders;
 
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.WeightedTraitTypeDTO;
+import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;
 import java.util.List;
 import java.util.stream.Collectors;
 

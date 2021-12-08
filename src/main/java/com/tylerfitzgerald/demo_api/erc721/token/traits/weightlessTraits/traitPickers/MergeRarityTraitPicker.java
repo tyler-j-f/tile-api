@@ -9,9 +9,9 @@ import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.Weightl
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypeWeightsFinder;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitsFinder;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitsFinder;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitDTO;
-import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
+import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
+import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeWeightDTO;
+import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 

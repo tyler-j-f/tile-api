@@ -1,8 +1,8 @@
 package com.tylerfitzgerald.demo_api.controller.sqlControllers;
 
 import com.tylerfitzgerald.demo_api.controller.BaseController;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.WeightedTraitTypeDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.WeightedTraitTypeRepository;
+import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;
+import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

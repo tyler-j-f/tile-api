@@ -10,8 +10,8 @@ import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeExc
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializer;
 import com.tylerfitzgerald.demo_api.etc.BigIntegerFactory;
 import com.tylerfitzgerald.demo_api.scheduler.tasks.AbstractEthEventsRetrieverTask;
-import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
-import com.tylerfitzgerald.demo_api.sql.tblToken.TokenRepository;
+import com.tylerfitzgerald.demo_api.sql.dtos.TokenDTO;
+import com.tylerfitzgerald.demo_api.sql.repositories.TokenRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

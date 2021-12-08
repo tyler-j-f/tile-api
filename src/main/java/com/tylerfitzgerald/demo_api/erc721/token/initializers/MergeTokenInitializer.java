@@ -9,8 +9,8 @@ import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.Weightl
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitException;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.MergeRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitsFinder;
-import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitTypeDTO;
-import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
+import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
+import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class MergeTokenInitializer extends AbstractTokenInitializer {

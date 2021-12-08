@@ -1,11 +1,11 @@
 package com.tylerfitzgerald.demo_api.erc721.token;
 
-import com.tylerfitzgerald.demo_api.sql.tblToken.TokenDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypeWeights.WeightedTraitTypeWeightDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraitTypes.WeightedTraitTypeDTO;
-import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitDTO;
-import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraitTypes.WeightlessTraitTypeDTO;
-import com.tylerfitzgerald.demo_api.sql.tblWeightlessTraits.WeightlessTraitDTO;
+import com.tylerfitzgerald.demo_api.sql.dtos.TokenDTO;
+import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
+import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;
+import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeWeightDTO;
+import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
+import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,6 @@
 package com.tylerfitzgerald.demo_api.etc.listFinders;
 
-import com.tylerfitzgerald.demo_api.sql.tblTraits.WeightedTraitDTO;
+import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
 import java.util.List;
 
 public class WeightedTraitsFinder extends AbstractListFinder {
