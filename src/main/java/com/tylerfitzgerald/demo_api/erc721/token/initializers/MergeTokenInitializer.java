@@ -8,6 +8,7 @@ import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitTypeConstan
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.WeightedTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.AbstractWeightlessTraitsCreator;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypeWeightsFinder;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypesFinder;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitTypesFinder;
 import com.tylerfitzgerald.demo_api.sql.repositories.TokenRepository;
@@ -28,6 +29,7 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
       WeightlessTraitTypesFinder weightlessTraitTypesFinder,
       WeightedTraitTypeRepository weightedTraitTypeRepository,
       WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository,
+      WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder,
       WeightlessTraitTypeRepository weightlessTraitTypeRepository,
       AbstractWeightlessTraitsCreator weightlessTraitsCreator,
       WeightedTraitsCreator weightedTraitsCreator,
@@ -40,6 +42,7 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
         weightlessTraitTypesFinder,
         weightedTraitTypeRepository,
         weightedTraitTypeWeightRepository,
+        weightedTraitTypeWeightsFinder,
         weightlessTraitTypeRepository,
         weightlessTraitsCreator,
         weightedTraitsCreator);
@@ -57,6 +60,7 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
   public TokenMetadataDTO initialize(
       Long tokenId, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2, Long seedForTraits)
       throws TokenInitializeException {
+    this.seedForTraits = seedForTraits;
     if (burnedNft1 == null) {
       System.out.println(
           "TokenInitializer failed to load burned token 1. burnedNft1: " + burnedNft1);

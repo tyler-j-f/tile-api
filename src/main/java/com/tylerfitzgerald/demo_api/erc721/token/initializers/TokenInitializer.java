@@ -7,6 +7,7 @@ import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConst
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.WeightedTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.AbstractWeightlessTraitsCreator;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypeWeightsFinder;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypesFinder;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitTypesFinder;
 import com.tylerfitzgerald.demo_api.sql.repositories.TokenRepository;
@@ -25,6 +26,7 @@ public class TokenInitializer extends AbstractTokenInitializer {
       WeightlessTraitTypesFinder weightlessTraitTypesFinder,
       WeightedTraitTypeRepository weightedTraitTypeRepository,
       WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository,
+      WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder,
       WeightlessTraitTypeRepository weightlessTraitTypeRepository,
       AbstractWeightlessTraitsCreator weightlessTraitsCreator,
       WeightedTraitsCreator weightedTraitsCreator) {
@@ -36,6 +38,7 @@ public class TokenInitializer extends AbstractTokenInitializer {
         weightlessTraitTypesFinder,
         weightedTraitTypeRepository,
         weightedTraitTypeWeightRepository,
+        weightedTraitTypeWeightsFinder,
         weightlessTraitTypeRepository,
         weightlessTraitsCreator,
         weightedTraitsCreator);
@@ -53,6 +56,7 @@ public class TokenInitializer extends AbstractTokenInitializer {
 
   public TokenFacadeDTO initialize(Long tokenId, Long seedForTraits)
       throws TokenInitializeException {
+    this.seedForTraits = seedForTraits;
     tokenDTO = createToken(tokenId);
     if (tokenDTO == null) {
       System.out.println(
