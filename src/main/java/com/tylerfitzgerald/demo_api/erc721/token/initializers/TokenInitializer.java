@@ -7,41 +7,37 @@ import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConst
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.WeightedTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.AbstractWeightlessTraitsCreator;
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypeWeightsFinder;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypesFinder;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitTypesFinder;
 import com.tylerfitzgerald.demo_api.sql.repositories.TokenRepository;
-import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitRepository;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitTypeRepository;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitTypeWeightRepository;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightlessTraitTypeRepository;
 
 public class TokenInitializer extends AbstractTokenInitializer {
 
+  private WeightlessTraitTypesFinder weightlessTraitTypesFinder;
+
   public TokenInitializer(
       TokenRepository tokenRepository,
       TokenConfig tokenConfig,
-      WeightedTraitRepository weightedTraitRepository,
       WeightedTraitTypesFinder weightedTraitTypesFinder,
-      WeightlessTraitTypesFinder weightlessTraitTypesFinder,
       WeightedTraitTypeRepository weightedTraitTypeRepository,
       WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository,
-      WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder,
       WeightlessTraitTypeRepository weightlessTraitTypeRepository,
       AbstractWeightlessTraitsCreator weightlessTraitsCreator,
-      WeightedTraitsCreator weightedTraitsCreator) {
+      WeightedTraitsCreator weightedTraitsCreator,
+      WeightlessTraitTypesFinder weightlessTraitTypesFinder) {
     super(
         tokenRepository,
         tokenConfig,
-        weightedTraitRepository,
         weightedTraitTypesFinder,
-        weightlessTraitTypesFinder,
         weightedTraitTypeRepository,
         weightedTraitTypeWeightRepository,
-        weightedTraitTypeWeightsFinder,
         weightlessTraitTypeRepository,
         weightlessTraitsCreator,
         weightedTraitsCreator);
+    this.weightlessTraitTypesFinder = weightlessTraitTypesFinder;
   }
 
   private static final int[] WEIGHTLESS_TRAIT_TYPES_TO_IGNORE = {
@@ -56,7 +52,6 @@ public class TokenInitializer extends AbstractTokenInitializer {
 
   public TokenFacadeDTO initialize(Long tokenId, Long seedForTraits)
       throws TokenInitializeException {
-    this.seedForTraits = seedForTraits;
     tokenDTO = createToken(tokenId);
     if (tokenDTO == null) {
       System.out.println(
