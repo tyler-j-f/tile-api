@@ -8,7 +8,7 @@ import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPi
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.MergeRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitsListFinder;
+import com.tylerfitzgerald.demo_api.etc.WeightlessTraitsListFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightlessTraitRepository;

@@ -62,7 +62,7 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
   }
 
   private int getEmojiSetIndex(String eventEmojisValue) {
-    return bigIntegerFactory.build(eventEmojisValue.substring(28, 32), 16).intValue();
+    return bigIntegerFactory.buildHex(eventEmojisValue.substring(28, 32), 16).intValue();
   }
 
   private String getTileEmojiValue(String eventEmojisValue, int tileIndex, int emojiSetIndex)
@@ -72,7 +72,7 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
           "Emoji set other than 0 was specified. Support does not exist for additional emoji sets at this time.");
     }
     return String.valueOf(
-        bigIntegerFactory.build(
+        bigIntegerFactory.buildHex(
             eventEmojisValue.substring(getBeginIndex(tileIndex), getEndIndex(tileIndex)), 16));
   }
 

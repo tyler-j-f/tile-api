@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.etc.listFinders;
+package com.tylerfitzgerald.demo_api.etc;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

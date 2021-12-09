@@ -5,7 +5,7 @@ import com.tylerfitzgerald.demo_api.erc721.ethEvents.EthEventException;
 import com.tylerfitzgerald.demo_api.erc721.ethEvents.EthEventsRetriever;
 import com.tylerfitzgerald.demo_api.erc721.ethEvents.RemoveDuplicateEthEventsForToken;
 import com.tylerfitzgerald.demo_api.etc.BigIntegerFactory;
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitsListFinder;
+import com.tylerfitzgerald.demo_api.etc.WeightlessTraitsListFinder;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;

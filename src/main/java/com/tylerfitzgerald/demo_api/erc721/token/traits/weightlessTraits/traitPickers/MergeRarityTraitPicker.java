@@ -6,9 +6,9 @@ import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConst
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitContext;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitException;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitInterface;
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypeWeightsListFinder;
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitsListFinder;
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitsListFinder;
+import com.tylerfitzgerald.demo_api.etc.WeightedTraitTypeWeightsListFinder;
+import com.tylerfitzgerald.demo_api.etc.WeightedTraitsListFinder;
+import com.tylerfitzgerald.demo_api.etc.WeightlessTraitsListFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;

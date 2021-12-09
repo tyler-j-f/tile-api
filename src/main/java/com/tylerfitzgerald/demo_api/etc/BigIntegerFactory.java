@@ -8,7 +8,7 @@ public class BigIntegerFactory {
     return new BigInteger(val);
   }
 
-  public BigInteger build(String val, int radix) {
+  public BigInteger buildHex(String val, int radix) {
     return new BigInteger(val, radix);
   }
 }

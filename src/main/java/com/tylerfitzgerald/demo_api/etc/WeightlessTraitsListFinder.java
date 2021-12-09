@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.etc.listFinders;
+package com.tylerfitzgerald.demo_api.etc;
 
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
 import java.util.List;
