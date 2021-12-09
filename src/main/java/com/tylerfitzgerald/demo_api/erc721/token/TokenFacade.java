@@ -5,9 +5,9 @@ import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeExc
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.DisplayTypeTrait;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.Trait;
-import com.tylerfitzgerald.demo_api.etc.WeightedTraitTypeWeightsListFinder;
-import com.tylerfitzgerald.demo_api.etc.WeightedTraitTypesListFinder;
-import com.tylerfitzgerald.demo_api.etc.WeightlessTraitTypesListFinder;
+import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightedTraitTypeWeightsListFinder;
+import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightedTraitTypesListFinder;
+import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightlessTraitTypesListFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;

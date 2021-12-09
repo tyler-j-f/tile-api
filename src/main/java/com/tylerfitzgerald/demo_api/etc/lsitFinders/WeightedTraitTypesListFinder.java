@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.etc;
+package com.tylerfitzgerald.demo_api.etc.lsitFinders;
 
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;
 import java.util.List;

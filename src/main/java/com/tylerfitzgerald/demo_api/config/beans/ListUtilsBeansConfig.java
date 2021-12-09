@@ -1,10 +1,10 @@
 package com.tylerfitzgerald.demo_api.config.beans;
 
-import com.tylerfitzgerald.demo_api.etc.WeightedTraitTypeWeightsListFinder;
-import com.tylerfitzgerald.demo_api.etc.WeightedTraitTypesListFinder;
-import com.tylerfitzgerald.demo_api.etc.WeightedTraitsListFinder;
-import com.tylerfitzgerald.demo_api.etc.WeightlessTraitTypesListFinder;
-import com.tylerfitzgerald.demo_api.etc.WeightlessTraitsListFinder;
+import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightedTraitTypeWeightsListFinder;
+import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightedTraitTypesListFinder;
+import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightedTraitsListFinder;
+import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightlessTraitTypesListFinder;
+import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightlessTraitsListFinder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

@@ -2,7 +2,7 @@ package com.tylerfitzgerald.demo_api.etc.listFinders;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.tylerfitzgerald.demo_api.etc.WeightedTraitTypesListFinder;
+import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightedTraitTypesListFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,12 +63,6 @@ public class WeightedTraitTypesListFinderTest {
             .traitTypeName(TRAIT_TYPE_NAME_3)
             .description(DESCRIPTION_3)
             .build());
-  }
-
-  @Test
-  void testConstructor() {
-    Assertions.assertThat(new WeightedTraitTypesListFinder())
-        .isInstanceOf(WeightedTraitTypesListFinder.class);
   }
 
   @Test

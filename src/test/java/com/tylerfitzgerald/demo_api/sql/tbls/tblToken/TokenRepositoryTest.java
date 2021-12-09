@@ -42,12 +42,6 @@ public class TokenRepositoryTest {
   }
 
   @Test
-  void testConstructor() {
-    assertThat(new TokenRepository(jdbcTemplate, beanPropertyRowMapper))
-        .isInstanceOf(TokenRepository.class);
-  }
-
-  @Test
   void testCreateNonExisting() {
     TokenDTO tokenDTO =
         TokenDTO.builder()

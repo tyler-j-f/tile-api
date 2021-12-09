@@ -16,9 +16,9 @@ import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPi
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityCalculator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.etc.BigIntegerFactory;
-import com.tylerfitzgerald.demo_api.etc.WeightedTraitTypeWeightsListFinder;
-import com.tylerfitzgerald.demo_api.etc.WeightedTraitTypesListFinder;
-import com.tylerfitzgerald.demo_api.etc.WeightlessTraitTypesListFinder;
+import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightedTraitTypeWeightsListFinder;
+import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightedTraitTypesListFinder;
+import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightlessTraitTypesListFinder;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
 import com.tylerfitzgerald.demo_api.sql.dtos.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;

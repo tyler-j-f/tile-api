@@ -37,12 +37,6 @@ public class WeightlessWeightedTraitTypeRepositoryTest {
   }
 
   @Test
-  void testConstructor() {
-    assertThat(new WeightlessTraitTypeRepository(jdbcTemplate, beanPropertyRowMapper))
-        .isInstanceOf(WeightlessTraitTypeRepository.class);
-  }
-
-  @Test
   void testCreateNonExisting() {
     WeightlessTraitTypeDTO weightlessTraitTypeDTO =
         WeightlessTraitTypeDTO.builder()

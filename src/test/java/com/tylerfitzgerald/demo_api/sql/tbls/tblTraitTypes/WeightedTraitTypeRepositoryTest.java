@@ -36,12 +36,6 @@ public class WeightedTraitTypeRepositoryTest {
   }
 
   @Test
-  void testConstructor() {
-    assertThat(new WeightedTraitTypeRepository(jdbcTemplate, beanPropertyRowMapper))
-        .isInstanceOf(WeightedTraitTypeRepository.class);
-  }
-
-  @Test
   void testCreateNonExisting() {
     WeightedTraitTypeDTO weightedTraitTypeDTO =
         WeightedTraitTypeDTO.builder()
