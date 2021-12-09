@@ -2,7 +2,7 @@ package com.tylerfitzgerald.demo_api.erc721.token.initializers;
 
 import com.tylerfitzgerald.demo_api.config.external.TokenConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.AbstractWeightedTraitsCreator;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.WeightedTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.AbstractWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypeWeightsFinder;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypesFinder;
@@ -37,7 +37,7 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
   protected List<WeightlessTraitTypeDTO> weightlessTraitTypes = new ArrayList<>();
   protected List<WeightedTraitTypeDTO> weightedTraitTypes = new ArrayList<>();
   protected AbstractWeightlessTraitsCreator weightlessTraitsCreator;
-  protected AbstractWeightedTraitsCreator weightedTraitsCreator;
+  protected WeightedTraitsCreator weightedTraitsCreator;
 
   public AbstractTokenInitializer(
       TokenRepository tokenRepository,
@@ -50,7 +50,7 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
       WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder,
       WeightlessTraitTypeRepository weightlessTraitTypeRepository,
       AbstractWeightlessTraitsCreator weightlessTraitsCreator,
-      AbstractWeightedTraitsCreator weightedTraitsCreator) {
+      WeightedTraitsCreator weightedTraitsCreator) {
     this.tokenRepository = tokenRepository;
     this.tokenConfig = tokenConfig;
     this.weightedTraitRepository = weightedTraitRepository;

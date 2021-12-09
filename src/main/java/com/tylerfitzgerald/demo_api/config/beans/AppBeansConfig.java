@@ -5,9 +5,8 @@ import com.tylerfitzgerald.demo_api.config.external.TokenConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.MergeTokenInitializer;
-import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializer;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.InitializeTokenWeightedTraitsCreator;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.MergeTokenWeightedTraitsCreator;
+import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializer;;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.WeightedTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.AbstractWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.InitializeTokenWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.MergeTokenWeightlessTraitsCreator;
@@ -125,7 +124,7 @@ public class AppBeansConfig {
         weightedTraitTypeWeightsFinder,
         weightlessTraitTypeRepository(),
         initializeTokenWeightlessTraitsCreator(),
-        initializeTokenWeightedTraitsCreator());
+        weightedTraitsCreator());
   }
 
   @Bean
@@ -141,7 +140,7 @@ public class AppBeansConfig {
         weightedTraitTypeWeightsFinder,
         weightlessTraitTypeRepository(),
         mergeTokenWeightlessTraitsCreator(),
-        mergeTokenWeightedTraitsCreator(),
+        weightedTraitsCreator(),
         tokenFacade());
   }
 
@@ -223,12 +222,7 @@ public class AppBeansConfig {
   }
 
   @Bean
-  public InitializeTokenWeightedTraitsCreator initializeTokenWeightedTraitsCreator() {
-    return new InitializeTokenWeightedTraitsCreator();
-  }
-
-  @Bean
-  public MergeTokenWeightedTraitsCreator mergeTokenWeightedTraitsCreator() {
-    return new MergeTokenWeightedTraitsCreator();
+  public WeightedTraitsCreator weightedTraitsCreator() {
+    return new WeightedTraitsCreator();
   }
 }
