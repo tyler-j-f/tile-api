@@ -43,8 +43,8 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
         .weightedTraits(weightedTraits)
         .weightedTraitTypes(weightedTraitTypes)
         .weightedTraitTypeWeights(weightedTraitTypeWeights)
-        .weightlessTraits(weightlessTraitsCreator.getCreatedTraits())
-        .weightlessTraitTypes(weightlessTraitsCreator.getTraitTypes())
+        .weightlessTraits(weightlessTraitsCreator.getCreatedWeightlessTraits())
+        .weightlessTraitTypes(weightlessTraitsCreator.getWeightlessTraitTypes())
         .build();
   }
 

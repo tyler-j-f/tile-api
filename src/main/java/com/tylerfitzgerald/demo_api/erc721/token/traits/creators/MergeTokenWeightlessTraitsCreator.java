@@ -30,7 +30,7 @@ public class MergeTokenWeightlessTraitsCreator extends AbstractWeightlessTraitsC
                 .seedForTrait(null)
                 .weightedTraits(context.getWeightedTraits())
                 .weightedTraitTypeWeights(context.getWeightedTraitTypeWeights())
-                .weightlessTraits(getCreatedTraits())
+                .weightlessTraits(getCreatedWeightlessTraits())
                 .build());
       case WeightlessTraitTypeConstants.TILE_1_EMOJI:
       case WeightlessTraitTypeConstants.TILE_2_EMOJI:

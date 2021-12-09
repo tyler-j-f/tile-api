@@ -12,6 +12,7 @@ import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightlessTraitRepository;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractWeightlessTraitsCreator {
@@ -23,12 +24,10 @@ public abstract class AbstractWeightlessTraitsCreator {
   @Autowired protected ColorTraitPicker colorTraitPicker;
   @Autowired protected OverallRarityTraitPicker overallRarityTraitPicker;
   protected WeightlessTraitsCreatorContext context;
-  protected Long seedForTraits;
-  protected List<WeightlessTraitDTO> createdWeightlessTraits = new ArrayList<>();
+  @Getter private List<WeightlessTraitDTO> createdWeightlessTraits = new ArrayList<>();
 
   public void createTraits(WeightlessTraitsCreatorContext context) throws TokenInitializeException {
     this.context = context;
-    this.seedForTraits = context.getSeedForTraits();
     WeightlessTraitDTO weightlessTraitDTO;
     for (WeightlessTraitTypeDTO weightlessTraitType : context.getWeightlessTraitTypes()) {
       try {
@@ -62,11 +61,7 @@ public abstract class AbstractWeightlessTraitsCreator {
             .build());
   }
 
-  public List<WeightlessTraitDTO> getCreatedTraits() {
-    return createdWeightlessTraits;
-  }
-
-  public List<WeightlessTraitTypeDTO> getTraitTypes() {
+  public List<WeightlessTraitTypeDTO> getWeightlessTraitTypes() {
     return context.getWeightlessTraitTypes();
   }
 

@@ -21,7 +21,7 @@ public class InitializeTokenWeightlessTraitsCreator extends AbstractWeightlessTr
         case WeightlessTraitTypeConstants.TILE_4_EMOJI:
           return emojiTraitPicker.getValue(
               WeightlessTraitContext.builder()
-                  .seedForTrait(getSeedForTrait(seedForTraits, weightlessTraitType))
+                  .seedForTrait(getSeedForTrait(context.getSeedForTraits(), weightlessTraitType))
                   .build());
         case WeightlessTraitTypeConstants.TILE_1_COLOR:
         case WeightlessTraitTypeConstants.TILE_2_COLOR:
@@ -29,7 +29,7 @@ public class InitializeTokenWeightlessTraitsCreator extends AbstractWeightlessTr
         case WeightlessTraitTypeConstants.TILE_4_COLOR:
           return colorTraitPicker.getValue(
               WeightlessTraitContext.builder()
-                  .seedForTrait(getSeedForTrait(seedForTraits, weightlessTraitType))
+                  .seedForTrait(getSeedForTrait(context.getSeedForTraits(), weightlessTraitType))
                   .build());
         case WeightlessTraitTypeConstants.OVERALL_RARITY:
           return overallRarityTraitPicker.getValue(
