@@ -9,10 +9,12 @@ import com.tylerfitzgerald.demo_api.sql.dtos.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeWeightDTO;
+import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.repositories.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitRepository;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitTypeRepository;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitTypeWeightRepository;
+import com.tylerfitzgerald.demo_api.sql.repositories.WeightlessTraitTypeRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -26,10 +28,12 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
   @Autowired protected WeightedTraitTypeRepository weightedTraitTypeRepository;
   @Autowired protected WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository;
   @Autowired protected WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder;
+  @Autowired protected WeightlessTraitTypeRepository weightlessTraitTypeRepository;
   protected TokenDTO tokenDTO;
   protected Long seedForTraits;
   protected List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeights = new ArrayList<>();
   protected List<WeightedTraitDTO> weightedTraits = new ArrayList<>();
+  protected List<WeightlessTraitTypeDTO> weightlessTraitTypes = new ArrayList<>();
   protected List<WeightedTraitTypeDTO> weightedTraitTypes = new ArrayList<>();
 
   public TokenFacadeDTO buildTokenFacadeDTO(

@@ -1,20 +1,17 @@
 package com.tylerfitzgerald.demo_api.erc721.token.traits.creators;
 
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitException;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.ColorTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.MergeRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitTypesFinder;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitsFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightlessTraitRepository;
-import com.tylerfitzgerald.demo_api.sql.repositories.WeightlessTraitTypeRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class AbstractWeightlessTraitsCreator {
 
   @Autowired private WeightlessTraitRepository weightlessTraitRepository;
-  @Autowired private WeightlessTraitTypesFinder weightlessTraitTypesFinder;
-  @Autowired private WeightlessTraitTypeRepository weightlessTraitTypeRepository;
   private List<WeightlessTraitDTO> weightlessTraits = new ArrayList<>();
   private List<WeightlessTraitTypeDTO> weightlessTraitTypes = new ArrayList<>();
   protected Long seedForTraits;
@@ -36,19 +31,10 @@ public abstract class AbstractWeightlessTraitsCreator {
   protected List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeights = new ArrayList<>();
   protected WeightlessTraitsCreatorContext context;
 
-  private static final int[] WEIGHTLESS_TRAIT_TYPES_TO_IGNORE = {
-    WeightlessTraitTypeConstants.TILE_1_RARITY,
-    WeightlessTraitTypeConstants.TILE_2_RARITY,
-    WeightlessTraitTypeConstants.TILE_3_RARITY,
-    WeightlessTraitTypeConstants.TILE_4_RARITY
-  };
-
   public void createTraits(WeightlessTraitsCreatorContext context) throws TokenInitializeException {
     this.context = context;
     this.seedForTraits = context.getSeedForTraits();
-    weightlessTraitTypes =
-        filterOutWeightlessTraitTypesToIgnore(
-            weightlessTraitTypeRepository.read(), WEIGHTLESS_TRAIT_TYPES_TO_IGNORE);
+    weightlessTraitTypes = context.getWeightlessTraitTypes();
     WeightlessTraitDTO weightlessTraitDTO;
     for (WeightlessTraitTypeDTO weightlessTraitType : weightlessTraitTypes) {
       // Increment the seed so that we use a unique random value for each trait
@@ -93,12 +79,6 @@ public abstract class AbstractWeightlessTraitsCreator {
 
   protected abstract String getWeightlessTraitValue(WeightlessTraitTypeDTO weightlessTraitType)
       throws WeightlessTraitException, TokenInitializeException;
-
-  private List<WeightlessTraitTypeDTO> filterOutWeightlessTraitTypesToIgnore(
-      List<WeightlessTraitTypeDTO> weightlessTraitTypes, int[] traitTypesToIgnore) {
-    return weightlessTraitTypesFinder.findByIgnoringTraitTypeIdList(
-        weightlessTraitTypes, traitTypesToIgnore);
-  }
 
   private String getWeightlessTraitDisplayTypeValue() {
     return "";

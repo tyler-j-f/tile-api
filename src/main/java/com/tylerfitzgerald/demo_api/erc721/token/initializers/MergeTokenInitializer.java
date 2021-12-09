@@ -50,10 +50,12 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
             weightedTraitTypeRepository.read(), WEIGHTED_TRAIT_TYPES_TO_IGNORE);
     weightedTraitTypeWeights = weightedTraitTypeWeightRepository.read();
     weightedTraits = createWeightedTraits();
+    weightlessTraitTypes = weightlessTraitTypeRepository.read();
     weightlessTraitsCreator.createTraits(
         WeightlessTraitsCreatorContext.builder()
             .tokenId(tokenId)
             .seedForTraits(seedForTraits)
+            .weightlessTraitTypes(weightlessTraitTypes)
             .weightedTraits(weightedTraits)
             .weightedTraitTypes(weightedTraitTypes)
             .weightedTraitTypeWeights(weightedTraitTypeWeights)
