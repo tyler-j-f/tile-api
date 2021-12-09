@@ -1,6 +1,8 @@
-package com.tylerfitzgerald.demo_api.erc721.token.traits.creators;
+package com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless;
 
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorInterface;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitException;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.ColorTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.EmojiTraitPicker;

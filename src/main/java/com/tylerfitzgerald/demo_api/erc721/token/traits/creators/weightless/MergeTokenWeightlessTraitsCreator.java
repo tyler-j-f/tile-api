@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.erc721.token.traits.creators;
+package com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless;
 
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConstants;

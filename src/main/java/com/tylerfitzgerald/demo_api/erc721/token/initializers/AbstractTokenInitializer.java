@@ -2,7 +2,7 @@ package com.tylerfitzgerald.demo_api.erc721.token.initializers;
 
 import com.tylerfitzgerald.demo_api.config.external.TokenConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.AbstractWeightlessTraitsCreator;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.AbstractWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypeWeightsFinder;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypesFinder;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitTypesFinder;
