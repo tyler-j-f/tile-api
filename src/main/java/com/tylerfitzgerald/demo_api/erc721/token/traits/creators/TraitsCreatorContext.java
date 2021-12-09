@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class WeightlessTraitsCreatorContext {
+public class TraitsCreatorContext {
   private Long tokenId;
   private Long seedForTraits;
   private List<WeightlessTraitTypeDTO> weightlessTraitTypes;

@@ -5,7 +5,7 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.AbstractWeightlessTraitsCreator;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.WeightlessTraitsCreatorContext;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -52,7 +52,7 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
     weightedTraits = createWeightedTraits();
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
     weightlessTraitsCreator.createTraits(
-        WeightlessTraitsCreatorContext.builder()
+        TraitsCreatorContext.builder()
             .tokenId(tokenId)
             .seedForTraits(seedForTraits)
             .weightlessTraitTypes(weightlessTraitTypes)

@@ -4,7 +4,7 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.AbstractWeightlessTraitsCreator;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.WeightlessTraitsCreatorContext;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitTypesFinder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -44,7 +44,7 @@ public class TokenInitializer extends AbstractTokenInitializer {
         weightlessTraitTypesFinder.findByIgnoringTraitTypeIdList(
             weightlessTraitTypeRepository.read(), WEIGHTLESS_TRAIT_TYPES_TO_IGNORE);
     weightlessTraitsCreator.createTraits(
-        WeightlessTraitsCreatorContext.builder()
+        TraitsCreatorContext.builder()
             .tokenId(tokenId)
             .weightlessTraitTypes(weightlessTraitTypes)
             .seedForTraits(seedForTraits)

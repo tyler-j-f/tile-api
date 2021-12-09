@@ -15,7 +15,7 @@ import java.util.List;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class AbstractWeightlessTraitsCreator {
+public abstract class AbstractWeightlessTraitsCreator implements TraitsCreatorInterface {
 
   @Autowired private WeightlessTraitRepository weightlessTraitRepository;
   @Autowired protected WeightlessTraitsFinder weightlessTraitInListFinder;
@@ -23,10 +23,13 @@ public abstract class AbstractWeightlessTraitsCreator {
   @Autowired protected EmojiTraitPicker emojiTraitPicker;
   @Autowired protected ColorTraitPicker colorTraitPicker;
   @Autowired protected OverallRarityTraitPicker overallRarityTraitPicker;
-  protected WeightlessTraitsCreatorContext context;
+  protected TraitsCreatorContext context;
   @Getter private List<WeightlessTraitDTO> createdWeightlessTraits = new ArrayList<>();
 
-  public void createTraits(WeightlessTraitsCreatorContext context) throws TokenInitializeException {
+  protected abstract String getWeightlessTraitValue(WeightlessTraitTypeDTO weightlessTraitType)
+      throws WeightlessTraitException, TokenInitializeException;
+
+  public void createTraits(TraitsCreatorContext context) throws TokenInitializeException {
     this.context = context;
     WeightlessTraitDTO weightlessTraitDTO;
     for (WeightlessTraitTypeDTO weightlessTraitType : context.getWeightlessTraitTypes()) {
@@ -64,9 +67,6 @@ public abstract class AbstractWeightlessTraitsCreator {
   public List<WeightlessTraitTypeDTO> getWeightlessTraitTypes() {
     return context.getWeightlessTraitTypes();
   }
-
-  protected abstract String getWeightlessTraitValue(WeightlessTraitTypeDTO weightlessTraitType)
-      throws WeightlessTraitException, TokenInitializeException;
 
   private String getWeightlessTraitDisplayTypeValue() {
     return "";
