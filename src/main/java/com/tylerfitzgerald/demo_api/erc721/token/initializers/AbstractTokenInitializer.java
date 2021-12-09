@@ -80,7 +80,6 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
   protected List<WeightedTraitDTO> createWeightedTraits() {
     List<WeightedTraitDTO> traits = new ArrayList<>();
     for (WeightedTraitTypeDTO type : weightedTraitTypes) {
-      // Increment the seed so that we use a unique random value for each trait
       WeightedTraitDTO trait = createWeightedTrait(type);
       if (trait != null) {
         traits.add(trait);

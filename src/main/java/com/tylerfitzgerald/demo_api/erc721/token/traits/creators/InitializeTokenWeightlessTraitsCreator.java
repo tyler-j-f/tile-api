@@ -35,8 +35,8 @@ public class InitializeTokenWeightlessTraitsCreator extends AbstractWeightlessTr
           return overallRarityTraitPicker.getValue(
               WeightlessTraitContext.builder()
                   .seedForTrait(null)
-                  .weightedTraits(weightedTraits)
-                  .weightedTraitTypeWeights(weightedTraitTypeWeights)
+                  .weightedTraits(context.getWeightedTraits())
+                  .weightedTraitTypeWeights(context.getWeightedTraitTypeWeights())
                   .weightlessTraits(new ArrayList<>())
                   .build());
         default:

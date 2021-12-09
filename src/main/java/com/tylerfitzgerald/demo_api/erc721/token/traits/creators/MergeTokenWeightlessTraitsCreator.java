@@ -28,8 +28,8 @@ public class MergeTokenWeightlessTraitsCreator extends AbstractWeightlessTraitsC
         return overallRarityTraitPicker.getValue(
             WeightlessTraitContext.builder()
                 .seedForTrait(null)
-                .weightedTraits(weightedTraits)
-                .weightedTraitTypeWeights(weightedTraitTypeWeights)
+                .weightedTraits(context.getWeightedTraits())
+                .weightedTraitTypeWeights(context.getWeightedTraitTypeWeights())
                 .weightlessTraits(getCreatedTraits())
                 .build());
       case WeightlessTraitTypeConstants.TILE_1_EMOJI:

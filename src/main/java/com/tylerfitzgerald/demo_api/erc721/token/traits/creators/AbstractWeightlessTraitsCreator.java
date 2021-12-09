@@ -7,8 +7,6 @@ import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPi
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.MergeRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitsFinder;
-import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
-import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightlessTraitRepository;
@@ -19,32 +17,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class AbstractWeightlessTraitsCreator {
 
   @Autowired private WeightlessTraitRepository weightlessTraitRepository;
-  private List<WeightlessTraitDTO> weightlessTraits = new ArrayList<>();
-  private List<WeightlessTraitTypeDTO> weightlessTraitTypes = new ArrayList<>();
-  protected Long seedForTraits;
   @Autowired protected WeightlessTraitsFinder weightlessTraitInListFinder;
   @Autowired protected MergeRarityTraitPicker mergeRarityTraitPicker;
   @Autowired protected EmojiTraitPicker emojiTraitPicker;
   @Autowired protected ColorTraitPicker colorTraitPicker;
   @Autowired protected OverallRarityTraitPicker overallRarityTraitPicker;
-  protected List<WeightedTraitDTO> weightedTraits = new ArrayList<>();
-  protected List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeights = new ArrayList<>();
   protected WeightlessTraitsCreatorContext context;
+  protected Long seedForTraits;
+  protected List<WeightlessTraitDTO> createdWeightlessTraits = new ArrayList<>();
 
   public void createTraits(WeightlessTraitsCreatorContext context) throws TokenInitializeException {
     this.context = context;
     this.seedForTraits = context.getSeedForTraits();
-    weightlessTraitTypes = context.getWeightlessTraitTypes();
     WeightlessTraitDTO weightlessTraitDTO;
-    for (WeightlessTraitTypeDTO weightlessTraitType : weightlessTraitTypes) {
-      // Increment the seed so that we use a unique random value for each trait
+    for (WeightlessTraitTypeDTO weightlessTraitType : context.getWeightlessTraitTypes()) {
       try {
         weightlessTraitDTO = createWeightlessTrait(context.getTokenId(), weightlessTraitType);
       } catch (WeightlessTraitException e) {
         throw new TokenInitializeException(e.getMessage(), e.getCause());
       }
       if (weightlessTraitDTO != null) {
-        weightlessTraits.add(weightlessTraitDTO);
+        createdWeightlessTraits.add(weightlessTraitDTO);
       }
     }
     return;
@@ -70,11 +63,11 @@ public abstract class AbstractWeightlessTraitsCreator {
   }
 
   public List<WeightlessTraitDTO> getCreatedTraits() {
-    return weightlessTraits;
+    return createdWeightlessTraits;
   }
 
   public List<WeightlessTraitTypeDTO> getTraitTypes() {
-    return weightlessTraitTypes;
+    return context.getWeightlessTraitTypes();
   }
 
   protected abstract String getWeightlessTraitValue(WeightlessTraitTypeDTO weightlessTraitType)
