@@ -8,7 +8,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class WeightlessTraitsFinderTest {
+public class WeightlessTraitsListFinderTest {
 
   private List<WeightlessTraitDTO> weightlessTraitsList;
   // Value set 1
@@ -73,26 +73,26 @@ public class WeightlessTraitsFinderTest {
 
   @Test
   void testConstructor() {
-    assertThat(new WeightlessTraitsFinder()).isInstanceOf(WeightlessTraitsFinder.class);
+    assertThat(new WeightlessTraitsListFinder()).isInstanceOf(WeightlessTraitsListFinder.class);
   }
 
   @Test
   void testFindFirstByTraitTypeId() {
-    WeightlessTraitsFinder weightlessTraitsFinder = new WeightlessTraitsFinder();
+    WeightlessTraitsListFinder weightlessTraitsListFinder = new WeightlessTraitsListFinder();
     assertThat(
-            weightlessTraitsFinder.findFirstByTraitTypeId(
+            weightlessTraitsListFinder.findFirstByTraitTypeId(
                 weightlessTraitsList, WEIGHTLESS_TRAIT_TYPE_ID_1))
         .isNotNull();
     assertThat(
-            weightlessTraitsFinder.findFirstByTraitTypeId(
+            weightlessTraitsListFinder.findFirstByTraitTypeId(
                 weightlessTraitsList, WEIGHTLESS_TRAIT_TYPE_ID_2))
         .isNotNull();
     assertThat(
-            weightlessTraitsFinder.findFirstByTraitTypeId(
+            weightlessTraitsListFinder.findFirstByTraitTypeId(
                 weightlessTraitsList, WEIGHTLESS_TRAIT_TYPE_ID_3))
         .isNotNull();
     assertThat(
-            weightlessTraitsFinder.findFirstByTraitTypeId(
+            weightlessTraitsListFinder.findFirstByTraitTypeId(
                 weightlessTraitsList, TRAIT_TYPE_ID_NOT_IN_LIST))
         .isNull();
   }

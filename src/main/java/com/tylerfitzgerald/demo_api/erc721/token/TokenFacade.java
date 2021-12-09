@@ -5,9 +5,9 @@ import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeExc
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.DisplayTypeTrait;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.Trait;
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypeWeightsFinder;
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypesFinder;
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitTypesFinder;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypeWeightsListFinder;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypesListFinder;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitTypesListFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;
@@ -27,9 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class TokenFacade implements TokenFacadeInterface {
 
   private TokenFacadeDTO tokenFacadeDTO;
-  @Autowired private WeightedTraitTypesFinder weightedTraitTypesFinder;
-  @Autowired private WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder;
-  @Autowired private WeightlessTraitTypesFinder weightlessTraitTypesFinder;
+  @Autowired private WeightedTraitTypesListFinder weightedTraitTypesListFinder;
+  @Autowired private WeightedTraitTypeWeightsListFinder weightedTraitTypeWeightsListFinder;
+  @Autowired private WeightlessTraitTypesListFinder weightlessTraitTypesListFinder;
   @Autowired private TokenInitializer tokenInitializer;
   @Autowired private TokenRetriever tokenRetriever;
 
@@ -107,7 +107,7 @@ public class TokenFacade implements TokenFacadeInterface {
 
   private String getTraitType(Long traitTypeId) {
     WeightlessTraitTypeDTO weightlessTraitType =
-        weightlessTraitTypesFinder.findFirstByWeightlessTraitTypeId(
+        weightlessTraitTypesListFinder.findFirstByWeightlessTraitTypeId(
             getWeightlessTraitTypes(), traitTypeId);
     if (weightlessTraitType == null) {
       return "ERROR";
@@ -146,13 +146,13 @@ public class TokenFacade implements TokenFacadeInterface {
   private WeightedTraitTypeWeightDTO getTraitWeightForTraitDTO(
       List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeightDTOs,
       WeightedTraitDTO weightedTraitDTO) {
-    return weightedTraitTypeWeightsFinder.findFirstByTraitTypeId(
+    return weightedTraitTypeWeightsListFinder.findFirstByTraitTypeId(
         weightedTraitTypeWeightDTOs, weightedTraitDTO.getTraitTypeWeightId());
   }
 
   private WeightedTraitTypeDTO getTraitTypeForTraitDTO(
       List<WeightedTraitTypeDTO> weightedTraitTypeDTOS, WeightedTraitDTO weightedTraitDTO) {
-    return weightedTraitTypesFinder.findFirstByTraitTypeId(
+    return weightedTraitTypesListFinder.findFirstByTraitTypeId(
         weightedTraitTypeDTOS, weightedTraitDTO.getTraitTypeId());
   }
 

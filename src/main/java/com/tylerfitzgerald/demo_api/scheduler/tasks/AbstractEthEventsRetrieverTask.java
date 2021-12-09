@@ -5,7 +5,7 @@ import com.tylerfitzgerald.demo_api.erc721.ethEvents.EthEventException;
 import com.tylerfitzgerald.demo_api.erc721.ethEvents.EthEventsRetriever;
 import com.tylerfitzgerald.demo_api.erc721.ethEvents.RemoveDuplicateEthEventsForToken;
 import com.tylerfitzgerald.demo_api.etc.BigIntegerFactory;
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitsFinder;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitsListFinder;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public abstract class AbstractEthEventsRetrieverTask implements TaskInterface {
   @Autowired protected RemoveDuplicateEthEventsForToken removeDuplicateEthEventsForToken;
   @Autowired protected EventsConfig eventsConfig;
   @Autowired protected BigIntegerFactory bigIntegerFactory;
-  @Autowired protected WeightlessTraitsFinder weightlessTraitsFinder;
+  @Autowired protected WeightlessTraitsListFinder weightlessTraitsListFinder;
 
   protected List<?> getEthEvents(
       String className,

@@ -1,10 +1,10 @@
 package com.tylerfitzgerald.demo_api.config.beans;
 
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypeWeightsFinder;
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypesFinder;
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitsFinder;
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitTypesFinder;
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitsFinder;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypeWeightsListFinder;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypesListFinder;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitsListFinder;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitTypesListFinder;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitsListFinder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,27 +12,27 @@ import org.springframework.context.annotation.Configuration;
 public class ListUtilsBeansConfig {
 
   @Bean
-  public WeightlessTraitsFinder weightlessTraitInListFinder() {
-    return new WeightlessTraitsFinder();
+  public WeightlessTraitsListFinder weightlessTraitInListFinder() {
+    return new WeightlessTraitsListFinder();
   }
 
   @Bean
-  public WeightlessTraitTypesFinder WeightlessTraitTypesListFinder() {
-    return new WeightlessTraitTypesFinder();
+  public WeightlessTraitTypesListFinder WeightlessTraitTypesListFinder() {
+    return new WeightlessTraitTypesListFinder();
   }
 
   @Bean
-  public WeightedTraitsFinder weightedTraitInListFinder() {
-    return new WeightedTraitsFinder();
+  public WeightedTraitsListFinder weightedTraitInListFinder() {
+    return new WeightedTraitsListFinder();
   }
 
   @Bean
-  public WeightedTraitTypeWeightsFinder weightedTraitTypeWeightListFinder() {
-    return new WeightedTraitTypeWeightsFinder();
+  public WeightedTraitTypeWeightsListFinder weightedTraitTypeWeightListFinder() {
+    return new WeightedTraitTypeWeightsListFinder();
   }
 
   @Bean
-  public WeightedTraitTypesFinder weightedTraitTypesListFinder() {
-    return new WeightedTraitTypesFinder();
+  public WeightedTraitTypesListFinder weightedTraitTypesListFinder() {
+    return new WeightedTraitTypesListFinder();
   }
 }

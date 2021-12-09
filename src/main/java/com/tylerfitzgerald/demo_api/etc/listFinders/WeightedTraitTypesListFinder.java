@@ -4,7 +4,7 @@ import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class WeightedTraitTypesFinder extends AbstractListFinder {
+public class WeightedTraitTypesListFinder extends AbstractListFinder {
   public WeightedTraitTypeDTO findFirstByTraitTypeId(
       List<WeightedTraitTypeDTO> weightedTraitTypesList, Long traitTypeId) {
     return (WeightedTraitTypeDTO) getFirst(weightedTraitTypesList, traitTypeId, "getTraitTypeId");

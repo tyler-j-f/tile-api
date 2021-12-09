@@ -4,7 +4,7 @@ import com.tylerfitzgerald.demo_api.config.external.TokenConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.WeightedTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.AbstractWeightlessTraitsCreator;
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypesFinder;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypesListFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;
@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class AbstractTokenInitializer implements TokenInitializerInterface {
   @Autowired private TokenRepository tokenRepository;
   @Autowired private TokenConfig tokenConfig;
-  @Autowired private WeightedTraitTypesFinder weightedTraitTypesFinder;
+  @Autowired private WeightedTraitTypesListFinder weightedTraitTypesListFinder;
   @Autowired protected WeightedTraitTypeRepository weightedTraitTypeRepository;
   @Autowired protected WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository;
   @Autowired protected WeightlessTraitTypeRepository weightlessTraitTypeRepository;
@@ -65,6 +65,7 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
 
   protected List<WeightedTraitTypeDTO> filterOutWeightedTraitTypesToIgnore(
       List<WeightedTraitTypeDTO> traitTypes, int[] traitTypesToIgnore) {
-    return weightedTraitTypesFinder.findByIgnoringTraitTypeIdList(traitTypes, traitTypesToIgnore);
+    return weightedTraitTypesListFinder.findByIgnoringTraitTypeIdList(
+        traitTypes, traitTypesToIgnore);
   }
 }

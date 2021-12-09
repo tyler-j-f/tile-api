@@ -8,7 +8,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class WeightedTraitTypesFinderTest {
+public class WeightedTraitTypesListFinderTest {
 
   private List<WeightedTraitTypeDTO> weightedTraitTypesList;
   // Value set 1
@@ -65,35 +65,35 @@ public class WeightedTraitTypesFinderTest {
 
   @Test
   void testConstructor() {
-    assertThat(new WeightedTraitTypesFinder()).isInstanceOf(WeightedTraitTypesFinder.class);
+    assertThat(new WeightedTraitTypesListFinder()).isInstanceOf(WeightedTraitTypesListFinder.class);
   }
 
   @Test
   void testFindFirstByTraitTypeId() {
-    WeightedTraitTypesFinder weightedTraitTypesFinder = new WeightedTraitTypesFinder();
+    WeightedTraitTypesListFinder weightedTraitTypesListFinder = new WeightedTraitTypesListFinder();
     assertThat(
-            weightedTraitTypesFinder.findFirstByTraitTypeId(
+            weightedTraitTypesListFinder.findFirstByTraitTypeId(
                 weightedTraitTypesList, TRAIT_TYPE_ID_1))
         .isNotNull();
     assertThat(
-            weightedTraitTypesFinder.findFirstByTraitTypeId(
+            weightedTraitTypesListFinder.findFirstByTraitTypeId(
                 weightedTraitTypesList, TRAIT_TYPE_ID_2))
         .isNotNull();
     assertThat(
-            weightedTraitTypesFinder.findFirstByTraitTypeId(
+            weightedTraitTypesListFinder.findFirstByTraitTypeId(
                 weightedTraitTypesList, TRAIT_TYPE_ID_3))
         .isNotNull();
     assertThat(
-            weightedTraitTypesFinder.findFirstByTraitTypeId(
+            weightedTraitTypesListFinder.findFirstByTraitTypeId(
                 weightedTraitTypesList, TRAIT_TYPE_ID_NOT_IN_LIST))
         .isNull();
   }
 
   @Test
   void testFindByIgnoringTraitTypeIdList() {
-    WeightedTraitTypesFinder weightedTraitTypesFinder = new WeightedTraitTypesFinder();
+    WeightedTraitTypesListFinder weightedTraitTypesListFinder = new WeightedTraitTypesListFinder();
     List<WeightedTraitTypeDTO> weightedTraitsList =
-        weightedTraitTypesFinder.findByIgnoringTraitTypeIdList(
+        weightedTraitTypesListFinder.findByIgnoringTraitTypeIdList(
             weightedTraitTypesList, WEIGHTED_TRAIT_TYPES_TO_IGNORE);
     assertThat(weightedTraitsList.size()).isEqualTo(1);
     assertThat(weightedTraitsList.get(0).getTraitTypeId()).isEqualTo(TRAIT_TYPE_ID_2);

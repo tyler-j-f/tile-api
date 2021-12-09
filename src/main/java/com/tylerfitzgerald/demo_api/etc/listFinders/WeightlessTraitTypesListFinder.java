@@ -4,7 +4,7 @@ import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class WeightlessTraitTypesFinder extends AbstractListFinder {
+public class WeightlessTraitTypesListFinder extends AbstractListFinder {
   public WeightlessTraitTypeDTO findFirstByWeightlessTraitTypeId(
       List<WeightlessTraitTypeDTO> weightlessTraitTypesList, Long traitTypeId) {
     return (WeightlessTraitTypeDTO)

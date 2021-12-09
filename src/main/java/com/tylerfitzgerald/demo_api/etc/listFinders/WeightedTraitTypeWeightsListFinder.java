@@ -3,7 +3,7 @@ package com.tylerfitzgerald.demo_api.etc.listFinders;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeWeightDTO;
 import java.util.List;
 
-public class WeightedTraitTypeWeightsFinder extends AbstractListFinder {
+public class WeightedTraitTypeWeightsListFinder extends AbstractListFinder {
   public WeightedTraitTypeWeightDTO findFirstByTraitTypeId(
       List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeightsList, Long traitTypeWeightId) {
     return (WeightedTraitTypeWeightDTO)

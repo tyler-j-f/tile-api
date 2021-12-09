@@ -122,7 +122,8 @@ public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
 
   private WeightlessTraitDTO updateTraitValue(
       List<WeightlessTraitDTO> traits, List<String> tileRGBValues, Long traitTypeId) {
-    WeightlessTraitDTO trait = weightlessTraitsFinder.findFirstByTraitTypeId(traits, traitTypeId);
+    WeightlessTraitDTO trait =
+        weightlessTraitsListFinder.findFirstByTraitTypeId(traits, traitTypeId);
     String rgbToSet = tileRGBValues.get(2) + tileRGBValues.get(1) + tileRGBValues.get(0);
     if (rgbToSet.equals(trait.getValue())) {
       System.out.println(

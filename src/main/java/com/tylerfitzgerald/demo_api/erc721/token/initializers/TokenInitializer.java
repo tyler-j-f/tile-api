@@ -6,14 +6,14 @@ import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConst
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.WeightedTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.AbstractWeightlessTraitsCreator;
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitTypesFinder;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitTypesListFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class TokenInitializer extends AbstractTokenInitializer {
 
-  @Autowired private WeightlessTraitTypesFinder weightlessTraitTypesFinder;
+  @Autowired private WeightlessTraitTypesListFinder weightlessTraitTypesListFinder;
 
   public TokenInitializer(
       AbstractWeightlessTraitsCreator weightlessTraitsCreator,
@@ -43,7 +43,7 @@ public class TokenInitializer extends AbstractTokenInitializer {
     weightedTraitTypeWeights = weightedTraitTypeWeightRepository.read();
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
     List<WeightlessTraitTypeDTO> filteredWeightlessTraitTypes =
-        weightlessTraitTypesFinder.findByIgnoringTraitTypeIdList(
+        weightlessTraitTypesListFinder.findByIgnoringTraitTypeIdList(
             weightlessTraitTypeRepository.read(), WEIGHTLESS_TRAIT_TYPES_TO_IGNORE);
     weightedTraits = weightedTraitsCreator.getCreatedWeightedTraits();
     TraitsCreatorContext context =

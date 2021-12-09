@@ -3,7 +3,7 @@ package com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.SeedForTrait;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorInterface;
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypeWeightsFinder;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypeWeightsListFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeWeightDTO;
@@ -19,7 +19,7 @@ public class WeightedTraitsCreator implements TraitsCreatorInterface {
   @Getter private List<WeightedTraitDTO> createdWeightedTraits = new ArrayList<>();
   @Autowired protected TokenRepository tokenRepository;
   @Autowired protected WeightedTraitRepository weightedTraitRepository;
-  @Autowired protected WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder;
+  @Autowired protected WeightedTraitTypeWeightsListFinder weightedTraitTypeWeightsListFinder;
   protected TraitsCreatorContext context;
 
   @Override
@@ -52,7 +52,7 @@ public class WeightedTraitsCreator implements TraitsCreatorInterface {
   }
 
   protected List<WeightedTraitTypeWeightDTO> getTraitTypeWeightsForTraitTypeId(Long traitTypeId) {
-    return weightedTraitTypeWeightsFinder.findByTraitTypeId(
+    return weightedTraitTypeWeightsListFinder.findByTraitTypeId(
         context.getWeightedTraitTypeWeights(), traitTypeId);
   }
 

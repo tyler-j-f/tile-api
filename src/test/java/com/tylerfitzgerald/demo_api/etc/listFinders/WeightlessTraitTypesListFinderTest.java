@@ -8,7 +8,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class WeightlessTraitTypesFinderTest {
+public class WeightlessTraitTypesListFinderTest {
 
   private List<WeightlessTraitTypeDTO> weightlessTraitTypesList;
   // Value set 1
@@ -66,35 +66,38 @@ public class WeightlessTraitTypesFinderTest {
 
   @Test
   void testConstructor() {
-    assertThat(new WeightlessTraitTypesFinder()).isInstanceOf(WeightlessTraitTypesFinder.class);
+    assertThat(new WeightlessTraitTypesListFinder())
+        .isInstanceOf(WeightlessTraitTypesListFinder.class);
   }
 
   @Test
   void testFindFirstByTraitTypeId() {
-    WeightlessTraitTypesFinder weightlessTraitTypesFinder = new WeightlessTraitTypesFinder();
+    WeightlessTraitTypesListFinder weightlessTraitTypesListFinder =
+        new WeightlessTraitTypesListFinder();
     assertThat(
-            weightlessTraitTypesFinder.findFirstByWeightlessTraitTypeId(
+            weightlessTraitTypesListFinder.findFirstByWeightlessTraitTypeId(
                 weightlessTraitTypesList, WEIGHTLESS_TRAIT_TYPE_ID_1))
         .isNotNull();
     assertThat(
-            weightlessTraitTypesFinder.findFirstByWeightlessTraitTypeId(
+            weightlessTraitTypesListFinder.findFirstByWeightlessTraitTypeId(
                 weightlessTraitTypesList, WEIGHTLESS_TRAIT_TYPE_ID_2))
         .isNotNull();
     assertThat(
-            weightlessTraitTypesFinder.findFirstByWeightlessTraitTypeId(
+            weightlessTraitTypesListFinder.findFirstByWeightlessTraitTypeId(
                 weightlessTraitTypesList, WEIGHTLESS_TRAIT_TYPE_ID_3))
         .isNotNull();
     assertThat(
-            weightlessTraitTypesFinder.findFirstByWeightlessTraitTypeId(
+            weightlessTraitTypesListFinder.findFirstByWeightlessTraitTypeId(
                 weightlessTraitTypesList, TRAIT_TYPE_ID_NOT_IN_LIST))
         .isNull();
   }
 
   @Test
   void testFindByIgnoringTraitTypeIdList() {
-    WeightlessTraitTypesFinder weightlessTraitTypesFinder = new WeightlessTraitTypesFinder();
+    WeightlessTraitTypesListFinder weightlessTraitTypesListFinder =
+        new WeightlessTraitTypesListFinder();
     List<WeightlessTraitTypeDTO> weightlessTraitsList =
-        weightlessTraitTypesFinder.findByIgnoringTraitTypeIdList(
+        weightlessTraitTypesListFinder.findByIgnoringTraitTypeIdList(
             weightlessTraitTypesList, WEIGHTLESS_TRAIT_TYPES_TO_IGNORE);
     assertThat(weightlessTraitsList.size()).isEqualTo(1);
     assertThat(weightlessTraitsList.get(0).getWeightlessTraitTypeId())
