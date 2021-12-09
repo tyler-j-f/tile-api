@@ -16,37 +16,26 @@ import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitTypeWeightRepo
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightlessTraitTypeRepository;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractTokenInitializer implements TokenInitializerInterface {
-  private final TokenRepository tokenRepository;
-  private final TokenConfig tokenConfig;
-  private final WeightedTraitTypesFinder weightedTraitTypesFinder;
-  protected WeightedTraitTypeRepository weightedTraitTypeRepository;
-  protected WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository;
-  protected WeightlessTraitTypeRepository weightlessTraitTypeRepository;
+  @Autowired private TokenRepository tokenRepository;
+  @Autowired private TokenConfig tokenConfig;
+  @Autowired private WeightedTraitTypesFinder weightedTraitTypesFinder;
+  @Autowired protected WeightedTraitTypeRepository weightedTraitTypeRepository;
+  @Autowired protected WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository;
+  @Autowired protected WeightlessTraitTypeRepository weightlessTraitTypeRepository;
+  protected AbstractWeightlessTraitsCreator weightlessTraitsCreator;
+  protected WeightedTraitsCreator weightedTraitsCreator;
   protected TokenDTO tokenDTO;
   protected List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeights = new ArrayList<>();
   protected List<WeightedTraitDTO> weightedTraits = new ArrayList<>();
   protected List<WeightlessTraitTypeDTO> weightlessTraitTypes = new ArrayList<>();
   protected List<WeightedTraitTypeDTO> weightedTraitTypes = new ArrayList<>();
-  protected AbstractWeightlessTraitsCreator weightlessTraitsCreator;
-  protected WeightedTraitsCreator weightedTraitsCreator;
 
   public AbstractTokenInitializer(
-      TokenRepository tokenRepository,
-      TokenConfig tokenConfig,
-      WeightedTraitTypesFinder weightedTraitTypesFinder,
-      WeightedTraitTypeRepository weightedTraitTypeRepository,
-      WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository,
-      WeightlessTraitTypeRepository weightlessTraitTypeRepository,
       AbstractWeightlessTraitsCreator weightlessTraitsCreator,
       WeightedTraitsCreator weightedTraitsCreator) {
-    this.tokenRepository = tokenRepository;
-    this.tokenConfig = tokenConfig;
-    this.weightedTraitTypesFinder = weightedTraitTypesFinder;
-    this.weightedTraitTypeRepository = weightedTraitTypeRepository;
-    this.weightedTraitTypeWeightRepository = weightedTraitTypeWeightRepository;
-    this.weightlessTraitTypeRepository = weightlessTraitTypeRepository;
     this.weightlessTraitsCreator = weightlessTraitsCreator;
     this.weightedTraitsCreator = weightedTraitsCreator;
   }

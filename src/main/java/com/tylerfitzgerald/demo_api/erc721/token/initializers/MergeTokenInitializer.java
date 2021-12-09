@@ -1,43 +1,17 @@
 package com.tylerfitzgerald.demo_api.erc721.token.initializers;
 
-import com.tylerfitzgerald.demo_api.config.external.TokenConfig;
-import com.tylerfitzgerald.demo_api.erc721.metadata.TokenMetadataDTO;
-import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.WeightedTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.AbstractWeightlessTraitsCreator;
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypesFinder;
-import com.tylerfitzgerald.demo_api.sql.repositories.TokenRepository;
-import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitTypeRepository;
-import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitTypeWeightRepository;
-import com.tylerfitzgerald.demo_api.sql.repositories.WeightlessTraitTypeRepository;
 
 public class MergeTokenInitializer extends AbstractTokenInitializer {
 
-  private TokenFacade tokenFacade;
-
   public MergeTokenInitializer(
-      TokenRepository tokenRepository,
-      TokenConfig tokenConfig,
-      WeightedTraitTypesFinder weightedTraitTypesFinder,
-      WeightedTraitTypeRepository weightedTraitTypeRepository,
-      WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository,
-      WeightlessTraitTypeRepository weightlessTraitTypeRepository,
       AbstractWeightlessTraitsCreator weightlessTraitsCreator,
-      WeightedTraitsCreator weightedTraitsCreator,
-      TokenFacade tokenFacade) {
-    super(
-        tokenRepository,
-        tokenConfig,
-        weightedTraitTypesFinder,
-        weightedTraitTypeRepository,
-        weightedTraitTypeWeightRepository,
-        weightlessTraitTypeRepository,
-        weightlessTraitsCreator,
-        weightedTraitsCreator);
-    this.tokenFacade = tokenFacade;
+      WeightedTraitsCreator weightedTraitsCreator) {
+    super(weightlessTraitsCreator, weightedTraitsCreator);
   }
 
   private static final int[] WEIGHTED_TRAIT_TYPES_TO_IGNORE = {
@@ -48,7 +22,7 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
     WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE
   };
 
-  public TokenMetadataDTO initialize(
+  public TokenFacadeDTO initialize(
       Long tokenId, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2, Long seedForTraits)
       throws TokenInitializeException {
     if (burnedNft1 == null) {
@@ -86,6 +60,6 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
             .build();
     weightedTraitsCreator.createTraits(context);
     weightlessTraitsCreator.createTraits(context);
-    return tokenFacade.setTokenFacadeDTO(buildTokenFacadeDTO()).buildTokenMetadataDTO();
+    return buildTokenFacadeDTO();
   }
 }

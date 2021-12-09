@@ -113,30 +113,12 @@ public class AppBeansConfig {
 
   @Bean
   public TokenInitializer tokenInitializer() {
-    return new TokenInitializer(
-        tokenRepository(),
-        tokenConfig,
-        weightedTraitTypesFinder,
-        weightedTraitTypeRepository(),
-        weightedTraitTypeWeightRepository(),
-        weightlessTraitTypeRepository(),
-        initializeTokenWeightlessTraitsCreator(),
-        weightedTraitsCreator(),
-        weightlessTraitTypesFinder);
+    return new TokenInitializer(initializeTokenWeightlessTraitsCreator(), weightedTraitsCreator());
   }
 
   @Bean
   public MergeTokenInitializer mergeTokenInitializer() {
-    return new MergeTokenInitializer(
-        tokenRepository(),
-        tokenConfig,
-        weightedTraitTypesFinder,
-        weightedTraitTypeRepository(),
-        weightedTraitTypeWeightRepository(),
-        weightlessTraitTypeRepository(),
-        mergeTokenWeightlessTraitsCreator(),
-        weightedTraitsCreator(),
-        tokenFacade());
+    return new MergeTokenInitializer(mergeTokenWeightlessTraitsCreator(), weightedTraitsCreator());
   }
 
   @Bean

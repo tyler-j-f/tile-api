@@ -25,8 +25,8 @@ public abstract class AbstractWeightlessTraitsCreator implements TraitsCreatorIn
   @Autowired protected EmojiTraitPicker emojiTraitPicker;
   @Autowired protected ColorTraitPicker colorTraitPicker;
   @Autowired protected OverallRarityTraitPicker overallRarityTraitPicker;
-  protected TraitsCreatorContext context;
   @Getter private List<WeightlessTraitDTO> createdWeightlessTraits = new ArrayList<>();
+  protected TraitsCreatorContext context;
 
   protected abstract String getWeightlessTraitValue(WeightlessTraitTypeDTO weightlessTraitType)
       throws WeightlessTraitException, TokenInitializeException;
