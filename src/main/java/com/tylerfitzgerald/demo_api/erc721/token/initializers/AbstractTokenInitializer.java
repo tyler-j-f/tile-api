@@ -4,7 +4,6 @@ import com.tylerfitzgerald.demo_api.config.external.TokenConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.WeightedTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.AbstractWeightlessTraitsCreator;
-import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypeWeightsFinder;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypesFinder;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitTypesFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.TokenDTO;
@@ -27,11 +26,9 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
   protected WeightedTraitTypesFinder weightedTraitTypesFinder;
   protected WeightedTraitTypeRepository weightedTraitTypeRepository;
   protected WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository;
-  protected WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder;
   protected WeightlessTraitTypesFinder weightlessTraitTypesFinder;
   protected WeightlessTraitTypeRepository weightlessTraitTypeRepository;
   protected TokenDTO tokenDTO;
-  protected Long seedForTraits;
   protected List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeights = new ArrayList<>();
   protected List<WeightedTraitDTO> weightedTraits = new ArrayList<>();
   protected List<WeightlessTraitTypeDTO> weightlessTraitTypes = new ArrayList<>();
@@ -47,7 +44,6 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
       WeightlessTraitTypesFinder weightlessTraitTypesFinder,
       WeightedTraitTypeRepository weightedTraitTypeRepository,
       WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository,
-      WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder,
       WeightlessTraitTypeRepository weightlessTraitTypeRepository,
       AbstractWeightlessTraitsCreator weightlessTraitsCreator,
       WeightedTraitsCreator weightedTraitsCreator) {
@@ -58,7 +54,6 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
     this.weightlessTraitTypesFinder = weightlessTraitTypesFinder;
     this.weightedTraitTypeRepository = weightedTraitTypeRepository;
     this.weightedTraitTypeWeightRepository = weightedTraitTypeWeightRepository;
-    this.weightedTraitTypeWeightsFinder = weightedTraitTypeWeightsFinder;
     this.weightlessTraitTypeRepository = weightlessTraitTypeRepository;
     this.weightlessTraitsCreator = weightlessTraitsCreator;
     this.weightedTraitsCreator = weightedTraitsCreator;

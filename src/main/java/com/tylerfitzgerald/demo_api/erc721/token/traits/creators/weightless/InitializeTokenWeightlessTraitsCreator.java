@@ -5,10 +5,16 @@ import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeExc
 import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitContext;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitException;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.ColorTraitPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
 import java.util.ArrayList;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class InitializeTokenWeightlessTraitsCreator extends AbstractWeightlessTraitsCreator {
+
+  @Autowired private EmojiTraitPicker emojiTraitPicker;
+  @Autowired private ColorTraitPicker colorTraitPicker;
 
   @Override
   protected String getWeightlessTraitValue(WeightlessTraitTypeDTO weightlessTraitType)
