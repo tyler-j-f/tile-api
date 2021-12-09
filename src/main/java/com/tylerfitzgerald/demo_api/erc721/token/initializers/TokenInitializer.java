@@ -5,6 +5,7 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.AbstractWeightedTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.AbstractWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypeWeightsFinder;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypesFinder;
@@ -27,7 +28,8 @@ public class TokenInitializer extends AbstractTokenInitializer {
       WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository,
       WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder,
       WeightlessTraitTypeRepository weightlessTraitTypeRepository,
-      AbstractWeightlessTraitsCreator weightlessTraitsCreator) {
+      AbstractWeightlessTraitsCreator weightlessTraitsCreator,
+      AbstractWeightedTraitsCreator weightedTraitsCreator) {
     super(
         tokenRepository,
         tokenConfig,
@@ -38,7 +40,8 @@ public class TokenInitializer extends AbstractTokenInitializer {
         weightedTraitTypeWeightRepository,
         weightedTraitTypeWeightsFinder,
         weightlessTraitTypeRepository,
-        weightlessTraitsCreator);
+        weightlessTraitsCreator,
+        weightedTraitsCreator);
   }
 
   private static final int[] WEIGHTLESS_TRAIT_TYPES_TO_IGNORE = {
@@ -64,7 +67,16 @@ public class TokenInitializer extends AbstractTokenInitializer {
         filterOutWeightedTraitTypesToIgnore(
             weightedTraitTypeRepository.read(), WEIGHTED_TRAIT_TYPES_TO_IGNORE);
     weightedTraitTypeWeights = weightedTraitTypeWeightRepository.read();
-    weightedTraits = createWeightedTraits();
+    weightedTraitsCreator.createTraits(
+        TraitsCreatorContext.builder()
+            .tokenId(tokenId)
+            .weightlessTraitTypes(weightlessTraitTypes)
+            .seedForTraits(seedForTraits)
+            .weightedTraits(weightedTraits)
+            .weightedTraitTypes(weightedTraitTypes)
+            .weightedTraitTypeWeights(weightedTraitTypeWeights)
+            .build());
+    weightedTraits = weightedTraitsCreator.getCreatedWeightedTraits();
     weightlessTraitTypes =
         weightlessTraitTypesFinder.findByIgnoringTraitTypeIdList(
             weightlessTraitTypeRepository.read(), WEIGHTLESS_TRAIT_TYPES_TO_IGNORE);

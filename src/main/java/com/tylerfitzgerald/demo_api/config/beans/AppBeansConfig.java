@@ -6,6 +6,8 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.MergeTokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializer;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.InitializeTokenWeightedTraitsCreator;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.MergeTokenWeightedTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.AbstractWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.InitializeTokenWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.MergeTokenWeightlessTraitsCreator;
@@ -122,7 +124,8 @@ public class AppBeansConfig {
         weightedTraitTypeWeightRepository(),
         weightedTraitTypeWeightsFinder,
         weightlessTraitTypeRepository(),
-        initializeTokenWeightlessTraitsCreator());
+        initializeTokenWeightlessTraitsCreator(),
+        initializeTokenWeightedTraitsCreator());
   }
 
   @Bean
@@ -138,6 +141,7 @@ public class AppBeansConfig {
         weightedTraitTypeWeightsFinder,
         weightlessTraitTypeRepository(),
         mergeTokenWeightlessTraitsCreator(),
+        mergeTokenWeightedTraitsCreator(),
         tokenFacade());
   }
 
@@ -216,5 +220,15 @@ public class AppBeansConfig {
   @Bean
   public TokenFacade tokenFacade() {
     return new TokenFacade();
+  }
+
+  @Bean
+  public InitializeTokenWeightedTraitsCreator initializeTokenWeightedTraitsCreator() {
+    return new InitializeTokenWeightedTraitsCreator();
+  }
+
+  @Bean
+  public MergeTokenWeightedTraitsCreator mergeTokenWeightedTraitsCreator() {
+    return new MergeTokenWeightedTraitsCreator();
   }
 }

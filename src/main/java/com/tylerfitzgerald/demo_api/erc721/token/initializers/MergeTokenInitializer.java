@@ -6,6 +6,7 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.AbstractWeightedTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.AbstractWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypeWeightsFinder;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypesFinder;
@@ -31,6 +32,7 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
       WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder,
       WeightlessTraitTypeRepository weightlessTraitTypeRepository,
       AbstractWeightlessTraitsCreator weightlessTraitsCreator,
+      AbstractWeightedTraitsCreator weightedTraitsCreator,
       TokenFacade tokenFacade) {
     super(
         tokenRepository,
@@ -42,7 +44,8 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
         weightedTraitTypeWeightRepository,
         weightedTraitTypeWeightsFinder,
         weightlessTraitTypeRepository,
-        weightlessTraitsCreator);
+        weightlessTraitsCreator,
+        weightedTraitsCreator);
     this.tokenFacade = tokenFacade;
   }
 
@@ -78,7 +81,18 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
         filterOutWeightedTraitTypesToIgnore(
             weightedTraitTypeRepository.read(), WEIGHTED_TRAIT_TYPES_TO_IGNORE);
     weightedTraitTypeWeights = weightedTraitTypeWeightRepository.read();
-    weightedTraits = createWeightedTraits();
+    weightedTraitsCreator.createTraits(
+        TraitsCreatorContext.builder()
+            .tokenId(tokenId)
+            .seedForTraits(seedForTraits)
+            .weightlessTraitTypes(weightlessTraitTypes)
+            .weightedTraits(weightedTraits)
+            .weightedTraitTypes(weightedTraitTypes)
+            .weightedTraitTypeWeights(weightedTraitTypeWeights)
+            .burnedNft1(burnedNft1)
+            .burnedNft2(burnedNft2)
+            .build());
+    weightedTraits = weightedTraitsCreator.getCreatedWeightedTraits();
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
     weightlessTraitsCreator.createTraits(
         TraitsCreatorContext.builder()
