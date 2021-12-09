@@ -1,15 +1,45 @@
 package com.tylerfitzgerald.demo_api.erc721.token.initializers;
 
+import com.tylerfitzgerald.demo_api.config.external.TokenConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.AbstractWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypeWeightsFinder;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypesFinder;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitTypesFinder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.tylerfitzgerald.demo_api.sql.repositories.TokenRepository;
+import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitRepository;
+import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitTypeRepository;
+import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitTypeWeightRepository;
+import com.tylerfitzgerald.demo_api.sql.repositories.WeightlessTraitTypeRepository;
 
 public class TokenInitializer extends AbstractTokenInitializer {
+
+  public TokenInitializer(
+      TokenRepository tokenRepository,
+      TokenConfig tokenConfig,
+      WeightedTraitRepository weightedTraitRepository,
+      WeightedTraitTypesFinder weightedTraitTypesFinder,
+      WeightlessTraitTypesFinder weightlessTraitTypesFinder,
+      WeightedTraitTypeRepository weightedTraitTypeRepository,
+      WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository,
+      WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder,
+      WeightlessTraitTypeRepository weightlessTraitTypeRepository,
+      AbstractWeightlessTraitsCreator weightlessTraitsCreator) {
+    super(
+        tokenRepository,
+        tokenConfig,
+        weightedTraitRepository,
+        weightedTraitTypesFinder,
+        weightlessTraitTypesFinder,
+        weightedTraitTypeRepository,
+        weightedTraitTypeWeightRepository,
+        weightedTraitTypeWeightsFinder,
+        weightlessTraitTypeRepository,
+        weightlessTraitsCreator);
+  }
 
   private static final int[] WEIGHTLESS_TRAIT_TYPES_TO_IGNORE = {
     WeightlessTraitTypeConstants.TILE_1_RARITY,
@@ -20,11 +50,6 @@ public class TokenInitializer extends AbstractTokenInitializer {
   private static final int[] WEIGHTED_TRAIT_TYPES_TO_IGNORE = {
     WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE
   };
-  @Autowired private WeightlessTraitTypesFinder weightlessTraitTypesFinder;
-
-  @Qualifier("initializeTokenWeightlessTraitsCreator")
-  @Autowired
-  protected AbstractWeightlessTraitsCreator weightlessTraitsCreator;
 
   public TokenFacadeDTO initialize(Long tokenId, Long seedForTraits)
       throws TokenInitializeException {
@@ -52,6 +77,6 @@ public class TokenInitializer extends AbstractTokenInitializer {
             .weightedTraitTypes(weightedTraitTypes)
             .weightedTraitTypeWeights(weightedTraitTypeWeights)
             .build());
-    return buildTokenFacadeDTO(weightlessTraitsCreator);
+    return buildTokenFacadeDTO();
   }
 }

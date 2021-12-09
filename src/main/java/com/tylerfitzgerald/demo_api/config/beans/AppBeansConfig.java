@@ -1,15 +1,23 @@
 package com.tylerfitzgerald.demo_api.config.beans;
 
 import com.tylerfitzgerald.demo_api.config.external.EnvConfig;
+import com.tylerfitzgerald.demo_api.config.external.TokenConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
+import com.tylerfitzgerald.demo_api.erc721.token.initializers.MergeTokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializer;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.AbstractWeightlessTraitsCreator;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.InitializeTokenWeightlessTraitsCreator;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.MergeTokenWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.ColorTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.MergeRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityCalculator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.etc.BigIntegerFactory;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypeWeightsFinder;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypesFinder;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitTypesFinder;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
 import com.tylerfitzgerald.demo_api.sql.dtos.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
@@ -42,8 +50,11 @@ import org.web3j.protocol.http.HttpService;
 public class AppBeansConfig {
 
   @Autowired private EnvConfig envConfig;
-
   @Autowired private ResourceLoader resourceLoader;
+  @Autowired TokenConfig tokenConfig;
+  @Autowired WeightlessTraitTypesFinder weightlessTraitTypesFinder;
+  @Autowired WeightedTraitTypesFinder weightedTraitTypesFinder;
+  @Autowired WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder;
 
   private final JdbcTemplate jdbcTemplate;
 
@@ -72,7 +83,7 @@ public class AppBeansConfig {
   }
 
   @Bean
-  public WeightedTraitTypeRepository traitTypeRepository() {
+  public WeightedTraitTypeRepository weightedTraitTypeRepository() {
     return new WeightedTraitTypeRepository(
         jdbcTemplate, new BeanPropertyRowMapper(WeightedTraitTypeDTO.class));
   }
@@ -83,7 +94,7 @@ public class AppBeansConfig {
   }
 
   @Bean
-  public WeightedTraitTypeWeightRepository traitTypeWeightRepository() {
+  public WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository() {
     return new WeightedTraitTypeWeightRepository(
         jdbcTemplate, new BeanPropertyRowMapper(WeightedTraitTypeWeightDTO.class));
   }
@@ -94,14 +105,50 @@ public class AppBeansConfig {
   }
 
   @Bean
-  public WeightedTraitRepository traitRepository() {
+  public WeightedTraitRepository weightedTraitRepository() {
     return new WeightedTraitRepository(
         jdbcTemplate, new BeanPropertyRowMapper(WeightedTraitDTO.class));
   }
 
   @Bean
-  public TokenInitializer nftInitializer() {
-    return new TokenInitializer();
+  public TokenInitializer tokenInitializer() {
+    return new TokenInitializer(
+        tokenRepository(),
+        tokenConfig,
+        weightedTraitRepository(),
+        weightedTraitTypesFinder,
+        weightlessTraitTypesFinder,
+        weightedTraitTypeRepository(),
+        weightedTraitTypeWeightRepository(),
+        weightedTraitTypeWeightsFinder,
+        weightlessTraitTypeRepository(),
+        initializeTokenWeightlessTraitsCreator());
+  }
+
+  @Bean
+  public MergeTokenInitializer mergeTokenInitializer() {
+    return new MergeTokenInitializer(
+        tokenRepository(),
+        tokenConfig,
+        weightedTraitRepository(),
+        weightedTraitTypesFinder,
+        weightlessTraitTypesFinder,
+        weightedTraitTypeRepository(),
+        weightedTraitTypeWeightRepository(),
+        weightedTraitTypeWeightsFinder,
+        weightlessTraitTypeRepository(),
+        mergeTokenWeightlessTraitsCreator(),
+        tokenFacade());
+  }
+
+  @Bean
+  public AbstractWeightlessTraitsCreator initializeTokenWeightlessTraitsCreator() {
+    return new InitializeTokenWeightlessTraitsCreator();
+  }
+
+  @Bean
+  public AbstractWeightlessTraitsCreator mergeTokenWeightlessTraitsCreator() {
+    return new MergeTokenWeightlessTraitsCreator();
   }
 
   @Bean

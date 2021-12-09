@@ -5,6 +5,7 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.AbstractWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypeWeightsFinder;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypesFinder;
+import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitTypesFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;
@@ -18,26 +19,49 @@ import com.tylerfitzgerald.demo_api.sql.repositories.WeightlessTraitTypeReposito
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractTokenInitializer implements TokenInitializerInterface {
-  @Autowired protected TokenRepository tokenRepository;
-  @Autowired protected TokenConfig tokenConfig;
-  @Autowired protected WeightedTraitRepository weightedTraitRepository;
-  @Autowired protected WeightedTraitTypesFinder weightedTraitTypesFinder;
-  @Autowired protected WeightedTraitTypeRepository weightedTraitTypeRepository;
-  @Autowired protected WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository;
-  @Autowired protected WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder;
-  @Autowired protected WeightlessTraitTypeRepository weightlessTraitTypeRepository;
+  protected TokenRepository tokenRepository;
+  protected TokenConfig tokenConfig;
+  protected WeightedTraitRepository weightedTraitRepository;
+  protected WeightedTraitTypesFinder weightedTraitTypesFinder;
+  protected WeightedTraitTypeRepository weightedTraitTypeRepository;
+  protected WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository;
+  protected WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder;
+  protected WeightlessTraitTypesFinder weightlessTraitTypesFinder;
+  protected WeightlessTraitTypeRepository weightlessTraitTypeRepository;
   protected TokenDTO tokenDTO;
   protected Long seedForTraits;
   protected List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeights = new ArrayList<>();
   protected List<WeightedTraitDTO> weightedTraits = new ArrayList<>();
   protected List<WeightlessTraitTypeDTO> weightlessTraitTypes = new ArrayList<>();
   protected List<WeightedTraitTypeDTO> weightedTraitTypes = new ArrayList<>();
+  protected AbstractWeightlessTraitsCreator weightlessTraitsCreator;
 
-  public TokenFacadeDTO buildTokenFacadeDTO(
+  public AbstractTokenInitializer(
+      TokenRepository tokenRepository,
+      TokenConfig tokenConfig,
+      WeightedTraitRepository weightedTraitRepository,
+      WeightedTraitTypesFinder weightedTraitTypesFinder,
+      WeightlessTraitTypesFinder weightlessTraitTypesFinder,
+      WeightedTraitTypeRepository weightedTraitTypeRepository,
+      WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository,
+      WeightedTraitTypeWeightsFinder weightedTraitTypeWeightsFinder,
+      WeightlessTraitTypeRepository weightlessTraitTypeRepository,
       AbstractWeightlessTraitsCreator weightlessTraitsCreator) {
+    this.tokenRepository = tokenRepository;
+    this.tokenConfig = tokenConfig;
+    this.weightedTraitRepository = weightedTraitRepository;
+    this.weightedTraitTypesFinder = weightedTraitTypesFinder;
+    this.weightlessTraitTypesFinder = weightlessTraitTypesFinder;
+    this.weightedTraitTypeRepository = weightedTraitTypeRepository;
+    this.weightedTraitTypeWeightRepository = weightedTraitTypeWeightRepository;
+    this.weightedTraitTypeWeightsFinder = weightedTraitTypeWeightsFinder;
+    this.weightlessTraitTypeRepository = weightlessTraitTypeRepository;
+    this.weightlessTraitsCreator = weightlessTraitsCreator;
+  }
+
+  public TokenFacadeDTO buildTokenFacadeDTO() {
     return TokenFacadeDTO.builder()
         .tokenDTO(tokenDTO)
         .weightedTraits(weightedTraits)
