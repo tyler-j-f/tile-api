@@ -14,4 +14,18 @@ public class WeightedTraitTypeDTO {
   private Long traitTypeId;
   private String traitTypeName;
   private String description;
+
+  @Override
+  public String toString() {
+    return "WeightedTraitTypeDTO{"
+        + "id="
+        + getId()
+        + ", traitTypeId="
+        + getTraitTypeId()
+        + ", traitTypeName="
+        + getTraitTypeName()
+        + ", description="
+        + getDescription()
+        + '}';
+  }
 }

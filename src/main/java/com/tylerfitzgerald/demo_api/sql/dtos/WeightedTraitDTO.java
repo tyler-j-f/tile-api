@@ -23,10 +23,10 @@ public class WeightedTraitDTO extends BaseTraitDTO {
 
   @Override
   public String toString() {
-    return "TraitDTO{"
+    return "WeightedTraitDTO{"
         + "id="
         + getId()
-        + ", traitTypeWeightId='"
+        + ", traitTypeWeightId="
         + getTraitTypeWeightId()
         + ", traitId="
         + getTraitId()
