@@ -9,7 +9,6 @@ import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.Weight
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.AbstractWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypesFinder;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightlessTraitTypesFinder;
-import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.repositories.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitTypeRepository;
@@ -62,32 +61,25 @@ public class TokenInitializer extends AbstractTokenInitializer {
       return null;
     }
     weightedTraitTypes = weightedTraitTypeRepository.read();
-    List<WeightedTraitTypeDTO> filteredWeightedTraitTypes =
-        filterOutWeightedTraitTypesToIgnore(weightedTraitTypes, WEIGHTED_TRAIT_TYPES_TO_IGNORE);
     weightedTraitTypeWeights = weightedTraitTypeWeightRepository.read();
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
     List<WeightlessTraitTypeDTO> filteredWeightlessTraitTypes =
         weightlessTraitTypesFinder.findByIgnoringTraitTypeIdList(
             weightlessTraitTypeRepository.read(), WEIGHTLESS_TRAIT_TYPES_TO_IGNORE);
-    weightedTraitsCreator.createTraits(
-        TraitsCreatorContext.builder()
-            .tokenId(tokenId)
-            .weightlessTraitTypes(filteredWeightlessTraitTypes)
-            .seedForTraits(seedForTraits)
-            .weightedTraits(weightedTraits)
-            .weightedTraitTypes(filteredWeightedTraitTypes)
-            .weightedTraitTypeWeights(weightedTraitTypeWeights)
-            .build());
     weightedTraits = weightedTraitsCreator.getCreatedWeightedTraits();
-    weightlessTraitsCreator.createTraits(
+    TraitsCreatorContext context =
         TraitsCreatorContext.builder()
             .tokenId(tokenId)
             .weightlessTraitTypes(filteredWeightlessTraitTypes)
             .seedForTraits(seedForTraits)
             .weightedTraits(weightedTraits)
-            .weightedTraitTypes(filteredWeightedTraitTypes)
+            .weightedTraitTypes(
+                filterOutWeightedTraitTypesToIgnore(
+                    weightedTraitTypes, WEIGHTED_TRAIT_TYPES_TO_IGNORE))
             .weightedTraitTypeWeights(weightedTraitTypeWeights)
-            .build());
+            .build();
+    weightedTraitsCreator.createTraits(context);
+    weightlessTraitsCreator.createTraits(context);
     return buildTokenFacadeDTO();
   }
 }

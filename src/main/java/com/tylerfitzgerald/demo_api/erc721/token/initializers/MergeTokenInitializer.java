@@ -9,12 +9,10 @@ import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorCo
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.WeightedTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.AbstractWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.etc.listFinders.WeightedTraitTypesFinder;
-import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.repositories.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitTypeRepository;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitTypeWeightRepository;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightlessTraitTypeRepository;
-import java.util.List;
 
 public class MergeTokenInitializer extends AbstractTokenInitializer {
 
@@ -70,33 +68,24 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
       return null;
     }
     weightedTraitTypes = weightedTraitTypeRepository.read();
-    List<WeightedTraitTypeDTO> filteredWeightedTraitTypes =
-        filterOutWeightedTraitTypesToIgnore(weightedTraitTypes, WEIGHTED_TRAIT_TYPES_TO_IGNORE);
     weightedTraitTypeWeights = weightedTraitTypeWeightRepository.read();
-    weightedTraitsCreator.createTraits(
-        TraitsCreatorContext.builder()
-            .tokenId(tokenId)
-            .seedForTraits(seedForTraits)
-            .weightlessTraitTypes(weightlessTraitTypes)
-            .weightedTraits(weightedTraits)
-            .weightedTraitTypes(filteredWeightedTraitTypes)
-            .weightedTraitTypeWeights(weightedTraitTypeWeights)
-            .burnedNft1(burnedNft1)
-            .burnedNft2(burnedNft2)
-            .build());
-    weightedTraits = weightedTraitsCreator.getCreatedWeightedTraits();
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
-    weightlessTraitsCreator.createTraits(
+    weightedTraits = weightedTraitsCreator.getCreatedWeightedTraits();
+    TraitsCreatorContext context =
         TraitsCreatorContext.builder()
             .tokenId(tokenId)
             .seedForTraits(seedForTraits)
             .weightlessTraitTypes(weightlessTraitTypes)
             .weightedTraits(weightedTraits)
-            .weightedTraitTypes(filteredWeightedTraitTypes)
+            .weightedTraitTypes(
+                filterOutWeightedTraitTypesToIgnore(
+                    weightedTraitTypes, WEIGHTED_TRAIT_TYPES_TO_IGNORE))
             .weightedTraitTypeWeights(weightedTraitTypeWeights)
             .burnedNft1(burnedNft1)
             .burnedNft2(burnedNft2)
-            .build());
+            .build();
+    weightedTraitsCreator.createTraits(context);
+    weightlessTraitsCreator.createTraits(context);
     return tokenFacade.setTokenFacadeDTO(buildTokenFacadeDTO()).buildTokenMetadataDTO();
   }
 }
