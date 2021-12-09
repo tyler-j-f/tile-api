@@ -2,14 +2,16 @@ package com.tylerfitzgerald.demo_api.erc721.token.initializers;
 
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitTypeConstants;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.InitializeTokenWeightlessTraitsCreator;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.AbstractWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.WeightlessTraitsCreatorContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 public class TokenInitializer extends AbstractTokenInitializer {
 
-  public TokenInitializer(InitializeTokenWeightlessTraitsCreator weightlessTraitsCreator) {
-    super(weightlessTraitsCreator);
-  }
+  @Qualifier("initializeTokenWeightlessTraitsCreator")
+  @Autowired
+  protected AbstractWeightlessTraitsCreator weightlessTraitsCreator;
 
   private static final int[] WEIGHTED_TRAIT_TYPES_TO_IGNORE = {
     WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE
@@ -37,6 +39,6 @@ public class TokenInitializer extends AbstractTokenInitializer {
             .weightedTraitTypes(weightedTraitTypes)
             .weightedTraitTypeWeights(weightedTraitTypeWeights)
             .build());
-    return buildTokenFacadeDTO();
+    return buildTokenFacadeDTO(weightlessTraitsCreator);
   }
 }
