@@ -44,7 +44,6 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
     weightedTraitTypes = weightedTraitTypeRepository.read();
     weightedTraitTypeWeights = weightedTraitTypeWeightRepository.read();
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
-    weightedTraits = weightedTraitsCreator.getCreatedWeightedTraits();
     TraitsCreatorContext context =
         TraitsCreatorContext.builder()
             .tokenId(tokenId)
@@ -59,6 +58,7 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
             .burnedNft2(burnedNft2)
             .build();
     weightedTraitsCreator.createTraits(context);
+    weightedTraits = weightedTraitsCreator.getCreatedWeightedTraits();
     weightlessTraitsCreator.createTraits(context);
     return buildTokenFacadeDTO();
   }

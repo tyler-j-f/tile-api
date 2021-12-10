@@ -44,8 +44,7 @@ public class TokenInitializer extends AbstractTokenInitializer {
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
     List<WeightlessTraitTypeDTO> filteredWeightlessTraitTypes =
         weightlessTraitTypesListFinder.findByIgnoringTraitTypeIdList(
-            weightlessTraitTypeRepository.read(), WEIGHTLESS_TRAIT_TYPES_TO_IGNORE);
-    weightedTraits = weightedTraitsCreator.getCreatedWeightedTraits();
+            weightlessTraitTypes, WEIGHTLESS_TRAIT_TYPES_TO_IGNORE);
     TraitsCreatorContext context =
         TraitsCreatorContext.builder()
             .tokenId(tokenId)
@@ -58,6 +57,7 @@ public class TokenInitializer extends AbstractTokenInitializer {
             .weightedTraitTypeWeights(weightedTraitTypeWeights)
             .build();
     weightedTraitsCreator.createTraits(context);
+    weightedTraits = weightedTraitsCreator.getCreatedWeightedTraits();
     weightlessTraitsCreator.createTraits(context);
     return buildTokenFacadeDTO();
   }

@@ -24,7 +24,7 @@ public class TokenInitializerTest {
   @Mock private TokenRepository tokenRepository;
   @Mock private TokenConfig tokenConfig;
   @Mock private WeightedTraitTypesListFinder weightedTraitTypesListFinder;
-  @Mock private WeightedTraitTypeRepository weightedTraitTypeRepository;
+  @Mock protected WeightedTraitTypeRepository weightedTraitTypeRepository;
   @Mock private WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository;
   @Mock private WeightlessTraitTypeRepository weightlessTraitTypeRepository;
   @Mock private InitializeTokenWeightlessTraitsCreator weightlessTraitsCreator;
@@ -59,5 +59,11 @@ public class TokenInitializerTest {
     Mockito.when(tokenRepository.create(Mockito.any())).thenReturn(token);
     assertThat(tokenInitializer.initialize(NEW_TOKEN_ID, SEED_FOR_TRAITS))
         .isInstanceOf(TokenFacadeDTO.class);
+    Mockito.verify(weightedTraitTypeRepository, Mockito.times(1)).read();
+    Mockito.verify(weightedTraitTypeWeightRepository, Mockito.times(1)).read();
+    Mockito.verify(weightlessTraitTypeRepository, Mockito.times(1)).read();
+    Mockito.verify(weightedTraitsCreator, Mockito.times(1)).createTraits(Mockito.any());
+    Mockito.verify(weightedTraitsCreator, Mockito.times(1)).getCreatedWeightedTraits();
+    Mockito.verify(weightlessTraitsCreator, Mockito.times(1)).createTraits(Mockito.any());
   }
 }
