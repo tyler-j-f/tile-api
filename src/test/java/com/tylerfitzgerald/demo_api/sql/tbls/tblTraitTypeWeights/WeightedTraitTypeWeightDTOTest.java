@@ -4,9 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeWeightDTO;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
 public class WeightedTraitTypeWeightDTOTest {
 
   // Value set 1
