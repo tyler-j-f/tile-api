@@ -2,9 +2,9 @@
 package com.tylerfitzgerald.demo_api.scheduler.tasks;
 
 import com.tylerfitzgerald.demo_api.config.external.EventsConfig;
+import com.tylerfitzgerald.demo_api.erc721.TokenMetadataDTO;
 import com.tylerfitzgerald.demo_api.erc721.ethEvents.EthEventException;
 import com.tylerfitzgerald.demo_api.erc721.ethEvents.events.MintEvent;
-import com.tylerfitzgerald.demo_api.erc721.metadata.TokenMetadataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;

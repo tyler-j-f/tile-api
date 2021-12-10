@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.erc721.metadata;
+package com.tylerfitzgerald.demo_api.erc721;
 
 import lombok.Builder;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package com.tylerfitzgerald.demo_api.erc721.token;
 
-import com.tylerfitzgerald.demo_api.erc721.metadata.TokenMetadataDTO;
+import com.tylerfitzgerald.demo_api.erc721.TokenMetadataDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.DisplayTypeTrait;

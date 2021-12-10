@@ -2,6 +2,7 @@ package com.tylerfitzgerald.demo_api.erc721.metadata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.tylerfitzgerald.demo_api.erc721.ContractMetadataDTO;
 import org.junit.jupiter.api.Test;
 
 public class ContractMetadataDTOTest {

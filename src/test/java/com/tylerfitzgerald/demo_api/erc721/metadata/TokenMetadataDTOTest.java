@@ -2,6 +2,7 @@ package com.tylerfitzgerald.demo_api.erc721.metadata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.tylerfitzgerald.demo_api.erc721.TokenMetadataDTO;
 import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
