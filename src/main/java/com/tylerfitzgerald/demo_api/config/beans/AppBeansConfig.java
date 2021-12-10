@@ -7,7 +7,6 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.MergeTokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.WeightedTraitsCreator;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.AbstractWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.InitializeTokenWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.MergeTokenWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.ColorTraitPicker;
@@ -122,12 +121,12 @@ public class AppBeansConfig {
   }
 
   @Bean
-  public AbstractWeightlessTraitsCreator initializeTokenWeightlessTraitsCreator() {
+  public InitializeTokenWeightlessTraitsCreator initializeTokenWeightlessTraitsCreator() {
     return new InitializeTokenWeightlessTraitsCreator();
   }
 
   @Bean
-  public AbstractWeightlessTraitsCreator mergeTokenWeightlessTraitsCreator() {
+  public MergeTokenWeightlessTraitsCreator mergeTokenWeightlessTraitsCreator() {
     return new MergeTokenWeightlessTraitsCreator();
   }
 

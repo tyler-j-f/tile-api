@@ -5,7 +5,7 @@ import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitTypeConstan
 import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.WeightedTraitsCreator;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.AbstractWeightlessTraitsCreator;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.InitializeTokenWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightlessTraitTypesListFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
 import java.util.List;
@@ -16,7 +16,7 @@ public class TokenInitializer extends AbstractTokenInitializer {
   @Autowired private WeightlessTraitTypesListFinder weightlessTraitTypesListFinder;
 
   public TokenInitializer(
-      AbstractWeightlessTraitsCreator weightlessTraitsCreator,
+      InitializeTokenWeightlessTraitsCreator weightlessTraitsCreator,
       WeightedTraitsCreator weightedTraitsCreator) {
     super(weightlessTraitsCreator, weightedTraitsCreator);
   }

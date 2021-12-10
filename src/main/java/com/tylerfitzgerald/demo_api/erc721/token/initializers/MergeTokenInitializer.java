@@ -4,12 +4,12 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.WeightedTraitsCreator;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.AbstractWeightlessTraitsCreator;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.MergeTokenWeightlessTraitsCreator;
 
 public class MergeTokenInitializer extends AbstractTokenInitializer {
 
   public MergeTokenInitializer(
-      AbstractWeightlessTraitsCreator weightlessTraitsCreator,
+      MergeTokenWeightlessTraitsCreator weightlessTraitsCreator,
       WeightedTraitsCreator weightedTraitsCreator) {
     super(weightlessTraitsCreator, weightedTraitsCreator);
   }
