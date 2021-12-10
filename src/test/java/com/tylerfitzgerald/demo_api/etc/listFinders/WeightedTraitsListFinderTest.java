@@ -6,7 +6,6 @@ import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightedTraitsListFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
 import java.util.ArrayList;
 import java.util.List;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
