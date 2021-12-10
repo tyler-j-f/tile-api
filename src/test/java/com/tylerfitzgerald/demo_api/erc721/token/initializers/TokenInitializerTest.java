@@ -13,7 +13,6 @@ import com.tylerfitzgerald.demo_api.sql.repositories.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitTypeRepository;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitTypeWeightRepository;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightlessTraitTypeRepository;
-import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -58,15 +57,13 @@ public class TokenInitializerTest {
             .imageUrl(tokenConfig.getBase_image_url() + NEW_TOKEN_ID)
             .build();
     Mockito.when(tokenRepository.create(Mockito.any())).thenReturn(token);
-    TokenFacadeDTO tokenFacadeDTO = tokenInitializer.initialize(NEW_TOKEN_ID, SEED_FOR_TRAITS);
-    assertThat(tokenFacadeDTO).isInstanceOf(TokenFacadeDTO.class);
-    assertThat(tokenFacadeDTO.getTokenDTO()).isEqualTo(token);
-    assertThat(tokenFacadeDTO.getWeightedTraits()).isEqualTo(new ArrayList<>());
+    assertThat(tokenInitializer.initialize(NEW_TOKEN_ID, SEED_FOR_TRAITS))
+        .isInstanceOf(TokenFacadeDTO.class);
     Mockito.verify(weightedTraitTypeRepository, Mockito.times(1)).read();
     Mockito.verify(weightedTraitTypeWeightRepository, Mockito.times(1)).read();
     Mockito.verify(weightlessTraitTypeRepository, Mockito.times(1)).read();
-    Mockito.verify(weightedTraitsCreator, Mockito.times(1)).getCreatedWeightedTraits();
     Mockito.verify(weightedTraitsCreator, Mockito.times(1)).createTraits(Mockito.any());
+    Mockito.verify(weightedTraitsCreator, Mockito.times(1)).getCreatedWeightedTraits();
     Mockito.verify(weightlessTraitsCreator, Mockito.times(1)).createTraits(Mockito.any());
   }
 }
