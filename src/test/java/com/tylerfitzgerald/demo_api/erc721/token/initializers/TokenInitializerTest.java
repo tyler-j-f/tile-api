@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.tylerfitzgerald.demo_api.config.external.TokenConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.WeightedTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.InitializeTokenWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightedTraitTypesListFinder;
@@ -21,6 +22,8 @@ import com.tylerfitzgerald.demo_api.sql.repositories.WeightlessTraitTypeReposito
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -56,6 +59,8 @@ public class TokenInitializerTest {
   private final Long NEW_TOKEN_ID = 12L;
   private final Long SEED_FOR_TRAITS = 123123321L;
 
+  @Captor ArgumentCaptor<TraitsCreatorContext> weightlessCreateTraitsContext;
+
   @Test
   void testInitializeExistingTokenId() throws TokenInitializeException {
     Mockito.when(tokenRepository.create(Mockito.any())).thenReturn(null);
@@ -87,8 +92,31 @@ public class TokenInitializerTest {
     Mockito.verify(weightedTraitTypeWeightRepository, Mockito.times(1)).read();
     Mockito.verify(weightlessTraitTypeRepository, Mockito.times(1)).read();
     Mockito.verify(weightedTraitsCreator, Mockito.times(1)).createTraits(Mockito.any());
-    //    Mockito.verify(weightedTraitsCreator, Mockito.times(1)).getCreatedWeightedTraits();
-    Mockito.verify(weightlessTraitsCreator, Mockito.times(1)).createTraits(Mockito.any());
+    Mockito.verify(weightedTraitsCreator, Mockito.times(1)).getCreatedWeightedTraits();
+    assertOnWeightedTraitsCreation(NEW_TOKEN_ID, SEED_FOR_TRAITS);
+    assertOnWeightlessTraitsCreation(NEW_TOKEN_ID, SEED_FOR_TRAITS, mockedWeightedTraits);
+  }
+
+  private void assertOnWeightedTraitsCreation(Long tokenId, Long seedForTraits) {
+    Mockito.verify(weightedTraitsCreator, Mockito.times(1))
+        .createTraits(weightlessCreateTraitsContext.capture());
+    assertThat(weightlessCreateTraitsContext.getValue().getWeightedTraits())
+        .isEqualTo(new ArrayList<>());
+    assertThat(weightlessCreateTraitsContext.getValue().getTokenId()).isEqualTo(tokenId);
+    assertThat(weightlessCreateTraitsContext.getValue().getSeedForTraits())
+        .isEqualTo(seedForTraits);
+  }
+
+  private void assertOnWeightlessTraitsCreation(
+      Long tokenId, Long seedForTraits, List<WeightedTraitDTO> mockedWeightedTraits)
+      throws TokenInitializeException {
+    Mockito.verify(weightlessTraitsCreator, Mockito.times(1))
+        .createTraits(weightlessCreateTraitsContext.capture());
+    assertThat(weightlessCreateTraitsContext.getValue().getWeightedTraits())
+        .isEqualTo(mockedWeightedTraits);
+    assertThat(weightlessCreateTraitsContext.getValue().getTokenId()).isEqualTo(tokenId);
+    assertThat(weightlessCreateTraitsContext.getValue().getSeedForTraits())
+        .isEqualTo(seedForTraits);
   }
 
   private void mockWeightedTraitTypes() {
