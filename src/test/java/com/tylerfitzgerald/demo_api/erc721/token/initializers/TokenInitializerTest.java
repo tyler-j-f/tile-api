@@ -80,19 +80,23 @@ public class TokenInitializerTest {
             .build();
     Mockito.when(tokenRepository.create(Mockito.any())).thenReturn(token);
     List<WeightedTraitTypeDTO> mockedWeightedTraitTypes = mockWeightedTraitTypes();
+    List<WeightedTraitTypeDTO> filteredMockedWeightedTraitTypes =
+        mockedWeightedTraitTypes.subList(0, 1);
     List<WeightedTraitTypeWeightDTO> mockedWeightedTraitTypeWeights =
         mockWeightedTraitTypeWeights();
     List<WeightlessTraitTypeDTO> mockedWeightlessTraitTypes = mockWeightlessTraitTypes();
+    List<WeightlessTraitTypeDTO> filteredMockedWeightlessTraitTypes =
+        mockedWeightlessTraitTypes.subList(0, 1);
     List<WeightedTraitDTO> mockedWeightedTraits = mockWeightedTraits();
     List<WeightlessTraitDTO> mockedWeightlessTraits = mockWeightlessTraits();
     Mockito.when(
             weightedTraitTypesListFinder.findByIgnoringTraitTypeIdList(
                 mockedWeightedTraitTypes, TokenInitializer.WEIGHTED_TRAIT_TYPES_TO_IGNORE))
-        .thenReturn(mockedWeightedTraitTypes);
+        .thenReturn(filteredMockedWeightedTraitTypes);
     Mockito.when(
             weightlessTraitTypesListFinder.findByIgnoringTraitTypeIdList(
                 mockedWeightlessTraitTypes, TokenInitializer.WEIGHTLESS_TRAIT_TYPES_TO_IGNORE))
-        .thenReturn(mockedWeightlessTraitTypes);
+        .thenReturn(filteredMockedWeightlessTraitTypes);
     TokenFacadeDTO results = tokenInitializer.initialize(NEW_TOKEN_ID, SEED_FOR_TRAITS);
     assertThat(results).isInstanceOf(TokenFacadeDTO.class);
     assertThat(results.getWeightedTraits()).isEqualTo(mockedWeightedTraits);
@@ -105,16 +109,16 @@ public class TokenInitializerTest {
     assertOnWeightedTraitsCreation(
         NEW_TOKEN_ID,
         SEED_FOR_TRAITS,
-        mockedWeightedTraitTypes,
+        filteredMockedWeightedTraitTypes,
         mockedWeightedTraitTypeWeights,
-        mockedWeightlessTraitTypes);
+        filteredMockedWeightlessTraitTypes);
     assertOnWeightlessTraitsCreation(
         NEW_TOKEN_ID,
         SEED_FOR_TRAITS,
         mockedWeightedTraits,
-        mockedWeightedTraitTypes,
+        filteredMockedWeightedTraitTypes,
         mockedWeightedTraitTypeWeights,
-        mockedWeightlessTraitTypes,
+        filteredMockedWeightlessTraitTypes,
         mockedWeightedTraits);
   }
 
@@ -166,6 +170,10 @@ public class TokenInitializerTest {
         WeightedTraitTypeDTO.builder().traitTypeId(WEIGHTED_TRAIT_TYPE_ID_1).build());
     weightedTraitTypes.add(
         WeightedTraitTypeDTO.builder().traitTypeId(WEIGHTED_TRAIT_TYPE_ID_2).build());
+    weightedTraitTypes.add(
+        WeightedTraitTypeDTO.builder()
+            .traitTypeId((long) TokenInitializer.WEIGHTED_TRAIT_TYPES_TO_IGNORE[0])
+            .build());
     Mockito.when(weightedTraitTypeRepository.read()).thenReturn(weightedTraitTypes);
     return weightedTraitTypes;
   }
@@ -179,6 +187,10 @@ public class TokenInitializerTest {
     weightedTraitTypeWeights.add(
         WeightedTraitTypeWeightDTO.builder()
             .traitTypeWeightId(WEIGHTED_TRAIT_TYPE_WEIGHT_ID_2)
+            .build());
+    weightedTraitTypeWeights.add(
+        WeightedTraitTypeWeightDTO.builder()
+            .traitTypeWeightId((long) TokenInitializer.WEIGHTLESS_TRAIT_TYPES_TO_IGNORE[0])
             .build());
     Mockito.when(weightedTraitTypeWeightRepository.read()).thenReturn(weightedTraitTypeWeights);
     return weightedTraitTypeWeights;
