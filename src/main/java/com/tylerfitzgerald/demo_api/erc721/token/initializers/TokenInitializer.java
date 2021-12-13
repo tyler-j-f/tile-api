@@ -22,13 +22,13 @@ public class TokenInitializer extends AbstractTokenInitializer {
     super(weightlessTraitsCreator, weightedTraitsCreator);
   }
 
-  private static final int[] WEIGHTLESS_TRAIT_TYPES_TO_IGNORE = {
+  public static final int[] WEIGHTLESS_TRAIT_TYPES_TO_IGNORE = {
     WeightlessTraitTypeConstants.TILE_1_RARITY,
     WeightlessTraitTypeConstants.TILE_2_RARITY,
     WeightlessTraitTypeConstants.TILE_3_RARITY,
     WeightlessTraitTypeConstants.TILE_4_RARITY
   };
-  private static final int[] WEIGHTED_TRAIT_TYPES_TO_IGNORE = {
+  public static final int[] WEIGHTED_TRAIT_TYPES_TO_IGNORE = {
     WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE
   };
 
