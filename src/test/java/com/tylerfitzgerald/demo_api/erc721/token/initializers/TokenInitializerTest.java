@@ -9,8 +9,10 @@ import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.Init
 import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightedTraitTypesListFinder;
 import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightlessTraitTypesListFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.TokenDTO;
+import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeWeightDTO;
+import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.repositories.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitTypeRepository;
@@ -32,6 +34,10 @@ public class TokenInitializerTest {
   private final Long WEIGHTED_TRAIT_TYPE_WEIGHT_ID_2 = 4L;
   private final Long WEIGHTLESS_TRAIT_TYPE_ID_1 = 5L;
   private final Long WEIGHTLESS_TRAIT_TYPE_ID_2 = 6L;
+  private final Long WEIGHTLESS_TRAIT_1 = 7L;
+  private final Long WEIGHTLESS_TRAIT_2 = 8L;
+  private final Long WEIGHTED_TRAIT_1 = 9L;
+  private final Long WEIGHTED_TRAIT_2 = 10L;
   @Mock private TokenRepository tokenRepository;
   @Mock private TokenConfig tokenConfig;
   @Mock private WeightedTraitTypesListFinder weightedTraitTypesListFinder;
@@ -71,9 +77,12 @@ public class TokenInitializerTest {
     mockWeightedTraitTypes();
     mockWeightedTraitTypeWeights();
     mockWeightlessTraitTypes();
-    TokenFacadeDTO tokenFacadeDTO = tokenInitializer.initialize(NEW_TOKEN_ID, SEED_FOR_TRAITS);
-    assertThat(tokenFacadeDTO).isInstanceOf(TokenFacadeDTO.class);
-    assertThat(tokenFacadeDTO.getWeightedTraits()).isEqualTo(new ArrayList<>());
+    List<WeightedTraitDTO> mockedWeightedTraits = mockWeightedTraits();
+    List<WeightlessTraitDTO> mockedWeightlessTraits = mockWeightlessTraits();
+    TokenFacadeDTO results = tokenInitializer.initialize(NEW_TOKEN_ID, SEED_FOR_TRAITS);
+    assertThat(results).isInstanceOf(TokenFacadeDTO.class);
+    assertThat(results.getWeightedTraits()).isEqualTo(mockedWeightedTraits);
+    assertThat(results.getWeightlessTraits()).isEqualTo(mockedWeightlessTraits);
     Mockito.verify(weightedTraitTypeRepository, Mockito.times(1)).read();
     Mockito.verify(weightedTraitTypeWeightRepository, Mockito.times(1)).read();
     Mockito.verify(weightlessTraitTypeRepository, Mockito.times(1)).read();
@@ -111,5 +120,37 @@ public class TokenInitializerTest {
     weightlessTraitTypes.add(
         WeightlessTraitTypeDTO.builder().weightlessTraitTypeId(WEIGHTLESS_TRAIT_TYPE_ID_2).build());
     Mockito.when(weightlessTraitTypeRepository.read()).thenReturn(weightlessTraitTypes);
+  }
+
+  private List<WeightlessTraitDTO> mockWeightlessTraits() {
+    List<WeightlessTraitDTO> weightlessTraits = new ArrayList<>();
+    weightlessTraits.add(
+        WeightlessTraitDTO.builder()
+            .traitId(WEIGHTLESS_TRAIT_1)
+            .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID_1)
+            .build());
+    weightlessTraits.add(
+        WeightlessTraitDTO.builder()
+            .traitId(WEIGHTLESS_TRAIT_2)
+            .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID_2)
+            .build());
+    Mockito.when(weightlessTraitsCreator.getCreatedWeightlessTraits()).thenReturn(weightlessTraits);
+    return weightlessTraits;
+  }
+
+  private List<WeightedTraitDTO> mockWeightedTraits() {
+    List<WeightedTraitDTO> weightedTraits = new ArrayList<>();
+    weightedTraits.add(
+        WeightedTraitDTO.builder()
+            .traitId(WEIGHTED_TRAIT_1)
+            .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID_1)
+            .build());
+    weightedTraits.add(
+        WeightedTraitDTO.builder()
+            .traitId(WEIGHTED_TRAIT_2)
+            .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID_2)
+            .build());
+    Mockito.when(weightedTraitsCreator.getCreatedWeightedTraits()).thenReturn(weightedTraits);
+    return weightedTraits;
   }
 }
