@@ -3,7 +3,6 @@ package com.tylerfitzgerald.demo_api.config.beans;
 import com.tylerfitzgerald.demo_api.config.external.EnvConfig;
 import com.tylerfitzgerald.demo_api.config.external.TokenConfig;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
-import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeFactory;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.MergeTokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializer;
@@ -196,11 +195,6 @@ public class AppBeansConfig {
   @Bean
   public TokenFacade tokenFacade() {
     return new TokenFacade();
-  }
-
-  @Bean
-  public TokenFacadeFactory tokenFacadeFactory() {
-    return new TokenFacadeFactory();
   }
 
   @Bean

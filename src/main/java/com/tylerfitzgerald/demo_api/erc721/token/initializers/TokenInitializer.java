@@ -8,6 +8,7 @@ import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.Weight
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.InitializeTokenWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightlessTraitTypesListFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,6 +34,7 @@ public class TokenInitializer extends AbstractTokenInitializer {
 
   public TokenFacadeDTO initialize(Long tokenId, Long seedForTraits)
       throws TokenInitializeException {
+    resetLists();
     tokenDTO = createToken(tokenId);
     if (tokenDTO == null) {
       System.out.println(
@@ -45,24 +47,33 @@ public class TokenInitializer extends AbstractTokenInitializer {
     List<WeightlessTraitTypeDTO> filteredWeightlessTraitTypes =
         weightlessTraitTypesListFinder.findByIgnoringTraitTypeIdList(
             weightlessTraitTypes, WEIGHTLESS_TRAIT_TYPES_TO_IGNORE);
-    TraitsCreatorContext context =
-        TraitsCreatorContext.builder()
-            .tokenId(tokenId)
-            .weightlessTraitTypes(filteredWeightlessTraitTypes)
-            .seedForTraits(seedForTraits)
-            .weightedTraits(weightedTraits)
-            .weightedTraitTypes(
-                filterOutWeightedTraitTypesToIgnore(
-                    weightedTraitTypes, WEIGHTED_TRAIT_TYPES_TO_IGNORE))
-            .weightedTraitTypeWeights(weightedTraitTypeWeights)
-            .build();
-    System.out.println("DEBUG, pre create 1: " + weightedTraitsCreator.getCreatedWeightedTraits());
-    System.out.println("DEBUG, pre create 2: " + context.getWeightedTraits());
-    weightedTraitsCreator.createTraits(context);
+    weightedTraitsCreator.createTraits(
+        getContext(tokenId, seedForTraits, filteredWeightlessTraitTypes)
+    );
     weightedTraits = weightedTraitsCreator.getCreatedWeightedTraits();
-    System.out.println("DEBUG, post create 1: " + weightedTraitsCreator.getCreatedWeightedTraits());
-    System.out.println("DEBUG, post create 2: " + context.getWeightedTraits());
-    weightlessTraitsCreator.createTraits(context);
+    weightlessTraitsCreator.createTraits(
+        getContext(tokenId, seedForTraits, filteredWeightlessTraitTypes)
+    );
     return buildTokenFacadeDTO();
+  }
+
+  private TraitsCreatorContext getContext(
+      Long tokenId, Long seedForTraits, List<WeightlessTraitTypeDTO> filteredWeightlessTraitTypes) {
+    return TraitsCreatorContext.builder()
+        .tokenId(tokenId)
+        .seedForTraits(seedForTraits)
+        .weightlessTraitTypes(filteredWeightlessTraitTypes)
+        .weightedTraits(weightedTraits)
+        .weightedTraitTypes(
+            filterOutWeightedTraitTypesToIgnore(weightedTraitTypes, WEIGHTED_TRAIT_TYPES_TO_IGNORE))
+        .weightedTraitTypeWeights(weightedTraitTypeWeights)
+        .build();
+  }
+
+  private void resetLists() {
+    weightedTraits = new ArrayList<>();
+    weightedTraitTypes = new ArrayList<>();
+    weightedTraitTypeWeights = new ArrayList<>();
+    weightlessTraitTypes = new ArrayList<>();
   }
 }

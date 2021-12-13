@@ -5,7 +5,7 @@ import com.tylerfitzgerald.demo_api.config.external.EventsConfig;
 import com.tylerfitzgerald.demo_api.erc721.TokenMetadataDTO;
 import com.tylerfitzgerald.demo_api.erc721.ethEvents.EthEventException;
 import com.tylerfitzgerald.demo_api.erc721.ethEvents.events.MintEvent;
-import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeFactory;
+import com.tylerfitzgerald.demo_api.erc721.token.TokenFacade;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
 import com.tylerfitzgerald.demo_api.sql.dtos.TokenDTO;
@@ -18,7 +18,7 @@ public class HandleMintEventsTask extends AbstractEthEventsRetrieverTask {
 
   @Autowired private TokenRepository tokenRepository;
   @Autowired private EventsConfig eventsConfig;
-  @Autowired private TokenFacadeFactory tokenFacadeFactory;
+  @Autowired private TokenFacade tokenFacade;
 
   @Override
   public void execute() throws TaskSchedulerException {
@@ -81,9 +81,6 @@ public class HandleMintEventsTask extends AbstractEthEventsRetrieverTask {
 
   private TokenMetadataDTO addTokenToDB(Long tokenId, Long transactionHash)
       throws TokenInitializeException {
-    return tokenFacadeFactory
-        .getObject()
-        .initializeToken(tokenId, transactionHash)
-        .buildTokenMetadataDTO();
+    return tokenFacade.initializeToken(tokenId, transactionHash).buildTokenMetadataDTO();
   }
 }
