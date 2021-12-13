@@ -14,7 +14,7 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
     super(weightlessTraitsCreator, weightedTraitsCreator);
   }
 
-  private static final int[] WEIGHTED_TRAIT_TYPES_TO_IGNORE = {
+  public static final int[] WEIGHTED_TRAIT_TYPES_TO_IGNORE = {
     WeightedTraitTypeConstants.TILE_1_RARITY,
     WeightedTraitTypeConstants.TILE_2_RARITY,
     WeightedTraitTypeConstants.TILE_3_RARITY,
@@ -44,22 +44,25 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
     weightedTraitTypes = weightedTraitTypeRepository.read();
     weightedTraitTypeWeights = weightedTraitTypeWeightRepository.read();
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
-    TraitsCreatorContext context =
-        TraitsCreatorContext.builder()
-            .tokenId(tokenId)
-            .seedForTraits(seedForTraits)
-            .weightlessTraitTypes(weightlessTraitTypes)
-            .weightedTraits(weightedTraits)
-            .weightedTraitTypes(
-                filterOutWeightedTraitTypesToIgnore(
-                    weightedTraitTypes, WEIGHTED_TRAIT_TYPES_TO_IGNORE))
-            .weightedTraitTypeWeights(weightedTraitTypeWeights)
-            .burnedNft1(burnedNft1)
-            .burnedNft2(burnedNft2)
-            .build();
-    weightedTraitsCreator.createTraits(context);
+    weightedTraitsCreator.createTraits(getContext(tokenId, seedForTraits, burnedNft1, burnedNft2));
     weightedTraits = weightedTraitsCreator.getCreatedWeightedTraits();
-    weightlessTraitsCreator.createTraits(context);
+    weightlessTraitsCreator.createTraits(
+        getContext(tokenId, seedForTraits, burnedNft1, burnedNft2));
     return buildTokenFacadeDTO();
+  }
+
+  private TraitsCreatorContext getContext(
+      Long tokenId, Long seedForTraits, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2) {
+    return TraitsCreatorContext.builder()
+        .tokenId(tokenId)
+        .seedForTraits(seedForTraits)
+        .weightlessTraitTypes(weightlessTraitTypes)
+        .weightedTraits(weightedTraits)
+        .weightedTraitTypes(
+            filterOutWeightedTraitTypesToIgnore(weightedTraitTypes, WEIGHTED_TRAIT_TYPES_TO_IGNORE))
+        .weightedTraitTypeWeights(weightedTraitTypeWeights)
+        .burnedNft1(burnedNft1)
+        .burnedNft2(burnedNft2)
+        .build();
   }
 }

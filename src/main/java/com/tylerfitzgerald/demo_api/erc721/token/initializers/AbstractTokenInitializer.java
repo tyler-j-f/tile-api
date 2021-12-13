@@ -65,10 +65,7 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
 
   protected List<WeightedTraitTypeDTO> filterOutWeightedTraitTypesToIgnore(
       List<WeightedTraitTypeDTO> traitTypes, int[] traitTypesToIgnore) {
-    System.out.println("DEBUG, filterOutWeightedTraitTypesToIgnore: " + traitTypes);
-    List<WeightedTraitTypeDTO> list =
-        weightedTraitTypesListFinder.findByIgnoringTraitTypeIdList(traitTypes, traitTypesToIgnore);
-    System.out.println("DEBUG, filtereded: " + list);
-    return list;
+    return weightedTraitTypesListFinder.findByIgnoringTraitTypeIdList(
+        traitTypes, traitTypesToIgnore);
   }
 }
