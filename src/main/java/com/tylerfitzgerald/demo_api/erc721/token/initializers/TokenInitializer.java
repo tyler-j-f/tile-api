@@ -56,8 +56,12 @@ public class TokenInitializer extends AbstractTokenInitializer {
                     weightedTraitTypes, WEIGHTED_TRAIT_TYPES_TO_IGNORE))
             .weightedTraitTypeWeights(weightedTraitTypeWeights)
             .build();
+    System.out.println("DEBUG, pre create 1: " + weightedTraitsCreator.getCreatedWeightedTraits());
+    System.out.println("DEBUG, pre create 2: " + context.getWeightedTraits());
     weightedTraitsCreator.createTraits(context);
     weightedTraits = weightedTraitsCreator.getCreatedWeightedTraits();
+    System.out.println("DEBUG, post create 1: " + weightedTraitsCreator.getCreatedWeightedTraits());
+    System.out.println("DEBUG, post create 2: " + context.getWeightedTraits());
     weightlessTraitsCreator.createTraits(context);
     return buildTokenFacadeDTO();
   }

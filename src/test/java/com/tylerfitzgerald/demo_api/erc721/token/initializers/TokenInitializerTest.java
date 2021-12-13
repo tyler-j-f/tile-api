@@ -87,7 +87,7 @@ public class TokenInitializerTest {
     Mockito.verify(weightedTraitTypeWeightRepository, Mockito.times(1)).read();
     Mockito.verify(weightlessTraitTypeRepository, Mockito.times(1)).read();
     Mockito.verify(weightedTraitsCreator, Mockito.times(1)).createTraits(Mockito.any());
-    Mockito.verify(weightedTraitsCreator, Mockito.times(1)).getCreatedWeightedTraits();
+    //    Mockito.verify(weightedTraitsCreator, Mockito.times(1)).getCreatedWeightedTraits();
     Mockito.verify(weightlessTraitsCreator, Mockito.times(1)).createTraits(Mockito.any());
   }
 

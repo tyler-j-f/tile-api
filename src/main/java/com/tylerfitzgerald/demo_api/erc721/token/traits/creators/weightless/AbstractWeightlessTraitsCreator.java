@@ -34,6 +34,7 @@ public abstract class AbstractWeightlessTraitsCreator implements TraitsCreatorIn
   @Override
   public void createTraits(TraitsCreatorContext context) throws TokenInitializeException {
     this.context = context;
+    createdWeightlessTraits = new ArrayList<>();
     WeightlessTraitDTO weightlessTraitDTO;
     for (WeightlessTraitTypeDTO weightlessTraitType : context.getWeightlessTraitTypes()) {
       try {

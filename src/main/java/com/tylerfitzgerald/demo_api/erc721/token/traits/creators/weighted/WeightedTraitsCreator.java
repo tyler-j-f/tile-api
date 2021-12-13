@@ -25,6 +25,7 @@ public class WeightedTraitsCreator implements TraitsCreatorInterface {
   @Override
   public void createTraits(TraitsCreatorContext context) {
     this.context = context;
+    createdWeightedTraits = new ArrayList<>();
     for (WeightedTraitTypeDTO type : context.getWeightedTraitTypes()) {
       WeightedTraitDTO trait = createWeightedTrait(type);
       if (trait != null) {
