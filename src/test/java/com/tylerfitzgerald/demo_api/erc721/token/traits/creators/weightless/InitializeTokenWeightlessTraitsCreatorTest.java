@@ -8,9 +8,7 @@ import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorCo
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitException;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.ColorTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.MergeRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
-import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightlessTraitsListFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
@@ -65,8 +63,6 @@ public class InitializeTokenWeightlessTraitsCreatorTest {
   private List<WeightedTraitTypeWeightDTO> mockWeightedTraitTypeWeights = new ArrayList<>();
   private List<WeightedTraitTypeDTO> mockWeightedTraitTypes = new ArrayList<>();
   @Mock private WeightlessTraitRepository weightlessTraitRepository;
-  @Mock protected WeightlessTraitsListFinder weightlessTraitInListFinder;
-  @Mock protected MergeRarityTraitPicker mergeRarityTraitPicker;
   @Mock protected EmojiTraitPicker emojiTraitPicker;
   @Mock protected ColorTraitPicker colorTraitPicker;
   @Mock protected OverallRarityTraitPicker overallRarityTraitPicker;
