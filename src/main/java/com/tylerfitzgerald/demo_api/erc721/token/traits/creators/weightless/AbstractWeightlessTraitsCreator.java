@@ -54,6 +54,7 @@ public abstract class AbstractWeightlessTraitsCreator implements TraitsCreatorIn
       throws TokenInitializeException, WeightlessTraitException {
     Long weightTraitId = weightlessTraitRepository.getCount() + 1L;
     String traitValue = getWeightlessTraitValue(weightlessTraitType);
+    System.out.println("DEBUG getWeightlessTraitValue: " + traitValue);
     if (traitValue == null || traitValue.equals("")) {
       return null;
     }

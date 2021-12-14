@@ -35,7 +35,7 @@ public class WeightedTraitsCreatorTest {
   private final Long NEW_TRAIT_ID_2 = 14L;
   private WeightedTraitDTO newTrait1;
   private WeightedTraitDTO newTrait2;
-  private List<WeightedTraitDTO> newTraits = new ArrayList<>();
+  private List<WeightedTraitDTO> mockNewTraits = new ArrayList<>();
   private List<WeightedTraitTypeWeightDTO> mockWeightedTraitTypeWeights = new ArrayList<>();
   private List<WeightedTraitTypeDTO> mockWeightedTraitTypes = new ArrayList<>();
   @Mock protected WeightedTraitRepository weightedTraitRepository;
@@ -65,8 +65,8 @@ public class WeightedTraitsCreatorTest {
             .traitTypeWeightId(WEIGHTED_TRAIT_TYPE_WEIGHT_ID_2)
             .traitTypeId(WEIGHTED_TRAIT_TYPE_ID_2)
             .build();
-    newTraits.add(newTrait1);
-    newTraits.add(newTrait2);
+    mockNewTraits.add(newTrait1);
+    mockNewTraits.add(newTrait2);
   }
 
   private void setUpMocks() {
@@ -122,9 +122,10 @@ public class WeightedTraitsCreatorTest {
   }
 
   private void assertions() {
-    Mockito.verify(weightedTraitRepository, Mockito.times(newTraits.size())).getCount();
-    Mockito.verify(weightedTraitRepository, Mockito.times(newTraits.size())).create(Mockito.any());
-    assertThat(weightedTraitsCreator.getCreatedWeightedTraits()).isEqualTo(newTraits);
+    Mockito.verify(weightedTraitRepository, Mockito.times(mockNewTraits.size())).getCount();
+    Mockito.verify(weightedTraitRepository, Mockito.times(mockNewTraits.size()))
+        .create(Mockito.any());
+    assertThat(weightedTraitsCreator.getCreatedWeightedTraits()).isEqualTo(mockNewTraits);
     assertForTraitRepositoryCreateCalls();
   }
 
