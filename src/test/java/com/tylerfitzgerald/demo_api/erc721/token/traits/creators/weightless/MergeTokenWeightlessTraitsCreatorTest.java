@@ -35,11 +35,11 @@ public class MergeTokenWeightlessTraitsCreatorTest {
   private final Long BURNED_TOKEN_ID_1 = 5L;
   private final Long BURNED_TOKEN_ID_2 = 6L;
   private final Long WEIGHTLESS_TRAIT_TYPE_ID_1 =
-      Long.valueOf(WeightlessTraitTypeConstants.TILE_2_EMOJI);
+      Long.valueOf(WeightlessTraitTypeConstants.TILE_1_RARITY);
   private final Long WEIGHTLESS_TRAIT_TYPE_ID_2 =
-      Long.valueOf(WeightlessTraitTypeConstants.TILE_3_COLOR);
-  private final Long WEIGHTLESS_TRAIT_TYPE_ID_3 =
       Long.valueOf(WeightlessTraitTypeConstants.OVERALL_RARITY);
+  private final Long WEIGHTLESS_TRAIT_TYPE_ID_3 =
+      Long.valueOf(WeightlessTraitTypeConstants.TILE_3_EMOJI);
   private final Long WEIGHTLESS_TRAIT_TYPE_ID_4 = 100L;
   private final String WEIGHTLESS_TRAIT_TYPE_NAME_1 = "A";
   private final String WEIGHTLESS_TRAIT_TYPE_NAME_2 = "B";
@@ -51,8 +51,9 @@ public class MergeTokenWeightlessTraitsCreatorTest {
   private final String WEIGHTLESS_TRAIT_TYPE_DESCRIPTION_4 = "H";
   private final String WEIGHTLESS_TRAIT_TYPE_VALUE_1 = "I";
   private final String WEIGHTLESS_TRAIT_TYPE_VALUE_2 = "J";
-  private final String WEIGHTLESS_TRAIT_TYPE_VALUE_3 = "K";
-  private final String WEIGHTLESS_TRAIT_TYPE_VALUE_4 = "invalid weightlessTraitValue";
+  private final String WEIGHTLESS_TRAIT_TYPE_VALUE_4 = "invalid mergeWeightlessTraitValue";
+  private final String BURNED_TOKEN_1_VALUE = "L";
+  private final String BURNED_TOKEN_2_VALUE = "M";
   private final Long TOKEN_ID = 9L;
   private final Long WEIGHTLESS_TRAITS_IN_REPO_SIZE = 10L;
   private final Long NEW_TRAIT_ID_1 = 41L;
@@ -68,6 +69,8 @@ public class MergeTokenWeightlessTraitsCreatorTest {
   private List<WeightedTraitTypeDTO> mockWeightedTraitTypes = new ArrayList<>();
   private TokenFacadeDTO burnedNft1;
   private TokenFacadeDTO burnedNft2;
+  List<WeightlessTraitDTO> burnedNft1WeightlessTraits = new ArrayList<>();
+  List<WeightlessTraitDTO> burnedNft2WeightlessTraits = new ArrayList<>();
   @Mock private WeightlessTraitsListFinder weightlessTraitInListFinder;
   @Mock private MergeRarityTraitPicker mergeRarityTraitPicker;
   @Mock private WeightlessTraitRepository weightlessTraitRepository;
@@ -118,13 +121,25 @@ public class MergeTokenWeightlessTraitsCreatorTest {
   }
 
   private void mockBurnedTokens() {
+    burnedNft1WeightlessTraits.add(
+        WeightlessTraitDTO.builder()
+            .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID_3)
+            .value(BURNED_TOKEN_1_VALUE)
+            .build());
     burnedNft1 =
         TokenFacadeDTO.builder()
             .tokenDTO(TokenDTO.builder().tokenId(BURNED_TOKEN_ID_1).build())
+            .weightlessTraits(burnedNft1WeightlessTraits)
             .build();
+    burnedNft2WeightlessTraits.add(
+        WeightlessTraitDTO.builder()
+            .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID_4)
+            .value(BURNED_TOKEN_2_VALUE)
+            .build());
     burnedNft2 =
         TokenFacadeDTO.builder()
             .tokenDTO(TokenDTO.builder().tokenId(BURNED_TOKEN_ID_2).build())
+            .weightlessTraits(burnedNft2WeightlessTraits)
             .build();
   }
 
@@ -143,6 +158,10 @@ public class MergeTokenWeightlessTraitsCreatorTest {
             WEIGHTLESS_TRAITS_IN_REPO_SIZE + 1,
             WEIGHTLESS_TRAITS_IN_REPO_SIZE + 2,
             WEIGHTLESS_TRAITS_IN_REPO_SIZE + 3);
+    Mockito.when(
+            weightlessTraitInListFinder.findFirstByTraitTypeId(
+                burnedNft1WeightlessTraits, WEIGHTLESS_TRAIT_TYPE_ID_3))
+        .thenReturn(burnedNft1WeightlessTraits.get(0));
   }
 
   private void mockWeightlessTraitTypes() {
@@ -222,7 +241,7 @@ public class MergeTokenWeightlessTraitsCreatorTest {
     assertThat(values.get(3).getTokenId()).isEqualTo(TOKEN_ID);
     assertThat(values.get(0).getValue()).isEqualTo(WEIGHTLESS_TRAIT_TYPE_VALUE_1);
     assertThat(values.get(1).getValue()).isEqualTo(WEIGHTLESS_TRAIT_TYPE_VALUE_2);
-    assertThat(values.get(2).getValue()).isEqualTo(WEIGHTLESS_TRAIT_TYPE_VALUE_3);
+    assertThat(values.get(2).getValue()).isEqualTo(BURNED_TOKEN_1_VALUE);
     assertThat(values.get(3).getValue()).isEqualTo(WEIGHTLESS_TRAIT_TYPE_VALUE_4);
     assertThat(values.get(0).getTraitTypeId()).isEqualTo(WEIGHTLESS_TRAIT_TYPE_ID_1);
     assertThat(values.get(1).getTraitTypeId()).isEqualTo(WEIGHTLESS_TRAIT_TYPE_ID_2);
