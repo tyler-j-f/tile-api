@@ -30,7 +30,7 @@ public class WeightedTraitsCreatorTest {
   private final Long WEIGHTED_TRAIT_TYPE_WEIGHT_LIKELIHOOD_2B = 90L;
   private final Long TOKEN_ID = 11L;
   private final Long SEED_FOR_TRAITS = 123123321L;
-  private final Long WEIGHTED_TRAIT_SIZE = 12L;
+  private final Long WEIGHTED_TRAITS_IN_REPO_SIZE = 12L;
   private final Long NEW_TRAIT_ID_1 = 13L;
   private final Long NEW_TRAIT_ID_2 = 14L;
   private WeightedTraitDTO newTrait1;
@@ -41,7 +41,7 @@ public class WeightedTraitsCreatorTest {
   @Mock protected WeightedTraitRepository weightedTraitRepository;
   @Mock protected WeightedTraitTypeWeightsListFinder weightedTraitTypeWeightsListFinder;
   @InjectMocks private WeightedTraitsCreator weightedTraitsCreator = new WeightedTraitsCreator();
-  @Captor ArgumentCaptor<WeightedTraitDTO> weightedTraitCaptor;
+  @Captor ArgumentCaptor<WeightedTraitDTO> weightedTraitDTOCaptor;
 
   @Test
   void testCreateTraits() {
@@ -76,11 +76,12 @@ public class WeightedTraitsCreatorTest {
     mockWeightedTraitTypeWeightsListFinder();
     mockTraitRepositoryCreate();
     Mockito.when(weightedTraitRepository.getCount())
-        .thenReturn(WEIGHTED_TRAIT_SIZE, WEIGHTED_TRAIT_SIZE + 1);
+        .thenReturn(WEIGHTED_TRAITS_IN_REPO_SIZE, WEIGHTED_TRAITS_IN_REPO_SIZE + 1);
   }
 
   private void mockTraitRepositoryCreate() {
-    Mockito.when(weightedTraitRepository.create(Mockito.any())).thenReturn(newTrait1, newTrait2);
+    Mockito.when(weightedTraitRepository.create(weightedTraitDTOCaptor.capture()))
+        .thenReturn(newTrait1, newTrait2);
   }
 
   private void mockWeightedTraitTypeWeightsListFinder() {
@@ -124,6 +125,7 @@ public class WeightedTraitsCreatorTest {
     Mockito.verify(weightedTraitRepository, Mockito.times(newTraits.size())).getCount();
     Mockito.verify(weightedTraitRepository, Mockito.times(newTraits.size())).create(Mockito.any());
     assertThat(weightedTraitsCreator.getCreatedWeightedTraits()).isEqualTo(newTraits);
+    assertForTraitRepositoryCreateCalls();
   }
 
   private TraitsCreatorContext buildContext() {
@@ -149,5 +151,19 @@ public class WeightedTraitsCreatorTest {
     mockWeightedTraitTypeWeights.add(
         WeightedTraitTypeWeightDTO.builder().traitTypeId(WEIGHTED_TRAIT_TYPE_WEIGHT_ID_2).build());
     return;
+  }
+
+  private void assertForTraitRepositoryCreateCalls() {
+    List<WeightedTraitDTO> values = weightedTraitDTOCaptor.getAllValues();
+    assertThat(values.get(0).getTokenId()).isEqualTo(TOKEN_ID);
+    assertThat(values.get(1).getTokenId()).isEqualTo(TOKEN_ID);
+    assertThat(values.get(0).getTraitTypeWeightId()).isEqualTo(WEIGHTED_TRAIT_TYPE_WEIGHT_ID_1);
+    assertThat(values.get(1).getTraitTypeWeightId()).isEqualTo(WEIGHTED_TRAIT_TYPE_WEIGHT_ID_2);
+    assertThat(values.get(0).getTraitTypeId()).isEqualTo(WEIGHTED_TRAIT_TYPE_ID_1);
+    assertThat(values.get(1).getTraitTypeId()).isEqualTo(WEIGHTED_TRAIT_TYPE_ID_2);
+    // Add 1 to WEIGHTED_TRAITS_IN_REPO_SIZE, since we will have mocked creating 1 more trait
+    assertThat(values.get(0).getTraitId()).isEqualTo(WEIGHTED_TRAITS_IN_REPO_SIZE + 1);
+    // Add 2 to WEIGHTED_TRAITS_IN_REPO_SIZE, since we will have mocked creating 2 more traits
+    assertThat(values.get(1).getTraitId()).isEqualTo(WEIGHTED_TRAITS_IN_REPO_SIZE + 2);
   }
 }
