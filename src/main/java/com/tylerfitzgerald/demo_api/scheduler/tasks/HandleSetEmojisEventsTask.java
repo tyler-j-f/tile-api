@@ -4,8 +4,8 @@ import com.tylerfitzgerald.demo_api.erc721.ethEvents.EthEventException;
 import com.tylerfitzgerald.demo_api.erc721.ethEvents.events.SetEmojisEvent;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConstants;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitTypeConstants;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.EmojiTraitPickerPicker;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
@@ -22,7 +22,7 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
 
   @Autowired private TokenRetriever tokenRetriever;
   @Autowired private ImageResourcesLoader imageResourcesLoader;
-  @Autowired private EmojiTraitPicker emojiTraitPicker;
+  @Autowired private EmojiTraitPickerPicker emojiTraitPicker;
   @Autowired private WeightlessTraitRepository weightlessTraitRepository;
 
   @Override

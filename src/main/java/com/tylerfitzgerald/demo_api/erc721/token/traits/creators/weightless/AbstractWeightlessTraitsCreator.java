@@ -3,8 +3,8 @@ package com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorInterface;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitException;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityTraitPickerPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.WeightlessTraitPickerException;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightlessTraitRepository;
@@ -16,12 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class AbstractWeightlessTraitsCreator implements TraitsCreatorInterface {
 
   @Autowired private WeightlessTraitRepository weightlessTraitRepository;
-  @Autowired protected OverallRarityTraitPicker overallRarityTraitPicker;
+  @Autowired protected OverallRarityTraitPickerPicker overallRarityTraitPicker;
   @Getter private List<WeightlessTraitDTO> createdWeightlessTraits = new ArrayList<>();
   protected TraitsCreatorContext context;
 
   protected abstract String getWeightlessTraitValue(WeightlessTraitTypeDTO weightlessTraitType)
-      throws WeightlessTraitException, TokenInitializeException;
+      throws WeightlessTraitPickerException, TokenInitializeException;
 
   @Override
   public void createTraits(TraitsCreatorContext context) throws TokenInitializeException {
@@ -31,7 +31,7 @@ public abstract class AbstractWeightlessTraitsCreator implements TraitsCreatorIn
     for (WeightlessTraitTypeDTO weightlessTraitType : context.getWeightlessTraitTypes()) {
       try {
         weightlessTraitDTO = createWeightlessTrait(context.getTokenId(), weightlessTraitType);
-      } catch (WeightlessTraitException e) {
+      } catch (WeightlessTraitPickerException e) {
         throw new TokenInitializeException(e.getMessage(), e.getCause());
       }
       if (weightlessTraitDTO != null) {
@@ -43,7 +43,7 @@ public abstract class AbstractWeightlessTraitsCreator implements TraitsCreatorIn
 
   private WeightlessTraitDTO createWeightlessTrait(
       Long tokenId, WeightlessTraitTypeDTO weightlessTraitType)
-      throws TokenInitializeException, WeightlessTraitException {
+      throws TokenInitializeException, WeightlessTraitPickerException {
     Long weightTraitId = weightlessTraitRepository.getCount() + 1L;
     String traitValue = getWeightlessTraitValue(weightlessTraitType);
     System.out.println("DEBUG getWeightlessTraitValue: " + traitValue);

@@ -10,9 +10,9 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.MergeTokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitTypeConstants;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitWeightConstants;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitException;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightedTraits.WeightedTraitTypeConstants;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightedTraits.WeightedTraitWeightConstants;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.WeightlessTraitPickerException;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitRepository;
@@ -34,13 +34,14 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
     } catch (EthEventException
         | IOException
         | TokenInitializeException
-        | WeightlessTraitException e) {
+        | WeightlessTraitPickerException e) {
       throw new TaskSchedulerException(e.getMessage(), e.getCause());
     }
   }
 
   public void getMergeEventsAndMintNewTokens()
-      throws EthEventException, IOException, TokenInitializeException, WeightlessTraitException {
+      throws EthEventException, IOException, TokenInitializeException,
+          WeightlessTraitPickerException {
     List<MergeEvent> events =
         (List<MergeEvent>)
             getEthEvents(
@@ -57,7 +58,7 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
   }
 
   private void addTokensAndNewTraitsForMergeEvents(List<MergeEvent> events)
-      throws TokenInitializeException, WeightlessTraitException {
+      throws TokenInitializeException, WeightlessTraitPickerException {
     for (MergeEvent event : events) {
       Long newTokenId = Long.valueOf(strip0xFromHexString(event.getNewTokenId()));
       System.out.println("\nFound merge event for new token. newTokenId: " + newTokenId);
@@ -82,7 +83,7 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
 
   private void mintNewTokenForMerge(
       MergeEvent event, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2)
-      throws TokenInitializeException, WeightlessTraitException {
+      throws TokenInitializeException, WeightlessTraitPickerException {
     Long tokenId = getLongFromHexString(event.getNewTokenId());
     mergeTokenInitializer.initialize(
         tokenId, burnedNft1, burnedNft2, getLongFromHexString(event.getTransactionHash(), 0, 9));

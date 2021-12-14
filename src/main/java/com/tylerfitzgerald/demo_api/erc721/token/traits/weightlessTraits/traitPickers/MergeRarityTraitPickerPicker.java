@@ -1,11 +1,8 @@
 package com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers;
 
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitTypeConstants;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConstants;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitContext;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitException;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitInterface;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightedTraits.WeightedTraitTypeConstants;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightedTraitTypeWeightsListFinder;
 import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightedTraitsListFinder;
 import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightlessTraitsListFinder;
@@ -15,7 +12,7 @@ import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class MergeRarityTraitPicker implements WeightlessTraitInterface {
+public class MergeRarityTraitPickerPicker implements WeightlessTraitPickerInterface {
 
   @Autowired private WeightedTraitsListFinder weightedTraitListHelper;
   @Autowired protected WeightedTraitTypeWeightsListFinder weightedTraitTypeWeightsListFinder;
@@ -25,14 +22,15 @@ public class MergeRarityTraitPicker implements WeightlessTraitInterface {
   private TokenFacadeDTO burnedNft2;
 
   @Override
-  public String getValue(WeightlessTraitContext context) throws WeightlessTraitException {
+  public String getValue(WeightlessTraitPickerContext context)
+      throws WeightlessTraitPickerException {
     traitTypeId = context.getTraitTypeId();
     burnedNft1 = context.getBurnedNft1();
     burnedNft2 = context.getBurnedNft2();
     return getRarityValue();
   }
 
-  private String getRarityValue() throws WeightlessTraitException {
+  private String getRarityValue() throws WeightlessTraitPickerException {
     int multiplierTraitTypeId = getMultiplierTraitTypeId();
     String burnedToken1Rarity, burnedToken2Rarity;
     String[] burnedTokenRarityValues = getBurnedTokenRarityTraitValues();
@@ -67,7 +65,7 @@ public class MergeRarityTraitPicker implements WeightlessTraitInterface {
         mergeMultiplier2);
   }
 
-  private int getMultiplierTraitTypeId() throws WeightlessTraitException {
+  private int getMultiplierTraitTypeId() throws WeightlessTraitPickerException {
     switch (traitTypeId) {
       case WeightlessTraitTypeConstants.TILE_1_RARITY:
         return WeightedTraitTypeConstants.TILE_1_MULTIPLIER;
@@ -78,7 +76,7 @@ public class MergeRarityTraitPicker implements WeightlessTraitInterface {
       case WeightlessTraitTypeConstants.TILE_4_RARITY:
         return WeightedTraitTypeConstants.TILE_4_MULTIPLIER;
       default:
-        throw new WeightlessTraitException("Unexpected value. traitTypeId: " + traitTypeId);
+        throw new WeightlessTraitPickerException("Unexpected value. traitTypeId: " + traitTypeId);
     }
   }
 
@@ -109,7 +107,7 @@ public class MergeRarityTraitPicker implements WeightlessTraitInterface {
                 * Long.parseLong(tile1MergeMultiplier)));
   }
 
-  private String[] getBurnedTokenRarityTraitValues() throws WeightlessTraitException {
+  private String[] getBurnedTokenRarityTraitValues() throws WeightlessTraitPickerException {
     String[] burnedTokenTraitValues =
         new String[] {
           findWeightlessTraitValueFromListByType(burnedNft1),
@@ -124,7 +122,7 @@ public class MergeRarityTraitPicker implements WeightlessTraitInterface {
 
   private String[] getBurnedTokenWeightedTraitValues(
       String burnedWeightlessTrait1Value, String burnedWeightlessTrait2Value)
-      throws WeightlessTraitException {
+      throws WeightlessTraitPickerException {
     int traitTypeIdInt = Math.toIntExact(traitTypeId);
     Long weightedTraitTypeId;
     switch (traitTypeIdInt) {
@@ -141,7 +139,7 @@ public class MergeRarityTraitPicker implements WeightlessTraitInterface {
         weightedTraitTypeId = (long) WeightedTraitTypeConstants.TILE_4_RARITY;
         break;
       default:
-        throw new WeightlessTraitException("Unexpected value: " + traitTypeIdInt);
+        throw new WeightlessTraitPickerException("Unexpected value: " + traitTypeIdInt);
     }
     burnedWeightlessTrait1Value =
         burnedWeightlessTrait1Value != null
@@ -171,7 +169,8 @@ public class MergeRarityTraitPicker implements WeightlessTraitInterface {
   }
 
   @Override
-  public String getDisplayValue(WeightlessTraitContext context) throws WeightlessTraitException {
+  public String getDisplayValue(WeightlessTraitPickerContext context)
+      throws WeightlessTraitPickerException {
     return "";
   }
 }

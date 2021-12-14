@@ -4,7 +4,7 @@ import com.tylerfitzgerald.demo_api.erc721.ethEvents.EthEventException;
 import com.tylerfitzgerald.demo_api.erc721.ethEvents.events.SetColorsEvent;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConstants;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.scheduler.TaskSchedulerException;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightlessTraitRepository;

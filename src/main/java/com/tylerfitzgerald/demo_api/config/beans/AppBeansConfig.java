@@ -9,11 +9,11 @@ import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializer;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.WeightedTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.InitializeTokenWeightlessTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.MergeTokenWeightlessTraitsCreator;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.ColorTraitPicker;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.MergeRarityTraitPicker;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityCalculator;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.OverallRarityCalculator;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.ColorTraitPickerPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.EmojiTraitPickerPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.MergeRarityTraitPickerPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityTraitPickerPicker;
 import com.tylerfitzgerald.demo_api.etc.BigIntegerFactory;
 import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightedTraitTypeWeightsListFinder;
 import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightedTraitTypesListFinder;
@@ -163,23 +163,23 @@ public class AppBeansConfig {
   }
 
   @Bean
-  public EmojiTraitPicker emojiiPickerTrait() {
-    return new EmojiTraitPicker();
+  public EmojiTraitPickerPicker emojiiPickerTrait() {
+    return new EmojiTraitPickerPicker();
   }
 
   @Bean
-  public ColorTraitPicker colorTraitPicker() {
-    return new ColorTraitPicker();
+  public ColorTraitPickerPicker colorTraitPicker() {
+    return new ColorTraitPickerPicker();
   }
 
   @Bean
-  public MergeRarityTraitPicker mergeRarityTraitPicker() {
-    return new MergeRarityTraitPicker();
+  public MergeRarityTraitPickerPicker mergeRarityTraitPicker() {
+    return new MergeRarityTraitPickerPicker();
   }
 
   @Bean
-  public OverallRarityTraitPicker overallRarityTraitPicker() {
-    return new OverallRarityTraitPicker();
+  public OverallRarityTraitPickerPicker overallRarityTraitPicker() {
+    return new OverallRarityTraitPickerPicker();
   }
 
   @Bean

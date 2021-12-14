@@ -1,7 +1,6 @@
-package com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers;
+package com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits;
 
-import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitTypeConstants;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConstants;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightedTraits.WeightedTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightedTraitTypeWeightsListFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeWeightDTO;

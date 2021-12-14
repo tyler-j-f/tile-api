@@ -2,19 +2,19 @@ package com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless;
 
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.SeedForTrait;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConstants;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitContext;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitException;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.ColorTraitPicker;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitTypeConstants;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.ColorTraitPickerPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.EmojiTraitPickerPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.WeightlessTraitPickerContext;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.WeightlessTraitPickerException;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class InitializeTokenWeightlessTraitsCreator extends AbstractWeightlessTraitsCreator {
 
-  @Autowired private EmojiTraitPicker emojiTraitPicker;
-  @Autowired private ColorTraitPicker colorTraitPicker;
+  @Autowired private EmojiTraitPickerPicker emojiTraitPicker;
+  @Autowired private ColorTraitPickerPicker colorTraitPicker;
 
   @Override
   protected String getWeightlessTraitValue(WeightlessTraitTypeDTO weightlessTraitType)
@@ -26,7 +26,7 @@ public class InitializeTokenWeightlessTraitsCreator extends AbstractWeightlessTr
         case WeightlessTraitTypeConstants.TILE_3_EMOJI:
         case WeightlessTraitTypeConstants.TILE_4_EMOJI:
           return emojiTraitPicker.getValue(
-              WeightlessTraitContext.builder()
+              WeightlessTraitPickerContext.builder()
                   .seedForTrait(getSeedForTrait(context.getSeedForTraits(), weightlessTraitType))
                   .build());
         case WeightlessTraitTypeConstants.TILE_1_COLOR:
@@ -34,12 +34,12 @@ public class InitializeTokenWeightlessTraitsCreator extends AbstractWeightlessTr
         case WeightlessTraitTypeConstants.TILE_3_COLOR:
         case WeightlessTraitTypeConstants.TILE_4_COLOR:
           return colorTraitPicker.getValue(
-              WeightlessTraitContext.builder()
+              WeightlessTraitPickerContext.builder()
                   .seedForTrait(getSeedForTrait(context.getSeedForTraits(), weightlessTraitType))
                   .build());
         case WeightlessTraitTypeConstants.OVERALL_RARITY:
           return overallRarityTraitPicker.getValue(
-              WeightlessTraitContext.builder()
+              WeightlessTraitPickerContext.builder()
                   .seedForTrait(null)
                   .weightedTraits(context.getWeightedTraits())
                   .weightedTraitTypeWeights(context.getWeightedTraitTypeWeights())
@@ -48,7 +48,7 @@ public class InitializeTokenWeightlessTraitsCreator extends AbstractWeightlessTr
         default:
           return "invalid weightlessTraitValue";
       }
-    } catch (WeightlessTraitException e) {
+    } catch (WeightlessTraitPickerException e) {
       throw new TokenInitializeException(e.getMessage(), e.getCause());
     }
   }

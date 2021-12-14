@@ -2,8 +2,8 @@ package com.tylerfitzgerald.demo_api.controller;
 
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.TokenRetriever;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitTypeConstants;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConstants;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightedTraits.WeightedTraitTypeConstants;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightedTraitsListFinder;
 import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightlessTraitsListFinder;
 import com.tylerfitzgerald.demo_api.image.ImageException;

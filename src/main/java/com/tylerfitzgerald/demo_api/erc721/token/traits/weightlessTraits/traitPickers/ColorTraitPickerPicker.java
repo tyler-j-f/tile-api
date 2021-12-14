@@ -1,14 +1,12 @@
 package com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers;
 
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitContext;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitException;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitInterface;
 import java.util.Random;
 
-public class ColorTraitPicker implements WeightlessTraitInterface {
+public class ColorTraitPickerPicker implements WeightlessTraitPickerInterface {
 
   @Override
-  public String getValue(WeightlessTraitContext context) throws WeightlessTraitException {
+  public String getValue(WeightlessTraitPickerContext context)
+      throws WeightlessTraitPickerException {
     Long seedForTrait = context.getSeedForTrait();
     int rInt, gInt, bInt, len;
     String r, g, b;
@@ -37,7 +35,8 @@ public class ColorTraitPicker implements WeightlessTraitInterface {
   }
 
   @Override
-  public String getDisplayValue(WeightlessTraitContext context) throws WeightlessTraitException {
+  public String getDisplayValue(WeightlessTraitPickerContext context)
+      throws WeightlessTraitPickerException {
     return "";
   }
 }

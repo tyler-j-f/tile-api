@@ -1,23 +1,21 @@
 package com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers;
 
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitContext;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitException;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitInterface;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class EmojiTraitPicker implements WeightlessTraitInterface {
+public class EmojiTraitPickerPicker implements WeightlessTraitPickerInterface {
 
   @Autowired private ImageResourcesLoader imageResourcesLoader;
 
   @Override
-  public String getValue(WeightlessTraitContext context) throws WeightlessTraitException {
+  public String getValue(WeightlessTraitPickerContext context)
+      throws WeightlessTraitPickerException {
     try {
       return stripExtension(
           imageResourcesLoader.getRandomResource(context.getSeedForTrait()).getFilename());
     } catch (IOException e) {
-      throw new WeightlessTraitException(e.getMessage(), e.getCause());
+      throw new WeightlessTraitPickerException(e.getMessage(), e.getCause());
     }
   }
 
@@ -30,7 +28,8 @@ public class EmojiTraitPicker implements WeightlessTraitInterface {
   }
 
   @Override
-  public String getDisplayValue(WeightlessTraitContext context) throws WeightlessTraitException {
+  public String getDisplayValue(WeightlessTraitPickerContext context)
+      throws WeightlessTraitPickerException {
     return "";
   }
 }

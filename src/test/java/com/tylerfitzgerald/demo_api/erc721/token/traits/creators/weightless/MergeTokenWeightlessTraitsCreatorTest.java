@@ -4,11 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitException;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.MergeRarityTraitPicker;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitTypeConstants;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.MergeRarityTraitPickerPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityTraitPickerPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.WeightlessTraitPickerException;
 import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightlessTraitsListFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.TokenDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;
@@ -72,9 +72,9 @@ public class MergeTokenWeightlessTraitsCreatorTest {
   List<WeightlessTraitDTO> burnedNft1WeightlessTraits = new ArrayList<>();
   List<WeightlessTraitDTO> burnedNft2WeightlessTraits = new ArrayList<>();
   @Mock private WeightlessTraitsListFinder weightlessTraitInListFinder;
-  @Mock private MergeRarityTraitPicker mergeRarityTraitPicker;
+  @Mock private MergeRarityTraitPickerPicker mergeRarityTraitPicker;
   @Mock private WeightlessTraitRepository weightlessTraitRepository;
-  @Mock protected OverallRarityTraitPicker overallRarityTraitPicker;
+  @Mock protected OverallRarityTraitPickerPicker overallRarityTraitPicker;
 
   @InjectMocks
   private MergeTokenWeightlessTraitsCreator weightlessTraitsCreator =
@@ -83,7 +83,7 @@ public class MergeTokenWeightlessTraitsCreatorTest {
   @Captor ArgumentCaptor<WeightlessTraitDTO> weightlessTraitDTOCaptor;
 
   @Test
-  void testCreateTraits() throws TokenInitializeException, WeightlessTraitException {
+  void testCreateTraits() throws TokenInitializeException, WeightlessTraitPickerException {
     setUpMocks();
     weightlessTraitsCreator.createTraits(buildContext());
     assertions();
@@ -143,7 +143,7 @@ public class MergeTokenWeightlessTraitsCreatorTest {
             .build();
   }
 
-  private void setUpMocks() throws WeightlessTraitException {
+  private void setUpMocks() throws WeightlessTraitPickerException {
     mockNewTraits();
     mockWeightlessTraitTypes();
     mockWeightedTraitTypes();
@@ -215,7 +215,7 @@ public class MergeTokenWeightlessTraitsCreatorTest {
     assertForTraitRepositoryCreateCalls();
   }
 
-  private void mockGetWeightlessTraitValues() throws WeightlessTraitException {
+  private void mockGetWeightlessTraitValues() throws WeightlessTraitPickerException {
     Mockito.when(mergeRarityTraitPicker.getValue(Mockito.any()))
         .thenReturn(WEIGHTLESS_TRAIT_TYPE_VALUE_1);
     Mockito.when(overallRarityTraitPicker.getValue(Mockito.any()))

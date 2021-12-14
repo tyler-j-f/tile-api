@@ -1,11 +1,11 @@
 package com.tylerfitzgerald.demo_api.erc721.token.initializers;
 
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightedTraitTypeConstants;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weighted.WeightedTraitsCreator;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless.InitializeTokenWeightlessTraitsCreator;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightedTraits.WeightedTraitTypeConstants;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightlessTraitTypesListFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
 import java.util.ArrayList;

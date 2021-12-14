@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.erc721.token.traits;
+package com.tylerfitzgerald.demo_api.erc721.token.traits.weightedTraits;
 
 public class WeightedTraitTypeConstants {
   public static final int TILE_1_RARITY = 1;

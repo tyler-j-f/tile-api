@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits;
+package com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers;
 
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Builder
 @Data
-public class WeightlessTraitContext {
+public class WeightlessTraitPickerContext {
   private Long seedForTrait;
   private List<WeightedTraitDTO> weightedTraits = new ArrayList<>();;
   private List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeights = new ArrayList<>();;

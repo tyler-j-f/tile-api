@@ -1,4 +1,4 @@
-package com.tylerfitzgerald.demo_api.erc721.token.traits;
+package com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits;
 
 public class WeightlessTraitTypeConstants {
   public static final int TILE_1_EMOJI = 11;
