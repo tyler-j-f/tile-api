@@ -22,15 +22,15 @@ public class ImageDrawer {
   public byte[] drawImage(
       Long tokenId,
       Long rarityScore,
-      Resource[] emojiiResources,
+      Resource[] emojiResources,
       List<String> tileColors,
       boolean isBurntToken)
       throws IOException, ImageException {
     Mat tiles = tilesDrawer.drawTiles(tileColors);
     titleDrawer.drawTitle(tiles, tokenId);
     int x = 1;
-    for (Resource emojiiResource : emojiiResources) {
-      emojiDrawer.drawEmoji(x++, tiles, emojiLoader.loadEmojiMat(emojiiResource));
+    for (Resource emojiResource : emojiResources) {
+      emojiDrawer.drawEmoji(x++, tiles, emojiLoader.loadEmojiMat(emojiResource));
     }
     subTitleDrawer.drawSubTitle(tiles, rarityScore);
     if (isBurntToken) {

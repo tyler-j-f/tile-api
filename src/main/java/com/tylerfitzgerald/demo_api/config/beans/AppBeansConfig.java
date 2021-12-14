@@ -163,7 +163,7 @@ public class AppBeansConfig {
   }
 
   @Bean
-  public EmojiTraitPickerPicker emojiiPickerTrait() {
+  public EmojiTraitPickerPicker emojiPickerTrait() {
     return new EmojiTraitPickerPicker();
   }
 
