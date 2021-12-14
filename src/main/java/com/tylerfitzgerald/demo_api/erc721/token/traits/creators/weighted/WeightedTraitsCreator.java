@@ -7,7 +7,6 @@ import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightedTraitTypeWeightsList
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeWeightDTO;
-import com.tylerfitzgerald.demo_api.sql.repositories.TokenRepository;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class WeightedTraitsCreator implements TraitsCreatorInterface {
   @Getter private List<WeightedTraitDTO> createdWeightedTraits = new ArrayList<>();
-  @Autowired protected TokenRepository tokenRepository;
   @Autowired protected WeightedTraitRepository weightedTraitRepository;
   @Autowired protected WeightedTraitTypeWeightsListFinder weightedTraitTypeWeightsListFinder;
   protected TraitsCreatorContext context;
@@ -28,6 +26,7 @@ public class WeightedTraitsCreator implements TraitsCreatorInterface {
     createdWeightedTraits = new ArrayList<>();
     for (WeightedTraitTypeDTO type : context.getWeightedTraitTypes()) {
       WeightedTraitDTO trait = createWeightedTrait(type);
+      System.out.println("DEBUG, new trait: " + trait);
       if (trait != null) {
         createdWeightedTraits.add(trait);
       }
@@ -38,18 +37,24 @@ public class WeightedTraitsCreator implements TraitsCreatorInterface {
   protected WeightedTraitDTO createWeightedTrait(WeightedTraitTypeDTO type) {
     Long traitTypeId = type.getTraitTypeId();
     List<WeightedTraitTypeWeightDTO> weights = getTraitTypeWeightsForTraitTypeId(traitTypeId);
+    System.out.println("DEBUG, weights: " + weights);
+    System.out.println("DEBUG, type: " + type);
     WeightedTraitTypeWeightDTO traitTypeWeight =
         getRandomTraitTypeWeightFromList(
             weights, getSeedForTrait(context.getSeedForTraits(), type));
+    System.out.println("DEBUG, traitTypeWeight: " + traitTypeWeight);
     Long traitId = weightedTraitRepository.getCount() + 1L;
-    return weightedTraitRepository.create(
+    System.out.println("DEBUG, traitId: " + traitId);
+    WeightedTraitDTO weightedTraitDTO =
         WeightedTraitDTO.builder()
             .id(null)
             .traitId(traitId)
             .tokenId(context.getTokenId())
             .traitTypeId(traitTypeId)
             .traitTypeWeightId(traitTypeWeight.getTraitTypeWeightId())
-            .build());
+            .build();
+    System.out.println("DEBUG, weightedTraitDTO: " + weightedTraitDTO);
+    return weightedTraitRepository.create(weightedTraitDTO);
   }
 
   protected List<WeightedTraitTypeWeightDTO> getTraitTypeWeightsForTraitTypeId(Long traitTypeId) {
