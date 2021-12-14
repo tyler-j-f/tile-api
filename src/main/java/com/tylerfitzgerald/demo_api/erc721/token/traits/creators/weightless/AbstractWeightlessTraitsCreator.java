@@ -4,11 +4,7 @@ import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeExc
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorInterface;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitException;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.ColorTraitPicker;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.MergeRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
-import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightlessTraitsListFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.repositories.WeightlessTraitRepository;
@@ -20,10 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class AbstractWeightlessTraitsCreator implements TraitsCreatorInterface {
 
   @Autowired private WeightlessTraitRepository weightlessTraitRepository;
-  @Autowired protected WeightlessTraitsListFinder weightlessTraitInListFinder;
-  @Autowired protected MergeRarityTraitPicker mergeRarityTraitPicker;
-  @Autowired protected EmojiTraitPicker emojiTraitPicker;
-  @Autowired protected ColorTraitPicker colorTraitPicker;
   @Autowired protected OverallRarityTraitPicker overallRarityTraitPicker;
   @Getter private List<WeightlessTraitDTO> createdWeightlessTraits = new ArrayList<>();
   protected TraitsCreatorContext context;
@@ -58,7 +50,7 @@ public abstract class AbstractWeightlessTraitsCreator implements TraitsCreatorIn
     if (traitValue == null || traitValue.equals("")) {
       return null;
     }
-    return weightlessTraitRepository.create(
+    WeightlessTraitDTO trait =
         WeightlessTraitDTO.builder()
             .id(null)
             .traitId(weightTraitId)
@@ -66,7 +58,9 @@ public abstract class AbstractWeightlessTraitsCreator implements TraitsCreatorIn
             .traitTypeId(weightlessTraitType.getWeightlessTraitTypeId())
             .value(traitValue)
             .displayTypeValue(getWeightlessTraitDisplayTypeValue())
-            .build());
+            .build();
+    System.out.println("DEBUG, createWeightlessTrait: " + trait);
+    return weightlessTraitRepository.create(trait);
   }
 
   public List<WeightlessTraitTypeDTO> getWeightlessTraitTypes() {

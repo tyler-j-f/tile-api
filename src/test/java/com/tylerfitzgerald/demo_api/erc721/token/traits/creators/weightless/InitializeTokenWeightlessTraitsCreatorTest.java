@@ -1,5 +1,7 @@
 package com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.WeightlessTraitTypeConstants;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
@@ -30,8 +32,6 @@ public class InitializeTokenWeightlessTraitsCreatorTest {
   private final Long WEIGHTED_TRAIT_TYPE_ID_2 = 2L;
   private final Long WEIGHTED_TRAIT_TYPE_WEIGHT_ID_1 = 3L;
   private final Long WEIGHTED_TRAIT_TYPE_WEIGHT_ID_2 = 4L;
-  private final Long WEIGHTLESS_TRAIT_TYPE_WEIGHT_ID_1 = 5L;
-  private final Long WEIGHTLESS_TRAIT_TYPE_WEIGHT_ID_2 = 6L;
   private final Long WEIGHTLESS_TRAIT_TYPE_ID_1 =
       Long.valueOf(WeightlessTraitTypeConstants.TILE_2_EMOJI);
   private final Long WEIGHTLESS_TRAIT_TYPE_ID_2 =
@@ -121,6 +121,14 @@ public class InitializeTokenWeightlessTraitsCreatorTest {
     mockWeightedTraitTypes();
     mockWeightedTraitTypeWeights();
     mockGetWeightlessTraitValues();
+    Mockito.when(weightlessTraitRepository.create(weightlessTraitDTOCaptor.capture()))
+        .thenReturn(newTrait1, newTrait2, newTrait3, newTrait4);
+    Mockito.when(weightlessTraitRepository.getCount())
+        .thenReturn(
+            WEIGHTLESS_TRAITS_IN_REPO_SIZE,
+            WEIGHTLESS_TRAITS_IN_REPO_SIZE + 1,
+            WEIGHTLESS_TRAITS_IN_REPO_SIZE + 2,
+            WEIGHTLESS_TRAITS_IN_REPO_SIZE + 3);
   }
 
   private void mockWeightlessTraitTypes() {
@@ -171,6 +179,7 @@ public class InitializeTokenWeightlessTraitsCreatorTest {
     Mockito.verify(weightlessTraitRepository, Mockito.times(mockNewTraits.size())).getCount();
     Mockito.verify(weightlessTraitRepository, Mockito.times(mockNewTraits.size()))
         .create(Mockito.any());
+    assertForTraitRepositoryCreateCalls();
   }
 
   private void mockGetWeightlessTraitValues() throws WeightlessTraitException {
@@ -189,5 +198,27 @@ public class InitializeTokenWeightlessTraitsCreatorTest {
         .weightedTraitTypes(mockWeightedTraitTypes)
         .weightlessTraitTypes(mockWeightlessTraitTypes)
         .build();
+  }
+
+  private void assertForTraitRepositoryCreateCalls() {
+    List<WeightlessTraitDTO> values = weightlessTraitDTOCaptor.getAllValues();
+    assertThat(values.get(0).getTokenId()).isEqualTo(TOKEN_ID);
+    assertThat(values.get(1).getTokenId()).isEqualTo(TOKEN_ID);
+    assertThat(values.get(2).getTokenId()).isEqualTo(TOKEN_ID);
+    assertThat(values.get(3).getTokenId()).isEqualTo(TOKEN_ID);
+    assertThat(values.get(0).getValue()).isEqualTo(WEIGHTLESS_TRAIT_TYPE_VALUE_1);
+    assertThat(values.get(1).getValue()).isEqualTo(WEIGHTLESS_TRAIT_TYPE_VALUE_2);
+    assertThat(values.get(2).getValue()).isEqualTo(WEIGHTLESS_TRAIT_TYPE_VALUE_3);
+    assertThat(values.get(3).getValue()).isEqualTo(WEIGHTLESS_TRAIT_TYPE_VALUE_4);
+    assertThat(values.get(0).getTraitTypeId()).isEqualTo(WEIGHTLESS_TRAIT_TYPE_ID_1);
+    assertThat(values.get(1).getTraitTypeId()).isEqualTo(WEIGHTLESS_TRAIT_TYPE_ID_2);
+    assertThat(values.get(2).getTraitTypeId()).isEqualTo(WEIGHTLESS_TRAIT_TYPE_ID_3);
+    assertThat(values.get(3).getTraitTypeId()).isEqualTo(WEIGHTLESS_TRAIT_TYPE_ID_4);
+    // For each trait, Add 1 to WEIGHTLESS_TRAITS_IN_REPO_SIZE, since we will have mocked creating 1
+    // more trait
+    assertThat(values.get(0).getTraitId()).isEqualTo(WEIGHTLESS_TRAITS_IN_REPO_SIZE + 1);
+    assertThat(values.get(1).getTraitId()).isEqualTo(WEIGHTLESS_TRAITS_IN_REPO_SIZE + 2);
+    assertThat(values.get(2).getTraitId()).isEqualTo(WEIGHTLESS_TRAITS_IN_REPO_SIZE + 3);
+    assertThat(values.get(3).getTraitId()).isEqualTo(WEIGHTLESS_TRAITS_IN_REPO_SIZE + 4);
   }
 }
