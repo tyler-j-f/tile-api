@@ -88,16 +88,16 @@ public class OverallRarityTraitPickerTest {
     assertThat(returnValue).isEqualTo(String.valueOf(CALCULATE_RARITY_RESULT_1));
   }
 
-//  @Test
-//  public void testOverallRarityTraitPickerWithWeightlessTraits()
-//      throws WeightlessTraitPickerException {
-//    mockContext(true);
-//    mockRarityCalculator(true);
-//    String returnValue = overallRarityTraitPicker.getValue(context);
-//    Mockito.verify(overallRarityCalculator, Mockito.times(1))
-//        .calculateRarity(weightedTraits, weightedTraitTypeWeights);
-//    assertThat(returnValue).isEqualTo(String.valueOf(CALCULATE_RARITY_RESULT_2));
-//  }
+  @Test
+  public void testOverallRarityTraitPickerWithWeightlessTraits()
+      throws WeightlessTraitPickerException {
+    mockContext(true);
+    mockRarityCalculator(true);
+    String returnValue = overallRarityTraitPicker.getValue(context);
+    Mockito.verify(overallRarityCalculator, Mockito.times(1))
+        .calculateRarity(weightedTraits, weightedTraitTypeWeights, weightlessTraits);
+    assertThat(returnValue).isEqualTo(String.valueOf(CALCULATE_RARITY_RESULT_2));
+  }
 
   private void mockRarityCalculator() {
     mockRarityCalculator(false);
@@ -208,14 +208,14 @@ public class OverallRarityTraitPickerTest {
   private void mockContext(boolean shouldAddWeightlessTraitsToContext) {
     WeightlessTraitPickerContext.WeightlessTraitPickerContextBuilder builder =
         WeightlessTraitPickerContext.builder();
-    if (shouldAddWeightlessTraitsToContext) {
-      builder.weightlessTraits(weightlessTraits);
-    }
+    List<WeightlessTraitDTO> weightlessTraitsToSet =
+        shouldAddWeightlessTraitsToContext ? weightlessTraits : new ArrayList<>();
     context =
         builder
             .seedForTrait(SEED_FOR_TRAITS)
             .weightedTraits(weightedTraits)
             .weightedTraitTypeWeights(weightedTraitTypeWeights)
+            .weightlessTraits(weightlessTraitsToSet)
             .build();
     return;
   }
