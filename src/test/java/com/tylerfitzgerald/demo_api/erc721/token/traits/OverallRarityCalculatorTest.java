@@ -53,22 +53,26 @@ public class OverallRarityCalculatorTest {
   private String WEIGHTED_VALUE_1 = "2";
   private String WEIGHTED_VALUE_2 = "3";
   private String WEIGHTED_VALUE_3 = "5";
-  private String WEIGHTED_DISPLAY_TYPE_VALUE_1 = "";
-  private String WEIGHTED_DISPLAY_TYPE_VALUE_2 = "";
-  private String WEIGHTED_DISPLAY_TYPE_VALUE_3 = "";
+  private String WEIGHTED_DISPLAY_TYPE_VALUE = "";
   private Long WEIGHTLESS_TRAIT_TYPE_ID_1 =
       Long.valueOf(WeightlessTraitTypeConstants.TILE_1_RARITY);
   private Long WEIGHTLESS_TRAIT_TYPE_ID_2 =
       Long.valueOf(WeightlessTraitTypeConstants.TILE_2_RARITY);
-  private Long WEIGHTLESS_LIKELIHOOD_1 = 25L;
+  private Long WEIGHTLESS_TRAIT_TYPE_ID_3 =
+      Long.valueOf(WeightlessTraitTypeConstants.TILE_3_RARITY);
+  private Long WEIGHTLESS_TRAIT_TYPE_ID_4 =
+      Long.valueOf(WeightlessTraitTypeConstants.TILE_4_RARITY);
   private Long WEIGHTLESS_TRAIT_ID_1 = 60L;
   private Long WEIGHTLESS_TRAIT_ID_2 = 61L;
-  private String WEIGHTLESS_VALUE_1 = "20";
-  private String WEIGHTLESS_VALUE_2 = "25";
-  private String WEIGHTLESS_DISPLAY_TYPE_VALUE_1 = "";
-  private String WEIGHTLESS_DISPLAY_TYPE_VALUE_2 = "";
+  private Long WEIGHTLESS_TRAIT_ID_3 = 62L;
+  private Long WEIGHTLESS_TRAIT_ID_4 = 63L;
+  private String WEIGHTLESS_VALUE_1 = "7";
+  private String WEIGHTLESS_VALUE_2 = "9";
+  private String WEIGHTLESS_VALUE_3 = "11";
+  private String WEIGHTLESS_VALUE_4 = "13";
+  private String WEIGHTLESS_DISPLAY_TYPE_VALUE = "";
   private Long CALCULATE_RARITY_RESULT_1 = 32L;
-  private Long CALCULATE_RARITY_RESULT_2 = 172L;
+  private Long CALCULATE_RARITY_RESULT_2 = 146L;
   private WeightlessTraitPickerContext context;
   @Mock private WeightedTraitTypeWeightsListFinder weightedTraitTypeWeightsListFinder;
 
@@ -112,8 +116,6 @@ public class OverallRarityCalculatorTest {
             weightedTraits, weightedTraitTypeWeights, weightlessTraits);
     Mockito.verify(weightedTraitTypeWeightsListFinder, Mockito.times(2))
         .findFirstByTraitTypeId(weightedTraitTypeWeights, WEIGHTED_TRAIT_TYPE_WEIGHT_ID_1);
-    //    Mockito.verify(weightedTraitTypeWeightsListFinder, Mockito.times(1))
-    //        .findFirstByTraitTypeId(weightedTraitTypeWeights, WEIGHTED_TRAIT_TYPE_WEIGHT_ID_2);
     Mockito.verify(weightedTraitTypeWeightsListFinder, Mockito.times(2))
         .findFirstByTraitTypeId(weightedTraitTypeWeights, WEIGHTED_TRAIT_TYPE_WEIGHT_ID_3);
     assertThat(returnValue).isEqualTo(CALCULATE_RARITY_RESULT_2);
@@ -206,7 +208,7 @@ public class OverallRarityCalculatorTest {
             .traitTypeId(WEIGHTED_TRAIT_TYPE_ID_1)
             .likelihood(WEIGHTED_LIKELIHOOD_1)
             .value(WEIGHTED_VALUE_1)
-            .displayTypeValue(WEIGHTED_DISPLAY_TYPE_VALUE_1)
+            .displayTypeValue(WEIGHTED_DISPLAY_TYPE_VALUE)
             .build());
     weightedTraitTypeWeights.add(
         WeightedTraitTypeWeightDTO.builder()
@@ -214,7 +216,7 @@ public class OverallRarityCalculatorTest {
             .traitTypeId(WEIGHTED_TRAIT_TYPE_ID_2)
             .likelihood(WEIGHTED_LIKELIHOOD_2)
             .value(WEIGHTED_VALUE_2)
-            .displayTypeValue(WEIGHTED_DISPLAY_TYPE_VALUE_2)
+            .displayTypeValue(WEIGHTED_DISPLAY_TYPE_VALUE)
             .build());
     weightedTraitTypeWeights.add(
         WeightedTraitTypeWeightDTO.builder()
@@ -222,7 +224,7 @@ public class OverallRarityCalculatorTest {
             .traitTypeId(WEIGHTED_TRAIT_TYPE_ID_3)
             .likelihood(WEIGHTED_LIKELIHOOD_3)
             .value(WEIGHTED_VALUE_3)
-            .displayTypeValue(WEIGHTED_DISPLAY_TYPE_VALUE_3)
+            .displayTypeValue(WEIGHTED_DISPLAY_TYPE_VALUE)
             .build());
     return;
   }
@@ -234,7 +236,7 @@ public class OverallRarityCalculatorTest {
             .traitId(WEIGHTLESS_TRAIT_ID_1)
             .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID_1)
             .value(WEIGHTLESS_VALUE_1)
-            .displayTypeValue(WEIGHTLESS_DISPLAY_TYPE_VALUE_1)
+            .displayTypeValue(WEIGHTLESS_DISPLAY_TYPE_VALUE)
             .build());
     weightlessTraits.add(
         WeightlessTraitDTO.builder()
@@ -242,7 +244,23 @@ public class OverallRarityCalculatorTest {
             .traitId(WEIGHTLESS_TRAIT_ID_2)
             .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID_2)
             .value(WEIGHTLESS_VALUE_2)
-            .displayTypeValue(WEIGHTLESS_DISPLAY_TYPE_VALUE_2)
+            .displayTypeValue(WEIGHTLESS_DISPLAY_TYPE_VALUE)
+            .build());
+    weightlessTraits.add(
+        WeightlessTraitDTO.builder()
+            .tokenId(TOKEN_ID)
+            .traitId(WEIGHTLESS_TRAIT_ID_3)
+            .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID_3)
+            .value(WEIGHTLESS_VALUE_3)
+            .displayTypeValue(WEIGHTLESS_DISPLAY_TYPE_VALUE)
+            .build());
+    weightlessTraits.add(
+        WeightlessTraitDTO.builder()
+            .tokenId(TOKEN_ID)
+            .traitId(WEIGHTLESS_TRAIT_ID_4)
+            .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID_4)
+            .value(WEIGHTLESS_VALUE_4)
+            .displayTypeValue(WEIGHTLESS_DISPLAY_TYPE_VALUE)
             .build());
     return;
   }
