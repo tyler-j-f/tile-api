@@ -17,14 +17,14 @@ public class MergeRarityTraitPicker implements WeightlessTraitPickerInterface {
   @Autowired private WeightedTraitsListFinder weightedTraitListHelper;
   @Autowired protected WeightedTraitTypeWeightsListFinder weightedTraitTypeWeightsListFinder;
   @Autowired private WeightlessTraitsListFinder weightlessTraitInListFinder;
-  private int traitTypeId;
+  private int traitTypeIdToCreate;
   private TokenFacadeDTO burnedNft1;
   private TokenFacadeDTO burnedNft2;
 
   @Override
   public String getValue(WeightlessTraitPickerContext context)
       throws WeightlessTraitPickerException {
-    traitTypeId = context.getTraitTypeId();
+    traitTypeIdToCreate = context.getTraitTypeId();
     burnedNft1 = context.getBurnedNft1();
     burnedNft2 = context.getBurnedNft2();
     return getRarityValue();
@@ -66,7 +66,7 @@ public class MergeRarityTraitPicker implements WeightlessTraitPickerInterface {
   }
 
   private int getMultiplierTraitTypeId() throws WeightlessTraitPickerException {
-    switch (traitTypeId) {
+    switch (traitTypeIdToCreate) {
       case WeightlessTraitTypeConstants.TILE_1_RARITY:
         return WeightedTraitTypeConstants.TILE_1_MULTIPLIER;
       case WeightlessTraitTypeConstants.TILE_2_RARITY:
@@ -76,7 +76,7 @@ public class MergeRarityTraitPicker implements WeightlessTraitPickerInterface {
       case WeightlessTraitTypeConstants.TILE_4_RARITY:
         return WeightedTraitTypeConstants.TILE_4_MULTIPLIER;
       default:
-        throw new WeightlessTraitPickerException("Unexpected value. traitTypeId: " + traitTypeId);
+        throw new WeightlessTraitPickerException("Unexpected value. traitTypeId: " + traitTypeIdToCreate);
     }
   }
 
@@ -123,7 +123,7 @@ public class MergeRarityTraitPicker implements WeightlessTraitPickerInterface {
   private String[] getBurnedTokenWeightedTraitValues(
       String burnedWeightlessTrait1Value, String burnedWeightlessTrait2Value)
       throws WeightlessTraitPickerException {
-    int traitTypeIdInt = Math.toIntExact(traitTypeId);
+    int traitTypeIdInt = Math.toIntExact(traitTypeIdToCreate);
     Long weightedTraitTypeId;
     switch (traitTypeIdInt) {
       case WeightlessTraitTypeConstants.TILE_1_RARITY:
@@ -161,7 +161,7 @@ public class MergeRarityTraitPicker implements WeightlessTraitPickerInterface {
   private String findWeightlessTraitValueFromListByType(TokenFacadeDTO nft) {
     WeightlessTraitDTO weightedTrait =
         weightlessTraitInListFinder.findFirstByTraitTypeId(
-            nft.getWeightlessTraits(), Long.valueOf(traitTypeId));
+            nft.getWeightlessTraits(), Long.valueOf(traitTypeIdToCreate));
     if (weightedTrait != null) {
       return weightedTrait.getValue();
     }

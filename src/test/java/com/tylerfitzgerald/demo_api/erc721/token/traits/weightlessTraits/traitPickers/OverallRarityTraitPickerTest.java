@@ -66,7 +66,6 @@ public class OverallRarityTraitPickerTest {
 
   private final Long SEED_FOR_TRAITS =
       Long.valueOf(new Random(System.currentTimeMillis()).nextInt());
-  private final int NUMBER_OF_TIMES_TO_REPEAT_TEST = 10;
   private List<WeightedTraitDTO> weightedTraits = new ArrayList<>();;
   private List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeights = new ArrayList<>();;
   private List<WeightlessTraitDTO> weightlessTraits = new ArrayList<>();
