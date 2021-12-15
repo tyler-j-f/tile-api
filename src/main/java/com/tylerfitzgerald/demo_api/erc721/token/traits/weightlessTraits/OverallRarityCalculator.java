@@ -104,6 +104,24 @@ public class OverallRarityCalculator {
           break;
       }
     }
+    System.out.println(
+        "\nDEBUG calculateRarity: "
+            + "\ntile1Value: "
+            + tile1Value
+            + "\ntile1Multiplier: "
+            + tile1Multiplier
+            + "\ntile2Value: "
+            + tile2Value
+            + "\ntile2Multiplier: "
+            + tile2Multiplier
+            + "\ntile3Value: "
+            + tile3Value
+            + "\ntile3Multiplier: "
+            + tile3Multiplier
+            + "\ntile4Value: "
+            + tile4Value
+            + "\ntile4Multiplier: "
+            + tile4Multiplier);
     return calculate();
   }
 
