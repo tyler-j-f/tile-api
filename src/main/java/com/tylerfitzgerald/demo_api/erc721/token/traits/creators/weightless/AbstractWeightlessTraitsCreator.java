@@ -3,7 +3,7 @@ package com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorInterface;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityTraitPickerPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.WeightlessTraitPickerException;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class AbstractWeightlessTraitsCreator implements TraitsCreatorInterface {
 
   @Autowired private WeightlessTraitRepository weightlessTraitRepository;
-  @Autowired protected OverallRarityTraitPickerPicker overallRarityTraitPicker;
+  @Autowired protected OverallRarityTraitPicker overallRarityTraitPicker;
   @Getter private List<WeightlessTraitDTO> createdWeightlessTraits = new ArrayList<>();
   protected TraitsCreatorContext context;
 

@@ -3,7 +3,7 @@ package com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitP
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.OverallRarityCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class OverallRarityTraitPickerPicker implements WeightlessTraitPickerInterface {
+public class OverallRarityTraitPicker implements WeightlessTraitPickerInterface {
 
   @Autowired private OverallRarityCalculator overallRarityCalculator;
 

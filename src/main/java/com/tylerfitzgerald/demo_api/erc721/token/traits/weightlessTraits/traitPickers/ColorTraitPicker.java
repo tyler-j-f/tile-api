@@ -2,7 +2,7 @@ package com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitP
 
 import java.util.Random;
 
-public class ColorTraitPickerPicker implements WeightlessTraitPickerInterface {
+public class ColorTraitPicker implements WeightlessTraitPickerInterface {
 
   @Override
   public String getValue(WeightlessTraitPickerContext context)

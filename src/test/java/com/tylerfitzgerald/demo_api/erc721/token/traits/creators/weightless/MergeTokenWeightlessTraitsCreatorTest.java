@@ -6,8 +6,8 @@ import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitTypeConstants;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.MergeRarityTraitPickerPicker;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityTraitPickerPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.MergeRarityTraitPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.WeightlessTraitPickerException;
 import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightlessTraitsListFinder;
 import com.tylerfitzgerald.demo_api.sql.dtos.TokenDTO;
@@ -72,9 +72,9 @@ public class MergeTokenWeightlessTraitsCreatorTest {
   List<WeightlessTraitDTO> burnedNft1WeightlessTraits = new ArrayList<>();
   List<WeightlessTraitDTO> burnedNft2WeightlessTraits = new ArrayList<>();
   @Mock private WeightlessTraitsListFinder weightlessTraitInListFinder;
-  @Mock private MergeRarityTraitPickerPicker mergeRarityTraitPicker;
+  @Mock private MergeRarityTraitPicker mergeRarityTraitPicker;
   @Mock private WeightlessTraitRepository weightlessTraitRepository;
-  @Mock protected OverallRarityTraitPickerPicker overallRarityTraitPicker;
+  @Mock protected OverallRarityTraitPicker overallRarityTraitPicker;
 
   @InjectMocks
   private MergeTokenWeightlessTraitsCreator weightlessTraitsCreator =

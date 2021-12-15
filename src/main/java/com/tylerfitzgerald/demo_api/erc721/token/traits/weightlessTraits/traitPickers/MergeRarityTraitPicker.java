@@ -12,7 +12,7 @@ import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class MergeRarityTraitPickerPicker implements WeightlessTraitPickerInterface {
+public class MergeRarityTraitPicker implements WeightlessTraitPickerInterface {
 
   @Autowired private WeightedTraitsListFinder weightedTraitListHelper;
   @Autowired protected WeightedTraitTypeWeightsListFinder weightedTraitTypeWeightsListFinder;

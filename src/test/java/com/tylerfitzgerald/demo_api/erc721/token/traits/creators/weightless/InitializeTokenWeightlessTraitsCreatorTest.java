@@ -5,9 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.creators.TraitsCreatorContext;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitTypeConstants;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.ColorTraitPickerPicker;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.EmojiTraitPickerPicker;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityTraitPickerPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.ColorTraitPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.WeightlessTraitPickerException;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeWeightDTO;
@@ -63,9 +63,9 @@ public class InitializeTokenWeightlessTraitsCreatorTest {
   private List<WeightedTraitTypeWeightDTO> mockWeightedTraitTypeWeights = new ArrayList<>();
   private List<WeightedTraitTypeDTO> mockWeightedTraitTypes = new ArrayList<>();
   @Mock private WeightlessTraitRepository weightlessTraitRepository;
-  @Mock protected EmojiTraitPickerPicker emojiTraitPicker;
-  @Mock protected ColorTraitPickerPicker colorTraitPicker;
-  @Mock protected OverallRarityTraitPickerPicker overallRarityTraitPicker;
+  @Mock protected EmojiTraitPicker emojiTraitPicker;
+  @Mock protected ColorTraitPicker colorTraitPicker;
+  @Mock protected OverallRarityTraitPicker overallRarityTraitPicker;
 
   @InjectMocks
   private InitializeTokenWeightlessTraitsCreator weightlessTraitsCreator =

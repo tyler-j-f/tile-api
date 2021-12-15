@@ -3,8 +3,8 @@ package com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.SeedForTrait;
 import com.tylerfitzgerald.demo_api.erc721.token.initializers.TokenInitializeException;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitTypeConstants;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.ColorTraitPickerPicker;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.EmojiTraitPickerPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.ColorTraitPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.EmojiTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.WeightlessTraitPickerContext;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.WeightlessTraitPickerException;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class InitializeTokenWeightlessTraitsCreator extends AbstractWeightlessTraitsCreator {
 
-  @Autowired private EmojiTraitPickerPicker emojiTraitPicker;
-  @Autowired private ColorTraitPickerPicker colorTraitPicker;
+  @Autowired private EmojiTraitPicker emojiTraitPicker;
+  @Autowired private ColorTraitPicker colorTraitPicker;
 
   @Override
   protected String getWeightlessTraitValue(WeightlessTraitTypeDTO weightlessTraitType)

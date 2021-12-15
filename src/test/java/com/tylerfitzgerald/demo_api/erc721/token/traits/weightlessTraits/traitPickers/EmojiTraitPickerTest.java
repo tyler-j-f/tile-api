@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 
 @SpringBootTest
-public class EmojiTraitPickerPickerTest {
+public class EmojiTraitPickerTest {
   private WeightlessTraitPickerContext context;
   private final Long SEED_FOR_TRAITS =
       Long.valueOf(new Random(System.currentTimeMillis()).nextInt());
@@ -21,7 +21,7 @@ public class EmojiTraitPickerPickerTest {
   private String MOCK_FILENAME = "A";
   private Resource resource;
   @Mock private ImageResourcesLoader imageResourcesLoader;
-  @InjectMocks private EmojiTraitPickerPicker emojiTraitPickerPicker = new EmojiTraitPickerPicker();
+  @InjectMocks private EmojiTraitPicker emojiTraitPicker = new EmojiTraitPicker();
 
   @Test
   public void testEmojiTraitPickerPicker() throws WeightlessTraitPickerException, IOException {
@@ -34,14 +34,14 @@ public class EmojiTraitPickerPickerTest {
     mockForImageResourcesLoader();
     for (int x = 0; x < NUMBER_OF_TIMES_TO_REPEAT_TEST; x++) {
       if (traitValue.equals("")) {
-        traitValue = emojiTraitPickerPicker.getValue(context);
-        displayValue = emojiTraitPickerPicker.getDisplayValue(context);
+        traitValue = emojiTraitPicker.getValue(context);
+        displayValue = emojiTraitPicker.getDisplayValue(context);
       } else {
         traitValuePrevious = traitValue;
-        traitValue = emojiTraitPickerPicker.getValue(context);
+        traitValue = emojiTraitPicker.getValue(context);
         assertThat(traitValue).isEqualTo(traitValuePrevious);
         displayValuePrevious = displayValue;
-        displayValue = emojiTraitPickerPicker.getDisplayValue(context);
+        displayValue = emojiTraitPicker.getDisplayValue(context);
         assertThat(displayValue).isEqualTo(displayValuePrevious);
       }
     }

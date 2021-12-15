@@ -2,7 +2,7 @@ package com.tylerfitzgerald.demo_api.erc721.token.traits.creators.weightless;
 
 import com.tylerfitzgerald.demo_api.erc721.token.TokenFacadeDTO;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.WeightlessTraitTypeConstants;
-import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.MergeRarityTraitPickerPicker;
+import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.MergeRarityTraitPicker;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.WeightlessTraitPickerContext;
 import com.tylerfitzgerald.demo_api.erc721.token.traits.weightlessTraits.traitPickers.WeightlessTraitPickerException;
 import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightlessTraitsListFinder;
@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class MergeTokenWeightlessTraitsCreator extends AbstractWeightlessTraitsCreator {
 
   @Autowired private WeightlessTraitsListFinder weightlessTraitInListFinder;
-  @Autowired private MergeRarityTraitPickerPicker mergeRarityTraitPicker;
+  @Autowired private MergeRarityTraitPicker mergeRarityTraitPicker;
 
   @Override
   protected String getWeightlessTraitValue(WeightlessTraitTypeDTO weightlessTraitType)
