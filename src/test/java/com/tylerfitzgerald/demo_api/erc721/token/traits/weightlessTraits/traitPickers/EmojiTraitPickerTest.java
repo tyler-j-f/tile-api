@@ -24,7 +24,7 @@ public class EmojiTraitPickerTest {
   @InjectMocks private EmojiTraitPicker emojiTraitPicker = new EmojiTraitPicker();
 
   @Test
-  public void testEmojiTraitPickerPicker() throws WeightlessTraitPickerException, IOException {
+  public void testEmojiTraitPicker() throws WeightlessTraitPickerException, IOException {
     String traitValue = "";
     String traitValuePrevious = "";
     String displayValue = "";

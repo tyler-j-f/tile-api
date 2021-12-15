@@ -14,7 +14,7 @@ public class ColorTraitPickerTest {
   private final int NUMBER_OF_TIMES_TO_REPEAT_TEST = 10;
 
   @Test
-  public void testColorTraitPickerPicker() throws WeightlessTraitPickerException {
+  public void testColorTraitPicker() throws WeightlessTraitPickerException {
     mockContext();
     String traitValue = "";
     String traitValuePrevious = "";
