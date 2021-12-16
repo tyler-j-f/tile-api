@@ -19,30 +19,10 @@ import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightedTraitTypeWeightsList
 import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightedTraitTypesListFinder;
 import com.tylerfitzgerald.demo_api.etc.lsitFinders.WeightlessTraitTypesListFinder;
 import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
-import com.tylerfitzgerald.demo_api.sql.dtos.TokenDTO;
-import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitDTO;
-import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeDTO;
-import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeWeightDTO;
-import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
-import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitTypeDTO;
-import com.tylerfitzgerald.demo_api.sql.repositories.TokenRepository;
-import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitRepository;
-import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitTypeRepository;
-import com.tylerfitzgerald.demo_api.sql.repositories.WeightedTraitTypeWeightRepository;
-import com.tylerfitzgerald.demo_api.sql.repositories.WeightlessTraitRepository;
-import com.tylerfitzgerald.demo_api.sql.repositories.WeightlessTraitTypeRepository;
-import com.tylerfitzgerald.demo_api.sql.tbls.TokenTable;
-import com.tylerfitzgerald.demo_api.sql.tbls.WeightedTraitTypeWeightsTable;
-import com.tylerfitzgerald.demo_api.sql.tbls.WeightedTraitTypesTable;
-import com.tylerfitzgerald.demo_api.sql.tbls.WeightedTraitsTable;
-import com.tylerfitzgerald.demo_api.sql.tbls.WeightlessTraitTypesTable;
-import com.tylerfitzgerald.demo_api.sql.tbls.WeightlessTraitsTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
 
@@ -56,58 +36,9 @@ public class AppBeansConfig {
   @Autowired WeightedTraitTypesListFinder weightedTraitTypesListFinder;
   @Autowired WeightedTraitTypeWeightsListFinder weightedTraitTypeWeightsListFinder;
 
-  private final JdbcTemplate jdbcTemplate;
-
-  public AppBeansConfig(JdbcTemplate jdbcTemplate) {
-    this.jdbcTemplate = jdbcTemplate;
-  }
-
-  @Bean
-  public TokenRepository tokenRepository() {
-    return new TokenRepository(jdbcTemplate, new BeanPropertyRowMapper(TokenDTO.class));
-  }
-
   @Bean
   public Web3j web3j() {
     return Web3j.build(new HttpService(envConfig.getAlchemyURI()));
-  }
-
-  @Bean
-  public TokenTable tokenTable() {
-    return new TokenTable(jdbcTemplate);
-  }
-
-  @Bean
-  public WeightedTraitTypesTable traitTypesTable() {
-    return new WeightedTraitTypesTable(jdbcTemplate);
-  }
-
-  @Bean
-  public WeightedTraitTypeRepository weightedTraitTypeRepository() {
-    return new WeightedTraitTypeRepository(
-        jdbcTemplate, new BeanPropertyRowMapper(WeightedTraitTypeDTO.class));
-  }
-
-  @Bean
-  public WeightedTraitTypeWeightsTable traitTypeWeightsTable() {
-    return new WeightedTraitTypeWeightsTable(jdbcTemplate);
-  }
-
-  @Bean
-  public WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository() {
-    return new WeightedTraitTypeWeightRepository(
-        jdbcTemplate, new BeanPropertyRowMapper(WeightedTraitTypeWeightDTO.class));
-  }
-
-  @Bean
-  public WeightedTraitsTable traitsTable() {
-    return new WeightedTraitsTable(jdbcTemplate);
-  }
-
-  @Bean
-  public WeightedTraitRepository weightedTraitRepository() {
-    return new WeightedTraitRepository(
-        jdbcTemplate, new BeanPropertyRowMapper(WeightedTraitDTO.class));
   }
 
   @Bean
@@ -133,28 +64,6 @@ public class AppBeansConfig {
   @Bean
   public TokenRetriever tokenRetriever() {
     return new TokenRetriever();
-  }
-
-  @Bean
-  public WeightlessTraitsTable weightlessTraitsTable() {
-    return new WeightlessTraitsTable(jdbcTemplate);
-  }
-
-  @Bean
-  public WeightlessTraitTypesTable weightlessTraitTypesTable() {
-    return new WeightlessTraitTypesTable(jdbcTemplate);
-  }
-
-  @Bean
-  public WeightlessTraitRepository weightlessTraitRepository() {
-    return new WeightlessTraitRepository(
-        jdbcTemplate, new BeanPropertyRowMapper(WeightlessTraitDTO.class));
-  }
-
-  @Bean
-  public WeightlessTraitTypeRepository weightlessTraitTypeRepository() {
-    return new WeightlessTraitTypeRepository(
-        jdbcTemplate, new BeanPropertyRowMapper(WeightlessTraitTypeDTO.class));
   }
 
   @Bean
