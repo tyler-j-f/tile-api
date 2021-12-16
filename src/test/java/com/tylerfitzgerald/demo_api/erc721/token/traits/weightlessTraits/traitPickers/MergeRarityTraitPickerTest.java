@@ -61,16 +61,16 @@ public class MergeRarityTraitPickerTest {
   private Long WEIGHTED_TRAIT_BURNED_NFT1_2 = 101L;
   private Long WEIGHTED_TRAIT_BURNED_NFT1_3 = 102L;
   private Long WEIGHTED_TRAIT_BURNED_NFT1_4 = 103L;
-  private Long WEIGHTED_TRAIT_BURNED_NFT1_5 = 100L;
-  private Long WEIGHTED_TRAIT_BURNED_NFT1_6 = 101L;
-  private Long WEIGHTED_TRAIT_BURNED_NFT1_7 = 102L;
-  private Long WEIGHTED_TRAIT_BURNED_NFT1_8 = 103L;
-  private Long WEIGHTED_TRAIT_BURNED_NFT1_9 = 104L;
-  private Long WEIGHTED_TRAIT_BURNED_NFT2_1 = 105L;
-  private Long WEIGHTED_TRAIT_BURNED_NFT2_2 = 106L;
-  private Long WEIGHTED_TRAIT_BURNED_NFT2_3 = 107L;
-  private Long WEIGHTED_TRAIT_BURNED_NFT2_4 = 108L;
-  private Long WEIGHTED_TRAIT_BURNED_NFT2_5 = 109L;
+  private Long WEIGHTED_TRAIT_BURNED_NFT1_5 = 104L;
+  private Long WEIGHTED_TRAIT_BURNED_NFT1_6 = 105L;
+  private Long WEIGHTED_TRAIT_BURNED_NFT1_7 = 106L;
+  private Long WEIGHTED_TRAIT_BURNED_NFT1_8 = 107L;
+  private Long WEIGHTED_TRAIT_BURNED_NFT1_9 = 108L;
+  private Long WEIGHTED_TRAIT_BURNED_NFT2_1 = 109L;
+  private Long WEIGHTED_TRAIT_BURNED_NFT2_2 = 110L;
+  private Long WEIGHTED_TRAIT_BURNED_NFT2_3 = 111L;
+  private Long WEIGHTED_TRAIT_BURNED_NFT2_4 = 112L;
+  private Long WEIGHTED_TRAIT_BURNED_NFT2_5 = 113L;
   // WEIGHTLESS TRAIT TYPE IDs
   private Long WEIGHTLESS_TRAIT_TYPE_ID_1 =
       Long.valueOf(WeightlessTraitTypeConstants.TILE_1_RARITY);
@@ -81,16 +81,16 @@ public class MergeRarityTraitPickerTest {
   private Long WEIGHTLESS_TRAIT_TYPE_ID_4 =
       Long.valueOf(WeightlessTraitTypeConstants.TILE_4_RARITY);
   // WEIGHTLESS TRAIT IDs
-  private Long WEIGHTLESS_TRAIT_BURNED_NFT2_1 = 110L;
-  private Long WEIGHTLESS_TRAIT_BURNED_NFT2_2 = 111L;
-  private Long WEIGHTLESS_TRAIT_BURNED_NFT2_3 = 112L;
-  private Long WEIGHTLESS_TRAIT_BURNED_NFT2_4 = 113L;
+  private Long WEIGHTLESS_TRAIT_BURNED_NFT2_1 = 114L;
+  private Long WEIGHTLESS_TRAIT_BURNED_NFT2_2 = 115L;
+  private Long WEIGHTLESS_TRAIT_BURNED_NFT2_3 = 116L;
+  private Long WEIGHTLESS_TRAIT_BURNED_NFT2_4 = 117L;
   // BURNED TOKENs
   private TokenFacadeDTO burnedNft1;
   private TokenFacadeDTO burnedNft2;
   private Long BURNED_TOKEN_1_ID = 202L;
   private Long BURNED_TOKEN_2_ID = 203L;
-  private Long MERGE_RARITY_TRAIT_PICKER_VALUE_1 = 147L;
+  private String MERGE_RARITY_TRAIT_PICKER_VALUE_1 = "2052";
   private int TRAIT_TYPE_ID_TO_CREATE = WeightlessTraitTypeConstants.TILE_2_RARITY;
   private WeightlessTraitPickerContext context;
 
@@ -158,7 +158,7 @@ public class MergeRarityTraitPickerTest {
                 burnedNft1WeightedTraitTypeWeights, burnedNft1FoundTrait.getTraitTypeWeightId()))
         .thenReturn(burnedNft1WeightedTraitTypeWeights.get(1));
     // Burned Nft2 multiplier 1
-    List<WeightedTraitDTO> burnedNft2WeightedTraits = burnedNft1.getWeightedTraits();
+    List<WeightedTraitDTO> burnedNft2WeightedTraits = burnedNft2.getWeightedTraits();
     WeightedTraitDTO burnedNft2FoundTrait = burnedNft2WeightedTraits.get(1);
     Mockito.when(
             weightedTraitListHelper.findFirstByTraitTypeId(
@@ -179,17 +179,17 @@ public class MergeRarityTraitPickerTest {
     Mockito.when(
             weightedTraitTypeWeightsListFinder.findFirstByTraitTypeWeightId(
                 burnedNft1WeightedTraitTypeWeights, burnedNft1FoundTrait2.getTraitTypeWeightId()))
-        .thenReturn(burnedNft1WeightedTraitTypeWeights.get(2));
+        .thenReturn(burnedNft1WeightedTraitTypeWeights.get(8));
     // Burned Nft1 Merge multiplier 2
     WeightedTraitDTO burnedNft2FoundTrait2 = burnedNft2WeightedTraits.get(4);
     Mockito.when(
             weightedTraitListHelper.findFirstByTraitTypeId(
-                burnedNft2WeightedTraits, (long) WeightedTraitTypeConstants.TILE_2_MULTIPLIER))
+                burnedNft2WeightedTraits, (long) WeightedTraitTypeConstants.MERGE_MULTIPLIER))
         .thenReturn(burnedNft2FoundTrait);
     Mockito.when(
             weightedTraitTypeWeightsListFinder.findFirstByTraitTypeWeightId(
                 burnedNft2WeightedTraitTypeWeights, burnedNft2FoundTrait2.getTraitTypeWeightId()))
-        .thenReturn(burnedNft2WeightedTraitTypeWeights.get(2));
+        .thenReturn(burnedNft2WeightedTraitTypeWeights.get(4));
   }
 
   // Burned NFT1 will have all rarity and multiplier traits be weighted
