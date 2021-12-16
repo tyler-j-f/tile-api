@@ -1,0 +1,71 @@
+package io.tileNft.erc721.token.traits.creators.weightless;
+
+import io.tileNft.erc721.token.initializers.TokenInitializeException;
+import io.tileNft.erc721.token.traits.creators.TraitsCreatorContext;
+import io.tileNft.erc721.token.traits.creators.TraitsCreatorInterface;
+import io.tileNft.erc721.token.traits.weightlessTraits.traitPickers.OverallRarityTraitPicker;
+import io.tileNft.erc721.token.traits.weightlessTraits.traitPickers.WeightlessTraitPickerException;
+import io.tileNft.sql.dtos.WeightlessTraitDTO;
+import io.tileNft.sql.dtos.WeightlessTraitTypeDTO;
+import io.tileNft.sql.repositories.WeightlessTraitRepository;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
+
+public abstract class AbstractWeightlessTraitsCreator implements TraitsCreatorInterface {
+
+  @Autowired private WeightlessTraitRepository weightlessTraitRepository;
+  @Autowired protected OverallRarityTraitPicker overallRarityTraitPicker;
+  @Getter private List<WeightlessTraitDTO> createdWeightlessTraits = new ArrayList<>();
+  protected TraitsCreatorContext context;
+
+  protected abstract String getWeightlessTraitValue(WeightlessTraitTypeDTO weightlessTraitType)
+      throws WeightlessTraitPickerException, TokenInitializeException;
+
+  @Override
+  public void createTraits(TraitsCreatorContext context) throws TokenInitializeException {
+    this.context = context;
+    createdWeightlessTraits = new ArrayList<>();
+    WeightlessTraitDTO weightlessTraitDTO;
+    for (WeightlessTraitTypeDTO weightlessTraitType : context.getWeightlessTraitTypes()) {
+      try {
+        weightlessTraitDTO = createWeightlessTrait(context.getTokenId(), weightlessTraitType);
+      } catch (WeightlessTraitPickerException e) {
+        throw new TokenInitializeException(e.getMessage(), e.getCause());
+      }
+      if (weightlessTraitDTO != null) {
+        createdWeightlessTraits.add(weightlessTraitDTO);
+      }
+    }
+    return;
+  }
+
+  private WeightlessTraitDTO createWeightlessTrait(
+      Long tokenId, WeightlessTraitTypeDTO weightlessTraitType)
+      throws TokenInitializeException, WeightlessTraitPickerException {
+    Long weightTraitId = weightlessTraitRepository.getCount() + 1L;
+    String traitValue = getWeightlessTraitValue(weightlessTraitType);
+    if (traitValue == null || traitValue.equals("")) {
+      return null;
+    }
+    WeightlessTraitDTO trait =
+        WeightlessTraitDTO.builder()
+            .id(null)
+            .traitId(weightTraitId)
+            .tokenId(tokenId)
+            .traitTypeId(weightlessTraitType.getWeightlessTraitTypeId())
+            .value(traitValue)
+            .displayTypeValue(getWeightlessTraitDisplayTypeValue())
+            .build();
+    return weightlessTraitRepository.create(trait);
+  }
+
+  public List<WeightlessTraitTypeDTO> getWeightlessTraitTypes() {
+    return context.getWeightlessTraitTypes();
+  }
+
+  private String getWeightlessTraitDisplayTypeValue() {
+    return "";
+  }
+}

@@ -1,0 +1,14 @@
+package io.tileNft.erc721.ethEvents.events;
+
+import java.util.List;
+
+public abstract class AbstractSingleTokenEvent extends AbstractEvent {
+
+  public AbstractSingleTokenEvent(List<String> topics, String transactionHash) {
+    super(topics, transactionHash);
+  }
+
+  public String getTokenId() {
+    return getTopicValue(1);
+  }
+}

@@ -5,10 +5,20 @@
         "https://checkstyle.org/dtds/suppressions_1_0.dtd">
 
 <suppressions>
-    <suppress checks="JavadocStyleCheck"
-              files="GeneratedObject.java"
-              lines="50-9999"/>
-    <suppress checks="MagicNumberCheck"
-              files="LegacyDatasetConvertor.java"
-              lines="221,250-295"/>
+    <suppress
+      checks="CustomImportOrderCheck"
+      files="ImageBeansConfig.java"
+    />
+    <suppress
+      checks="MemberNameCheck"
+      files="TokenConfig.java"
+    />
+    <suppress
+      checks="MemberNameCheck"
+      files="ContractConfig.java"
+    />
+    <suppress
+      checks="MemberNameCheck,CustomImportOrderCheck"
+      files="SalesConfig.java"
+    />
 </suppressions>
