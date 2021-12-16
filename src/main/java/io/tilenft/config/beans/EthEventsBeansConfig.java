@@ -1,10 +1,10 @@
 package io.tilenft.config.beans;
 
 import io.tilenft.config.external.EnvConfig;
-import io.tilenft.erc721.events.EthEventsRetriever;
-import io.tilenft.erc721.events.RemoveDuplicateEthEventsForToken;
-import io.tilenft.erc721.events.RemoveDuplicateMergeEthEvents;
 import io.tilenft.etc.BigIntegerFactory;
+import io.tilenft.eth.events.EthEventsRetriever;
+import io.tilenft.eth.events.RemoveDuplicateEthEventsForToken;
+import io.tilenft.eth.events.RemoveDuplicateMergeEthEvents;
 import io.tilenft.scheduler.tasks.HandleMergeEventsTask;
 import io.tilenft.scheduler.tasks.HandleMintEventsTask;
 import io.tilenft.scheduler.tasks.HandleSetColorsEventsTask;

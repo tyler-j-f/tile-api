@@ -1,14 +1,14 @@
 package io.tilenft.controllers;
 
 import io.tilenft.config.external.EventsConfig;
-import io.tilenft.erc721.TokenMetadataDTO;
-import io.tilenft.erc721.events.EthEventException;
-import io.tilenft.erc721.events.EthEventsRetriever;
-import io.tilenft.erc721.events.implementations.MintEvent;
-import io.tilenft.erc721.token.TokenFacade;
-import io.tilenft.erc721.token.initializers.TokenInitializeException;
-import io.tilenft.erc721.token.initializers.TokenInitializer;
 import io.tilenft.etc.BigIntegerFactory;
+import io.tilenft.eth.events.EthEventException;
+import io.tilenft.eth.events.EthEventsRetriever;
+import io.tilenft.eth.events.implementations.MintEvent;
+import io.tilenft.eth.metadata.TokenMetadataDTO;
+import io.tilenft.eth.token.TokenFacade;
+import io.tilenft.eth.token.initializers.TokenInitializeException;
+import io.tilenft.eth.token.initializers.TokenInitializer;
 import io.tilenft.scheduler.tasks.AbstractEthEventsRetrieverTask;
 import io.tilenft.sql.dtos.TokenDTO;
 import io.tilenft.sql.repositories.TokenRepository;

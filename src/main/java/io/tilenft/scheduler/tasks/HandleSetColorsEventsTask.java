@@ -1,10 +1,10 @@
 package io.tilenft.scheduler.tasks;
 
-import io.tilenft.erc721.events.EthEventException;
-import io.tilenft.erc721.events.implementations.SetColorsEvent;
-import io.tilenft.erc721.token.TokenFacadeDTO;
-import io.tilenft.erc721.token.TokenRetriever;
-import io.tilenft.erc721.token.traits.weightless.WeightlessTraitTypeConstants;
+import io.tilenft.eth.events.EthEventException;
+import io.tilenft.eth.events.implementations.SetColorsEvent;
+import io.tilenft.eth.token.TokenFacadeDTO;
+import io.tilenft.eth.token.TokenRetriever;
+import io.tilenft.eth.token.traits.weightless.WeightlessTraitTypeConstants;
 import io.tilenft.scheduler.TaskSchedulerException;
 import io.tilenft.sql.dtos.WeightlessTraitDTO;
 import io.tilenft.sql.repositories.WeightlessTraitRepository;

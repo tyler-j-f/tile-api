@@ -1,12 +1,12 @@
 package io.tilenft.config.beans;
 
-import io.tilenft.erc721.token.TokenFacade;
-import io.tilenft.erc721.token.TokenRetriever;
-import io.tilenft.erc721.token.initializers.MergeTokenInitializer;
-import io.tilenft.erc721.token.initializers.TokenInitializer;
-import io.tilenft.erc721.token.traits.creators.weighted.WeightedTraitsCreator;
-import io.tilenft.erc721.token.traits.creators.weightless.InitializeTokenWeightlessTraitsCreator;
-import io.tilenft.erc721.token.traits.creators.weightless.MergeTokenWeightlessTraitsCreator;
+import io.tilenft.eth.token.TokenFacade;
+import io.tilenft.eth.token.TokenRetriever;
+import io.tilenft.eth.token.initializers.MergeTokenInitializer;
+import io.tilenft.eth.token.initializers.TokenInitializer;
+import io.tilenft.eth.token.traits.creators.weighted.WeightedTraitsCreator;
+import io.tilenft.eth.token.traits.creators.weightless.InitializeTokenWeightlessTraitsCreator;
+import io.tilenft.eth.token.traits.creators.weightless.MergeTokenWeightlessTraitsCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

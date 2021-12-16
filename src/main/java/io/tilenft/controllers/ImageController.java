@@ -1,11 +1,11 @@
 package io.tilenft.controllers;
 
-import io.tilenft.erc721.token.TokenFacadeDTO;
-import io.tilenft.erc721.token.TokenRetriever;
-import io.tilenft.erc721.token.traits.weighted.WeightedTraitTypeConstants;
-import io.tilenft.erc721.token.traits.weightless.WeightlessTraitTypeConstants;
 import io.tilenft.etc.lists.finders.WeightedTraitsListFinder;
 import io.tilenft.etc.lists.finders.WeightlessTraitsListFinder;
+import io.tilenft.eth.token.TokenFacadeDTO;
+import io.tilenft.eth.token.TokenRetriever;
+import io.tilenft.eth.token.traits.weighted.WeightedTraitTypeConstants;
+import io.tilenft.eth.token.traits.weightless.WeightlessTraitTypeConstants;
 import io.tilenft.image.ImageException;
 import io.tilenft.image.ImageResourcesLoader;
 import io.tilenft.image.drawers.ImageDrawer;

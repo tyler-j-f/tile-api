@@ -1,11 +1,11 @@
 package io.tilenft.scheduler.tasks;
 
 import io.tilenft.config.external.EventsConfig;
-import io.tilenft.erc721.events.EthEventException;
-import io.tilenft.erc721.events.EthEventsRetriever;
-import io.tilenft.erc721.events.RemoveDuplicateEthEventsForToken;
 import io.tilenft.etc.BigIntegerFactory;
 import io.tilenft.etc.lists.finders.WeightlessTraitsListFinder;
+import io.tilenft.eth.events.EthEventException;
+import io.tilenft.eth.events.EthEventsRetriever;
+import io.tilenft.eth.events.RemoveDuplicateEthEventsForToken;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;

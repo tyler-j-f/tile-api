@@ -1,11 +1,11 @@
 package io.tilenft.scheduler.tasks;
 
-import io.tilenft.erc721.events.EthEventException;
-import io.tilenft.erc721.events.implementations.SetEmojisEvent;
-import io.tilenft.erc721.token.TokenFacadeDTO;
-import io.tilenft.erc721.token.TokenRetriever;
-import io.tilenft.erc721.token.traits.weightless.WeightlessTraitTypeConstants;
-import io.tilenft.erc721.token.traits.weightless.traitPickers.EmojiTraitPicker;
+import io.tilenft.eth.events.EthEventException;
+import io.tilenft.eth.events.implementations.SetEmojisEvent;
+import io.tilenft.eth.token.TokenFacadeDTO;
+import io.tilenft.eth.token.TokenRetriever;
+import io.tilenft.eth.token.traits.weightless.WeightlessTraitTypeConstants;
+import io.tilenft.eth.token.traits.weightless.pickers.EmojiTraitPicker;
 import io.tilenft.image.ImageResourcesLoader;
 import io.tilenft.scheduler.TaskSchedulerException;
 import io.tilenft.sql.dtos.WeightlessTraitDTO;

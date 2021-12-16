@@ -1,13 +1,13 @@
 package io.tilenft.config.beans;
 
-import io.tilenft.erc721.token.traits.creators.weighted.WeightedTraitsCreator;
-import io.tilenft.erc721.token.traits.creators.weightless.InitializeTokenWeightlessTraitsCreator;
-import io.tilenft.erc721.token.traits.creators.weightless.MergeTokenWeightlessTraitsCreator;
-import io.tilenft.erc721.token.traits.weightless.OverallRarityCalculator;
-import io.tilenft.erc721.token.traits.weightless.traitPickers.ColorTraitPicker;
-import io.tilenft.erc721.token.traits.weightless.traitPickers.EmojiTraitPicker;
-import io.tilenft.erc721.token.traits.weightless.traitPickers.MergeRarityTraitPicker;
-import io.tilenft.erc721.token.traits.weightless.traitPickers.OverallRarityTraitPicker;
+import io.tilenft.eth.token.traits.creators.weighted.WeightedTraitsCreator;
+import io.tilenft.eth.token.traits.creators.weightless.InitializeTokenWeightlessTraitsCreator;
+import io.tilenft.eth.token.traits.creators.weightless.MergeTokenWeightlessTraitsCreator;
+import io.tilenft.eth.token.traits.weightless.OverallRarityCalculator;
+import io.tilenft.eth.token.traits.weightless.pickers.ColorTraitPicker;
+import io.tilenft.eth.token.traits.weightless.pickers.EmojiTraitPicker;
+import io.tilenft.eth.token.traits.weightless.pickers.MergeRarityTraitPicker;
+import io.tilenft.eth.token.traits.weightless.pickers.OverallRarityTraitPicker;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

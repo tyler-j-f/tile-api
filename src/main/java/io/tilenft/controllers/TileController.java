@@ -2,8 +2,8 @@ package io.tilenft.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.tilenft.erc721.token.TokenFacade;
-import io.tilenft.erc721.token.initializers.TokenInitializeException;
+import io.tilenft.eth.token.TokenFacade;
+import io.tilenft.eth.token.initializers.TokenInitializeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

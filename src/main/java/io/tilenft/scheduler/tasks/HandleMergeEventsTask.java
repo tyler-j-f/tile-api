@@ -3,16 +3,16 @@
 // another token will be minted.
 package io.tilenft.scheduler.tasks;
 
-import io.tilenft.erc721.events.EthEventException;
-import io.tilenft.erc721.events.RemoveDuplicateMergeEthEvents;
-import io.tilenft.erc721.events.implementations.MergeEvent;
-import io.tilenft.erc721.token.TokenFacadeDTO;
-import io.tilenft.erc721.token.TokenRetriever;
-import io.tilenft.erc721.token.initializers.MergeTokenInitializer;
-import io.tilenft.erc721.token.initializers.TokenInitializeException;
-import io.tilenft.erc721.token.traits.weighted.WeightedTraitTypeConstants;
-import io.tilenft.erc721.token.traits.weighted.WeightedTraitWeightConstants;
-import io.tilenft.erc721.token.traits.weightless.traitPickers.WeightlessTraitPickerException;
+import io.tilenft.eth.events.EthEventException;
+import io.tilenft.eth.events.RemoveDuplicateMergeEthEvents;
+import io.tilenft.eth.events.implementations.MergeEvent;
+import io.tilenft.eth.token.TokenFacadeDTO;
+import io.tilenft.eth.token.TokenRetriever;
+import io.tilenft.eth.token.initializers.MergeTokenInitializer;
+import io.tilenft.eth.token.initializers.TokenInitializeException;
+import io.tilenft.eth.token.traits.weighted.WeightedTraitTypeConstants;
+import io.tilenft.eth.token.traits.weighted.WeightedTraitWeightConstants;
+import io.tilenft.eth.token.traits.weightless.pickers.WeightlessTraitPickerException;
 import io.tilenft.scheduler.TaskSchedulerException;
 import io.tilenft.sql.dtos.WeightedTraitDTO;
 import io.tilenft.sql.repositories.WeightedTraitRepository;
