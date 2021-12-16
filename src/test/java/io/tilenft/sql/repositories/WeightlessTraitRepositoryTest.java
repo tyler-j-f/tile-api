@@ -11,7 +11,7 @@ import org.mockito.Mockito;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class WeightlessWeightedTraitRepositoryTest {
+public class WeightlessTraitRepositoryTest {
 
   private JdbcTemplate jdbcTemplate;
   private BeanPropertyRowMapper beanPropertyRowMapper;

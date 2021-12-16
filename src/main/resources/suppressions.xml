@@ -5,6 +5,9 @@
         "https://checkstyle.org/dtds/suppressions_1_0.dtd">
 
 <suppressions>
+    <suppress files="[a-zA-Z0-9]Test.java"
+      checks="[a-zA-Z0-9]*"
+    />
     <suppress
       checks="CustomImportOrderCheck"
       files="ImageBeansConfig.java"
