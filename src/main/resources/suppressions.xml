@@ -18,7 +18,11 @@
       files="ContractConfig.java"
     />
     <suppress
-      checks="MemberNameCheck,CustomImportOrderCheck"
+      checks="MemberNameCheck"
+      files="SalesConfig.java"
+    />
+    <suppress
+      checks="CustomImportOrderCheck"
       files="SalesConfig.java"
     />
 </suppressions>
