@@ -512,4 +512,5 @@ public class MergeRarityTraitPickerTest {
             .burnedNft2(burnedNft2)
             .build();
   }
+
 }
