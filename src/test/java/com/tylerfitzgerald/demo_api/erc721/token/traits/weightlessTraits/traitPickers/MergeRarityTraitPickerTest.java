@@ -90,7 +90,7 @@ public class MergeRarityTraitPickerTest {
   private TokenFacadeDTO burnedNft2;
   private Long BURNED_TOKEN_1_ID = 202L;
   private Long BURNED_TOKEN_2_ID = 203L;
-  private String MERGE_RARITY_TRAIT_PICKER_VALUE_1 = "2052";
+  private String MERGE_RARITY_TRAIT_PICKER_VALUE_1 = "2355";
   private int TRAIT_TYPE_ID_TO_CREATE = WeightlessTraitTypeConstants.TILE_2_RARITY;
   private WeightlessTraitPickerContext context;
 
@@ -170,7 +170,7 @@ public class MergeRarityTraitPickerTest {
             weightedTraitTypeWeightsListFinder.findFirstByTraitTypeWeightId(
                 burnedNft2WeightedTraitTypeWeights, burnedNft2FoundTrait.getTraitTypeWeightId()))
         .thenReturn(burnedNft2WeightedTraitTypeWeights.get(1));
-    // Burned Nft1 Merge multiplier 1
+    // Burned Nft1 Merge multiplier
     WeightedTraitDTO burnedNft1FoundTrait2 = burnedNft1WeightedTraits.get(8);
     Mockito.when(
             weightedTraitListHelper.findFirstByTraitTypeId(
@@ -180,12 +180,12 @@ public class MergeRarityTraitPickerTest {
             weightedTraitTypeWeightsListFinder.findFirstByTraitTypeWeightId(
                 burnedNft1WeightedTraitTypeWeights, burnedNft1FoundTrait2.getTraitTypeWeightId()))
         .thenReturn(burnedNft1WeightedTraitTypeWeights.get(8));
-    // Burned Nft1 Merge multiplier 2
+    // Burned Nft2 Merge multiplier
     WeightedTraitDTO burnedNft2FoundTrait2 = burnedNft2WeightedTraits.get(4);
     Mockito.when(
             weightedTraitListHelper.findFirstByTraitTypeId(
                 burnedNft2WeightedTraits, (long) WeightedTraitTypeConstants.MERGE_MULTIPLIER))
-        .thenReturn(burnedNft2FoundTrait);
+        .thenReturn(burnedNft2FoundTrait2);
     Mockito.when(
             weightedTraitTypeWeightsListFinder.findFirstByTraitTypeWeightId(
                 burnedNft2WeightedTraitTypeWeights, burnedNft2FoundTrait2.getTraitTypeWeightId()))
@@ -205,6 +205,7 @@ public class MergeRarityTraitPickerTest {
 
   private List<WeightedTraitDTO> getBurnedNft1WeightedTraits() {
     List<WeightedTraitDTO> list = new ArrayList<>();
+    // Multiplier 1
     list.add(
         WeightedTraitDTO.builder()
             .tokenId(BURNED_TOKEN_1_ID)
@@ -212,6 +213,7 @@ public class MergeRarityTraitPickerTest {
             .traitTypeWeightId(WEIGHTED_TRAIT_TYPE_WEIGHT_1_ID)
             .traitTypeId(WEIGHTED_TRAIT_TYPE_ID_1)
             .build());
+    // Multiplier 2
     list.add(
         WeightedTraitDTO.builder()
             .tokenId(BURNED_TOKEN_1_ID)
@@ -219,6 +221,7 @@ public class MergeRarityTraitPickerTest {
             .traitTypeWeightId(WEIGHTED_TRAIT_TYPE_WEIGHT_2_ID)
             .traitTypeId(WEIGHTED_TRAIT_TYPE_ID_2)
             .build());
+    // Multiplier 3
     list.add(
         WeightedTraitDTO.builder()
             .tokenId(BURNED_TOKEN_1_ID)
@@ -226,6 +229,7 @@ public class MergeRarityTraitPickerTest {
             .traitTypeWeightId(WEIGHTED_TRAIT_TYPE_WEIGHT_3_ID)
             .traitTypeId(WEIGHTED_TRAIT_TYPE_ID_3)
             .build());
+    // Multiplier 4
     list.add(
         WeightedTraitDTO.builder()
             .tokenId(BURNED_TOKEN_1_ID)
@@ -233,6 +237,7 @@ public class MergeRarityTraitPickerTest {
             .traitTypeWeightId(WEIGHTED_TRAIT_TYPE_WEIGHT_4_ID)
             .traitTypeId(WEIGHTED_TRAIT_TYPE_ID_4)
             .build());
+    // Rarity 1
     list.add(
         WeightedTraitDTO.builder()
             .tokenId(BURNED_TOKEN_1_ID)
@@ -240,6 +245,7 @@ public class MergeRarityTraitPickerTest {
             .traitTypeWeightId(WEIGHTED_TRAIT_TYPE_WEIGHT_5_ID)
             .traitTypeId(WEIGHTED_TRAIT_TYPE_ID_5)
             .build());
+    // Rarity 2
     list.add(
         WeightedTraitDTO.builder()
             .tokenId(BURNED_TOKEN_1_ID)
@@ -247,6 +253,7 @@ public class MergeRarityTraitPickerTest {
             .traitTypeWeightId(WEIGHTED_TRAIT_TYPE_WEIGHT_6_ID)
             .traitTypeId(WEIGHTED_TRAIT_TYPE_ID_6)
             .build());
+    // Rarity 3
     list.add(
         WeightedTraitDTO.builder()
             .tokenId(BURNED_TOKEN_1_ID)
@@ -254,6 +261,7 @@ public class MergeRarityTraitPickerTest {
             .traitTypeWeightId(WEIGHTED_TRAIT_TYPE_WEIGHT_7_ID)
             .traitTypeId(WEIGHTED_TRAIT_TYPE_ID_7)
             .build());
+    // Rarity 4
     list.add(
         WeightedTraitDTO.builder()
             .tokenId(BURNED_TOKEN_1_ID)
@@ -261,6 +269,7 @@ public class MergeRarityTraitPickerTest {
             .traitTypeWeightId(WEIGHTED_TRAIT_TYPE_WEIGHT_8_ID)
             .traitTypeId(WEIGHTED_TRAIT_TYPE_ID_8)
             .build());
+    // Merge Multiplier
     list.add(
         WeightedTraitDTO.builder()
             .tokenId(BURNED_TOKEN_1_ID)
@@ -402,7 +411,7 @@ public class MergeRarityTraitPickerTest {
     list.add(
         WeightedTraitDTO.builder()
             .tokenId(BURNED_TOKEN_1_ID)
-            .traitId(WEIGHTED_TRAIT_BURNED_NFT1_9)
+            .traitId(WEIGHTED_TRAIT_BURNED_NFT2_5)
             .traitTypeWeightId(WEIGHTED_TRAIT_TYPE_WEIGHT_14_ID)
             .traitTypeId(WEIGHTED_TRAIT_TYPE_ID_9)
             .build());
@@ -446,8 +455,8 @@ public class MergeRarityTraitPickerTest {
     // Merge multiplier
     list.add(
         WeightedTraitTypeWeightDTO.builder()
-            .traitTypeWeightId(WEIGHTED_TRAIT_TYPE_ID_9)
-            .traitTypeId(WEIGHTED_TRAIT_TYPE_ID_4)
+            .traitTypeWeightId(WEIGHTED_TRAIT_TYPE_WEIGHT_14_ID)
+            .traitTypeId(WEIGHTED_TRAIT_TYPE_ID_9)
             .likelihood(100L)
             .value("15")
             .build());
@@ -462,7 +471,7 @@ public class MergeRarityTraitPickerTest {
             .tokenId(BURNED_TOKEN_2_ID)
             .traitId(WEIGHTLESS_TRAIT_BURNED_NFT2_1)
             .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID_1)
-            .value("14")
+            .value("16")
             .displayTypeValue("")
             .build());
     // Rarity 2
@@ -471,7 +480,7 @@ public class MergeRarityTraitPickerTest {
             .tokenId(BURNED_TOKEN_2_ID)
             .traitId(WEIGHTLESS_TRAIT_BURNED_NFT2_2)
             .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID_2)
-            .value("15")
+            .value("17")
             .displayTypeValue("")
             .build());
     // Rarity 3
@@ -480,7 +489,7 @@ public class MergeRarityTraitPickerTest {
             .tokenId(BURNED_TOKEN_2_ID)
             .traitId(WEIGHTLESS_TRAIT_BURNED_NFT2_3)
             .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID_3)
-            .value("16")
+            .value("18")
             .displayTypeValue("")
             .build());
     // Rarity 4
@@ -489,7 +498,7 @@ public class MergeRarityTraitPickerTest {
             .tokenId(BURNED_TOKEN_2_ID)
             .traitId(WEIGHTLESS_TRAIT_BURNED_NFT2_4)
             .traitTypeId(WEIGHTLESS_TRAIT_TYPE_ID_4)
-            .value("17")
+            .value("19")
             .displayTypeValue("")
             .build());
     return list;
