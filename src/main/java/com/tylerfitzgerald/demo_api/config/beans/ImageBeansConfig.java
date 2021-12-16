@@ -1,6 +1,7 @@
 package com.tylerfitzgerald.demo_api.config.beans;
 
 import com.tylerfitzgerald.demo_api.image.EmojiLoader;
+import com.tylerfitzgerald.demo_api.image.ImageResourcesLoader;
 import com.tylerfitzgerald.demo_api.image.drawers.BurntTokenDrawer;
 import com.tylerfitzgerald.demo_api.image.drawers.EmojiDrawer;
 import com.tylerfitzgerald.demo_api.image.drawers.ImageDrawer;
@@ -8,11 +9,20 @@ import com.tylerfitzgerald.demo_api.image.drawers.SubTitleDrawer;
 import com.tylerfitzgerald.demo_api.image.drawers.TilesDrawer;
 import com.tylerfitzgerald.demo_api.image.drawers.TitleDrawer;
 import java.text.NumberFormat;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ResourceLoader;
 
 @Configuration
 public class ImageBeansConfig {
+
+  @Autowired private ResourceLoader resourceLoader;
+
+  @Bean
+  public ImageResourcesLoader imageResourcesLoader() {
+    return new ImageResourcesLoader(resourceLoader, "classpath:openmoji/*.png");
+  }
 
   @Bean
   public EmojiDrawer emojiDrawer() {
