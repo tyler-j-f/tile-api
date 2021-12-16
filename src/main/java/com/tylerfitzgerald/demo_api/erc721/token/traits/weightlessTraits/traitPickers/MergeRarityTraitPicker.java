@@ -99,30 +99,13 @@ public class MergeRarityTraitPicker implements WeightlessTraitPickerInterface {
       String tile2Multiplier,
       String tile1MergeMultiplier,
       String tile2MergeMultiplier) {
-    String result =
-        String.valueOf(
-            (Long.parseLong(tile1Rarity)
-                    * Long.parseLong(tile1Multiplier)
-                    * Long.parseLong(tile2MergeMultiplier))
-                + (Long.parseLong(tile2Rarity)
-                    * Long.parseLong(tile2Multiplier)
-                    * Long.parseLong(tile1MergeMultiplier)));
-    System.out.println(
-        "\ntile1Rarity: "
-            + tile1Rarity
-            + "\ntile2Rarity: "
-            + tile2Rarity
-            + "\ntile1Multiplier: "
-            + tile1Multiplier
-            + "\ntile2Multiplier: "
-            + tile2Multiplier
-            + "\ntile1MergeMultiplier: "
-            + tile1MergeMultiplier
-            + "\ntile2MergeMultiplier: "
-            + tile2MergeMultiplier
-            + "\nresult: "
-            + result);
-    return result;
+    return String.valueOf(
+        (Long.parseLong(tile1Rarity)
+                * Long.parseLong(tile1Multiplier)
+                * Long.parseLong(tile2MergeMultiplier))
+            + (Long.parseLong(tile2Rarity)
+                * Long.parseLong(tile2Multiplier)
+                * Long.parseLong(tile1MergeMultiplier)));
   }
 
   private String[] getBurnedTokenRarityTraitValues() throws WeightlessTraitPickerException {
