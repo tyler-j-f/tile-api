@@ -11,7 +11,7 @@
     />
     <suppress
       checks="CustomImportOrderCheck"
-      files="ImageBeansConfig.java"
+      files="[a-zA-Z0-9]*"
     />
     <suppress
       checks="MemberNameCheck"
@@ -24,13 +24,5 @@
     <suppress
       checks="MemberNameCheck"
       files="SalesConfig.java"
-    />
-    <suppress
-      checks="CustomImportOrderCheck"
-      files="SalesConfig.java"
-    />
-    <suppress
-      checks="CustomImportOrderCheck"
-      files="WeightedTraitsListFinder.java"
     />
 </suppressions>
