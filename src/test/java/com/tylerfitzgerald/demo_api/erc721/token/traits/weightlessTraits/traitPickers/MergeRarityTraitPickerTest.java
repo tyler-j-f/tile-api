@@ -14,7 +14,6 @@ import com.tylerfitzgerald.demo_api.sql.dtos.WeightedTraitTypeWeightDTO;
 import com.tylerfitzgerald.demo_api.sql.dtos.WeightlessTraitDTO;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -90,11 +89,10 @@ public class MergeRarityTraitPickerTest {
   private TokenFacadeDTO burnedNft2;
   private Long BURNED_TOKEN_1_ID = 202L;
   private Long BURNED_TOKEN_2_ID = 203L;
-  private String MERGE_RARITY_TRAIT_PICKER_VALUE_1 = "2355";
-  private int TRAIT_TYPE_ID_TO_CREATE = WeightlessTraitTypeConstants.TILE_2_RARITY;
+  private String TILE_2_RESULT = "2355";
+  private int traitTypeIdToCreate;
   private WeightlessTraitPickerContext context;
 
-  @BeforeEach
   public void setup() throws WeightlessTraitPickerException {
     setupBurnedNft1();
     setupBurnedNft2();
@@ -102,16 +100,17 @@ public class MergeRarityTraitPickerTest {
     setupMocks();
   }
 
-  @Test
-  public void testMergeRarityTraitPicker() throws WeightlessTraitPickerException {
-    assertThat(mergeRarityTraitPicker.getValue(context))
-        .isEqualTo(MERGE_RARITY_TRAIT_PICKER_VALUE_1);
-    assertThat(mergeRarityTraitPicker.getValue(context)).isEqualTo("");
-  }
-
   private void setupMocks() {
     mockForGetBurnedTokenRarityTraitValues();
     mockForFindWeightedTraitValue();
+  }
+
+  @Test
+  public void testTile2() throws WeightlessTraitPickerException {
+    traitTypeIdToCreate = WeightlessTraitTypeConstants.TILE_2_RARITY;
+    setup();
+    assertThat(mergeRarityTraitPicker.getValue(context)).isEqualTo(TILE_2_RESULT);
+    assertThat(mergeRarityTraitPicker.getDisplayValue(context)).isEqualTo("");
   }
 
   private void mockForGetBurnedTokenRarityTraitValues() {
@@ -119,13 +118,13 @@ public class MergeRarityTraitPickerTest {
     // Nft1 has no weightless traits, so return null
     Mockito.when(
             weightlessTraitInListFinder.findFirstByTraitTypeId(
-                burnedNft1WeightlessTraits, Long.valueOf(TRAIT_TYPE_ID_TO_CREATE)))
+                burnedNft1WeightlessTraits, Long.valueOf(traitTypeIdToCreate)))
         .thenReturn(null);
     List<WeightlessTraitDTO> burnedNft2WeightlessTraits = burnedNft2.getWeightlessTraits();
     // Nft2 Has weightless traits, so return index 1 which matches with tile 2 rarity.
     Mockito.when(
             weightlessTraitInListFinder.findFirstByTraitTypeId(
-                burnedNft2WeightlessTraits, Long.valueOf(TRAIT_TYPE_ID_TO_CREATE)))
+                burnedNft2WeightlessTraits, Long.valueOf(traitTypeIdToCreate)))
         .thenReturn(burnedNft2WeightlessTraits.get(1));
     // Nft1 will have to call getBurnedTokenWeightedTraitValues, so return the 5th index, which
     // matches to tile 2 rarity
@@ -361,7 +360,8 @@ public class MergeRarityTraitPickerTest {
     return new ArrayList<>();
   }
 
-  // Burned NFT2 will have multiplier traits be weighted rarity values be weightless.
+  // Burned NFT2 will have multiplier traits be weighted. The rarity trait values will be
+  // weightless.
   // This indicates that burnedNFT2 came from a prior merge event.
   private void setupBurnedNft2() {
     burnedNft2 =
@@ -507,7 +507,7 @@ public class MergeRarityTraitPickerTest {
   private void setupContext() {
     context =
         WeightlessTraitPickerContext.builder()
-            .traitTypeId(TRAIT_TYPE_ID_TO_CREATE)
+            .traitTypeId(traitTypeIdToCreate)
             .burnedNft1(burnedNft1)
             .burnedNft2(burnedNft2)
             .build();
