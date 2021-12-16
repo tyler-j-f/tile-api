@@ -25,4 +25,8 @@
       checks="CustomImportOrderCheck"
       files="SalesConfig.java"
     />
+    <suppress
+      checks="CustomImportOrderCheck"
+      files="WeightedTraitsListFinder.java"
+    />
 </suppressions>

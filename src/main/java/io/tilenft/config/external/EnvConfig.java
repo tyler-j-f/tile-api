@@ -11,7 +11,7 @@ public class EnvConfig {
   private String alchemyApiKey;
   private String alchemyBaseUrl;
 
-  public String getAlchemyURI() {
+  public String getAlchemyUri() {
     return alchemyBaseUrl + alchemyApiKey;
   }
 }

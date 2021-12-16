@@ -22,7 +22,7 @@ public class EthEventsBeansConfig {
 
   @Bean
   public Web3j web3j() {
-    return Web3j.build(new HttpService(envConfig.getAlchemyURI()));
+    return Web3j.build(new HttpService(envConfig.getAlchemyUri()));
   }
 
   @Bean

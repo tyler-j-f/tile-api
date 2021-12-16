@@ -8,24 +8,39 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractListFinder<T> implements ListFinderInterface<T> {
 
-  public List<T> get(List<T> listHaystack, Long needleValue, String needleValueGetterMethodName) {
+  /**
+   * Gets a list entry. Will search the list for any entries that return valueToLookFor after
+   * calling valueGetterMethodName on that entry.
+   *
+   * @param listToSearch List that is searched
+   * @param valueToLookFor Value that is searched for
+   * @param valueGetterMethodName Method name to call on each list entry
+   * @return List<T> One of the list entries
+   */
+  public List<T> get(List<T> listToSearch, Long valueToLookFor, String valueGetterMethodName) {
     List<T> results;
     try {
-      results = getResults(listHaystack, needleValue, needleValueGetterMethodName);
+      results = getResults(listToSearch, valueToLookFor, valueGetterMethodName);
     } catch (NoSuchElementException e) {
       results = null;
     }
     return results;
   }
 
+  /**
+   * @param listToSearch List that is searched
+   * @param valueToLookFor Value that is searched for
+   * @param valueGetterMethodName Method name to call on each list entry
+   * @return List<T> One of the list entries
+   */
   private List<T> getResults(
-      List<T> listHaystack, Long needleValue, String needleValueGetterMethodName) {
-    return listHaystack.stream()
+      List<T> listToSearch, Long valueToLookFor, String valueGetterMethodName) {
+    return listToSearch.stream()
         .filter(
             trait -> {
               try {
-                Method method = trait.getClass().getMethod(needleValueGetterMethodName);
-                return method.invoke(trait).equals(needleValue);
+                Method method = trait.getClass().getMethod(valueGetterMethodName);
+                return method.invoke(trait).equals(valueToLookFor);
               } catch (NoSuchMethodException
                   | IllegalAccessException
                   | InvocationTargetException e) {
