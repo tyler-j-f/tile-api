@@ -76,7 +76,8 @@ public class MergeRarityTraitPicker implements WeightlessTraitPickerInterface {
       case WeightlessTraitTypeConstants.TILE_4_RARITY:
         return WeightedTraitTypeConstants.TILE_4_MULTIPLIER;
       default:
-        throw new WeightlessTraitPickerException("Unexpected value. traitTypeId: " + traitTypeIdToCreate);
+        throw new WeightlessTraitPickerException(
+            "Unexpected value. traitTypeId: " + traitTypeIdToCreate);
     }
   }
 
@@ -98,13 +99,30 @@ public class MergeRarityTraitPicker implements WeightlessTraitPickerInterface {
       String tile2Multiplier,
       String tile1MergeMultiplier,
       String tile2MergeMultiplier) {
-    return String.valueOf(
-        (Long.parseLong(tile1Rarity)
-                * Long.parseLong(tile1Multiplier)
-                * Long.parseLong(tile2MergeMultiplier))
-            + (Long.parseLong(tile2Rarity)
-                * Long.parseLong(tile2Multiplier)
-                * Long.parseLong(tile1MergeMultiplier)));
+    String result =
+        String.valueOf(
+            (Long.parseLong(tile1Rarity)
+                    * Long.parseLong(tile1Multiplier)
+                    * Long.parseLong(tile2MergeMultiplier))
+                + (Long.parseLong(tile2Rarity)
+                    * Long.parseLong(tile2Multiplier)
+                    * Long.parseLong(tile1MergeMultiplier)));
+    System.out.println(
+        "\ntile1Rarity: "
+            + tile1Rarity
+            + "\ntile2Rarity: "
+            + tile2Rarity
+            + "\ntile1Multiplier: "
+            + tile1Multiplier
+            + "\ntile2Multiplier: "
+            + tile2Multiplier
+            + "\ntile1MergeMultiplier: "
+            + tile1MergeMultiplier
+            + "\ntile2MergeMultiplier: "
+            + tile2MergeMultiplier
+            + "\nresult: "
+            + result);
+    return result;
   }
 
   private String[] getBurnedTokenRarityTraitValues() throws WeightlessTraitPickerException {
