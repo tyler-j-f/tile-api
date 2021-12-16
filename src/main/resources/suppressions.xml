@@ -9,6 +9,7 @@
     <suppress files="[a-zA-Z0-9]Test.java"
       checks="[a-zA-Z0-9]*"
     />
+    <!--Ignore check, CustomImportOrderCheck , it does not work with the auto-formatter plugin. -->
     <suppress
       checks="CustomImportOrderCheck"
       files="[a-zA-Z0-9]*"
