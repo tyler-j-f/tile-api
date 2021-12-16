@@ -5,6 +5,7 @@
         "https://checkstyle.org/dtds/suppressions_1_0.dtd">
 
 <suppressions>
+    <!--Ignore test files, we're not going to worry about style errors/warnings from tests. -->
     <suppress files="[a-zA-Z0-9]Test.java"
       checks="[a-zA-Z0-9]*"
     />
