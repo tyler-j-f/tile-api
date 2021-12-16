@@ -111,7 +111,7 @@ public class OverallRarityCalculator {
       Long traitTypeWeightId, List<WeightedTraitTypeWeightDTO> traitTypeWeights) {
     return Long.valueOf(
         weightedTraitTypeWeightsListFinder
-            .findFirstByTraitTypeId(traitTypeWeights, traitTypeWeightId)
+            .findFirstByTraitTypeWeightId(traitTypeWeights, traitTypeWeightId)
             .getValue());
   }
 

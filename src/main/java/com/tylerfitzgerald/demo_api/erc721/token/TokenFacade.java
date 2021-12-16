@@ -146,7 +146,7 @@ public class TokenFacade implements TokenFacadeInterface {
   private WeightedTraitTypeWeightDTO getTraitWeightForTraitDTO(
       List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeightDTOs,
       WeightedTraitDTO weightedTraitDTO) {
-    return weightedTraitTypeWeightsListFinder.findFirstByTraitTypeId(
+    return weightedTraitTypeWeightsListFinder.findFirstByTraitTypeWeightId(
         weightedTraitTypeWeightDTOs, weightedTraitDTO.getTraitTypeWeightId());
   }
 

@@ -96,7 +96,7 @@ public class MergeRarityTraitPickerTest {
     List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeights =
         burnedNft1.getWeightedTraitTypeWeights();
     Mockito.when(
-            weightedTraitTypeWeightsListFinder.findFirstByTraitTypeId(weightedTraitTypeWeights, 1L))
+            weightedTraitTypeWeightsListFinder.findFirstByTraitTypeWeightId(weightedTraitTypeWeights, 1L))
         .thenReturn(weightedTraitTypeWeights.get(0));
   }
 

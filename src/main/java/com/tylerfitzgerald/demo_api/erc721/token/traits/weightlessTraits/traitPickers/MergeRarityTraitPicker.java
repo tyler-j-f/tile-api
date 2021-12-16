@@ -88,7 +88,7 @@ public class MergeRarityTraitPicker implements WeightlessTraitPickerInterface {
     WeightedTraitDTO foundTrait =
         weightedTraitListHelper.findFirstByTraitTypeId(weightedTraits, weightedTraitTypeId);
     return weightedTraitTypeWeightsListFinder
-        .findFirstByTraitTypeId(traitWeights, foundTrait.getTraitTypeWeightId())
+        .findFirstByTraitTypeWeightId(traitWeights, foundTrait.getTraitTypeWeightId())
         .getValue();
   }
 

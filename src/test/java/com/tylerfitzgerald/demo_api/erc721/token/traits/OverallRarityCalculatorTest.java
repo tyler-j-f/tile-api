@@ -100,11 +100,11 @@ public class OverallRarityCalculatorTest {
     Long returnValue =
         overallRarityCalculator.calculateRarity(weightedTraits, weightedTraitTypeWeights);
     Mockito.verify(weightedTraitTypeWeightsListFinder, Mockito.times(4))
-        .findFirstByTraitTypeId(weightedTraitTypeWeights, WEIGHTED_TRAIT_TYPE_WEIGHT_ID_1);
+        .findFirstByTraitTypeWeightId(weightedTraitTypeWeights, WEIGHTED_TRAIT_TYPE_WEIGHT_ID_1);
     Mockito.verify(weightedTraitTypeWeightsListFinder, Mockito.times(2))
-        .findFirstByTraitTypeId(weightedTraitTypeWeights, WEIGHTED_TRAIT_TYPE_WEIGHT_ID_2);
+        .findFirstByTraitTypeWeightId(weightedTraitTypeWeights, WEIGHTED_TRAIT_TYPE_WEIGHT_ID_2);
     Mockito.verify(weightedTraitTypeWeightsListFinder, Mockito.times(2))
-        .findFirstByTraitTypeId(weightedTraitTypeWeights, WEIGHTED_TRAIT_TYPE_WEIGHT_ID_3);
+        .findFirstByTraitTypeWeightId(weightedTraitTypeWeights, WEIGHTED_TRAIT_TYPE_WEIGHT_ID_3);
     assertThat(returnValue).isEqualTo(CALCULATE_RARITY_RESULT_1);
   }
 
@@ -115,23 +115,23 @@ public class OverallRarityCalculatorTest {
         overallRarityCalculator.calculateRarity(
             weightedTraits, weightedTraitTypeWeights, weightlessTraits);
     Mockito.verify(weightedTraitTypeWeightsListFinder, Mockito.times(2))
-        .findFirstByTraitTypeId(weightedTraitTypeWeights, WEIGHTED_TRAIT_TYPE_WEIGHT_ID_1);
+        .findFirstByTraitTypeWeightId(weightedTraitTypeWeights, WEIGHTED_TRAIT_TYPE_WEIGHT_ID_1);
     Mockito.verify(weightedTraitTypeWeightsListFinder, Mockito.times(2))
-        .findFirstByTraitTypeId(weightedTraitTypeWeights, WEIGHTED_TRAIT_TYPE_WEIGHT_ID_3);
+        .findFirstByTraitTypeWeightId(weightedTraitTypeWeights, WEIGHTED_TRAIT_TYPE_WEIGHT_ID_3);
     assertThat(returnValue).isEqualTo(CALCULATE_RARITY_RESULT_2);
   }
 
   private void mockWeightedTraitTypeWeightsListFinder() {
     Mockito.when(
-            weightedTraitTypeWeightsListFinder.findFirstByTraitTypeId(
+            weightedTraitTypeWeightsListFinder.findFirstByTraitTypeWeightId(
                 weightedTraitTypeWeights, WEIGHTED_TRAIT_TYPE_WEIGHT_ID_1))
         .thenReturn(weightedTraitTypeWeights.get(0));
     Mockito.when(
-            weightedTraitTypeWeightsListFinder.findFirstByTraitTypeId(
+            weightedTraitTypeWeightsListFinder.findFirstByTraitTypeWeightId(
                 weightedTraitTypeWeights, WEIGHTED_TRAIT_TYPE_WEIGHT_ID_2))
         .thenReturn(weightedTraitTypeWeights.get(1));
     Mockito.when(
-            weightedTraitTypeWeightsListFinder.findFirstByTraitTypeId(
+            weightedTraitTypeWeightsListFinder.findFirstByTraitTypeWeightId(
                 weightedTraitTypeWeights, WEIGHTED_TRAIT_TYPE_WEIGHT_ID_3))
         .thenReturn(weightedTraitTypeWeights.get(2));
   }

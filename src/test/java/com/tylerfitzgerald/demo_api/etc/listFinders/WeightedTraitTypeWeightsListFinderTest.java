@@ -77,19 +77,19 @@ public class WeightedTraitTypeWeightsListFinderTest {
     WeightedTraitTypeWeightsListFinder weightedTraitTypeWeightsListFinder =
         new WeightedTraitTypeWeightsListFinder();
     assertThat(
-            weightedTraitTypeWeightsListFinder.findFirstByTraitTypeId(
+            weightedTraitTypeWeightsListFinder.findFirstByTraitTypeWeightId(
                 weightedTraitTypesWeightsList, TRAIT_TYPE_WEIGHT_ID_1))
         .isNotNull();
     assertThat(
-            weightedTraitTypeWeightsListFinder.findFirstByTraitTypeId(
+            weightedTraitTypeWeightsListFinder.findFirstByTraitTypeWeightId(
                 weightedTraitTypesWeightsList, TRAIT_TYPE_WEIGHT_ID_2))
         .isNotNull();
     assertThat(
-            weightedTraitTypeWeightsListFinder.findFirstByTraitTypeId(
+            weightedTraitTypeWeightsListFinder.findFirstByTraitTypeWeightId(
                 weightedTraitTypesWeightsList, TRAIT_TYPE_WEIGHT_ID_3))
         .isNotNull();
     assertThat(
-            weightedTraitTypeWeightsListFinder.findFirstByTraitTypeId(
+            weightedTraitTypeWeightsListFinder.findFirstByTraitTypeWeightId(
                 weightedTraitTypesWeightsList, TRAIT_TYPE_WEIGHT_ID_NOT_IN_LIST))
         .isNull();
   }
