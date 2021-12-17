@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import TileNftApp from './TileNftApp';
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from './etc/reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>

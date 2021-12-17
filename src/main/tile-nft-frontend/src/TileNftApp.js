@@ -1,5 +1,5 @@
-import './App.css';
-import TileNftHeader from "./TileNftHeader";
+import './css/App.css';
+import TileNftHeader from "./header/TileNftHeader";
 
 function TileNftApp() {
   return (

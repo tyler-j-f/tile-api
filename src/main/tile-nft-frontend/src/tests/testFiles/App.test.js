@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import TileNftApp from './TileNftApp';
+import TileNftApp from '../../TileNftApp';
 
 test('renders learn react link', () => {
   render(<TileNftApp />);
