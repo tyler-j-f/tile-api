@@ -1,4 +1,5 @@
 import {Component} from 'react';
+import styled from 'styled-components';
 
 class TokenNumberForm extends Component {
   constructor(props) {
@@ -47,14 +48,21 @@ class TokenNumberForm extends Component {
           </label>
           <input type="submit" value="Submit" />
           {
-            this.state.shouldShowImage &&
-            <img
-                src={`http://localhost:8080/api/image/tile/get/${this.state.submittedValue}`}
-            />
+            this.state.shouldShowImage && <StyledImg imgSource={this.state.submittedValue} />
           }
         </form>
     );
   }
+
 }
+
+const StyledImg =
+    styled.img.attrs({
+      src: `http://localhost:8080/api/image/tile/get/1`
+    })`
+      width: 350px;
+      height: 350px;
+      margin: 10px;
+      `;
 
 export default TokenNumberForm;
