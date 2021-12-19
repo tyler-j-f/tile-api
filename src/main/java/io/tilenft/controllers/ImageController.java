@@ -36,6 +36,7 @@ public class ImageController extends BaseController {
       throws ImageException, IOException {
     TokenFacadeDTO nft = tokenRetriever.get(tokenId);
     if (nft == null) {
+      response.setStatus(HttpServletResponse.SC_NOT_FOUND);
       System.out.println("Token id not able to be found. TokenId: " + tokenId);
       return;
     }
