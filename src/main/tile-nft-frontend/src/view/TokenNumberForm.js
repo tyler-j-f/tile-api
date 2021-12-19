@@ -28,8 +28,10 @@ class TokenNumberForm extends Component {
     .then(response => {
       console.log(response);
       if (response.status === 200) {
-        console.log("shouldShowImage is true");
         this.setState({shouldShowImage: true});
+      }
+      if (response.status !== 200) {
+        this.setState({shouldShowImage: false});
       }
     })
     .catch(err => {
@@ -57,9 +59,9 @@ class TokenNumberForm extends Component {
 }
 
 const StyledImg =
-    styled.img.attrs({
-      src: `http://localhost:8080/api/image/tile/get/1`
-    })`
+    styled.img.attrs(props => ({
+      src: `http://localhost:8080/api/image/tile/get/${props.imgSource}`
+    }))`
       width: 350px;
       height: 350px;
       margin: 10px;
