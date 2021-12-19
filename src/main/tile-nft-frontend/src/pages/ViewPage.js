@@ -1,15 +1,17 @@
 import React from 'react'
 import styled from 'styled-components';
+import TokenNumberForm from "../view/TokenNumberForm";
 
-const ExamplePage = () => {
+const ViewPage = () => {
   return (
-      <StyledExamplePage>
-        <Heading className="animate__animated animate__fadeInLeft">Example Page</Heading>
-      </StyledExamplePage>
+      <StyledPage>
+        <Heading className="animate__animated animate__fadeInLeft">View A TileNFT</Heading>
+        <TokenNumberForm />
+      </StyledPage>
   )
 }
 
-const StyledExamplePage = styled.div`
+const StyledPage = styled.div`
     min-height: 100vh;
     width: 100vw;
     background-color: #282c34;
@@ -34,4 +36,4 @@ const Heading = styled.h1`
    -ms-user-select: none; /* Internet Explorer/Edge */
 `;
 
-export default ExamplePage
+export default ViewPage

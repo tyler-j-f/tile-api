@@ -1,4 +1,5 @@
 {
+  "license": "UNLICENSED",
   "dependencies": {
     "dom": "^0.0.3",
     "react-icons": "^4.3.1",

@@ -7,7 +7,7 @@ import Toggle from './components/Toggle';
 import Menu from './components/Menu';
 // pages
 import HomePage from './pages/HomePage';
-import ExamplePage from './pages/ExamplePage';
+import ViewPage from './pages/ViewPage';
 import ContactPage from './pages/ContactPage'
 
 // function TileNftApp() {
@@ -49,7 +49,7 @@ function TileNftApp() {
           { navToggled ? <Menu handleNavToggle={handleNavToggle} /> : null }
           <Routes>
             <Route exact path="/" element={<HomePage/>}/>
-            <Route exact path="/example" element={<ExamplePage/>}/>
+            <Route exact path="/example" element={<ViewPage/>}/>
             <Route exact path="/contact" element={<ContactPage/>}/>
           </Routes>
         </Router>
