@@ -21,6 +21,10 @@ public class WeightlessTraitRepository extends AbstractRepository<WeightlessTrai
       "SELECT * FROM " + WeightlessTraitsTable.TABLE_NAME + " WHERE traitId = ?";
   public static final String READ_BY_TOKEN_ID_SQL =
       "SELECT * FROM " + WeightlessTraitsTable.TABLE_NAME + " WHERE tokenId = ?";
+  public static final String READ_BY_TRAIT_TYPE_ID_SQL =
+      "SELECT * FROM "
+          + WeightlessTraitsTable.TABLE_NAME
+          + " WHERE traitTypeId = ? ORDER BY CAST(value AS UNSIGNED) DESC LIMIT ? ";
   public static final String UPDATE_SQL =
       "UPDATE "
           + WeightlessTraitsTable.TABLE_NAME
@@ -162,6 +166,24 @@ public class WeightlessTraitRepository extends AbstractRepository<WeightlessTrai
     Stream<WeightlessTraitDTO> stream = null;
     try {
       stream = jdbcTemplate.queryForStream(READ_BY_TOKEN_ID_SQL, beanPropertyRowMapper, tokenId);
+      List<WeightlessTraitDTO> traits = stream.collect(Collectors.toList());
+      if (traits.size() == 0) {
+        return null;
+      }
+      return traits;
+    } finally {
+      if (stream != null) {
+        stream.close();
+      }
+    }
+  }
+
+  public List<WeightlessTraitDTO> readByTraitTypeId(Long traitTypeId, int count) {
+    Stream<WeightlessTraitDTO> stream = null;
+    try {
+      stream =
+          jdbcTemplate.queryForStream(
+              READ_BY_TRAIT_TYPE_ID_SQL, beanPropertyRowMapper, traitTypeId, count);
       List<WeightlessTraitDTO> traits = stream.collect(Collectors.toList());
       if (traits.size() == 0) {
         return null;

@@ -1,6 +1,7 @@
 package io.tilenft.config.beans;
 
 import io.tilenft.eth.token.TokenFacade;
+import io.tilenft.eth.token.TokenLeaderboardRetriever;
 import io.tilenft.eth.token.TokenRetriever;
 import io.tilenft.eth.token.initializers.MergeTokenInitializer;
 import io.tilenft.eth.token.initializers.TokenInitializer;
@@ -31,6 +32,11 @@ public class TokenBeansConfig {
   @Bean
   public TokenRetriever tokenRetriever() {
     return new TokenRetriever();
+  }
+
+  @Bean
+  public TokenLeaderboardRetriever tokenLeaderboardRetriever() {
+    return new TokenLeaderboardRetriever();
   }
 
   @Bean
