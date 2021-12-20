@@ -9,7 +9,9 @@ class TokenNumberForm extends Component {
       value: '',
       submittedValue: '',
       shouldShowImage: false,
-      isLoading: false
+      isLoading: false,
+      isInvalidTokenNumber: false,
+      isGeneralError: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,20 +37,26 @@ class TokenNumberForm extends Component {
       if (response.status === 200) {
         this.setState({
           shouldShowImage: true,
-          isLoading: false
+          isLoading: false,
+          isInvalidTokenNumber: false,
+          isGeneralError: false
         });
       }
       if (response.status !== 200) {
         this.setState({
           shouldShowImage: false,
-          isLoading: false
+          isLoading: false,
+          isInvalidTokenNumber: true,
+          isGeneralError: false
         });
       }
     })
     .catch(err => {
       this.setState({
         shouldShowImage: false,
-        isLoading: false
+        isLoading: false,
+        isInvalidTokenNumber: false,
+        isGeneralError: true
       });
       console.log("Error caught!!!");
       console.log(err)
@@ -57,24 +65,51 @@ class TokenNumberForm extends Component {
 
   render() {
     let loadingSymbol = this.state.isLoading ? this.getSpinner() : null;
-    let formBody = this.state.isLoading ? null : this.getFormBody();
-    return this.state.isLoading ? loadingSymbol : formBody;
+    let form = this.state.isLoading ? null : this.getForm();
+    return this.state.isLoading ? loadingSymbol : form;
   }
 
-  getFormBody() {
+  getGeneralErrorText() {
+    return (
+        <StyledErrorText>Error! Please try again later.</StyledErrorText>
+    )
+  }
+
+  getTokenNumberErrorText() {
+    return (
+        <StyledErrorText>Token number does not exist.</StyledErrorText>
+    )
+  }
+
+  getForm() {
+    let formBody = this.getFormBody();
     return (
         <>
           <form onSubmit={this.handleSubmit}>
-            <label>
+            <StyledLabel>
               Token Number:&nbsp;
               <input type="number" value={this.state.value} onChange={this.handleChange} />
-            </label>
+            </StyledLabel>
             <input type="submit" value="Submit" />
-            {
-              this.state.shouldShowImage && <StyledImg imgSource={this.state.submittedValue} />
-            }
+            {formBody}
           </form>
         </>
+    );
+  }
+
+  getFormBody() {
+    if (this.state.isGeneralError) {
+      return this.getGeneralErrorText();
+    }
+    if (this.state.isInvalidTokenNumber) {
+      return this.getTokenNumberErrorText();
+    }
+    return (
+      <>
+        {
+          this.state.shouldShowImage && <StyledImg imgSource={this.state.submittedValue} />
+        }
+      </>
     );
   }
 
@@ -94,6 +129,18 @@ const StyledImg =
       height: 350px;
       margin: 10px;
       display: block
+      `;
+
+const StyledErrorText =
+    styled.p`
+      display: block;
+      color: #FF4500;
+      text-align: center;
+      `;
+
+const StyledLabel =
+    styled.label`
+      color: #F8F8FF;
       `;
 
 export default TokenNumberForm;
