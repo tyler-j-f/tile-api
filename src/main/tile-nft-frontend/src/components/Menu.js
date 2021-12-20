@@ -8,7 +8,7 @@ const Menu = ({handleNavToggle}) => {
       <StyledMenu>
         <StyledLink className="animate__animated animate__fadeInRight" onClick={handleNavToggle} to="/">Home</StyledLink>
         <StyledLink className="animate__animated animate__fadeInRight" onClick={handleNavToggle} to="/leaderboard">Leaderboard</StyledLink>
-        <StyledLink className="animate__animated animate__fadeInRight" onClick={handleNavToggle} to="/view">View Page</StyledLink>
+        <StyledLink className="animate__animated animate__fadeInRight" onClick={handleNavToggle} to="/view">View TileNFT</StyledLink>
         <StyledLink className="animate__animated animate__fadeInRight" onClick={handleNavToggle} to="/contact">Contact Page</StyledLink>
         <CloseToggle className="animate__animated animate__fadeInRight" onClick={handleNavToggle}><FaTimes/></CloseToggle>
       </StyledMenu>

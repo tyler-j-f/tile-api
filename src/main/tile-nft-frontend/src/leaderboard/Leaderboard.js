@@ -18,7 +18,7 @@ class Leaderboard extends Component {
       return this.getGeneralErrorText();
     }
     return this.state.tokenIds.map(
-        tokenId => this.getTokenImage(tokenId)
+        (tokenId, index) => this.getTokenImage(tokenId, index)
     );
   }
 
@@ -28,12 +28,11 @@ class Leaderboard extends Component {
     )
   }
 
-  getTokenImage(tokenId) {
+  getTokenImage(tokenId, count) {
     return (
         <>
-          {
-            <StyledImg imgSource={`http://localhost:8080/api/image/tile/get/${tokenId}`} />
-          }
+          <p># {count}</p>
+          <StyledImg imgSource={`http://localhost:8080/api/image/tile/get/${tokenId}`} />
         </>
     );
   }
