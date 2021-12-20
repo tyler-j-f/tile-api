@@ -11,16 +11,6 @@ import HomePage from './pages/HomePage';
 import ViewPage from './pages/ViewPage';
 import ContactPage from './pages/ContactPage'
 
-// function TileNftApp() {
-//   return (
-//     <div className="App">
-//       <TileNftHeader />
-//     </div>
-//   );
-// }
-//
-// export default TileNftApp;
-
 function TileNftApp() {
 
   const [navToggled, setNavToggled] = useState(false);
@@ -28,20 +18,6 @@ function TileNftApp() {
   const handleNavToggle = () => {
     setNavToggled(!navToggled);
   }
-
-  // return (
-  //     <div className="App">
-  //       <Toggle handleNavToggle={handleNavToggle}/>
-  //       <Router>
-  //         { navToggled ? <Menu handleNavToggle={handleNavToggle} /> : null }
-  //         <Switch>
-  //           <Route exact path="/" component={HomePage} />
-  //           <Route exact path="/example" component={ExamplePage} />
-  //           <Route exact path="/contact" component={ContactPage} />
-  //         </Switch>
-  //       </Router>
-  //     </div>
-  // );
 
   return (
       <div className="App">

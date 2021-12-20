@@ -93,6 +93,7 @@ const StyledImg =
       width: 350px;
       height: 350px;
       margin: 10px;
+      display: block
       `;
 
 export default TokenNumberForm;
