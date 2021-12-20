@@ -26,7 +26,7 @@ function TileNftApp() {
           { navToggled ? <Menu handleNavToggle={handleNavToggle} /> : null }
           <Routes>
             <Route exact path="/" element={<HomePage/>}/>
-            <Route exact path="/example" element={<ViewPage/>}/>
+            <Route exact path="/view" element={<ViewPage/>}/>
             <Route exact path="/contact" element={<ContactPage/>}/>
           </Routes>
         </Router>
