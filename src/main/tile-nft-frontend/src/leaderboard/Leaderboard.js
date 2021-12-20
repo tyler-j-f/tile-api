@@ -30,10 +30,10 @@ class Leaderboard extends Component {
 
   getTokenImage(tokenId, count) {
     return (
-        <>
-          <p># {count}</p>
+        <div>
+          <StyledLabel># {count}</StyledLabel>
           <StyledImg imgSource={`http://localhost:8080/api/image/tile/get/${tokenId}`} />
-        </>
+        </div>
     );
   }
 
@@ -65,6 +65,12 @@ const StyledErrorText =
       display: block;
       color: #FF4500;
       text-align: center;
+      `;
+
+const StyledLabel =
+    styled.label`
+      color: #F8F8FF;
+      margin: 0px 0px 0px 10px;
       `;
 
 export default Leaderboard;
