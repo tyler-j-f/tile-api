@@ -9,9 +9,41 @@ class Leaderboard extends Component {
     this.state = {
       isGeneralError: false,
       isLoading: false,
-      tokenIds: [9, 5, 3, 8, 4]
+      tokenIds: []
     };
   }
+
+  componentDidMount() {
+    this.loadLeaderboardData();
+  }
+
+  loadLeaderboardData() {
+    this.setState({
+      isLoading: true
+    });
+    fetch(`http://localhost:8080/api/tiles/getLeaders`, {method: 'get'})
+    .then(response => {
+      console.log(response);
+      return response.json();
+    })
+    .then(tokenIds => {
+      console.log("leaderboard tokenIds", tokenIds);
+      let output = tokenIds.replace('[', '').replace(']', '').split(', ')
+      console.log("leaderboard tokenIds 2", output);
+      this.setState({
+        tokenIds: output,
+        isLoading: false
+      });
+    })
+    .catch(err => {
+      this.setState({
+        isLoading: false
+      });
+      console.log("Error caught!!!");
+      console.log(err)
+    });
+  }
+
 
   getLeaderboard() {
     if (this.state.isGeneralError) {
@@ -28,10 +60,10 @@ class Leaderboard extends Component {
     )
   }
 
-  getTokenImage(tokenId, count) {
+  getTokenImage(tokenId, index) {
     return (
         <div>
-          <StyledLabel># {count}</StyledLabel>
+          <StyledLabel># {index + 1}</StyledLabel>
           <StyledImg imgSource={`http://localhost:8080/api/image/tile/get/${tokenId}`} />
         </div>
     );
@@ -44,9 +76,10 @@ class Leaderboard extends Component {
   }
 
   render() {
-    let loadingSymbol = this.state.isLoading ? this.getSpinner() : null;
-    let leaderboard = this.state.isLoading ? null : this.getLeaderboard();
-    return this.state.isLoading ? loadingSymbol : leaderboard;
+    let isLoading = this.state.isLoading && this.state.tokenIds !== [];
+    let loadingSymbol = isLoading ? this.getSpinner() : null;
+    let leaderboard = isLoading ? null : this.getLeaderboard();
+    return isLoading ? loadingSymbol : leaderboard;
   }
 }
 
