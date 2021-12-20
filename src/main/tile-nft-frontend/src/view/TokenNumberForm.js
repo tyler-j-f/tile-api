@@ -11,7 +11,8 @@ class TokenNumberForm extends Component {
       shouldShowImage: false,
       isLoading: false,
       isInvalidTokenNumber: false,
-      isGeneralError: false
+      isGeneralError: false,
+      imgValue: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,28 +36,39 @@ class TokenNumberForm extends Component {
     .then(response => {
       console.log(response);
       if (response.status === 200) {
-        this.setState({
-          shouldShowImage: true,
-          isLoading: false,
-          isInvalidTokenNumber: false,
-          isGeneralError: false
-        });
+        return response.blob();
       }
       if (response.status !== 200) {
         this.setState({
           shouldShowImage: false,
           isLoading: false,
           isInvalidTokenNumber: true,
-          isGeneralError: false
+          isGeneralError: false,
+          imgValue: ''
         });
       }
+      return null;
+    })
+    .then(blob => {
+      if (blob === null) {
+        console.log('Image blob is null');
+        return null;
+      }
+      this.setState({
+        shouldShowImage: true,
+        isLoading: false,
+        isInvalidTokenNumber: false,
+        isGeneralError: false,
+        imgValue: URL.createObjectURL(blob)
+      });
     })
     .catch(err => {
       this.setState({
         shouldShowImage: false,
         isLoading: false,
         isInvalidTokenNumber: false,
-        isGeneralError: true
+        isGeneralError: true,
+        imgValue: ''
       });
       console.log("Error caught!!!");
       console.log(err)
@@ -107,7 +119,7 @@ class TokenNumberForm extends Component {
     return (
       <>
         {
-          this.state.shouldShowImage && <StyledImg imgSource={this.state.submittedValue} />
+          this.state.shouldShowImage && <StyledImg imgSource={this.state.imgValue} />
         }
       </>
     );
@@ -123,7 +135,7 @@ class TokenNumberForm extends Component {
 
 const StyledImg =
     styled.img.attrs(props => ({
-      src: `http://localhost:8080/api/image/tile/get/${props.imgSource}`
+      src: props.imgSource
     }))`
       width: 350px;
       height: 350px;
