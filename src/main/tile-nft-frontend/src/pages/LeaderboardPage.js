@@ -1,12 +1,12 @@
 import React from 'react'
 import styled from 'styled-components';
-import TokenNumberForm from "../view/TokenNumberForm";
+import Leaderboard from "../leaderboard/Leaderboard";
 
-const ViewPage = () => {
+const LeaderboardPage = () => {
   return (
       <StyledPage>
-        <Heading className="animate__animated animate__fadeInLeft">Leaderboards</Heading>
-        <TokenNumberForm />
+        <Heading className="animate__animated animate__fadeInLeft">Leaderboard</Heading>
+        <Leaderboard />
       </StyledPage>
   )
 }
@@ -36,4 +36,4 @@ const Heading = styled.h1`
    -ms-user-select: none; /* Internet Explorer/Edge */
 `;
 
-export default ViewPage
+export default LeaderboardPage

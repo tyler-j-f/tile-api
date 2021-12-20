@@ -10,6 +10,7 @@ import Menu from './components/Menu';
 import HomePage from './pages/HomePage';
 import ViewPage from './pages/ViewPage';
 import ContactPage from './pages/ContactPage'
+import LeaderboardPage from "./pages/LeaderboardPage";
 
 function TileNftApp() {
 
@@ -26,6 +27,7 @@ function TileNftApp() {
           { navToggled ? <Menu handleNavToggle={handleNavToggle} /> : null }
           <Routes>
             <Route exact path="/" element={<HomePage/>}/>
+            <Route exact path="/leaderboard" element={<LeaderboardPage/>}/>
             <Route exact path="/view" element={<ViewPage/>}/>
             <Route exact path="/contact" element={<ContactPage/>}/>
           </Routes>
