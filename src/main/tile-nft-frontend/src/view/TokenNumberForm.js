@@ -1,5 +1,6 @@
 import {Component} from 'react';
 import styled from 'styled-components';
+import Button from 'react-bootstrap/Button';
 
 class TokenNumberForm extends Component {
   constructor(props) {
@@ -49,6 +50,7 @@ class TokenNumberForm extends Component {
             <input type="number" value={this.state.value} onChange={this.handleChange} />
           </label>
           <input type="submit" value="Submit" />
+          <Button variant="primary">Primary</Button>{' '}
           {
             this.state.shouldShowImage && <StyledImg imgSource={this.state.submittedValue} />
           }
