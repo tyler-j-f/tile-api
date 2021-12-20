@@ -1,6 +1,7 @@
 import {Component} from 'react';
 import styled from 'styled-components';
-import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 class TokenNumberForm extends Component {
   constructor(props) {
@@ -44,17 +45,7 @@ class TokenNumberForm extends Component {
 
   render() {
     return (
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Token Number:&nbsp;
-            <input type="number" value={this.state.value} onChange={this.handleChange} />
-          </label>
-          <input type="submit" value="Submit" />
-          <Button variant="primary">Primary</Button>{' '}
-          {
-            this.state.shouldShowImage && <StyledImg imgSource={this.state.submittedValue} />
-          }
-        </form>
+        <Spinner animation="border" variant="primary" />
     );
   }
 
