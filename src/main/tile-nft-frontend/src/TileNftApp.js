@@ -1,6 +1,5 @@
 // style
 import './css/App.css';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import TileNftHeader from "./header/TileNftHeader";
 import { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';

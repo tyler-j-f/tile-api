@@ -1,7 +1,6 @@
 import {Component} from 'react';
 import styled from 'styled-components';
 import Spinner from 'react-bootstrap/Spinner';
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 class TokenNumberForm extends Component {
   constructor(props) {
