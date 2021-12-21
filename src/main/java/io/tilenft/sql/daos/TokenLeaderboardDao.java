@@ -16,7 +16,7 @@ public class TokenLeaderboardDao {
       "SELECT * FROM "
           + WeightlessTraitsTable.TABLE_NAME
           + " WHERE traitTypeId = ? ORDER BY CAST(value AS UNSIGNED) DESC LIMIT ? OFFSET ?";
-  private static final int DEFAULT_PAGE_SIZE = 5;
+  private static final int DEFAULT_PAGE_SIZE = 20;
 
   public TokenLeaderboardDao(
       JdbcTemplate jdbcTemplate, BeanPropertyRowMapper beanPropertyRowMapper) {
@@ -25,20 +25,35 @@ public class TokenLeaderboardDao {
   }
 
   public List<Long> getLeaderTokenIds(
-      Long overallRarityTraitTypeId, Long isBurntTraitTypeId, int numberOfTokensToRetrieve) {
-    List<WeightlessTraitDTO> traits = new ArrayList<>();
-    int traitsListSize = 0;
+      Long overallRarityTraitTypeId,
+      Long isBurntTraitTypeId,
+      int numberOfTokensToRetrieve,
+      int startIndex) {
+    List<WeightlessTraitDTO> traitsList = new ArrayList<>();
+    List<Long> tokenIdsList = new ArrayList<>();
+    int traitsListSize = 0, tokenIdsListSize = 0, prevTraitsListSize;
     do {
-      traits.addAll(getFromDB(overallRarityTraitTypeId, traitsListSize));
-      traitsListSize = traits.size();
-    } while (traitsListSize < numberOfTokensToRetrieve && traitsListSize != 0);
-    if (traits.size() == 0) {
+      List<WeightlessTraitDTO> highestOverallRarityTraitsList =
+          getHighestOverallRarityTraits(overallRarityTraitTypeId, startIndex + traitsListSize);
+      traitsList.addAll(highestOverallRarityTraitsList);
+      tokenIdsList.addAll(
+          highestOverallRarityTraitsList.stream()
+              .map(trait -> trait.getTokenId())
+              .collect(Collectors.toList()));
+      prevTraitsListSize = traitsListSize;
+      traitsListSize = traitsList.size();
+      tokenIdsListSize = tokenIdsList.size();
+    } while (tokenIdsListSize < numberOfTokensToRetrieve
+        && traitsListSize != 0
+        && prevTraitsListSize != traitsListSize);
+    if (traitsList.size() == 0) {
       return null;
     }
-    return traits.stream().map(trait -> trait.getTokenId()).collect(Collectors.toList());
+    return traitsList.stream().map(trait -> trait.getTokenId()).collect(Collectors.toList());
   }
 
-  private List<WeightlessTraitDTO> getFromDB(Long overallRarityTraitTypeId, int offset) {
+  private List<WeightlessTraitDTO> getHighestOverallRarityTraits(
+      Long overallRarityTraitTypeId, int sqlOffset) {
     Stream<WeightlessTraitDTO> stream = null;
     try {
       stream =
@@ -47,7 +62,7 @@ public class TokenLeaderboardDao {
               beanPropertyRowMapper,
               overallRarityTraitTypeId,
               DEFAULT_PAGE_SIZE,
-              offset);
+              sqlOffset);
       List<WeightlessTraitDTO> traits = stream.collect(Collectors.toList());
       return traits;
     } finally {
