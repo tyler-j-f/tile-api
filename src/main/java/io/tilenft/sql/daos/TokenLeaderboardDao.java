@@ -1,6 +1,7 @@
 package io.tilenft.sql.daos;
 
 import io.tilenft.sql.dtos.WeightlessTraitDTO;
+import io.tilenft.sql.tbls.WeightedTraitsTable;
 import io.tilenft.sql.tbls.WeightlessTraitsTable;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +13,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class TokenLeaderboardDao {
   private final JdbcTemplate jdbcTemplate;
   private final BeanPropertyRowMapper beanPropertyRowMapper;
-  public static final String READ_BY_TRAIT_TYPE_ID_SQL =
+  public static final String READ_WEIGHTLESS_TRAIT_BY_TRAIT_TYPE_ID_SQL =
       "SELECT * FROM "
           + WeightlessTraitsTable.TABLE_NAME
           + " WHERE traitTypeId = ? ORDER BY CAST(value AS UNSIGNED) DESC LIMIT ? OFFSET ?";
-  private static final int DEFAULT_PAGE_SIZE = 20;
+  public static final String BASE_READ_TOKENS_FOR_A_TOKEN_WITH_BURNT_TRAIT_SQL =
+      "SELECT tokenId FROM "
+          + WeightedTraitsTable.TABLE_NAME
+          + " WHERE traitTypeId = ? AND tokenId IN (";
+  private static final int DEFAULT_PAGE_SIZE = 5;
 
   public TokenLeaderboardDao(
       JdbcTemplate jdbcTemplate, BeanPropertyRowMapper beanPropertyRowMapper) {
@@ -37,9 +42,8 @@ public class TokenLeaderboardDao {
           getHighestOverallRarityTraits(overallRarityTraitTypeId, startIndex + traitsListSize);
       traitsList.addAll(highestOverallRarityTraitsList);
       tokenIdsList.addAll(
-          highestOverallRarityTraitsList.stream()
-              .map(trait -> trait.getTokenId())
-              .collect(Collectors.toList()));
+          sortHighestOverallTraitAndGetTokenIds(
+              highestOverallRarityTraitsList, isBurntTraitTypeId));
       prevTraitsListSize = traitsListSize;
       traitsListSize = traitsList.size();
       tokenIdsListSize = tokenIdsList.size();
@@ -58,7 +62,7 @@ public class TokenLeaderboardDao {
     try {
       stream =
           jdbcTemplate.queryForStream(
-              READ_BY_TRAIT_TYPE_ID_SQL,
+              READ_WEIGHTLESS_TRAIT_BY_TRAIT_TYPE_ID_SQL,
               beanPropertyRowMapper,
               overallRarityTraitTypeId,
               DEFAULT_PAGE_SIZE,
@@ -70,5 +74,46 @@ public class TokenLeaderboardDao {
         stream.close();
       }
     }
+  }
+
+  private List<Long> sortHighestOverallTraitAndGetTokenIds(
+      List<WeightlessTraitDTO> highestOverallRarityTraitsList, Long isBurntTraitTypeId) {
+    Stream<WeightlessTraitDTO> stream = null;
+    try {
+      System.out.println(
+          "DEBUG sortHighestOverallTraitAndGetTokenIds: " + highestOverallRarityTraitsList);
+      List<Object> updateValuesList =
+          highestOverallRarityTraitsList.stream()
+              .map(trait -> trait.getTokenId())
+              .collect(Collectors.toList());
+      System.out.println("DEBUG updateValuesList: " + updateValuesList);
+      System.out.println("DEBUG updateValuesList 2: " + updateValuesList.toArray());
+      stream =
+          jdbcTemplate.queryForStream(
+              getTokenIdsWithBurntTraitSql(highestOverallRarityTraitsList.size()),
+              beanPropertyRowMapper,
+              isBurntTraitTypeId,
+              updateValuesList.toArray());
+      List<Long> tokenIds = stream.map(trait -> trait.getTokenId()).collect(Collectors.toList());
+      System.out.println("DEBUG long list: " + tokenIds);
+      return tokenIds;
+    } finally {
+      if (stream != null) {
+        stream.close();
+      }
+    }
+  }
+
+  private String getTokenIdsWithBurntTraitSql(int numberOfTokenIdsToLookFor) {
+    String sql = BASE_READ_TOKENS_FOR_A_TOKEN_WITH_BURNT_TRAIT_SQL;
+    for (int x = 0; x < numberOfTokenIdsToLookFor; x++) {
+      if (x > 0) {
+        sql = sql + ", ";
+      }
+      sql = sql + "?";
+    }
+    sql = sql + ")";
+    System.out.println("DEBUG sql: " + sql);
+    return sql;
   }
 }

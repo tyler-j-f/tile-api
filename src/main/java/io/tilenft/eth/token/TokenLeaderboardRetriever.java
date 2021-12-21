@@ -28,8 +28,7 @@ public class TokenLeaderboardRetriever {
             Long.valueOf(WeightlessTraitTypeConstants.OVERALL_RARITY),
             Long.valueOf(WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE),
             endIndex - startIndex,
-            startIndex
-        )) {
+            startIndex)) {
       x++;
       if ((x - 1) >= endIndex) break;
       if ((x - 1) < startIndex) {
