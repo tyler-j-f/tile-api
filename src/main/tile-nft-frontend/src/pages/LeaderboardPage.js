@@ -4,11 +4,18 @@ import Leaderboard from "../leaderboard/Leaderboard";
 
 const LeaderboardPage = () => {
   return (
-      <StyledPage>
-        <Heading className="animate__animated animate__fadeInLeft">Leaderboard</Heading>
-        <Leaderboard />
-      </StyledPage>
-  )
+      <>
+        <StyledPage>
+          <div className="col-sm"/>
+          <div className="col-sm">
+            <Heading
+                className="animate__animated animate__fadeInLeft">Leaderboard</Heading>
+            <Leaderboard/>
+          </div>
+          <div className="col-sm"/>
+        </StyledPage>
+    </>
+  );
 }
 
 const StyledPage = styled.div`
