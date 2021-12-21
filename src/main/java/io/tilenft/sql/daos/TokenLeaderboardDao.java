@@ -21,7 +21,7 @@ public class TokenLeaderboardDao {
       "SELECT tokenId FROM "
           + WeightedTraitsTable.TABLE_NAME
           + " WHERE traitTypeId = ? AND tokenId IN (";
-  private static final int DEFAULT_PAGE_SIZE = 5;
+  private static final int DEFAULT_PAGE_SIZE = 50;
 
   public TokenLeaderboardDao(
       JdbcTemplate jdbcTemplate, BeanPropertyRowMapper beanPropertyRowMapper) {
