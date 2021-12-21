@@ -84,17 +84,13 @@ public class TokenLeaderboardDao {
       List<WeightlessTraitDTO> highestOverallRarityTraitsList, Long isBurntTraitTypeId) {
     Stream<WeightlessTraitDTO> stream = null;
     try {
-      System.out.println(
-          "DEBUG sortHighestOverallTraitAndGetTokenIds: " + highestOverallRarityTraitsList);
-      List<Object> queryValuesList = new ArrayList<>();
       List<Long> tokenIds =
           highestOverallRarityTraitsList.stream()
               .map(trait -> trait.getTokenId())
               .collect(Collectors.toList());
+      List<Object> queryValuesList = new ArrayList<>();
       queryValuesList.add(isBurntTraitTypeId);
       queryValuesList.addAll(tokenIds);
-      System.out.println("DEBUG queryValuesList: " + queryValuesList);
-      System.out.println("DEBUG queryValuesList 2: " + queryValuesList.toArray());
       stream =
           jdbcTemplate.queryForStream(
               getTokenIdsWithBurntTraitSql(highestOverallRarityTraitsList.size()),
@@ -102,10 +98,8 @@ public class TokenLeaderboardDao {
               queryValuesList.toArray());
       List<Long> foundBurntTokenIds =
           stream.map(trait -> trait.getTokenId()).collect(Collectors.toList());
-      System.out.println("DEBUG long list: " + foundBurntTokenIds);
       List<Long> results = new ArrayList<>(tokenIds);
-      results.removeAll(foundBurntTokenIds);
-      System.out.println("DEBUG results list: " + results);
+      new ArrayList<>(tokenIds).removeAll(foundBurntTokenIds);
       return results;
     } finally {
       if (stream != null) {
@@ -123,7 +117,6 @@ public class TokenLeaderboardDao {
       sql = sql + "?";
     }
     sql = sql + ")";
-    System.out.println("DEBUG sql: " + sql);
     return sql;
   }
 }
