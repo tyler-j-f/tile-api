@@ -99,6 +99,7 @@ public class TokenLeaderboardDao {
       List<Long> foundBurntTokenIds =
           stream.map(trait -> trait.getTokenId()).collect(Collectors.toList());
       List<Long> results = new ArrayList<>(tokenIds);
+      results.removeAll(foundBurntTokenIds);
       new ArrayList<>(tokenIds).removeAll(foundBurntTokenIds);
       return results;
     } finally {
