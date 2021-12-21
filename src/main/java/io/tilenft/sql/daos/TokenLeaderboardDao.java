@@ -88,6 +88,7 @@ public class TokenLeaderboardDao {
           highestOverallRarityTraitsList.stream()
               .map(trait -> trait.getTokenId())
               .collect(Collectors.toList());
+      System.out.println("DEBUG found: " + tokenIds);
       List<Object> queryValuesList = new ArrayList<>();
       queryValuesList.add(isBurntTraitTypeId);
       queryValuesList.addAll(tokenIds);
@@ -99,8 +100,8 @@ public class TokenLeaderboardDao {
       List<Long> foundBurntTokenIds =
           stream.map(trait -> trait.getTokenId()).collect(Collectors.toList());
       List<Long> results = new ArrayList<>(tokenIds);
+      System.out.println("DEBUG copy: " + results);
       results.removeAll(foundBurntTokenIds);
-      new ArrayList<>(tokenIds).removeAll(foundBurntTokenIds);
       return results;
     } finally {
       if (stream != null) {
