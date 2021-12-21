@@ -40,6 +40,10 @@ public class TokenLeaderboardDao {
     do {
       List<WeightlessTraitDTO> highestOverallRarityTraitsList =
           getHighestOverallRarityTraits(overallRarityTraitTypeId, startIndex + traitsListSize);
+      if (highestOverallRarityTraitsList.size() == 0) {
+        System.out.println("Not able to find the requested number of rarity leader tokens");
+        break;
+      }
       traitsList.addAll(highestOverallRarityTraitsList);
       tokenIdsList.addAll(
           sortHighestOverallTraitAndGetTokenIds(
@@ -53,7 +57,7 @@ public class TokenLeaderboardDao {
     if (traitsList.size() == 0) {
       return null;
     }
-    return traitsList.stream().map(trait -> trait.getTokenId()).collect(Collectors.toList());
+    return tokenIdsList;
   }
 
   private List<WeightlessTraitDTO> getHighestOverallRarityTraits(
@@ -82,21 +86,27 @@ public class TokenLeaderboardDao {
     try {
       System.out.println(
           "DEBUG sortHighestOverallTraitAndGetTokenIds: " + highestOverallRarityTraitsList);
-      List<Object> updateValuesList =
+      List<Object> queryValuesList = new ArrayList<>();
+      List<Long> tokenIds =
           highestOverallRarityTraitsList.stream()
               .map(trait -> trait.getTokenId())
               .collect(Collectors.toList());
-      System.out.println("DEBUG updateValuesList: " + updateValuesList);
-      System.out.println("DEBUG updateValuesList 2: " + updateValuesList.toArray());
+      queryValuesList.add(isBurntTraitTypeId);
+      queryValuesList.addAll(tokenIds);
+      System.out.println("DEBUG queryValuesList: " + queryValuesList);
+      System.out.println("DEBUG queryValuesList 2: " + queryValuesList.toArray());
       stream =
           jdbcTemplate.queryForStream(
               getTokenIdsWithBurntTraitSql(highestOverallRarityTraitsList.size()),
               beanPropertyRowMapper,
-              isBurntTraitTypeId,
-              updateValuesList.toArray());
-      List<Long> tokenIds = stream.map(trait -> trait.getTokenId()).collect(Collectors.toList());
-      System.out.println("DEBUG long list: " + tokenIds);
-      return tokenIds;
+              queryValuesList.toArray());
+      List<Long> foundBurntTokenIds =
+          stream.map(trait -> trait.getTokenId()).collect(Collectors.toList());
+      System.out.println("DEBUG long list: " + foundBurntTokenIds);
+      List<Long> results = new ArrayList<>(tokenIds);
+      results.removeAll(foundBurntTokenIds);
+      System.out.println("DEBUG results list: " + results);
+      return results;
     } finally {
       if (stream != null) {
         stream.close();
