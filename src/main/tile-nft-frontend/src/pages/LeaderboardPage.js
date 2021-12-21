@@ -1,20 +1,23 @@
 import React from 'react'
 import styled from 'styled-components';
 import Leaderboard from "../leaderboard/Leaderboard";
+import {Col, Container, Row} from "react-bootstrap";
 
 const LeaderboardPage = () => {
   return (
-      <>
-        <StyledPage>
-          <div className="col-sm"/>
-          <div className="col-sm">
+    <StyledPage>
+      <Container>
+        <Row>
+          <Col xs={2} />
+          <Col xs={10} >
             <Heading
                 className="animate__animated animate__fadeInLeft">Leaderboard</Heading>
             <Leaderboard/>
-          </div>
-          <div className="col-sm"/>
-        </StyledPage>
-    </>
+          </Col>
+          <Col xs={2} />
+        </Row>
+      </Container>
+    </StyledPage>
   );
 }
 

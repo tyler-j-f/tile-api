@@ -137,11 +137,11 @@ const StyledImg =
     styled.img.attrs(props => ({
       src: props.imgSource
     }))`
-      width: 350px;
-      height: 350px;
-      margin: 10px;
-      display: block
-      `;
+    width: 350px;
+    height: 350px;
+    margin: 10px;
+    display: block
+    `;
 
 const StyledErrorText =
     styled.p`
