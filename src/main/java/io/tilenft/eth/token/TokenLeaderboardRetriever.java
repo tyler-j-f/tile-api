@@ -1,5 +1,7 @@
 package io.tilenft.eth.token;
 
+import io.tilenft.eth.token.traits.weighted.WeightedTraitTypeConstants;
+import io.tilenft.eth.token.traits.weightless.WeightlessTraitTypeConstants;
 import io.tilenft.sql.daos.TokenLeaderboardDao;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class TokenLeaderboardRetriever {
   @Autowired private TokenLeaderboardDao tokenLeaderboardDao;
-  private static final Long OVERALL_RARITY_TRAIT_TYPE_ID = 23L;
   private static final int START_INDEX_DEFAULT = 0;
   private static final int DEFAULT_PAGE_SIZE = 5;
 
@@ -24,7 +25,9 @@ public class TokenLeaderboardRetriever {
     int x = 0;
     for (Long tokenId :
         tokenLeaderboardDao.getLeaderTokenIds(
-            OVERALL_RARITY_TRAIT_TYPE_ID, endIndex - startIndex)) {
+            Long.valueOf(WeightlessTraitTypeConstants.OVERALL_RARITY),
+            Long.valueOf(WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE),
+            endIndex - startIndex)) {
       x++;
       if ((x - 1) >= endIndex) break;
       if ((x - 1) < startIndex) {
