@@ -9,7 +9,7 @@ const LeaderboardPage = () => {
       <Container>
         <Row>
           <Col xs={2} />
-          <Col xs={10} >
+          <Col xs={8} >
             <Heading
                 className="animate__animated animate__fadeInLeft">Leaderboard</Heading>
             <Leaderboard/>
