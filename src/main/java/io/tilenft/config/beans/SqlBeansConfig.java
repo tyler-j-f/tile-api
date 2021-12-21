@@ -2,7 +2,6 @@ package io.tilenft.config.beans;
 
 import io.tilenft.sql.daos.TokenLeaderboardDao;
 import io.tilenft.sql.dtos.TokenDTO;
-import io.tilenft.sql.dtos.TokenLeaderboardEntryDTO;
 import io.tilenft.sql.dtos.WeightedTraitDTO;
 import io.tilenft.sql.dtos.WeightedTraitTypeDTO;
 import io.tilenft.sql.dtos.WeightedTraitTypeWeightDTO;
@@ -101,6 +100,6 @@ public class SqlBeansConfig {
   @Bean
   public TokenLeaderboardDao tokenLeaderboardDao() {
     return new TokenLeaderboardDao(
-        jdbcTemplate, new BeanPropertyRowMapper(TokenLeaderboardEntryDTO.class));
+        jdbcTemplate, new BeanPropertyRowMapper(WeightlessTraitDTO.class));
   }
 }
