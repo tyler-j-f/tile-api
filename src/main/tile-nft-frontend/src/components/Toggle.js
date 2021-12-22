@@ -12,7 +12,6 @@ const Toggle = ({handleNavToggle}) => {
 }
 
 const StyledToggle = styled.button`
-    position: fixed;
     top: 5%;
     right: 4%;
     color: #222;

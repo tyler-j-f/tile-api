@@ -88,23 +88,33 @@ const StyledImg =
     styled.img.attrs(props => ({
       src: props.imgSource
     }))`
+    @media screen and (min-width: 501px) {
       width: 350px;
       height: 350px;
-      margin: 10px;
-      display: block
-      `;
+    }
+    @media screen and (max-width: 500px) and (min-width: 321px) {
+      width: 200px;
+      height: 200px;
+    }
+    @media screen and (max-width: 320px) {
+      width: 150px;
+      height: 150px;
+    }
+    margin: 10px;
+    display: block
+    `;
 
 const StyledErrorText =
     styled.p`
-      display: block;
-      color: #FF4500;
-      text-align: center;
-      `;
+    display: block;
+    color: #FF4500;
+    text-align: center;
+    `;
 
 const StyledLabel =
     styled.label`
-      color: #F8F8FF;
-      margin: 0px 0px 0px 10px;
-      `;
+    color: #F8F8FF;
+    margin: 0px 0px 0px 10px;
+    `;
 
 export default Leaderboard;
