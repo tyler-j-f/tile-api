@@ -87,6 +87,7 @@ const StyledErrorText =
     display: block;
     color: #FF4500;
     text-align: center;
+    margin-top: 50px
     `;
 
 export default TileNftApp;
