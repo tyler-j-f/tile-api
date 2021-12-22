@@ -27,17 +27,18 @@ class Leaderboard extends Component {
       return response.json();
     })
     .then(tokenIds => {
-      console.log("leaderboard tokenIds", tokenIds);
       let output = tokenIds.replace('[', '').replace(']', '').split(', ')
-      console.log("leaderboard tokenIds 2", output);
+      console.log("leaderboard tokenIds", output);
       this.setState({
         tokenIds: output,
-        isLoading: false
+        isLoading: false,
+        isGeneralError: false
       });
     })
     .catch(err => {
       this.setState({
-        isLoading: false
+        isLoading: false,
+        isGeneralError: true
       });
       console.log("Error caught!!!");
       console.log(err)
