@@ -21,7 +21,7 @@ class Leaderboard extends Component {
     this.setState({
       isLoading: true
     });
-    fetch(`http://localhost:8080/api/tiles/getLeaders`, {method: 'get'})
+    fetch(`http://localhost:8080/api/frontend/getLeaders`, {method: 'get'})
     .then(response => {
       console.log(response);
       return response.json();
