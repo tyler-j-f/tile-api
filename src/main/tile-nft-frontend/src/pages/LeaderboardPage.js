@@ -5,19 +5,17 @@ import {Col, Container, Row} from "react-bootstrap";
 
 const LeaderboardPage = () => {
   return (
-    <StyledPage>
-      <Container>
-        <Row>
-          <Col xs={2} />
-          <Col xs={8} >
-            <Heading
-                className="animate__animated animate__fadeInLeft">Leaderboard</Heading>
-            <Leaderboard/>
-          </Col>
-          <Col xs={2} />
-        </Row>
-      </Container>
-    </StyledPage>
+      <StyledPage>
+      <Row>
+        <Col />
+        <Col xs={8} md={6} >
+          <Heading
+              className="animate__animated animate__fadeInLeft">Leaderboard</Heading>
+          <Leaderboard/>
+        </Col>
+        <Col />
+      </Row>
+      </StyledPage>
   );
 }
 
