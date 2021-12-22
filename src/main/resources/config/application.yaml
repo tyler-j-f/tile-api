@@ -22,3 +22,7 @@ spring:
     continue-on-error: true
     initialization-mode: always
     password: "kksb2iA18s22jaIk"
+
+server:
+  error:
+    path: "/error"
