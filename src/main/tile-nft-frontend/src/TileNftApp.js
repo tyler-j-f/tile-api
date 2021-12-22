@@ -22,9 +22,14 @@ function TileNftApp() {
   }
 
   return (
-      <Container fluid>
-        <div className="App">
-          <Toggle handleNavToggle={handleNavToggle}/>
+      <div className="App">
+        <Container fluid>
+          <Row>
+            <Col xs={8} sm={8} md={8} lg={8} xl={8} xxl={8} />
+            <Col xs={4} sm={4} md={4} lg={4} xl={4} xxl={4} >
+              <Toggle handleNavToggle={handleNavToggle}/>
+            </Col>
+          </Row>
           <Router>
             { navToggled ? <Menu handleNavToggle={handleNavToggle} /> : null }
             <Routes>
@@ -34,8 +39,8 @@ function TileNftApp() {
               <Route exact path="/contact" element={<ContactPage/>}/>
             </Routes>
           </Router>
-        </div>
-      </Container>
+        </Container>
+      </div>
   );
 }
 
