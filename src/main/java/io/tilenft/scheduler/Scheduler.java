@@ -20,6 +20,7 @@ public class Scheduler {
   @Autowired private HandleMergeEventsTask handleMergeEventsTask;
   @Autowired private HandleResetSqlTask handleResetSqlTask;
   @Autowired private Environment env;
+  private boolean hasSqlTablesBeenReset = false;
 
   /**
    * Execute tasks every schedulerFixedRateMs If you would like to execute tasks on a different
@@ -30,9 +31,10 @@ public class Scheduler {
    */
   @Scheduled(fixedRateString = "${spring.application.events-config.schedulerFixedRateMs}")
   public void executeTasks() throws TaskSchedulerException {
-    if (Boolean.parseBoolean(env.getProperty("shouldResetSqlTables"))) {
+    if (Boolean.parseBoolean(env.getProperty("shouldResetSqlTables")) && !hasSqlTablesBeenReset) {
       System.out.println("Resetting all of the SQL tables!!!");
       handleResetSqlTask.execute();
+      hasSqlTablesBeenReset = true;
     }
     handleMintEventsTask.execute();
     handleSetColorsEventsTask.execute();
