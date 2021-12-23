@@ -12,8 +12,7 @@ public class EventsConfig {
   private String nftFactoryContractAddress;
   private String mintEventHashSignature;
   private String mergeEventHashSignature;
-  private String setColorsEventHashSignature;
-  private String setEmojisEventHashSignature;
+  private String setMetadataHashSignature;
   private String schedulerFixedRateMs;
   private String schedulerNumberOfBlocksToLookBack;
 }

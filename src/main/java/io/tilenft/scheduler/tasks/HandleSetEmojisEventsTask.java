@@ -1,7 +1,7 @@
 package io.tilenft.scheduler.tasks;
 
 import io.tilenft.eth.events.EthEventException;
-import io.tilenft.eth.events.implementations.SetEmojisEvent;
+import io.tilenft.eth.events.implementations.SetMetadataEvent;
 import io.tilenft.eth.token.TokenFacadeDTO;
 import io.tilenft.eth.token.TokenRetriever;
 import io.tilenft.eth.token.traits.weightless.WeightlessTraitTypeConstants;
@@ -16,7 +16,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 
-public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
+public class HandleSetEmojisEventsTask extends AbstractMetadataSetEventsRetrieverTask {
   private static final int NUMBER_OF_SUB_TILES = 4;
   private static final int EMOJI_SET_SPECIFIER_INDEX = 0;
 
@@ -28,20 +28,20 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
   @Override
   public void execute() throws TaskSchedulerException {
     try {
-      getSetEmojisEventsAndUpdateTraitValues();
+      handleSetEmojisEvents();
     } catch (EthEventException | IOException e) {
       throw new TaskSchedulerException(e.getMessage(), e.getCause());
     }
   }
 
-  public void getSetEmojisEventsAndUpdateTraitValues() throws EthEventException, IOException {
-    List<SetEmojisEvent> events =
-        (List<SetEmojisEvent>)
-            getEthEvents(
-                SetEmojisEvent.class.getCanonicalName(),
-                eventsConfig.getNftContractAddress(),
-                eventsConfig.getSetEmojisEventHashSignature(),
-                bigIntegerFactory.build(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
+  public void handleSetEmojisEvents() throws EthEventException, IOException {
+    List<SetMetadataEvent> events =
+        getEthEvents(
+            SetMetadataEvent.class.getCanonicalName(),
+            eventsConfig.getNftContractAddress(),
+            eventsConfig.getSetMetadataHashSignature(),
+            bigIntegerFactory.build(eventsConfig.getSchedulerNumberOfBlocksToLookBack()),
+            1);
     if (events.size() == 0) {
       System.out.println("HandleSetEmojisEventsTask: Found no tasks.");
       return;
@@ -50,9 +50,10 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
     return;
   }
 
-  private List<String> getTileEmojiIndexFromEvent(SetEmojisEvent event) throws EthEventException {
+  private List<String> getTileEmojiIndexFromEvent(SetMetadataEvent event) throws EthEventException {
     List<String> tilesEmojiValuesList = new ArrayList<>();
-    String eventEmojisValue = hexStringPrefixStripper.strip0xFromHexString(event.getEmojis());
+    String eventEmojisValue =
+        hexStringPrefixStripper.strip0xFromHexString(event.getMetadataToSet());
     int emojiSetIndex = getEmojiSetIndex(eventEmojisValue);
     for (int x = 0; x < NUMBER_OF_SUB_TILES; x++) {
       String tileEmojiValue = getTileEmojiValue(eventEmojisValue, x, emojiSetIndex);
@@ -93,7 +94,7 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
     return resorces[Integer.valueOf(tileEmojiIndex)];
   }
 
-  private void updateTraitValuesForEthEvent(SetEmojisEvent event, TokenFacadeDTO nft)
+  private void updateTraitValuesForEthEvent(SetMetadataEvent event, TokenFacadeDTO nft)
       throws EthEventException, IOException {
     int tileIndex = 0;
     List<WeightlessTraitDTO> traits = nft.getWeightlessTraits();
@@ -163,9 +164,9 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
     return trait;
   }
 
-  private void updateTraitValuesForEthEvents(List<SetEmojisEvent> events)
+  private void updateTraitValuesForEthEvents(List<SetMetadataEvent> events)
       throws EthEventException, IOException {
-    for (SetEmojisEvent event : events) {
+    for (SetMetadataEvent event : events) {
       TokenFacadeDTO nft =
           tokenRetriever.get(
               Long.valueOf(hexStringPrefixStripper.strip0xFromHexString(event.getTokenId())));

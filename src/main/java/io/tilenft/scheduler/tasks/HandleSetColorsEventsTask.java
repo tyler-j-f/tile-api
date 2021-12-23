@@ -1,7 +1,7 @@
 package io.tilenft.scheduler.tasks;
 
 import io.tilenft.eth.events.EthEventException;
-import io.tilenft.eth.events.implementations.SetColorsEvent;
+import io.tilenft.eth.events.implementations.SetMetadataEvent;
 import io.tilenft.eth.token.TokenFacadeDTO;
 import io.tilenft.eth.token.TokenRetriever;
 import io.tilenft.eth.token.traits.weightless.WeightlessTraitTypeConstants;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
+public class HandleSetColorsEventsTask extends AbstractMetadataSetEventsRetrieverTask {
   private static final int NUMBER_OF_SUB_TILES = 4;
   private static final int NUMBER_OF_PIXEL_VALUES = 3;
 
@@ -29,13 +29,13 @@ public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
   }
 
   public void getSetColorsEventsAndUpdateTraitValues() throws EthEventException {
-    List<SetColorsEvent> events =
-        (List<SetColorsEvent>)
-            getEthEvents(
-                SetColorsEvent.class.getCanonicalName(),
-                eventsConfig.getNftContractAddress(),
-                eventsConfig.getSetColorsEventHashSignature(),
-                bigIntegerFactory.build(eventsConfig.getSchedulerNumberOfBlocksToLookBack()));
+    List<SetMetadataEvent> events =
+        super.getEthEvents(
+            SetMetadataEvent.class.getCanonicalName(),
+            eventsConfig.getNftContractAddress(),
+            eventsConfig.getSetMetadataHashSignature(),
+            bigIntegerFactory.build(eventsConfig.getSchedulerNumberOfBlocksToLookBack()),
+            0);
     if (events.size() == 0) {
       System.out.println("HandleSetColorsEventsTask: Found no tasks.");
       return;
@@ -44,11 +44,12 @@ public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
     return;
   }
 
-  private List<List<String>> getTilesRGBValues(SetColorsEvent event) {
+  private List<List<String>> getTilesRGBValues(SetMetadataEvent event) {
     List<List<String>> tilesValuesList = new ArrayList<>();
     for (int x = 0; x < NUMBER_OF_SUB_TILES; x++) {
       List<String> tileValuesList =
-          getTileRGBValue(hexStringPrefixStripper.strip0xFromHexString(event.getColors()), x);
+          getTileRGBValue(
+              hexStringPrefixStripper.strip0xFromHexString(event.getMetadataToSet()), x);
       tilesValuesList.add(tileValuesList);
     }
     return tilesValuesList;
@@ -71,7 +72,7 @@ public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
     return getBeginIndex(tileIndex, pixelIndex) + 3;
   }
 
-  private void updateTraitValuesForEthEvent(SetColorsEvent event, TokenFacadeDTO nft) {
+  private void updateTraitValuesForEthEvent(SetMetadataEvent event, TokenFacadeDTO nft) {
     int tileIndex = 0;
     List<WeightlessTraitDTO> traits = nft.getWeightlessTraits();
     List<WeightlessTraitDTO> traitsToUpdate = new ArrayList<>();
@@ -138,8 +139,8 @@ public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
     return trait;
   }
 
-  private void updateTraitValuesForEthEvents(List<SetColorsEvent> events) {
-    for (SetColorsEvent event : events) {
+  private void updateTraitValuesForEthEvents(List<SetMetadataEvent> events) {
+    for (SetMetadataEvent event : events) {
       TokenFacadeDTO nft =
           tokenRetriever.get(
               Long.valueOf(hexStringPrefixStripper.strip0xFromHexString(event.getTokenId())));
