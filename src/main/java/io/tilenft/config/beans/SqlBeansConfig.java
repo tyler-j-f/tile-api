@@ -13,6 +13,9 @@ import io.tilenft.sql.repositories.WeightedTraitTypeRepository;
 import io.tilenft.sql.repositories.WeightedTraitTypeWeightRepository;
 import io.tilenft.sql.repositories.WeightlessTraitRepository;
 import io.tilenft.sql.repositories.WeightlessTraitTypeRepository;
+import io.tilenft.sql.tbls.SqlTablesCreator;
+import io.tilenft.sql.tbls.SqlTablesDropper;
+import io.tilenft.sql.tbls.SqlTablesInitializer;
 import io.tilenft.sql.tbls.TokenTable;
 import io.tilenft.sql.tbls.WeightedTraitTypeWeightsTable;
 import io.tilenft.sql.tbls.WeightedTraitTypesTable;
@@ -101,5 +104,20 @@ public class SqlBeansConfig {
   public TokenLeaderboardDao tokenLeaderboardDao() {
     return new TokenLeaderboardDao(
         jdbcTemplate, new BeanPropertyRowMapper(WeightlessTraitDTO.class));
+  }
+
+  @Bean
+  public SqlTablesCreator createSqlTables() {
+    return new SqlTablesCreator();
+  }
+
+  @Bean
+  public SqlTablesInitializer sqlTablesInitializer() {
+    return new SqlTablesInitializer();
+  }
+
+  @Bean
+  public SqlTablesDropper sqlTablesDropper() {
+    return new SqlTablesDropper();
   }
 }

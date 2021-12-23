@@ -9,6 +9,7 @@ import io.tilenft.eth.events.RemoveDuplicateEthEventsForToken;
 import io.tilenft.eth.events.RemoveDuplicateMergeEthEvents;
 import io.tilenft.scheduler.tasks.HandleMergeEventsTask;
 import io.tilenft.scheduler.tasks.HandleMintEventsTask;
+import io.tilenft.scheduler.tasks.HandleResetSqlTask;
 import io.tilenft.scheduler.tasks.HandleSetColorsEventsTask;
 import io.tilenft.scheduler.tasks.HandleSetEmojisEventsTask;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,11 @@ public class EthEventsBeansConfig {
   @Bean
   public HandleMergeEventsTask handleMergeEventsTask() {
     return new HandleMergeEventsTask();
+  }
+
+  @Bean
+  public HandleResetSqlTask handleResetSqlTask() {
+    return new HandleResetSqlTask();
   }
 
   @Bean

@@ -2,6 +2,7 @@ package io.tilenft.scheduler;
 
 import io.tilenft.scheduler.tasks.HandleMergeEventsTask;
 import io.tilenft.scheduler.tasks.HandleMintEventsTask;
+import io.tilenft.scheduler.tasks.HandleResetSqlTask;
 import io.tilenft.scheduler.tasks.HandleSetColorsEventsTask;
 import io.tilenft.scheduler.tasks.HandleSetEmojisEventsTask;
 import java.util.concurrent.ExecutionException;
@@ -17,6 +18,7 @@ public class Scheduler {
   @Autowired private HandleSetColorsEventsTask handleSetColorsEventsTask;
   @Autowired private HandleSetEmojisEventsTask handleSetEmojisEventsTask;
   @Autowired private HandleMergeEventsTask handleMergeEventsTask;
+  @Autowired private HandleResetSqlTask handleResetSqlTask;
   @Autowired private Environment env;
 
   /**
@@ -28,7 +30,10 @@ public class Scheduler {
    */
   @Scheduled(fixedRateString = "${spring.application.events-config.schedulerFixedRateMs}")
   public void executeTasks() throws TaskSchedulerException {
-    boolean shouldResetSqlTables = Boolean.parseBoolean(env.getProperty("shouldResetSqlTables"));
+    if (Boolean.parseBoolean(env.getProperty("shouldResetSqlTables"))) {
+      System.out.println("Resetting all of the SQL tables!!!");
+      handleResetSqlTask.execute();
+    }
     handleMintEventsTask.execute();
     handleSetColorsEventsTask.execute();
     handleSetEmojisEventsTask.execute();
