@@ -47,7 +47,8 @@ public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
   private List<List<String>> getTilesRGBValues(SetColorsEvent event) {
     List<List<String>> tilesValuesList = new ArrayList<>();
     for (int x = 0; x < NUMBER_OF_SUB_TILES; x++) {
-      List<String> tileValuesList = getTileRGBValue(strip0xFromHexString(event.getColors()), x);
+      List<String> tileValuesList =
+          getTileRGBValue(hexStringPrefixStripper.strip0xFromHexString(event.getColors()), x);
       tilesValuesList.add(tileValuesList);
     }
     return tilesValuesList;
@@ -140,7 +141,8 @@ public class HandleSetColorsEventsTask extends AbstractEthEventsRetrieverTask {
   private void updateTraitValuesForEthEvents(List<SetColorsEvent> events) {
     for (SetColorsEvent event : events) {
       TokenFacadeDTO nft =
-          tokenRetriever.get(Long.valueOf(strip0xFromHexString(event.getTokenId())));
+          tokenRetriever.get(
+              Long.valueOf(hexStringPrefixStripper.strip0xFromHexString(event.getTokenId())));
       if (nft == null) {
         System.out.println("ERROR!!! This token does not exist");
         continue;

@@ -2,14 +2,13 @@ package io.tilenft.controllers;
 
 import io.tilenft.config.external.EventsConfig;
 import io.tilenft.etc.BigIntegerFactory;
+import io.tilenft.etc.HexValueToDecimal;
 import io.tilenft.eth.events.EthEventException;
 import io.tilenft.eth.events.EthEventsRetriever;
 import io.tilenft.eth.events.implementations.MintEvent;
 import io.tilenft.eth.metadata.TokenMetadataDTO;
 import io.tilenft.eth.token.TokenFacade;
 import io.tilenft.eth.token.initializers.TokenInitializeException;
-import io.tilenft.eth.token.initializers.TokenInitializer;
-import io.tilenft.scheduler.tasks.AbstractEthEventsRetrieverTask;
 import io.tilenft.sql.dtos.TokenDTO;
 import io.tilenft.sql.repositories.TokenRepository;
 import java.util.ArrayList;
@@ -26,10 +25,10 @@ public class MintEventsController extends BaseController {
 
   @Autowired private TokenRepository tokenRepository;
   @Autowired private BigIntegerFactory bigIntegerFactory;
-  @Autowired private TokenInitializer tokenInitializer;
   @Autowired private EventsConfig eventsConfig;
   @Autowired private EthEventsRetriever ethEventsRetriever;
   @Autowired private TokenFacade tokenFacade;
+  @Autowired private HexValueToDecimal hexValueToDecimal;
 
   @GetMapping(value = {"getAll/{numberOfBlocksAgo}", "getAll"})
   public String getAll(@PathVariable(required = false) String numberOfBlocksAgo)
@@ -79,8 +78,8 @@ public class MintEventsController extends BaseController {
     List<TokenMetadataDTO> tokens = new ArrayList<>();
     Long tokenId, transactionHash;
     for (MintEvent event : events) {
-      tokenId = getLongFromHexString(event.getTokenId());
-      transactionHash = getLongFromHexString(event.getTransactionHash());
+      tokenId = hexValueToDecimal.getLongFromHexString(event.getTokenId());
+      transactionHash = hexValueToDecimal.getLongFromHexString(event.getTransactionHash());
       TokenDTO existingTokenDTO = tokenRepository.readById(tokenId);
       System.out.println("\nFound mint event for new token. newTokenId: " + tokenId);
       if (existingTokenDTO != null) {
@@ -103,9 +102,5 @@ public class MintEventsController extends BaseController {
   private TokenMetadataDTO addTokenToDB(Long tokenId, Long transactionHash)
       throws TokenInitializeException {
     return tokenFacade.initializeToken(tokenId, transactionHash).buildTokenMetadataDTO();
-  }
-
-  private Long getLongFromHexString(String hexString) {
-    return Long.parseLong(hexString.split(AbstractEthEventsRetrieverTask.ZERO_X)[1], 16);
   }
 }

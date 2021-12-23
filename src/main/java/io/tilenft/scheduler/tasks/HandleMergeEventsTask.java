@@ -60,16 +60,16 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
   private void addTokensAndNewTraitsForMergeEvents(List<MergeEvent> events)
       throws TokenInitializeException, WeightlessTraitPickerException {
     for (MergeEvent event : events) {
-      Long newTokenId = Long.valueOf(strip0xFromHexString(event.getNewTokenId()));
+      Long newTokenId = hexValueToDecimal.getLongFromHexString(event.getNewTokenId());
       System.out.println("\nFound merge event for new token. newTokenId: " + newTokenId);
       if (tokenRetriever.get(newTokenId) != null) {
         System.out.println("Token for merge event was already created. tokenId: " + newTokenId);
         continue;
       }
       TokenFacadeDTO burnedNft1 =
-          tokenRetriever.get(Long.valueOf(strip0xFromHexString(event.getBurnedToken1Id())));
+          tokenRetriever.get(hexValueToDecimal.getLongFromHexString(event.getBurnedToken1Id()));
       TokenFacadeDTO burnedNft2 =
-          tokenRetriever.get(Long.valueOf(strip0xFromHexString(event.getBurnedToken2Id())));
+          tokenRetriever.get(hexValueToDecimal.getLongFromHexString(event.getBurnedToken2Id()));
       if (burnedNft1 == null || burnedNft2 == null) {
         System.out.println(
             "ERROR!!! One of the requested tokens to burn, during merging, is not able to be retrieved.");
@@ -84,9 +84,12 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
   private void mintNewTokenForMerge(
       MergeEvent event, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2)
       throws TokenInitializeException, WeightlessTraitPickerException {
-    Long tokenId = getLongFromHexString(event.getNewTokenId());
+    Long tokenId = hexValueToDecimal.getLongFromHexString(event.getNewTokenId());
     mergeTokenInitializer.initialize(
-        tokenId, burnedNft1, burnedNft2, getLongFromHexString(event.getTransactionHash(), 0, 9));
+        tokenId,
+        burnedNft1,
+        burnedNft2,
+        hexValueToDecimal.getLongFromHexString(event.getTransactionHash()));
     System.out.println("New token created from merge event. tokenId: " + tokenId);
   }
 

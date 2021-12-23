@@ -59,8 +59,8 @@ public class HandleMintEventsTask extends AbstractEthEventsRetrieverTask {
     List<TokenMetadataDTO> tokens = new ArrayList<>();
     Long tokenId, transactionHash;
     for (MintEvent event : events) {
-      tokenId = getLongFromHexString(event.getTokenId());
-      transactionHash = getLongFromHexString(event.getTransactionHash(), 0, 9);
+      tokenId = hexValueToDecimal.getLongFromHexString(event.getTokenId());
+      transactionHash = hexValueToDecimal.getLongFromHexString(event.getTransactionHash());
       TokenDTO existingTokenDTO = tokenRepository.readById(tokenId);
       System.out.println("\nFound mint event for new token. newTokenId: " + tokenId);
       if (existingTokenDTO != null) {

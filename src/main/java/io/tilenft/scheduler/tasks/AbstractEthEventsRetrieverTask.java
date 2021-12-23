@@ -2,6 +2,8 @@ package io.tilenft.scheduler.tasks;
 
 import io.tilenft.config.external.EventsConfig;
 import io.tilenft.etc.BigIntegerFactory;
+import io.tilenft.etc.HexStringPrefixStripper;
+import io.tilenft.etc.HexValueToDecimal;
 import io.tilenft.etc.lists.finders.WeightlessTraitsListFinder;
 import io.tilenft.eth.events.EthEventException;
 import io.tilenft.eth.events.EthEventsRetriever;
@@ -20,6 +22,8 @@ public abstract class AbstractEthEventsRetrieverTask implements TaskInterface {
   @Autowired protected EventsConfig eventsConfig;
   @Autowired protected BigIntegerFactory bigIntegerFactory;
   @Autowired protected WeightlessTraitsListFinder weightlessTraitsListFinder;
+  @Autowired protected HexValueToDecimal hexValueToDecimal;
+  @Autowired protected HexStringPrefixStripper hexStringPrefixStripper;
 
   protected List<?> getEthEvents(
       String className,
@@ -45,14 +49,6 @@ public abstract class AbstractEthEventsRetrieverTask implements TaskInterface {
       return new ArrayList<>();
     }
     return events;
-  }
-
-  protected Long getLongFromHexString(String hexString) {
-    return Long.parseLong(hexString.split(ZERO_X)[1], 16);
-  }
-
-  protected Long getLongFromHexString(String hexString, int startIndex, int endIndex) {
-    return Long.parseLong(hexString.split(ZERO_X)[1].substring(startIndex, endIndex), 16);
   }
 
   protected String strip0xFromHexString(String hexString) {

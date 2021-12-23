@@ -52,7 +52,7 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
 
   private List<String> getTileEmojiIndexFromEvent(SetEmojisEvent event) throws EthEventException {
     List<String> tilesEmojiValuesList = new ArrayList<>();
-    String eventEmojisValue = strip0xFromHexString(event.getEmojis());
+    String eventEmojisValue = hexStringPrefixStripper.strip0xFromHexString(event.getEmojis());
     int emojiSetIndex = getEmojiSetIndex(eventEmojisValue);
     for (int x = 0; x < NUMBER_OF_SUB_TILES; x++) {
       String tileEmojiValue = getTileEmojiValue(eventEmojisValue, x, emojiSetIndex);
@@ -167,7 +167,8 @@ public class HandleSetEmojisEventsTask extends AbstractEthEventsRetrieverTask {
       throws EthEventException, IOException {
     for (SetEmojisEvent event : events) {
       TokenFacadeDTO nft =
-          tokenRetriever.get(Long.valueOf(strip0xFromHexString(event.getTokenId())));
+          tokenRetriever.get(
+              Long.valueOf(hexStringPrefixStripper.strip0xFromHexString(event.getTokenId())));
       if (nft == null) {
         System.out.println("ERROR!!! This token does not exist");
         continue;

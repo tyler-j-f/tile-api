@@ -2,6 +2,8 @@ package io.tilenft.config.beans;
 
 import io.tilenft.config.external.EnvConfig;
 import io.tilenft.etc.BigIntegerFactory;
+import io.tilenft.etc.HexStringPrefixStripper;
+import io.tilenft.etc.HexValueToDecimal;
 import io.tilenft.eth.events.EthEventsRetriever;
 import io.tilenft.eth.events.RemoveDuplicateEthEventsForToken;
 import io.tilenft.eth.events.RemoveDuplicateMergeEthEvents;
@@ -63,5 +65,15 @@ public class EthEventsBeansConfig {
   @Bean
   public BigIntegerFactory bigIntegerFactory() {
     return new BigIntegerFactory();
+  }
+
+  @Bean
+  public HexValueToDecimal hexValueToDecimal() {
+    return new HexValueToDecimal();
+  }
+
+  @Bean
+  public HexStringPrefixStripper hexStringPrefixStripper() {
+    return new HexStringPrefixStripper();
   }
 }
