@@ -58,8 +58,15 @@ class Leaderboard extends Component {
     if (this.state.isGeneralError) {
       return this.getGeneralErrorText();
     }
-    return this.state.tokenIds.map(
+    let leaderboard =  this.state.tokenIds.map(
         (tokenId, index) => this.getTokenImage(tokenId, index)
+    );
+    let pagination = this.getPagination();
+    return (
+        <>
+          {leaderboard}
+          {pagination}
+        </>
     );
   }
 
@@ -81,6 +88,25 @@ class Leaderboard extends Component {
   getSpinner() {
     return (
         <Spinner animation="border" variant="primary" />
+    );
+  }
+
+  getPagination() {
+    return (
+        <nav aria-label="Page navigation example">
+          <ul className="pagination">
+            <li className="page-item"><a className="page-link"
+                                         href="#">Previous</a></li>
+            <li className="page-item"><a className="page-link" href="#">1</a>
+            </li>
+            <li className="page-item"><a className="page-link" href="#">2</a>
+            </li>
+            <li className="page-item"><a className="page-link" href="#">3</a>
+            </li>
+            <li className="page-item"><a className="page-link" href="#">Next</a>
+            </li>
+          </ul>
+        </nav>
     );
   }
 
