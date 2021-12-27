@@ -72,9 +72,7 @@ public class HandleSetEmojisEventsTask extends AbstractMetadataSetEventsRetrieve
       throw new EthEventException(
           "Emoji set other than 0 was specified. Support does not exist for additional emoji sets at this time.");
     }
-    return String.valueOf(
-        bigIntegerFactory.buildHex(
-            eventEmojisValue.substring(getBeginIndex(tileIndex), getEndIndex(tileIndex)), 16));
+    return eventEmojisValue.substring(getBeginIndex(tileIndex), getEndIndex(tileIndex));
   }
 
   private int getBeginIndex(int tileIndex) {
@@ -109,8 +107,10 @@ public class HandleSetEmojisEventsTask extends AbstractMetadataSetEventsRetrieve
     for (String tileEmojiIndex : getTileEmojiIndexFromEvent(event)) {
       if (!validateTraitValueToUpdate(tileEmojiIndex, resourcesArrayLength)) {
         System.out.println(
-            "Invalid emoji index specified. tileEmojiIndex: " + tileEmojiIndex + ", resourcesArrayLength: " + resourcesArrayLength
-        );
+            "Invalid emoji index specified. tileEmojiIndex: "
+                + tileEmojiIndex
+                + ", resourcesArrayLength: "
+                + resourcesArrayLength);
         continue;
       }
       String valueToUpdate = getTraitValueToUpdate(resources, tileEmojiIndex);
