@@ -126,11 +126,14 @@ public class HandleSetColorsEventsTask extends AbstractMetadataSetEventsRetrieve
       List<WeightlessTraitDTO> traits, List<String> tileRGBValues, Long traitTypeId) {
     WeightlessTraitDTO trait =
         weightlessTraitsListFinder.findFirstByTraitTypeId(traits, traitTypeId);
-    if (!validateOnePixelTripletValue(tileRGBValues.get(0))
-        || !validateOnePixelTripletValue(tileRGBValues.get(1))
-        || !validateOnePixelTripletValue(tileRGBValues.get(2))) {
+    if (validatePixelTripletValues(tileRGBValues)) {
       System.out.println(
-          "HandleSetColorsEventsTask -> updateTraitValue Failure. Invalid RGB color values were most likely passed.");
+          "HandleSetColorsEventsTask -> validatePixelTripletValues returned false. Invalid RGB color values were most likely passed. For tile #"
+              + trait.getTokenId()
+              + " Trait Values: "
+              + trait
+              + " tileRGBValues: "
+              + tileRGBValues);
       return null;
     }
     String rgbToSet = tileRGBValues.get(2) + tileRGBValues.get(1) + tileRGBValues.get(0);
@@ -146,6 +149,12 @@ public class HandleSetColorsEventsTask extends AbstractMetadataSetEventsRetrieve
     return trait;
   }
 
+  private boolean validatePixelTripletValues(List<String> tileRGBValues) {
+    return !validateOnePixelTripletValue(tileRGBValues.get(0))
+        || !validateOnePixelTripletValue(tileRGBValues.get(1))
+        || !validateOnePixelTripletValue(tileRGBValues.get(2));
+  }
+
   /**
    * Each RGB pixel is made of 3 sub-pixel triplets (One for R, one for G, one for B). We need to
    * validate that the value for all triplets can be converted into an integer, 0-255.
@@ -158,7 +167,7 @@ public class HandleSetColorsEventsTask extends AbstractMetadataSetEventsRetrieve
       return Integer.parseInt(tripletValue) < 256;
     } catch (Exception e) {
       System.out.println(
-          "HandleSetColorsEventsTask -> validateOnePixelTripletValue Failure. Invalid RGB color tripletValue value was most likely passed. tripletValue: "
+          "HandleSetColorsEventsTask -> validateOnePixelTripletValue failure. Invalid RGB color tripletValue value was most likely passed. tripletValue: "
               + tripletValue);
       System.out.println(e);
       return false;
