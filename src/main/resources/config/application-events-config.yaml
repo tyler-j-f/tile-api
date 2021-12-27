@@ -1,8 +1,8 @@
 spring:
   application:
     events-config:
-      nftContractAddress: "0xdEd230d3E5fd78Bc0b82cd7E0170Bb04e3016494"
-      nftFactoryContractAddress: "0xA1a49f2655A88FF1074c818758B7bc8FAE98c72a"
+      nftContractAddress: "0x656dA8619eBc8a179f158BF94F9bC0bb9f5C399B"
+      nftFactoryContractAddress: "0xBce013d1666A255cd2f7803915D1EC2B6779A7f5"
       mintEventHashSignature: "0x07883703ed0e86588a40d76551c92f8a4b329e3bf19765e0e6749473c1a84665"
       mergeEventHashSignature: "0xaf49bfaf2e89d3c4c27597e51083974866f80562836b8ceec82e54a67948709f"
       setMetadataHashSignature: "0x8dc11f38f5dd33f31676778f70bf3598f9521ac596e3c165aee368ed47467ac0"
