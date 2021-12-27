@@ -126,9 +126,9 @@ public class HandleSetColorsEventsTask extends AbstractMetadataSetEventsRetrieve
       List<WeightlessTraitDTO> traits, List<String> tileRGBValues, Long traitTypeId) {
     WeightlessTraitDTO trait =
         weightlessTraitsListFinder.findFirstByTraitTypeId(traits, traitTypeId);
-    if (validateOnePixelTripletValue(tileRGBValues.get(0))
-        && validateOnePixelTripletValue(tileRGBValues.get(1))
-        && validateOnePixelTripletValue(tileRGBValues.get(2))) {
+    if (!validateOnePixelTripletValue(tileRGBValues.get(0))
+        || !validateOnePixelTripletValue(tileRGBValues.get(1))
+        || !validateOnePixelTripletValue(tileRGBValues.get(2))) {
       System.out.println(
           "HandleSetColorsEventsTask -> updateTraitValue Failure. Invalid RGB color values were most likely passed.");
       return null;
@@ -155,10 +155,7 @@ public class HandleSetColorsEventsTask extends AbstractMetadataSetEventsRetrieve
    */
   private boolean validateOnePixelTripletValue(String tripletValue) {
     try {
-      int value = Integer.parseInt(tripletValue);
-      System.out.println(
-          "DEBUG validateOnePixelTripletValue: value: " + value + ", result: " + (value < 256));
-      return value < 256;
+      return Integer.parseInt(tripletValue) < 256;
     } catch (Exception e) {
       System.out.println(
           "HandleSetColorsEventsTask -> validateOnePixelTripletValue Failure. Invalid RGB color tripletValue value was most likely passed. tripletValue: "
