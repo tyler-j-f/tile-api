@@ -9,7 +9,9 @@ class Leaderboard extends Component {
     this.state = {
       isGeneralError: false,
       isLoading: false,
-      tokenIds: []
+      tokenIds: [],
+      itemsPerPage: 5,
+      paginationPage: 1
     };
   }
 
@@ -17,11 +19,17 @@ class Leaderboard extends Component {
     this.loadLeaderboardData();
   }
 
+  getLeaderboardUrl() {
+    let startIndex = (this.state.paginationPage - 1) * this.state.itemsPerPage;
+    let endIndex = startIndex + this.state.itemsPerPage;
+    return `http://localhost:8080/api/frontend/getLeaders?startIndex=${startIndex}&endIndex=${endIndex}`;
+  }
+
   loadLeaderboardData() {
     this.setState({
       isLoading: true
     });
-    fetch(`http://localhost:8080/api/frontend/getLeaders`, {method: 'get'})
+    fetch(this.getLeaderboardUrl(), {method: 'get'})
     .then(response => {
       console.log(response);
       return response.json();
