@@ -76,39 +76,39 @@ public class HandleSetColorsEventsTask extends AbstractMetadataSetEventsRetrieve
     int tileIndex = 0;
     List<WeightlessTraitDTO> traits = nft.getWeightlessTraits();
     List<WeightlessTraitDTO> traitsToUpdate = new ArrayList<>();
-    WeightlessTraitDTO updateTrait;
+    WeightlessTraitDTO traitToUpdate;
     for (List<String> tileRGBValues : getTilesRGBValues(event)) {
       switch (tileIndex) {
         case 0:
-          updateTrait =
+          traitToUpdate =
               updateTraitValue(
-                  traits, tileRGBValues, Long.valueOf(WeightlessTraitTypeConstants.TILE_1_COLOR));
-          if (updateTrait != null) {
-            traitsToUpdate.add(updateTrait);
+                  traits, tileRGBValues, (long) WeightlessTraitTypeConstants.TILE_1_COLOR);
+          if (traitToUpdate != null) {
+            traitsToUpdate.add(traitToUpdate);
           }
           break;
         case 1:
-          updateTrait =
+          traitToUpdate =
               updateTraitValue(
-                  traits, tileRGBValues, Long.valueOf(WeightlessTraitTypeConstants.TILE_2_COLOR));
-          if (updateTrait != null) {
-            traitsToUpdate.add(updateTrait);
+                  traits, tileRGBValues, (long) WeightlessTraitTypeConstants.TILE_2_COLOR);
+          if (traitToUpdate != null) {
+            traitsToUpdate.add(traitToUpdate);
           }
           break;
         case 2:
-          updateTrait =
+          traitToUpdate =
               updateTraitValue(
-                  traits, tileRGBValues, Long.valueOf(WeightlessTraitTypeConstants.TILE_3_COLOR));
-          if (updateTrait != null) {
-            traitsToUpdate.add(updateTrait);
+                  traits, tileRGBValues, (long) WeightlessTraitTypeConstants.TILE_3_COLOR);
+          if (traitToUpdate != null) {
+            traitsToUpdate.add(traitToUpdate);
           }
           break;
         case 3:
-          updateTrait =
+          traitToUpdate =
               updateTraitValue(
-                  traits, tileRGBValues, Long.valueOf(WeightlessTraitTypeConstants.TILE_4_COLOR));
-          if (updateTrait != null) {
-            traitsToUpdate.add(updateTrait);
+                  traits, tileRGBValues, (long) WeightlessTraitTypeConstants.TILE_4_COLOR);
+          if (traitToUpdate != null) {
+            traitsToUpdate.add(traitToUpdate);
           }
           break;
         default:
@@ -116,9 +116,9 @@ public class HandleSetColorsEventsTask extends AbstractMetadataSetEventsRetrieve
       }
       tileIndex++;
     }
-    for (WeightlessTraitDTO traitToUpdate : traitsToUpdate) {
-      weightlessTraitRepository.update(traitToUpdate);
-      System.out.println("Updated tile color. Trait: " + traitToUpdate);
+    for (WeightlessTraitDTO trait : traitsToUpdate) {
+      weightlessTraitRepository.update(trait);
+      System.out.println("Updated tile color. Trait: " + trait);
     }
   }
 
@@ -126,6 +126,13 @@ public class HandleSetColorsEventsTask extends AbstractMetadataSetEventsRetrieve
       List<WeightlessTraitDTO> traits, List<String> tileRGBValues, Long traitTypeId) {
     WeightlessTraitDTO trait =
         weightlessTraitsListFinder.findFirstByTraitTypeId(traits, traitTypeId);
+    if (validateOnePixelTripletValue(tileRGBValues.get(0))
+        && validateOnePixelTripletValue(tileRGBValues.get(1))
+        && validateOnePixelTripletValue(tileRGBValues.get(2))) {
+      System.out.println(
+          "HandleSetColorsEventsTask -> updateTraitValue Failure. Invalid RGB color values were most likely passed.");
+      return null;
+    }
     String rgbToSet = tileRGBValues.get(2) + tileRGBValues.get(1) + tileRGBValues.get(0);
     if (rgbToSet.equals(trait.getValue())) {
       System.out.println(
@@ -137,6 +144,28 @@ public class HandleSetColorsEventsTask extends AbstractMetadataSetEventsRetrieve
     }
     trait.setValue(rgbToSet);
     return trait;
+  }
+
+  /**
+   * Each RGB pixel is made of 3 sub-pixel triplets (One for R, one for G, one for B). We need to
+   * validate that the value for all triplets can be converted into an integer, 0-255.
+   *
+   * @param tripletValue
+   * @return
+   */
+  private boolean validateOnePixelTripletValue(String tripletValue) {
+    try {
+      int value = Integer.parseInt(tripletValue);
+      System.out.println(
+          "DEBUG validateOnePixelTripletValue: value: " + value + ", result: " + (value < 256));
+      return value < 256;
+    } catch (Exception e) {
+      System.out.println(
+          "HandleSetColorsEventsTask -> validateOnePixelTripletValue Failure. Invalid RGB color tripletValue value was most likely passed. tripletValue: "
+              + tripletValue);
+      System.out.println(e);
+      return false;
+    }
   }
 
   private void updateTraitValuesForEthEvents(List<SetMetadataEvent> events) {

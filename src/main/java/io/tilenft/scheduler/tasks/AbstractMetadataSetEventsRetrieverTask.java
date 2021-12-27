@@ -17,12 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractMetadataSetEventsRetrieverTask implements TaskInterface {
 
+  @Autowired private HexValueToDecimal hexValueToDecimal;
   @Autowired protected EthEventsRetriever ethEventsRetriever;
   @Autowired protected RemoveDuplicateEthEventsForToken removeDuplicateEthEventsForToken;
   @Autowired protected EventsConfig eventsConfig;
   @Autowired protected BigIntegerFactory bigIntegerFactory;
   @Autowired protected WeightlessTraitsListFinder weightlessTraitsListFinder;
-  @Autowired protected HexValueToDecimal hexValueToDecimal;
   @Autowired protected HexStringPrefixStripper hexStringPrefixStripper;
 
   protected List<SetMetadataEvent> getEthEvents(
@@ -49,7 +49,10 @@ public abstract class AbstractMetadataSetEventsRetrieverTask implements TaskInte
       return new ArrayList<>();
     }
     return events.stream()
-        .filter(event -> Integer.getInteger(event.getMetadataToSetIndex()) == metadataToSetIndex)
+        .filter(
+            event ->
+                hexValueToDecimal.getLongFromHexString(event.getMetadataToSetIndex())
+                    == (long) metadataToSetIndex)
         .collect(Collectors.toList());
   }
 }

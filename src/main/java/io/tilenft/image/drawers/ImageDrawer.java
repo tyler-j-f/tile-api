@@ -26,7 +26,10 @@ public class ImageDrawer {
       List<String> tileColors,
       boolean isBurntToken)
       throws IOException, ImageException {
-    Mat tiles = tilesDrawer.drawTiles(tileColors);
+    Mat tiles = drawBaseTiles(tileColors);
+    if (tiles == null) {
+      return new byte[0];
+    }
     titleDrawer.drawTitle(tiles, tokenId);
     int x = 1;
     for (Resource emojiResource : emojiResources) {
@@ -37,6 +40,17 @@ public class ImageDrawer {
       burntTokenDrawer.drawBurntTokenText(tiles);
     }
     return getBufferedImageFromMat(tiles);
+  }
+
+  private Mat drawBaseTiles(List<String> tileColors) {
+    try {
+      return tilesDrawer.drawTiles(tileColors);
+    } catch (Exception e) {
+      System.out.println(
+          "ImageDrawer -> drawImage Failure. Invalid RGB color values were most likely passed.");
+      System.out.println(e);
+      return null;
+    }
   }
 
   private byte[] getBufferedImageFromMat(Mat matrix) {
