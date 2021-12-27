@@ -41,7 +41,7 @@ function TileNftApp() {
       return;
     }
     return;
-  });
+  }, [hasNotFoundError, hasInternalError]);
 
   return (
       <div className="App">

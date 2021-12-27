@@ -1,11 +1,15 @@
 package io.tilenft.eth.events;
 
+import io.tilenft.etc.HexStringPrefixStripper;
 import io.tilenft.eth.events.implementations.AbstractSingleTokenEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class RemoveDuplicateEthEventsForToken<T extends AbstractSingleTokenEvent> {
+
+  @Autowired private HexStringPrefixStripper hexStringPrefixStripper;
 
   public static final String ZERO_X = "0x";
 
@@ -15,7 +19,8 @@ public class RemoveDuplicateEthEventsForToken<T extends AbstractSingleTokenEvent
     Collections.reverse(events);
     for (T event : events) {
       if (!doesEventsListAlreadyHaveTokenId(
-          sortedEventsList, Long.valueOf(strip0xFromHexString(event.getTokenId())))) {
+          sortedEventsList,
+          Long.valueOf(hexStringPrefixStripper.strip0xFromHexString(event.getTokenId())))) {
         sortedEventsList.add(event);
       }
     }
@@ -29,11 +34,10 @@ public class RemoveDuplicateEthEventsForToken<T extends AbstractSingleTokenEvent
   private int findNumberOfEventsWithTokenId(List<T> events, Long tokenId) {
     return (int)
         events.stream()
-            .filter(event -> Long.valueOf(strip0xFromHexString(event.getTokenId())).equals(tokenId))
+            .filter(
+                event ->
+                    Long.valueOf(hexStringPrefixStripper.strip0xFromHexString(event.getTokenId()))
+                        .equals(tokenId))
             .count();
-  }
-
-  protected String strip0xFromHexString(String hexString) {
-    return hexString.split(ZERO_X)[1];
   }
 }
