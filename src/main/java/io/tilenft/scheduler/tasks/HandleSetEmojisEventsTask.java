@@ -90,8 +90,12 @@ public class HandleSetEmojisEventsTask extends AbstractMetadataSetEventsRetrieve
         getResourceFromResourcesList(resorces, tileEmojiIndex).getFilename());
   }
 
+  private boolean validateTraitValueToUpdate(String tileEmojiIndex, int lengthOfResourcesArray) {
+    return Integer.parseInt(tileEmojiIndex) <= lengthOfResourcesArray;
+  }
+
   private Resource getResourceFromResourcesList(Resource[] resorces, String tileEmojiIndex) {
-    return resorces[Integer.valueOf(tileEmojiIndex)];
+    return resorces[Integer.parseInt(tileEmojiIndex)];
   }
 
   private void updateTraitValuesForEthEvent(SetMetadataEvent event, TokenFacadeDTO nft)
@@ -100,9 +104,16 @@ public class HandleSetEmojisEventsTask extends AbstractMetadataSetEventsRetrieve
     List<WeightlessTraitDTO> traits = nft.getWeightlessTraits();
     List<WeightlessTraitDTO> traitsToUpdate = new ArrayList<>();
     WeightlessTraitDTO updateTrait;
-    Resource[] resorces = imageResourcesLoader.getResources();
+    Resource[] resources = imageResourcesLoader.getResources();
+    int resourcesArrayLength = resources.length;
     for (String tileEmojiIndex : getTileEmojiIndexFromEvent(event)) {
-      String valueToUpdate = getTraitValueToUpdate(resorces, tileEmojiIndex);
+      if (!validateTraitValueToUpdate(tileEmojiIndex, resourcesArrayLength)) {
+        System.out.println(
+            "Invalid emoji index specified. tileEmojiIndex: " + tileEmojiIndex + ", resourcesArrayLength: " + resourcesArrayLength
+        );
+        continue;
+      }
+      String valueToUpdate = getTraitValueToUpdate(resources, tileEmojiIndex);
       switch (tileIndex) {
         case 0:
           updateTrait =
