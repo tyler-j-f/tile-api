@@ -136,7 +136,7 @@ public class HandleSetColorsEventsTask extends AbstractMetadataSetEventsRetrieve
     String rgbToSet = tileRGBValues.get(2) + tileRGBValues.get(1) + tileRGBValues.get(0);
     if (rgbToSet.equals(trait.getValue())) {
       System.out.println(
-          "Will not update color value trait for tile # "
+          "Trait value is already set. Will not update trait for tile #"
               + trait.getTokenId()
               + " . Trait Values: "
               + trait);
