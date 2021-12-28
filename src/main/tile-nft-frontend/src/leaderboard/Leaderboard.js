@@ -131,6 +131,7 @@ class Leaderboard extends Component {
     let currentPage = this.state.paginationPage;
     let shouldShowPreviousPageButton = currentPage > 1;
     let previousPageButton = shouldShowPreviousPageButton ? this.getPreviousPageButton() : null;
+    let pageMinusOneButton = shouldShowPreviousPageButton ? this.getPageMinusOneButton() : null;
     let shouldShowNextPageButton = currentPage < this.state.maxPaginationPage;
     let nextPageButton = shouldShowNextPageButton ? this.getNextPageButton() : null;
     if (previousPageButton == null && nextPageButton == null) {
@@ -144,6 +145,7 @@ class Leaderboard extends Component {
         <nav aria-label="Page navigation example">
           <ul className="pagination">
             {previousPageButton}
+            {pageMinusOneButton}
             {currentPageButton}
             {pagePlusOneButton}
             {pagePlusTwoButton}
@@ -163,6 +165,12 @@ class Leaderboard extends Component {
   getPreviousPageButton() {
     return (
         <li className="page-item"><a className="page-link" onClick={this.decrementPage.bind(this)}>Previous</a></li>
+    );
+  }
+
+  getPageMinusOneButton() {
+    return (
+        <li className="page-item"><a className="page-link" onClick={this.decrementPage.bind(this)}>{this.state.paginationPage - 1}</a></li>
     );
   }
 
