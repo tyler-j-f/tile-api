@@ -22,11 +22,22 @@ public class TokenLeaderboardRetriever {
   public List<Long> get(int startIndex, int endIndex) {
     List<Long> leaderTokenIds =
         tokenLeaderboardDao.getLeaderTokenIds(
-            Long.valueOf(WeightlessTraitTypeConstants.OVERALL_RARITY),
-            Long.valueOf(WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE),
+            (long) WeightlessTraitTypeConstants.OVERALL_RARITY,
+            (long) WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE,
             endIndex - startIndex,
             startIndex);
     System.out.println("DEBUG leaderTokenIds: " + leaderTokenIds);
     return leaderTokenIds;
+  }
+
+  public Long getSize(Long totalNumberOfTokens) {
+    List<Long> leaderTokenIds =
+        tokenLeaderboardDao.getLeaderTokenIds(
+            (long) WeightlessTraitTypeConstants.OVERALL_RARITY,
+            (long) WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE,
+            Math.toIntExact(totalNumberOfTokens),
+            0);
+    System.out.println("DEBUG size: " + leaderTokenIds.size());
+    return (long) leaderTokenIds.size();
   }
 }

@@ -3,6 +3,7 @@ package io.tilenft.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tilenft.eth.token.TokenLeaderboardRetriever;
+import io.tilenft.sql.repositories.TokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class FrontendController extends BaseController {
 
   @Autowired private TokenLeaderboardRetriever tokenLeaderboardRetriever;
+  @Autowired private TokenRepository tokenRepository;
 
   @GetMapping("getLeaders")
   public String getLeaders(
@@ -22,5 +24,12 @@ public class FrontendController extends BaseController {
       throws JsonProcessingException {
     return new ObjectMapper()
         .writeValueAsString(String.valueOf(tokenLeaderboardRetriever.get(startIndex, endIndex)));
+  }
+
+  @GetMapping("getNumberOfTokens")
+  public String getNumberOfTokens() throws JsonProcessingException {
+    return new ObjectMapper()
+        .writeValueAsString(
+            String.valueOf(tokenLeaderboardRetriever.getSize(tokenRepository.getCount())));
   }
 }

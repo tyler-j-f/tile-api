@@ -10,9 +10,9 @@ class Leaderboard extends Component {
       isGeneralError: false,
       isLoading: false,
       tokenIds: [],
-      itemsPerPage: 5,
+      itemsPerPage: 2,
       paginationPage: 1,
-      maxPaginationPage: 2
+      maxPaginationPage: 10
     };
   }
 
@@ -37,7 +37,40 @@ class Leaderboard extends Component {
     this.setState({
       isLoading: true
     });
-    fetch(this.getLeaderboardUrl(startPageNumber), {method: 'get'})
+    return this.loadNumberOfTokens().then(() => this.loadLeaders(startPageNumber))
+  }
+
+  loadNumberOfTokens() {
+    return fetch(
+        'http://localhost:8080/api/frontend/getNumberOfTokens',
+        {method: 'get'}
+    )
+    .then(response => {
+      console.log(response);
+      return response.json();
+    })
+    .then(numberOfTokens => {
+      console.log(numberOfTokens);
+      let maxPaginationPage = Math.ceil(numberOfTokens/this.state.itemsPerPage);
+      console.log(maxPaginationPage);
+      this.setState({
+        maxPaginationPage: maxPaginationPage,
+        isLoading: false,
+        isGeneralError: false
+      });
+    })
+    .catch(err => {
+      this.setState({
+        isLoading: false,
+        isGeneralError: true
+      });
+      console.log("Error caught!!!");
+      console.log(err)
+    });
+  }
+
+  loadLeaders(startPageNumber) {
+    return fetch(this.getLeaderboardUrl(startPageNumber), {method: 'get'})
     .then(response => {
       console.log(response);
       return response.json();
@@ -61,13 +94,13 @@ class Leaderboard extends Component {
     });
   }
 
-
   getLeaderboard() {
     if (this.state.isGeneralError) {
       return this.getGeneralErrorText();
     }
+    let startIndex = (this.state.paginationPage - 1) * this.state.itemsPerPage;
     let leaderboard =  this.state.tokenIds.map(
-        (tokenId, index) => this.getTokenImage(tokenId, index)
+        (tokenId, index) => this.getTokenImage(tokenId, startIndex + index)
     );
     let pagination = this.getPagination();
     return (

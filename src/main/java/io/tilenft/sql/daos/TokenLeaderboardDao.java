@@ -13,11 +13,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class TokenLeaderboardDao {
   private final JdbcTemplate jdbcTemplate;
   private final BeanPropertyRowMapper beanPropertyRowMapper;
-  public static final String READ_WEIGHTLESS_TRAIT_BY_TRAIT_TYPE_ID_SQL =
+  private static final String READ_WEIGHTLESS_TRAIT_BY_TRAIT_TYPE_ID_SQL =
       "SELECT * FROM "
           + WeightlessTraitsTable.TABLE_NAME
           + " WHERE traitTypeId = ? ORDER BY CAST(value AS UNSIGNED) DESC LIMIT ? OFFSET ?";
-  public static final String BASE_READ_TOKENS_FOR_A_TOKEN_WITH_BURNT_TRAIT_SQL =
+  private static final String BASE_READ_TOKENS_FOR_A_TOKEN_WITH_BURNT_TRAIT_SQL =
       "SELECT tokenId FROM "
           + WeightedTraitsTable.TABLE_NAME
           + " WHERE traitTypeId = ? AND tokenId IN (";
