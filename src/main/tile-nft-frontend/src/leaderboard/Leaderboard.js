@@ -10,7 +10,7 @@ class Leaderboard extends Component {
       isGeneralError: false,
       isLoading: false,
       tokenIds: [],
-      itemsPerPage: 2,
+      itemsPerPage: 10,
       paginationPage: 1,
       maxPaginationPage: 10
     };

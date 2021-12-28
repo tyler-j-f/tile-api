@@ -29,7 +29,7 @@ public class Scheduler {
    * @throws ExecutionException
    * @throws InterruptedException
    */
-  @Scheduled(fixedRateString = "${spring.application.events-config.schedulerFixedRateMs}")
+  @Scheduled(fixedDelayString = "${spring.application.events-config.schedulerFixedRateMs}")
   public void executeTasks() throws TaskSchedulerException {
     if (Boolean.parseBoolean(env.getProperty("shouldResetSqlTables")) && !hasSqlTablesBeenReset) {
       System.out.println("Resetting all of the SQL tables!!!");
