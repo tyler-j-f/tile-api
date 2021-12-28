@@ -26,7 +26,6 @@ public class TokenLeaderboardRetriever {
             (long) WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE,
             endIndex - startIndex,
             startIndex);
-    System.out.println("DEBUG leaderTokenIds: " + leaderTokenIds);
     return leaderTokenIds;
   }
 
@@ -37,7 +36,6 @@ public class TokenLeaderboardRetriever {
             (long) WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE,
             Math.toIntExact(totalNumberOfTokens),
             0);
-    System.out.println("DEBUG size: " + leaderTokenIds.size());
     return (long) leaderTokenIds.size();
   }
 }

@@ -154,21 +154,19 @@ class Leaderboard extends Component {
   incrementPage() {
     let currentPage = this.state.paginationPage;
     if (currentPage < this.state.maxPaginationPage) {
-      console.log(
-          "Should be incrementing page num: " + currentPage
-      )
       this.setState({
         paginationPage: currentPage + 1
       });
-      console.log(
-          "Post increment page num: " + this.state.paginationPage
-      )
     }
   }
 
   incrementPageTwice() {
-    this.incrementPage.bind(this);
-    this.incrementPage.bind(this);
+    let currentPage = this.state.paginationPage;
+    if (currentPage < this.state.maxPaginationPage - 1) {
+      this.setState({
+        paginationPage: currentPage + 2
+      });
+    }
   }
 
   decrementPage() {
