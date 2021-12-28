@@ -157,7 +157,7 @@ class Leaderboard extends Component {
 
   getCurrentPageButton() {
     return (
-        <li className="page-item"><a className="page-link" >{this.state.paginationPage}</a>
+        <li className="page-item"><StyledCurrentPageAnchor className="page-link" >{this.state.paginationPage}</StyledCurrentPageAnchor>
         </li>
     );
   }
@@ -234,6 +234,12 @@ const StyledLabel =
     styled.label`
     color: #F8F8FF;
     margin: 0px 0px 0px 10px;
+    `;
+
+const StyledCurrentPageAnchor =
+    styled.a`
+    color: darkblue;
+    font-weight: bold;
     `;
 
 export default Leaderboard;
