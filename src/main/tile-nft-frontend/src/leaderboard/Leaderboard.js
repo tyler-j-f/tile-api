@@ -17,20 +17,26 @@ class Leaderboard extends Component {
   }
 
   componentDidMount() {
-    this.loadLeaderboardData();
+    this.loadLeaderboardData(1);
   }
 
-  getLeaderboardUrl() {
-    let startIndex = (this.state.paginationPage - 1) * this.state.itemsPerPage;
+  render() {
+    let isLoading = this.state.isLoading && this.state.tokenIds !== [];
+    let loadingSymbol = isLoading ? this.getSpinner() : null;
+    let leaderboard = isLoading ? null : this.getLeaderboard();
+    return isLoading ? loadingSymbol : leaderboard;
+  }
+
+  getLeaderboardUrl(startIndex) {
     let endIndex = startIndex + this.state.itemsPerPage;
     return `http://localhost:8080/api/frontend/getLeaders?startIndex=${startIndex}&endIndex=${endIndex}`;
   }
 
-  loadLeaderboardData() {
+  loadLeaderboardData(startPageNumber) {
     this.setState({
       isLoading: true
     });
-    fetch(this.getLeaderboardUrl(), {method: 'get'})
+    fetch(this.getLeaderboardUrl(startPageNumber - 1), {method: 'get'})
     .then(response => {
       console.log(response);
       return response.json();
@@ -90,6 +96,25 @@ class Leaderboard extends Component {
     return (
         <Spinner animation="border" variant="primary" />
     );
+  }
+
+  decrementPageAndLoad() {
+    let pageNumber = this.state.paginationPage;
+    this.decrementPage();
+    this.loadLeaderboardData(pageNumber - this.state.itemsPerPage);
+  }
+
+
+  incrementPageAndLoad() {
+    let pageNumber = this.state.paginationPage;
+    this.incrementPage();
+    this.loadLeaderboardData(pageNumber + this.state.itemsPerPage);
+  }
+
+  incrementPageTwiceAndLoad() {
+    let pageNumber = this.state.paginationPage;
+    this.incrementPageTwice();
+    this.loadLeaderboardData(pageNumber + (this.state.itemsPerPage * 2));
   }
 
   incrementPage() {
@@ -164,42 +189,35 @@ class Leaderboard extends Component {
 
   getPreviousPageButton() {
     return (
-        <li className="page-item"><a className="page-link" onClick={this.decrementPage.bind(this)}>Previous</a></li>
+        <li className="page-item"><a className="page-link" onClick={this.decrementPageAndLoad.bind(this)}>Previous</a></li>
     );
   }
 
   getPageMinusOneButton() {
     return (
-        <li className="page-item"><a className="page-link" onClick={this.decrementPage.bind(this)}>{this.state.paginationPage - 1}</a></li>
+        <li className="page-item"><a className="page-link" onClick={this.decrementPageAndLoad.bind(this)}>{this.state.paginationPage - 1}</a></li>
     );
   }
 
   getNextPageButton() {
     return (
-        <li className="page-item"><a className="page-link" onClick={this.incrementPage.bind(this)}>Next</a>
+        <li className="page-item"><a className="page-link" onClick={this.incrementPageAndLoad.bind(this)}>Next</a>
         </li>
     );
   }
 
   getPagePlusOneButton() {
     return (
-        <li className="page-item"><a className="page-link" onClick={this.incrementPage.bind(this)}>{this.state.paginationPage + 1}</a>
+        <li className="page-item"><a className="page-link" onClick={this.incrementPageAndLoad.bind(this)}>{this.state.paginationPage + 1}</a>
         </li>
     );
   }
 
   getPagePlusTwoButton() {
     return (
-        <li className="page-item"><a className="page-link" onClick={this.incrementPageTwice.bind(this)}>{this.state.paginationPage + 2}</a>
+        <li className="page-item"><a className="page-link" onClick={this.incrementPageTwiceAndLoad.bind(this)}>{this.state.paginationPage + 2}</a>
         </li>
     );
-  }
-
-  render() {
-    let isLoading = this.state.isLoading && this.state.tokenIds !== [];
-    let loadingSymbol = isLoading ? this.getSpinner() : null;
-    let leaderboard = isLoading ? null : this.getLeaderboard();
-    return isLoading ? loadingSymbol : leaderboard;
   }
 }
 
