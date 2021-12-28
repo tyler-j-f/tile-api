@@ -102,14 +102,14 @@ class Leaderboard extends Component {
         paginationPage: currentPage + 1
       });
       console.log(
-          "Post increment page num: " + currentPage
+          "Post increment page num: " + this.state.paginationPage
       )
     }
   }
 
   incrementPageTwice() {
-    this.incrementPage();
-    this.incrementPage();
+    this.incrementPage.bind(this);
+    this.incrementPage.bind(this);
   }
 
   decrementPage() {
@@ -129,7 +129,7 @@ class Leaderboard extends Component {
 
   getPagination() {
     let currentPage = this.state.paginationPage;
-    let shouldShowPreviousPageButton = currentPage < 1;
+    let shouldShowPreviousPageButton = currentPage > 1;
     let previousPageButton = shouldShowPreviousPageButton ? this.getPreviousPageButton() : null;
     let shouldShowNextPageButton = currentPage < this.state.maxPaginationPage;
     let nextPageButton = shouldShowNextPageButton ? this.getNextPageButton() : null;
@@ -162,27 +162,27 @@ class Leaderboard extends Component {
 
   getPreviousPageButton() {
     return (
-        <li className="page-item"><a className="page-link" onClick={this.decrementPage}>Previous</a></li>
+        <li className="page-item"><a className="page-link" onClick={this.decrementPage.bind(this)}>Previous</a></li>
     );
   }
 
   getNextPageButton() {
     return (
-        <li className="page-item"><a className="page-link" onClick={this.incrementPage}>Next</a>
+        <li className="page-item"><a className="page-link" onClick={this.incrementPage.bind(this)}>Next</a>
         </li>
     );
   }
 
   getPagePlusOneButton() {
     return (
-        <li className="page-item"><a className="page-link" onClick={this.incrementPage}>{this.state.paginationPage + 1}</a>
+        <li className="page-item"><a className="page-link" onClick={this.incrementPage.bind(this)}>{this.state.paginationPage + 1}</a>
         </li>
     );
   }
 
   getPagePlusTwoButton() {
     return (
-        <li className="page-item"><a className="page-link" onClick={this.incrementPageTwice}>{this.state.paginationPage + 2}</a>
+        <li className="page-item"><a className="page-link" onClick={this.incrementPageTwice.bind(this)}>{this.state.paginationPage + 2}</a>
         </li>
     );
   }
