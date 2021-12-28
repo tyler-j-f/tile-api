@@ -3,7 +3,6 @@ package io.tilenft.eth.token;
 import io.tilenft.eth.token.traits.weighted.WeightedTraitTypeConstants;
 import io.tilenft.eth.token.traits.weightless.WeightlessTraitTypeConstants;
 import io.tilenft.sql.daos.TokenLeaderboardDao;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,22 +20,13 @@ public class TokenLeaderboardRetriever {
   }
 
   public List<Long> get(int startIndex, int endIndex) {
-    List<Long> tokenIds = new ArrayList<>();
-    int x = 0;
-    for (Long tokenId :
+    List<Long> leaderTokenIds =
         tokenLeaderboardDao.getLeaderTokenIds(
             Long.valueOf(WeightlessTraitTypeConstants.OVERALL_RARITY),
             Long.valueOf(WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE),
             endIndex - startIndex,
-            startIndex)) {
-      x++;
-      if ((x - 1) >= endIndex) break;
-      if ((x - 1) < startIndex) {
-        x++;
-        continue;
-      }
-      tokenIds.add(tokenId);
-    }
-    return tokenIds;
+            startIndex);
+    System.out.println("DEBUG leaderTokenIds: " + leaderTokenIds);
+    return leaderTokenIds;
   }
 }

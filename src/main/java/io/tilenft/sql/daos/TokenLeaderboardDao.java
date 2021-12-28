@@ -57,7 +57,12 @@ public class TokenLeaderboardDao {
     if (traitsList.size() == 0) {
       return null;
     }
-    return tokenIdsList;
+    return getLeaderTokenIdsSubList(tokenIdsList, numberOfTokensToRetrieve);
+  }
+
+  private List<Long> getLeaderTokenIdsSubList(
+      List<Long> tokenIdsList, int numberOfTokensToRetrieve) {
+    return tokenIdsList.subList(0, Math.min(tokenIdsList.size(), numberOfTokensToRetrieve));
   }
 
   private List<WeightlessTraitDTO> getHighestOverallRarityTraits(

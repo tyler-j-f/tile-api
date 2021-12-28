@@ -27,7 +27,8 @@ class Leaderboard extends Component {
     return isLoading ? loadingSymbol : leaderboard;
   }
 
-  getLeaderboardUrl(startIndex) {
+  getLeaderboardUrl(startPageNumber) {
+    let startIndex = (startPageNumber - 1) * this.state.itemsPerPage;
     let endIndex = startIndex + this.state.itemsPerPage;
     return `http://localhost:8080/api/frontend/getLeaders?startIndex=${startIndex}&endIndex=${endIndex}`;
   }
@@ -36,7 +37,7 @@ class Leaderboard extends Component {
     this.setState({
       isLoading: true
     });
-    fetch(this.getLeaderboardUrl(startPageNumber - 1), {method: 'get'})
+    fetch(this.getLeaderboardUrl(startPageNumber), {method: 'get'})
     .then(response => {
       console.log(response);
       return response.json();
@@ -101,20 +102,20 @@ class Leaderboard extends Component {
   decrementPageAndLoad() {
     let pageNumber = this.state.paginationPage;
     this.decrementPage();
-    this.loadLeaderboardData(pageNumber - this.state.itemsPerPage);
+    this.loadLeaderboardData(pageNumber - 1);
   }
 
 
   incrementPageAndLoad() {
     let pageNumber = this.state.paginationPage;
     this.incrementPage();
-    this.loadLeaderboardData(pageNumber + this.state.itemsPerPage);
+    this.loadLeaderboardData(pageNumber + 1);
   }
 
   incrementPageTwiceAndLoad() {
     let pageNumber = this.state.paginationPage;
     this.incrementPageTwice();
-    this.loadLeaderboardData(pageNumber + (this.state.itemsPerPage * 2));
+    this.loadLeaderboardData(pageNumber + 2);
   }
 
   incrementPage() {
