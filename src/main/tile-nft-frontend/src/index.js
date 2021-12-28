@@ -4,10 +4,14 @@ import './index.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import TileNftApp from './TileNftApp';
 import reportWebVitals from './etc/reportWebVitals';
+// Import DAppProvider
+import { DAppProvider } from "@usedapp/core";
 
 ReactDOM.render(
   <React.StrictMode>
-    <TileNftApp />
+    <DAppProvider config={{}}>
+      <TileNftApp />
+    </DAppProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

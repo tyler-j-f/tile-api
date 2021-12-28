@@ -2,6 +2,7 @@ import {Component} from 'react';
 import styled from 'styled-components';
 import Spinner from 'react-bootstrap/Spinner';
 import { Rinkeby } from '@usedapp/core'
+import ConnectButton from "./ConnectButton";
 
 class Leaderboard extends Component {
 
@@ -10,11 +11,16 @@ class Leaderboard extends Component {
     super(props);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+
+  }
 
   render() {
     return (
-        <p>Testing the update page</p>
+        <>
+          <ConnectButton />
+          <p>Testing the update page</p>
+        </>
     );
   }
 }
