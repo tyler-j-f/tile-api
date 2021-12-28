@@ -93,10 +93,17 @@ class Leaderboard extends Component {
   }
 
   incrementPage() {
-    if (this.state.paginationPage < this.state.maxPaginationPage) {
+    let currentPage = this.state.paginationPage;
+    if (currentPage < this.state.maxPaginationPage) {
+      console.log(
+          "Should be incrementing page num: " + currentPage
+      )
       this.setState({
-        paginationPage: this.state.paginationPage + 1
+        paginationPage: currentPage + 1
       });
+      console.log(
+          "Post increment page num: " + currentPage
+      )
     }
   }
 
@@ -106,23 +113,31 @@ class Leaderboard extends Component {
   }
 
   decrementPage() {
-    if (this.state.paginationPage > 1) {
+    let currentPage = this.state.paginationPage;
+    console.log(
+        "Should be decrementing page num: " + currentPage
+    )
+    if (currentPage > 1) {
       this.setState({
-        paginationPage: this.state.paginationPage - 1
+        paginationPage: currentPage - 1
       });
     }
+    console.log(
+        "Post decrement page num: " + currentPage
+    )
   }
 
   getPagination() {
-    let shouldShowPreviousPageButton = this.state.paginationPage < 1;
+    let currentPage = this.state.paginationPage;
+    let shouldShowPreviousPageButton = currentPage < 1;
     let previousPageButton = shouldShowPreviousPageButton ? this.getPreviousPageButton() : null;
-    let shouldShowNextPageButton = this.state.paginationPage < this.state.maxPaginationPage;
+    let shouldShowNextPageButton = currentPage < this.state.maxPaginationPage;
     let nextPageButton = shouldShowNextPageButton ? this.getNextPageButton() : null;
-    if (previousPageButton || nextPageButton == false) {
+    if (previousPageButton == null && nextPageButton == null) {
       return null;
     }
     let pagePlusOneButton = shouldShowNextPageButton ? this.getPagePlusOneButton() : null;
-    let shouldShowPagePlusTwoButton = this.state.paginationPage + 1 < this.state.maxPaginationPage;
+    let shouldShowPagePlusTwoButton = currentPage + 1 < this.state.maxPaginationPage;
     let pagePlusTwoButton = shouldShowPagePlusTwoButton ? this.getPagePlusTwoButton() : null;
     let currentPageButton = this.getCurrentPageButton()
     return (
@@ -140,35 +155,34 @@ class Leaderboard extends Component {
 
   getCurrentPageButton() {
     return (
-        <li className="page-item"><a className="page-link" href={`#${this.state.paginationPage}`}>{this.state.paginationPage}</a>
+        <li className="page-item"><a className="page-link" >{this.state.paginationPage}</a>
         </li>
     );
   }
 
   getPreviousPageButton() {
     return (
-        <li className="page-item"><a className="page-link"
-                                     href={`#${this.state.paginationPage - 1}`} onClick={this.decrementPage}>Previous</a></li>
+        <li className="page-item"><a className="page-link" onClick={this.decrementPage}>Previous</a></li>
     );
   }
 
   getNextPageButton() {
     return (
-        <li className="page-item"><a className="page-link" href={`#${this.state.paginationPage + 1}`} onClick={this.incrementPage}>Next</a>
+        <li className="page-item"><a className="page-link" onClick={this.incrementPage}>Next</a>
         </li>
     );
   }
 
   getPagePlusOneButton() {
     return (
-        <li className="page-item"><a className="page-link" href={`#${this.state.paginationPage + 1}`} onClick={this.incrementPageTwice}>{this.state.paginationPage + 1}</a>
+        <li className="page-item"><a className="page-link" onClick={this.incrementPage}>{this.state.paginationPage + 1}</a>
         </li>
     );
   }
 
   getPagePlusTwoButton() {
     return (
-        <li className="page-item"><a className="page-link" href={`#${this.state.paginationPage + 2}`}>{this.state.paginationPage + 2}</a>
+        <li className="page-item"><a className="page-link" onClick={this.incrementPageTwice}>{this.state.paginationPage + 2}</a>
         </li>
     );
   }
