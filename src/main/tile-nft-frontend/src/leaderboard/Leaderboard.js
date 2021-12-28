@@ -11,7 +11,8 @@ class Leaderboard extends Component {
       isLoading: false,
       tokenIds: [],
       itemsPerPage: 5,
-      paginationPage: 1
+      paginationPage: 1,
+      maxPaginationPage: 2
     };
   }
 
@@ -91,22 +92,84 @@ class Leaderboard extends Component {
     );
   }
 
+  incrementPage() {
+    if (this.state.paginationPage < this.state.maxPaginationPage) {
+      this.setState({
+        paginationPage: this.state.paginationPage + 1
+      });
+    }
+  }
+
+  incrementPageTwice() {
+    this.incrementPage();
+    this.incrementPage();
+  }
+
+  decrementPage() {
+    if (this.state.paginationPage > 1) {
+      this.setState({
+        paginationPage: this.state.paginationPage - 1
+      });
+    }
+  }
+
   getPagination() {
+    let shouldShowPreviousPageButton = this.state.paginationPage < 1;
+    let previousPageButton = shouldShowPreviousPageButton ? this.getPreviousPageButton() : null;
+    let shouldShowNextPageButton = this.state.paginationPage < this.state.maxPaginationPage;
+    let nextPageButton = shouldShowNextPageButton ? this.getNextPageButton() : null;
+    if (previousPageButton || nextPageButton == false) {
+      return null;
+    }
+    let pagePlusOneButton = shouldShowNextPageButton ? this.getPagePlusOneButton() : null;
+    let shouldShowPagePlusTwoButton = this.state.paginationPage + 1 < this.state.maxPaginationPage;
+    let pagePlusTwoButton = shouldShowPagePlusTwoButton ? this.getPagePlusTwoButton() : null;
+    let currentPageButton = this.getCurrentPageButton()
     return (
         <nav aria-label="Page navigation example">
           <ul className="pagination">
-            <li className="page-item"><a className="page-link"
-                                         href="#">Previous</a></li>
-            <li className="page-item"><a className="page-link" href="#">1</a>
-            </li>
-            <li className="page-item"><a className="page-link" href="#">2</a>
-            </li>
-            <li className="page-item"><a className="page-link" href="#">3</a>
-            </li>
-            <li className="page-item"><a className="page-link" href="#">Next</a>
-            </li>
+            {previousPageButton}
+            {currentPageButton}
+            {pagePlusOneButton}
+            {pagePlusTwoButton}
+            {nextPageButton}
           </ul>
         </nav>
+    );
+  }
+
+  getCurrentPageButton() {
+    return (
+        <li className="page-item"><a className="page-link" href={`#${this.state.paginationPage}`}>{this.state.paginationPage}</a>
+        </li>
+    );
+  }
+
+  getPreviousPageButton() {
+    return (
+        <li className="page-item"><a className="page-link"
+                                     href={`#${this.state.paginationPage - 1}`} onClick={this.decrementPage}>Previous</a></li>
+    );
+  }
+
+  getNextPageButton() {
+    return (
+        <li className="page-item"><a className="page-link" href={`#${this.state.paginationPage + 1}`} onClick={this.incrementPage}>Next</a>
+        </li>
+    );
+  }
+
+  getPagePlusOneButton() {
+    return (
+        <li className="page-item"><a className="page-link" href={`#${this.state.paginationPage + 1}`} onClick={this.incrementPageTwice}>{this.state.paginationPage + 1}</a>
+        </li>
+    );
+  }
+
+  getPagePlusTwoButton() {
+    return (
+        <li className="page-item"><a className="page-link" href={`#${this.state.paginationPage + 2}`}>{this.state.paginationPage + 2}</a>
+        </li>
     );
   }
 
