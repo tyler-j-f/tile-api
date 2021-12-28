@@ -1,17 +1,17 @@
 import React from 'react'
 import styled from 'styled-components';
-import TokenNumberForm from "../view/TokenNumberForm";
+import UpdateTileNft from "../updateTileNft/UpdateTileNft";
 
-const ViewPage = () => {
+const UpdateTileNftPage = () => {
   return (
-      <StyledPage>
-        <Heading className="animate__animated animate__fadeInLeft">View TileNFT</Heading>
-        <TokenNumberForm />
-      </StyledPage>
+      <StyledUpdateTileNftPage>
+        <Heading className="animate__animated animate__fadeInLeft">Update TileNft</Heading>
+        <UpdateTileNft />
+      </StyledUpdateTileNftPage>
   )
 }
 
-const StyledPage = styled.div`
+const StyledUpdateTileNftPage = styled.div`
     min-height: 100vh;
     width: 100vw;
     background-color: #282c34;
@@ -36,4 +36,14 @@ const Heading = styled.h1`
    -ms-user-select: none; /* Internet Explorer/Edge */
 `;
 
-export default ViewPage
+const Content = styled.div`
+    color: #eee;
+    font-size: clamp(1.5rem, 2vw, 4vw);
+
+    a {
+        color: skyblue;
+        text-decoration: none;
+    }
+`;
+
+export default UpdateTileNftPage
