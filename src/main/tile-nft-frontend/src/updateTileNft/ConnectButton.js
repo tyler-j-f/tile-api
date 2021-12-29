@@ -1,6 +1,7 @@
 // ConnectButton.tsx
 import { useEthers, useEtherBalance } from "@usedapp/core";
 import { formatEther } from "@ethersproject/units";
+import {Button} from "react-bootstrap";
 
 export default function ConnectButton() {
   const {activateBrowserWallet, account } = useEthers();
@@ -11,14 +12,14 @@ export default function ConnectButton() {
   }
 
   return account ? (
-      <div>
-        <p color="white" fontSize="md">
+      <Button>
+        <p>
           {etherBalance && parseFloat(formatEther(etherBalance)).toFixed(3)} ETH
         </p>
-      </div>
+      </Button>
   ) : (
-      <div onClick={handleConnectWallet}>
+      <Button onClick={handleConnectWallet}>
         <p>Connect to a wallet</p>
-      </div>
+      </Button>
   );
 }
