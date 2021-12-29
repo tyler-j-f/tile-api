@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Spinner from 'react-bootstrap/Spinner';
 import { Rinkeby } from '@usedapp/core'
 import ConnectButton from "./ConnectButton";
+import MetadataSetContractMethod from "./MetadataSetContractMethod";
 
 class Leaderboard extends Component {
 
@@ -19,7 +20,7 @@ class Leaderboard extends Component {
     return (
         <>
           <ConnectButton />
-          <p>Testing the update page</p>
+          <MetadataSetContractMethod />
         </>
     );
   }
