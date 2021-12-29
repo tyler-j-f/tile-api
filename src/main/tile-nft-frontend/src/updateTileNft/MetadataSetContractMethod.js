@@ -22,7 +22,7 @@ function MetadataSetContractMethod() {
     const balance =
     useChainCall(account && {
       address: tokenAddress,
-      data: new Interface(TileContract.abi).encodeFunctionData('balanceOf', [ownerAddress])
+      data: new Interface(TileContract.abi).encodeFunctionData('metadataSet', [1, 0, '0x2550000000001530000000001532552042040000000000000000000000000000'])
     });
     console.log("DEBUGGING balance");
     console.log(balance);
