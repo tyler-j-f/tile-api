@@ -1,9 +1,9 @@
 import {
   useChainCall, useEtherBalance, useEthers, ERC20
 } from "@usedapp/core";
-import TileContract from '../contractsJson/Tile.json'
-import { Interface } from '@ethersproject/abi'
+import {Interface} from '@ethersproject/abi'
 import {Button} from "react-bootstrap";
+import TileContract from '../contractsJson/Tile.json'
 
 function MetadataSetContractMethod() {
 
@@ -22,7 +22,7 @@ function MetadataSetContractMethod() {
     const balance =
     useChainCall(account && {
       address: tokenAddress,
-      data: new Interface(ERC20.abi).encodeFunctionData('balanceOf', [ownerAddress])
+      data: new Interface(TileContract.abi).encodeFunctionData('balanceOf', [ownerAddress])
     });
     console.log("DEBUGGING balance");
     console.log(balance);
