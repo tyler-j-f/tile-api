@@ -10,11 +10,11 @@ import org.springframework.web.servlet.view.RedirectView;
 public class RedirectController extends BaseController {
 
   /**
-   * Redirect to the homepage, if a request to load the site on another page is received.
+   * If a request to load the site on another page is received, redirect to the homepage.
    *
    * @return RedirectView The frontend home page.
    */
-  @GetMapping(value = {"leaderboard", "view", "contact"})
+  @GetMapping(value = {"leaderboard", "view", "contact", "update"})
   public RedirectView redirectToHomePage() {
     return new RedirectView("/");
   }

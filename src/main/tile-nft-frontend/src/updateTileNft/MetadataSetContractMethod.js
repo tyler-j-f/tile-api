@@ -1,25 +1,26 @@
-import {useContractCall, useTokenAllowance} from "@usedapp/core";
+import {
+  ERC20Interface,
+  useContractCall
+} from "@usedapp/core";
 import {Button} from "react-bootstrap";
 
 function MetadataSetContractMethod() {
 
   function useTokenAllowance(
       tokenAddress,
-      ownerAddress,
-      spenderAddress
+      ownerAddress
   ) {
-    const [allowance] =
-    useContractCall(
-        ownerAddress &&
-        spenderAddress &&
-        tokenAddress && {
-          abi: null,
-          address: tokenAddress,
-          method: 'allowance',
-          args: [ownerAddress, spenderAddress],
-        }
-    ) ?? []
-    return allowance
+    console.log("DEBUGGING hook");
+    const balance =
+    useContractCall({
+      abi: ERC20Interface,
+      address: tokenAddress,
+      method: 'balanceOf',
+      args: [ownerAddress],
+    });
+    console.log("DEBUGGING balance");
+    console.log(balance);
+    return balance
   }
 
   function testHandler() {
@@ -28,7 +29,6 @@ function MetadataSetContractMethod() {
 
   const test = useTokenAllowance(
       CONTRACT_ADDRESS,
-      OWNER_ADDRESS,
       OWNER_ADDRESS
   );
 
