@@ -19,6 +19,7 @@ class Leaderboard extends Component {
   render() {
     return (
         <>
+          <ConnectButton />
           <MetadataSetContractMethod />
         </>
     );
