@@ -2,6 +2,8 @@ import {
   ERC20Interface,
   useContractCall
 } from "@usedapp/core";
+import TileContract from '../contractsJson/Tile.json'
+import { Interface } from '@ethersproject/abi'
 import {Button} from "react-bootstrap";
 
 function MetadataSetContractMethod() {
@@ -13,7 +15,7 @@ function MetadataSetContractMethod() {
     console.log("DEBUGGING hook");
     const balance =
     useContractCall({
-      abi: ERC20Interface,
+      abi: new Interface(TileContract.abi),
       address: tokenAddress,
       method: 'balanceOf',
       args: [ownerAddress],
