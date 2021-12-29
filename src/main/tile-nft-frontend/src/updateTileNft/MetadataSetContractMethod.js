@@ -1,6 +1,5 @@
 import {
-  ERC20Interface,
-  useContractCall
+  useChainCall, useEtherBalance, useEthers, ERC20Interface
 } from "@usedapp/core";
 import TileContract from '../contractsJson/Tile.json'
 import { Interface } from '@ethersproject/abi'
@@ -8,17 +7,22 @@ import {Button} from "react-bootstrap";
 
 function MetadataSetContractMethod() {
 
+  const {activateBrowserWallet, account } = useEthers();
+  const etherBalance = useEtherBalance(account);
+
+  function handleConnectWallet() {
+    activateBrowserWallet();
+  }
+
   function useTokenAllowance(
       tokenAddress,
       ownerAddress
   ) {
     console.log("DEBUGGING hook");
     const balance =
-    useContractCall({
-      abi: new Interface(TileContract.abi),
+    useChainCall(account && {
       address: tokenAddress,
-      method: 'balanceOf',
-      args: [ownerAddress],
+      data: ERC20Interface.encodeFunctionData('balanceOf', [ownerAddress])
     });
     console.log("DEBUGGING balance");
     console.log(balance);
@@ -34,23 +38,21 @@ function MetadataSetContractMethod() {
       OWNER_ADDRESS
   );
 
-  function getAbiTextFromFile() {
-    return fetch('../../../resources/contractsJson/Tile.json')
-    .then(response => response.text())
-  }
-
-  function getContractCallArgs({tokenId, dataToSetIndex, rgbValue}) {
-    return [
-      tokenId, dataToSetIndex, rgbValue
-    ];
-  }
-
   return (
-      <Button onClick={testHandler}>
-        <p>
-          Test send a transaction
-        </p>
-      </Button>
+      <>
+        <Button onClick={handleConnectWallet}>
+          <p>
+            Login
+          </p>
+        </Button>
+        {account &&
+          <Button onClick={testHandler}>
+            <p>
+              Test send a transaction
+            </p>
+          </Button>
+        }
+      </>
   );
 }
 
