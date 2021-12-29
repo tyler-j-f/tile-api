@@ -1,30 +1,36 @@
-import { useEthers, useContractCall} from "@usedapp/core";
-import { ethers } from "ethers";
+import {useContractCall, useTokenAllowance} from "@usedapp/core";
 import {Button} from "react-bootstrap";
 
 function MetadataSetContractMethod() {
 
-  function useTestContractCall() {
-    getAbiTextFromFile().then(fileText => {
-      console.log(fileText);
-      let contractJson = JSON.parse(fileText);
-      console.log(contractJson);
-      let abiJson = JSON.stringify(contractJson.abi);
-      console.log(abiJson);
-      const simpleContractInterface = new ethers.utils.Interface(abiJson);
-      let test = useContractCall({
-        abi: simpleContractInterface,
-        address: CONTRACT_ADDRESS,
-        method: CONTRACT_METHOD_NAME,
-        args: getContractCallArgs({
-          tokenId: 4,
-          dataToSetIndex: 0,
-          rgbValue: "0x121000055000111222111001222011022033"
-        }),
-      }) ?? [];
-      console.log(test);
-    });
+  function useTokenAllowance(
+      tokenAddress,
+      ownerAddress,
+      spenderAddress
+  ) {
+    const [allowance] =
+    useContractCall(
+        ownerAddress &&
+        spenderAddress &&
+        tokenAddress && {
+          abi: null,
+          address: tokenAddress,
+          method: 'allowance',
+          args: [ownerAddress, spenderAddress],
+        }
+    ) ?? []
+    return allowance
   }
+
+  function testHandler() {
+    console.log("DEBUGGING");
+  }
+
+  const test = useTokenAllowance(
+      CONTRACT_ADDRESS,
+      OWNER_ADDRESS,
+      OWNER_ADDRESS
+  );
 
   function getAbiTextFromFile() {
     return fetch('../../../resources/contractsJson/Tile.json')
@@ -38,16 +44,16 @@ function MetadataSetContractMethod() {
   }
 
   return (
-      <Button onClick={useTestContractCall}>
+      <Button onClick={testHandler}>
         <p>
           Test send a transaction
         </p>
       </Button>
   );
-
 }
 
 export const CONTRACT_ADDRESS     = "0xEc9547ABc4a8c24B99226BeE239c6E29814903Cd";
+export const OWNER_ADDRESS        = "0x4fdF8DF271e1A65B119D858eeA2A7681da8F9c15";
 export const CONTRACT_METHOD_NAME = "metadataSet";
 
 export default MetadataSetContractMethod
