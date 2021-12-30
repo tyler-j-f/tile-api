@@ -27,6 +27,30 @@ function MetadataSetContractMethod() {
       // For this, we need the account signer...
       const signer = provider.getSigner();
       console.log(signer);
+      // The DAI Contract is currently connected to the Provider,
+      // which is read-only. You need to connect to a Signer, so
+      // that you can pay to send state-changing transactions.
+      const tileContractWithSigner = contract.connect(signer);
+      console.log(tileContractWithSigner);
+      // Each DAI has 18 decimal places
+      // const dai = ethers.utils.parseUnits("1.0", 18);
+      // Send 1 DAI to "ricmoo.firefly.eth"
+      tileContractWithSigner.name().then(result => {
+            console.log("name");
+            console.log(result);
+            return tileContractWithSigner.symbol();
+          }
+      ).then(result2 => {
+            console.log("symbol");
+            console.log(result2);
+            return tileContractWithSigner.balanceOf(OWNER_ADDRESS);
+          }
+      ).then(result3 => {
+            console.log("balanceOf");
+            console.log(result3);
+            return true;
+          }
+      )
     }
     return;
   }, []);
