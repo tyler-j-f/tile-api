@@ -2,9 +2,10 @@ import {useContractFunction, useEthers} from "@usedapp/core";
 import {useEffect} from "react";
 import styled from "styled-components";
 import {Button} from "react-bootstrap";
+import { parseEther } from "@ethersproject/units";
 
 const MetadataSetContractMethodInternal = ({contract, signer}) => {
-  const { state, send } = useContractFunction(contract, 'balanceOf');
+  const { state, send } = useContractFunction(contract, 'balanceOf', {value: parseEther('.1')});
 
   useEffect(() => {
     console.log("contract");
@@ -19,7 +20,7 @@ const MetadataSetContractMethodInternal = ({contract, signer}) => {
 
   function handleSendTx() {
     console.log("handleSendTx");
-    send({data: [OWNER_ADDRESS], to: CONTRACT_ADDRESS, from: OWNER_ADDRESS}).then(response => {
+    send(OWNER_ADDRESS).then(response => {
       console.log("response found!!!");
       console.log(response);
       console.log("response state");
@@ -45,7 +46,7 @@ const StyledButton = styled.button`
 `;
 
 export const CONTRACT_ADDRESS     = "0xEc9547ABc4a8c24B99226BeE239c6E29814903Cd";
-export const OWNER_ADDRESS        = 0x4fdF8DF271e1A65B119D858eeA2A7681da8F9c15;
+export const OWNER_ADDRESS        = "0x4fdF8DF271e1A65B119D858eeA2A7681da8F9c15";
 export const CONTRACT_METHOD_NAME = "metadataSet";
 
 export default MetadataSetContractMethodInternal;
