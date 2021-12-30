@@ -1,65 +1,34 @@
 import TileContract from '../contractsJson/Tile.json'
 import { ethers } from "ethers";
 import {useEthers} from "@usedapp/core";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import styled from "styled-components";
+import MetadataSetContractMethodInternal
+  from "./MetadataSetContractMethodInternal";
 
 function MetadataSetContractMethod() {
   const { library: provider } = useEthers()
-
-
-  function handleMetadataSet() {
-    console.log("handleMetadataSet");
-  }
+  const [tileContract, setTileContract] = useState(null);
 
   useEffect(() => {
-    console.log("useEffect.")
+    console.log("MetadataSetContractMethod useEffect.");
     if (provider) {
-      console.log("Provider exists.")
-      let contract = new ethers.Contract(CONTRACT_ADDRESS, TileContract.abi, provider);
-      console.log(contract);
-      // If you don't specify a //url//, Ethers connects to the default
-      // (i.e. ``http:/\/localhost:8545``)
-      const provider = new ethers.providers.JsonRpcProvider();
-      console.log(provider);
-      // The provider also allows signing transactions to
-      // send ether and pay to change state within the blockchain.
-      // For this, we need the account signer...
-      const signer = provider.getSigner();
-      console.log(signer);
-      // The DAI Contract is currently connected to the Provider,
-      // which is read-only. You need to connect to a Signer, so
-      // that you can pay to send state-changing transactions.
-      const tileContractWithSigner = contract.connect(signer);
-      console.log(tileContractWithSigner);
-      // Each DAI has 18 decimal places
-      // const dai = ethers.utils.parseUnits("1.0", 18);
-      // Send 1 DAI to "ricmoo.firefly.eth"
-      tileContractWithSigner.name().then(result => {
-            console.log("name");
-            console.log(result);
-            return tileContractWithSigner.symbol();
-          }
-      ).then(result2 => {
-            console.log("symbol");
-            console.log(result2);
-            return tileContractWithSigner.balanceOf(OWNER_ADDRESS);
-          }
-      ).then(result3 => {
-            console.log("balanceOf");
-            console.log(result3);
-            return true;
-          }
-      )
+      console.log("Provider:")
+      setTileContract(
+          new ethers.Contract(CONTRACT_ADDRESS, TileContract.abi, provider)
+      );
+      console.log("tileContract:")
+      console.log(tileContract);
     }
     return;
   }, []);
 
   return (
       <>
-        <StyledButton onClick={handleMetadataSet}>
-          metadataSet
-        </StyledButton>
+        <p>
+          Getting the provider
+        </p>
+        {tileContract && <MetadataSetContractMethodInternal contract={tileContract} />}
       </>
   );
 }
