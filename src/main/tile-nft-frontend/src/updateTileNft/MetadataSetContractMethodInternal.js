@@ -1,6 +1,7 @@
 import {useContractFunction, useEthers} from "@usedapp/core";
 import {useEffect} from "react";
 import styled from "styled-components";
+import {Button} from "react-bootstrap";
 
 const MetadataSetContractMethodInternal = ({contract}) => {
   const { state, send } = useContractFunction(contract, 'balanceOf');
@@ -14,10 +15,25 @@ const MetadataSetContractMethodInternal = ({contract}) => {
     return;
   }, []);
 
+  function handleSendTx() {
+    console.log("handleSendTx");
+    send({value: OWNER_ADDRESS}).then(response => {
+      console.log("response found!!!");
+      console.log(response);
+      console.log("response state");
+      console.log(state);
+      console.log("response send");
+      console.log(send);
+    }).catch(e => {
+      console.log("ERROR CAUGHT!!!");
+      console.log(e);
+    });
+  }
+
   return (
-      <p>
-        useContractFunction
-      </p>
+      <Button onClick={handleSendTx}>
+        Send Tx
+      </Button>
   );
 }
 

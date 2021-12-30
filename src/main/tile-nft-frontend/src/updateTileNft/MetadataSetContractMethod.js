@@ -14,11 +14,27 @@ function MetadataSetContractMethod() {
     console.log("MetadataSetContractMethod useEffect.");
     if (provider) {
       console.log("Provider:")
+      let contractFound = new ethers.Contract(CONTRACT_ADDRESS, TileContract.abi, provider);
       setTileContract(
-          new ethers.Contract(CONTRACT_ADDRESS, TileContract.abi, provider)
+          contractFound
       );
       console.log("tileContract:")
-      console.log(tileContract);
+      console.log(contractFound);
+      // A Web3Provider wraps a standard Web3 provider, which is
+      // what MetaMask injects as window.ethereum into each page
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      // The MetaMask plugin also allows signing transactions to
+      // send ether and pay to change state within the blockchain.
+      // For this, you need the account signer...
+      const signer = provider.getSigner();
+      console.log('signer');
+      console.log(signer);
+      console.log('signer address');
+      console.log(signer._address);
+      signer.getAddress().then(result => {
+        console.log("Get Address");
+        console.log(result);
+      })
     }
     return;
   }, []);
