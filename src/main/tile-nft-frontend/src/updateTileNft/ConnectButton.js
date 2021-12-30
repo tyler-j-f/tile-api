@@ -1,6 +1,7 @@
 import { useEthers, useEtherBalance } from "@usedapp/core";
 import { formatEther } from "@ethersproject/units";
 import {Button} from "react-bootstrap";
+import styled from "styled-components";
 
 export default function ConnectButton() {
   const {activateBrowserWallet, account } = useEthers();
@@ -17,8 +18,14 @@ export default function ConnectButton() {
         </p>
       </Button>
   ) : (
-      <Button onClick={handleConnectWallet}>
+      <StyledButton onClick={handleConnectWallet}>
         <p>Connect to a wallet</p>
-      </Button>
+      </StyledButton>
   );
 }
+
+
+const StyledButton = styled.button`
+    margin: 5px;
+    padding: 5px;
+`;
