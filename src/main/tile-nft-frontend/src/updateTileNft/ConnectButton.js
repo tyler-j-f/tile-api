@@ -1,4 +1,3 @@
-// ConnectButton.tsx
 import { useEthers, useEtherBalance } from "@usedapp/core";
 import { formatEther } from "@ethersproject/units";
 import {Button} from "react-bootstrap";
@@ -14,7 +13,7 @@ export default function ConnectButton() {
   return account ? (
       <Button>
         <p>
-          {etherBalance && parseFloat(formatEther(etherBalance)).toFixed(3)} ETH
+          {account && etherBalance && parseFloat(formatEther(etherBalance)).toFixed(3)} ETH
         </p>
       </Button>
   ) : (

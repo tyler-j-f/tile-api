@@ -50,9 +50,7 @@ class Leaderboard extends Component {
       return response.json();
     })
     .then(numberOfTokens => {
-      console.log(numberOfTokens);
       let maxPaginationPage = Math.ceil(numberOfTokens/this.state.itemsPerPage);
-      console.log(maxPaginationPage);
       this.setState({
         maxPaginationPage: maxPaginationPage,
         isLoading: false,
