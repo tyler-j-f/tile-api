@@ -20,7 +20,7 @@ const MetadataSetContractMethodInternal = ({contract, signer}) => {
 
   function handleSendTx() {
     console.log("handleSendTx");
-    send(1, 0, METADATA).then(response => {
+    send(10, 0, METADATA).then(response => {
       console.log("response found!!!");
       console.log(response);
       console.log("response state");

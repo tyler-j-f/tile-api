@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractMetadataSetEventsRetrieverTask implements TaskInterface {
 
-  @Autowired private HexValueToDecimal hexValueToDecimal;
+  @Autowired protected HexValueToDecimal hexValueToDecimal;
   @Autowired protected EthEventsRetriever ethEventsRetriever;
   @Autowired protected RemoveDuplicateEthEventsForToken removeDuplicateEthEventsForToken;
   @Autowired protected EventsConfig eventsConfig;

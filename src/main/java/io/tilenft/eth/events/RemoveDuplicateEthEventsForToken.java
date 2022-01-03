@@ -1,6 +1,6 @@
 package io.tilenft.eth.events;
 
-import io.tilenft.etc.HexStringPrefixStripper;
+import io.tilenft.etc.HexValueToDecimal;
 import io.tilenft.eth.events.implementations.AbstractSingleTokenEvent;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class RemoveDuplicateEthEventsForToken<T extends AbstractSingleTokenEvent> {
 
-  @Autowired private HexStringPrefixStripper hexStringPrefixStripper;
-
-  public static final String ZERO_X = "0x";
+  @Autowired private HexValueToDecimal hexValueToDecimal;
 
   public List<T> remove(List<T> events) {
     List<T> sortedEventsList = new ArrayList<>();
@@ -19,8 +17,7 @@ public class RemoveDuplicateEthEventsForToken<T extends AbstractSingleTokenEvent
     Collections.reverse(events);
     for (T event : events) {
       if (!doesEventsListAlreadyHaveTokenId(
-          sortedEventsList,
-          Long.valueOf(hexStringPrefixStripper.strip0xFromHexString(event.getTokenId())))) {
+          sortedEventsList, hexValueToDecimal.getLongFromHexString(event.getTokenId()))) {
         sortedEventsList.add(event);
       }
     }
@@ -35,9 +32,7 @@ public class RemoveDuplicateEthEventsForToken<T extends AbstractSingleTokenEvent
     return (int)
         events.stream()
             .filter(
-                event ->
-                    Long.valueOf(hexStringPrefixStripper.strip0xFromHexString(event.getTokenId()))
-                        .equals(tokenId))
+                event -> hexValueToDecimal.getLongFromHexString(event.getTokenId()).equals(tokenId))
             .count();
   }
 }

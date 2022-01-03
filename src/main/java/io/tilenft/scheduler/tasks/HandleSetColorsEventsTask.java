@@ -177,8 +177,7 @@ public class HandleSetColorsEventsTask extends AbstractMetadataSetEventsRetrieve
   private void updateTraitValuesForEthEvents(List<SetMetadataEvent> events) {
     for (SetMetadataEvent event : events) {
       TokenFacadeDTO nft =
-          tokenRetriever.get(
-              Long.valueOf(hexStringPrefixStripper.strip0xFromHexString(event.getTokenId())));
+          tokenRetriever.get(hexValueToDecimal.getLongFromHexString(event.getTokenId()));
       if (nft == null) {
         System.out.println("ERROR!!! This token does not exist");
         continue;
