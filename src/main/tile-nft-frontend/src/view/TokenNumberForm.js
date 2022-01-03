@@ -4,36 +4,41 @@ import Spinner from 'react-bootstrap/Spinner';
 
 function TokenNumberForm() {
 
-  const [value, setValue] = useState('');
-  const [shouldShowImage, setShouldShowImage] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isInvalidTokenNumber, setIsInvalidTokenNumber] = useState(false);
-  const [isGeneralError, setIsGeneralError] = useState(false);
-  const [imgValue, setImgValue] = useState('');
+  const [viewTokenData, setViewTokenData] = useState({
+    value: '',
+    shouldShowImage: false,
+    isLoading: false,
+    isInvalidTokenNumber: false,
+    isGeneralError: false,
+    imgValue: ''
+  });
 
   const handleChange = (event) => {
-    setValue(event.target.value);
+    setViewTokenData({...viewTokenData, value: event.target.value})
   }
 
   const handleSubmit = (event) => {
-    setIsLoading(true);
+    setViewTokenData({...viewTokenData, isLoading: true})
     loadTokenImage();
     event.preventDefault();
   }
 
   const loadTokenImage = () => {
-    fetch(`http://localhost:8080/api/image/tile/get/${value}`, {method: 'get'})
+    fetch(`http://localhost:8080/api/image/tile/get/${viewTokenData.value}`, {method: 'get'})
     .then(response => {
       console.log(response);
       if (response.status === 200) {
         return response.blob();
       }
       if (response.status !== 200) {
-        setShouldShowImage(false);
-        setIsLoading(false);
-        setIsInvalidTokenNumber(true);
-        setIsGeneralError(false);
-        setImgValue('');
+        setViewTokenData({
+          ...viewTokenData,
+          shouldShowImage: false,
+          isLoading: false,
+          isInvalidTokenNumber: true,
+          isGeneralError: false,
+          imgValue: ''
+        })
       }
       return null;
     })
@@ -42,18 +47,24 @@ function TokenNumberForm() {
         console.log('Image blob is null');
         return null;
       }
-      setShouldShowImage(true);
-      setIsLoading(false);
-      setIsInvalidTokenNumber(false);
-      setIsGeneralError(false);
-      setImgValue(URL.createObjectURL(blob));
+      setViewTokenData({
+        ...viewTokenData,
+        shouldShowImage: true,
+        isLoading: false,
+        isInvalidTokenNumber: false,
+        isGeneralError: false,
+        imgValue: URL.createObjectURL(blob)
+      })
     })
     .catch(err => {
-      setShouldShowImage(false);
-      setIsLoading(false);
-      setIsInvalidTokenNumber(false);
-      setIsGeneralError(true);
-      setImgValue('');
+      setViewTokenData({
+        ...viewTokenData,
+        shouldShowImage: false,
+        isLoading: false,
+        isInvalidTokenNumber: false,
+        isGeneralError: true,
+        imgValue: ''
+      })
       console.log("Error caught!!!");
       console.log(err)
     });
@@ -78,7 +89,7 @@ function TokenNumberForm() {
           <form onSubmit={handleSubmit}>
             <StyledLabel>
               Token Number:&nbsp;
-              <input type="number" value={value} onChange={handleChange} />
+              <input type="number" value={viewTokenData.value} onChange={handleChange} />
             </StyledLabel>
             <input type="submit" value="Submit" />
             {formBody}
@@ -88,16 +99,16 @@ function TokenNumberForm() {
   }
 
   const getFormBody = () => {
-    if (isGeneralError) {
+    if (viewTokenData.isGeneralError) {
       return getGeneralErrorText();
     }
-    if (isInvalidTokenNumber) {
+    if (viewTokenData.isInvalidTokenNumber) {
       return getTokenNumberErrorText();
     }
     return (
       <>
         {
-          shouldShowImage && <StyledImg imgSource={imgValue} />
+          viewTokenData.shouldShowImage && <StyledImg imgSource={viewTokenData.imgValue} />
         }
       </>
     );
@@ -110,7 +121,7 @@ function TokenNumberForm() {
   }
 
   return (
-      isLoading ? getSpinner() : getForm()
+      viewTokenData.isLoading ? getSpinner() : getForm()
   );
 
 }
