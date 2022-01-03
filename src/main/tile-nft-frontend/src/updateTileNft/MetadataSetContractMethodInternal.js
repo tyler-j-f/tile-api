@@ -4,48 +4,21 @@ import styled from "styled-components";
 import {Button} from "react-bootstrap";
 import { parseEther } from "@ethersproject/units";
 
-const MetadataSetContractMethodInternal = ({contract, signer}) => {
+const MetadataSetContractMethodInternal = ({contract}) => {
   const { state, send } = useContractFunction(contract, 'metadataSet', {value: parseEther('.1')});
 
-  useEffect(() => {
-    console.log("contract");
-    console.log(contract);
-    console.log("MetadataSetContractMethodInternal useEffect.");
-    console.log("state");
-    console.log(state);
-    console.log("send");
-    console.log(send);
-    return;
-  }, []);
-
   function handleSendTx() {
-    console.log("handleSendTx");
     send(10, 1, METADATA).then(response => {
-      console.log("response found!!!");
-      console.log(response);
-      console.log("response state");
-      console.log(state);
-      console.log("response send");
-      console.log(send);
+      console.log("response found!!!", response, state);
     }).catch(e => {
-      console.log("ERROR CAUGHT!!!");
-      console.log(e);
+      console.log("ERROR CAUGHT!!!", e);
     });
   }
 
-  function handlePrint() {
-    console.log(state);
-  }
-
   return (
-      <>
-        <Button onClick={handleSendTx}>
-          Send Tx
-        </Button>
-        <Button onClick={handlePrint}>
-          Print Result
-        </Button>
-      </>
+      <Button onClick={handleSendTx}>
+        Send Transaction
+      </Button>
   );
 }
 
