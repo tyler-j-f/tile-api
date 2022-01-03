@@ -2,10 +2,10 @@ import {Component, useState} from 'react';
 import styled from 'styled-components';
 import Spinner from 'react-bootstrap/Spinner';
 
-function TokenNumberForm() {
+const TokenNumberForm = ({tokenLoadedCallback}) => {
 
   const [viewTokenData, setViewTokenData] = useState({
-    value: '',
+    tokenId: '',
     isLoading: false,
     isInvalidTokenNumber: false,
     isGeneralError: false,
@@ -13,7 +13,7 @@ function TokenNumberForm() {
   });
 
   const handleChange = (event) => {
-    setViewTokenData({...viewTokenData, value: event.target.value})
+    setViewTokenData({...viewTokenData, tokenId: event.target.value})
   }
 
   const handleSubmit = (event) => {
@@ -23,7 +23,7 @@ function TokenNumberForm() {
   }
 
   const loadTokenImage = () => {
-    fetch(`http://localhost:8080/api/image/tile/get/${viewTokenData.value}`, {method: 'get'})
+    fetch(`http://localhost:8080/api/image/tile/get/${viewTokenData.tokenId}`, {method: 'get'})
     .then(response => {
       console.log("loadTokenImage response", response);
       if (response.status === 200) {
@@ -52,6 +52,7 @@ function TokenNumberForm() {
         isGeneralError: false,
         imgValue: URL.createObjectURL(blob)
       })
+      tokenLoadedCallback(viewTokenData.tokenId);
     })
     .catch(err => {
       setViewTokenData({
@@ -84,7 +85,7 @@ function TokenNumberForm() {
           <form onSubmit={handleSubmit}>
             <StyledLabel>
               Token Number:&nbsp;
-              <input type="number" value={viewTokenData.value} onChange={handleChange} />
+              <input type="number" value={viewTokenData.tokenId} onChange={handleChange} />
             </StyledLabel>
             <input type="submit" value="Submit" />
             {formBody}
