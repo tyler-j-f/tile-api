@@ -6,7 +6,6 @@ function TokenNumberForm() {
 
   const [viewTokenData, setViewTokenData] = useState({
     value: '',
-    shouldShowImage: false,
     isLoading: false,
     isInvalidTokenNumber: false,
     isGeneralError: false,
@@ -26,14 +25,13 @@ function TokenNumberForm() {
   const loadTokenImage = () => {
     fetch(`http://localhost:8080/api/image/tile/get/${viewTokenData.value}`, {method: 'get'})
     .then(response => {
-      console.log(response);
+      console.log("loadTokenImage response", response);
       if (response.status === 200) {
         return response.blob();
       }
       if (response.status !== 200) {
         setViewTokenData({
           ...viewTokenData,
-          shouldShowImage: false,
           isLoading: false,
           isInvalidTokenNumber: true,
           isGeneralError: false,
@@ -49,7 +47,6 @@ function TokenNumberForm() {
       }
       setViewTokenData({
         ...viewTokenData,
-        shouldShowImage: true,
         isLoading: false,
         isInvalidTokenNumber: false,
         isGeneralError: false,
@@ -59,14 +56,12 @@ function TokenNumberForm() {
     .catch(err => {
       setViewTokenData({
         ...viewTokenData,
-        shouldShowImage: false,
         isLoading: false,
         isInvalidTokenNumber: false,
         isGeneralError: true,
         imgValue: ''
       })
-      console.log("Error caught!!!");
-      console.log(err)
+      console.log("Error caught!!!", err);
     });
   }
 
@@ -108,7 +103,7 @@ function TokenNumberForm() {
     return (
       <>
         {
-          viewTokenData.shouldShowImage && <StyledImg imgSource={viewTokenData.imgValue} />
+          viewTokenData.imgValue !== '' && <StyledImg imgSource={viewTokenData.imgValue} />
         }
       </>
     );
