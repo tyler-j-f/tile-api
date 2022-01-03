@@ -20,7 +20,7 @@ const MetadataSetContractMethodInternal = ({contract, signer}) => {
 
   function handleSendTx() {
     console.log("handleSendTx");
-    send(10, 0, METADATA).then(response => {
+    send(10, 1, METADATA).then(response => {
       console.log("response found!!!");
       console.log(response);
       console.log("response state");
@@ -57,6 +57,7 @@ const StyledButton = styled.button`
 export const CONTRACT_ADDRESS     = "0xEc9547ABc4a8c24B99226BeE239c6E29814903Cd";
 export const OWNER_ADDRESS        = "0x4fdF8DF271e1A65B119D858eeA2A7681da8F9c15";
 export const CONTRACT_METHOD_NAME = "metadataSet";
-export const METADATA = "0x2550000000001530000000001532552042040000000000000000000000000000";
+export const METADATA = "0x0000111000022200003330000444000000000000000000000000000000000000";
+
 
 export default MetadataSetContractMethodInternal;

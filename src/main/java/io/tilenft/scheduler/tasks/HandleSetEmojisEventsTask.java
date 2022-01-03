@@ -96,7 +96,7 @@ public class HandleSetEmojisEventsTask extends AbstractMetadataSetEventsRetrieve
     return resorces[Integer.parseInt(tileEmojiIndex)];
   }
 
-  private void updateTraitValuesForEthEvent(SetMetadataEvent event, TokenFacadeDTO nft)
+  protected void updateTraitValuesForEthEvent(SetMetadataEvent event, TokenFacadeDTO nft)
       throws EthEventException, IOException {
     int tileIndex = 0;
     List<WeightlessTraitDTO> traits = nft.getWeightlessTraits();
@@ -118,7 +118,7 @@ public class HandleSetEmojisEventsTask extends AbstractMetadataSetEventsRetrieve
         case 0:
           updateTrait =
               updateTraitValue(
-                  traits, valueToUpdate, Long.valueOf(WeightlessTraitTypeConstants.TILE_1_EMOJI));
+                  traits, valueToUpdate, (long) WeightlessTraitTypeConstants.TILE_1_EMOJI);
           if (updateTrait != null) {
             traitsToUpdate.add(updateTrait);
           }
@@ -126,7 +126,7 @@ public class HandleSetEmojisEventsTask extends AbstractMetadataSetEventsRetrieve
         case 1:
           updateTrait =
               updateTraitValue(
-                  traits, valueToUpdate, Long.valueOf(WeightlessTraitTypeConstants.TILE_2_EMOJI));
+                  traits, valueToUpdate, (long) WeightlessTraitTypeConstants.TILE_2_EMOJI);
           if (updateTrait != null) {
             traitsToUpdate.add(updateTrait);
           }
@@ -134,7 +134,7 @@ public class HandleSetEmojisEventsTask extends AbstractMetadataSetEventsRetrieve
         case 2:
           updateTrait =
               updateTraitValue(
-                  traits, valueToUpdate, Long.valueOf(WeightlessTraitTypeConstants.TILE_3_EMOJI));
+                  traits, valueToUpdate, (long) WeightlessTraitTypeConstants.TILE_3_EMOJI);
           if (updateTrait != null) {
             traitsToUpdate.add(updateTrait);
           }
@@ -142,7 +142,7 @@ public class HandleSetEmojisEventsTask extends AbstractMetadataSetEventsRetrieve
         case 3:
           updateTrait =
               updateTraitValue(
-                  traits, valueToUpdate, Long.valueOf(WeightlessTraitTypeConstants.TILE_4_EMOJI));
+                  traits, valueToUpdate, (long) WeightlessTraitTypeConstants.TILE_4_EMOJI);
           if (updateTrait != null) {
             traitsToUpdate.add(updateTrait);
           }
@@ -173,19 +173,5 @@ public class HandleSetEmojisEventsTask extends AbstractMetadataSetEventsRetrieve
     }
     trait.setValue(tileEmojiValue);
     return trait;
-  }
-
-  private void updateTraitValuesForEthEvents(List<SetMetadataEvent> events)
-      throws EthEventException, IOException {
-    for (SetMetadataEvent event : events) {
-      TokenFacadeDTO nft =
-          tokenRetriever.get(
-              Long.valueOf(hexStringPrefixStripper.strip0xFromHexString(event.getTokenId())));
-      if (nft == null) {
-        System.out.println("ERROR!!! This token does not exist");
-        continue;
-      }
-      updateTraitValuesForEthEvent(event, nft);
-    }
   }
 }
