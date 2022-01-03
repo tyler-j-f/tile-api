@@ -2,7 +2,6 @@ import TileContract from '../contractsJson/Tile.json'
 import { ethers } from "ethers";
 import {useEthers} from "@usedapp/core";
 import {useEffect, useState} from "react";
-import styled from "styled-components";
 import MetadataSetContractMethodInternal
   from "./MetadataSetContractMethodInternal";
 
