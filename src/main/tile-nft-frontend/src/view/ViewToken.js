@@ -4,7 +4,7 @@ import Spinner from 'react-bootstrap/Spinner';
 
 const noop = () => {};
 
-const ViewToken = ({tokenLoadedCallback = noop}) => {
+const ViewToken = ({tokenLoadedCallback = noop, colorsToUpdate = []}) => {
 
   const [viewTokenData, setViewTokenData] = useState({
     tokenId: '',
@@ -24,8 +24,21 @@ const ViewToken = ({tokenLoadedCallback = noop}) => {
     event.preventDefault();
   }
 
+  const getUrl = () => {
+    if (colorsToUpdate.length === 0) {
+      return `http://localhost:8080/api/image/tile/get/${viewTokenData.tokenId}`;
+    }
+    let url = `http://localhost:8080/api/image/metadataSet/get/${viewTokenData.tokenId}?${getColorRequestValue(colorsToUpdate, 0)}&${getColorRequestValue(colorsToUpdate, 1)}&${getColorRequestValue(colorsToUpdate, 2)}&${getColorRequestValue(colorsToUpdate, 3)}`;
+    console.log('getUrl', url);
+    return url;
+  }
+
+  const getColorRequestValue = (colorsToUpdate, index) => {
+    return colorsToUpdate[index] ? colorsToUpdate[index] : '';
+  }
+
   const loadTokenImage = () => {
-    fetch(`http://localhost:8080/api/image/tile/get/${viewTokenData.tokenId}`, {method: 'get'})
+    fetch(getUrl(), {method: 'get'})
     .then(response => {
       console.log("loadTokenImage response", response);
       if (response.status === 200) {

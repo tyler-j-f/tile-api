@@ -55,7 +55,9 @@ const UpdateTileNft = () => {
                       tokenId={tokenId}
                       contractAddress={CONTRACT_ADDRESS}
                       dataToSet={DATA_TO_SET}
-                      dataToSetIndex={DATA_TO_SET_INDEX}/>
+                      dataToSetIndex={DATA_TO_SET_INDEX}
+                      colorsToUpdate={colorsToUpdate}
+                  />
               )}
             </>
         )}
