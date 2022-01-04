@@ -5,6 +5,7 @@ import ViewToken from "../view/ViewToken";
 import {useState} from "react";
 import ColorSelector from "./ColorSelector";
 import {Button} from "react-bootstrap";
+import styled from "styled-components";
 
 const NUMBER_OF_COLORS_TO_SET = 4;
 
@@ -37,33 +38,37 @@ const UpdateTileNft = () => {
         <ViewToken tokenLoadedCallback={handleTokenLoaded} />
         {tokenId !== '' && (
             <>
+              {colorsToUpdate.length > 0 && colorsToUpdate.map(
+                  (colorHex, index) => <StyledText>Tile {index + 1} color value: {colorHex}</StyledText>
+              )}
+              {colorsToUpdate.length < NUMBER_OF_COLORS_TO_SET &&
+                <ColorSelector onAccept={handleColorSelected} />
+              }
+              {colorsToUpdate.length > 0 &&
+                <Button onClick={handleClearSelectedColors}>
+                  <p>Clear Selected Colors</p>
+                </Button>
+              }
               <ConnectButton />
-              {account &&
-                <>
-                  {colorsToUpdate.length > 0 && colorsToUpdate.map(
-                      (colorHex, index) => <p>Tile {index + 1} color value: {colorHex}</p>
-                  )}
-                  {colorsToUpdate.length < NUMBER_OF_COLORS_TO_SET &&
-                    <ColorSelector onAccept={handleColorSelected} />
-                  }
-                  {colorsToUpdate.length > 0 &&
-                    <Button onClick={handleClearSelectedColors}>
-                      <p>Clear Selected Colors</p>
-                    </Button>
-                  }
+              {account && colorsToUpdate.length === NUMBER_OF_COLORS_TO_SET && (
                   <MetadataSetContractWrapper
                       tokenId={tokenId}
                       contractAddress={CONTRACT_ADDRESS}
                       dataToSet={DATA_TO_SET}
-                      dataToSetIndex={DATA_TO_SET_INDEX}
-                  />
-                </>
-              }
+                      dataToSetIndex={DATA_TO_SET_INDEX}/>
+              )}
             </>
         )}
       </>
   );
 }
+
+const StyledText =
+    styled.p`
+    color: white;
+    font-weight: bold;
+    `;
+
 
 export const DATA_TO_SET_INDEX = 0;
 export const DATA_TO_SET = "0x0000111000022200003330000444000000000000000000000000000000000000";
