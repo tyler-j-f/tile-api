@@ -1,8 +1,6 @@
 import {Component, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import Spinner from 'react-bootstrap/Spinner';
-import {ethers} from "ethers";
-import TileContract from "../contractsJson/Tile.json";
 
 const noop = () => {};
 
@@ -18,7 +16,7 @@ const ViewToken = ({tokenLoadedCallback = noop, colorsToUpdate = [], emojisToUpd
 
   useEffect(() => {
     if (colorsToUpdate.length > 0 || emojisToUpdate.length > 0) {
-      loadTokenImage();
+      //loadTokenImage();
     }
   }, [colorsToUpdate, emojisToUpdate]);
 

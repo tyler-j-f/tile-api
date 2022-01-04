@@ -4,25 +4,25 @@ import {useState} from "react";
 const noop = () => {};
 
 const ColorSelector = ({onAccept = noop}) => {
-  const [hex, setHex] = useState('#333');
+  const [color, setColor] = useState('#333');
 
   const handleChange = (color, event) => {
     event.preventDefault();
-    setHex(color.hex);
+    setColor(color);
   };
 
   const handleChangeComplete = (color, event) => {
     event.preventDefault();
-    setHex(color.hex);
+    setColor(color);
   };
 
   const handleOnAccept = (event) => {
     console.log('handleOnAccept', event);
     event.preventDefault();
-    onAccept(hex);
+    onAccept(color);
   };
 
-  return <PhotoshopPicker color={hex} onAccept={handleOnAccept} onChange={handleChange} onChangeComplete={handleChangeComplete} />;
+  return <PhotoshopPicker color={color} onAccept={handleOnAccept} onChange={handleChange} onChangeComplete={handleChangeComplete} />;
 }
 
 export default ColorSelector;

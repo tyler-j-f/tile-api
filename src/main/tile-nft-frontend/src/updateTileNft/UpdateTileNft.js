@@ -33,6 +33,11 @@ const UpdateTileNft = () => {
     setColorsToUpdate([]);
   }
 
+  const handleClickKeepTileNumberColor = () => {
+    console.log('handleClickKeepTileNumberColor');
+    setColorsToUpdate([...colorsToUpdate, null]);
+  }
+
   return (
       <>
         <ViewToken
@@ -42,10 +47,16 @@ const UpdateTileNft = () => {
         {tokenId !== '' && (
             <>
               {colorsToUpdate.length > 0 && colorsToUpdate.map(
-                  (colorHex, index) => <StyledText>Tile {index + 1} color value: {colorHex}</StyledText>
+                  (colorHex, index) => handleColorSelected === null ? null :<StyledText>Tile {index + 1} color value: {colorHex}</StyledText>
               )}
               {colorsToUpdate.length < NUMBER_OF_COLORS_TO_SET &&
-                <ColorSelector onAccept={handleColorSelected} />
+                  <>
+                    <StyledText>Select Tile {colorsToUpdate.length + 1} Color</StyledText>
+                    <Button onClick={handleClickKeepTileNumberColor}>
+                      <p>Keep Tile ${colorsToUpdate.length + 1} Color</p>
+                    </Button>
+                    <ColorSelector onAccept={handleColorSelected} />
+                  </>
               }
               {colorsToUpdate.length > 0 &&
                 <Button onClick={handleClearSelectedColors}>
