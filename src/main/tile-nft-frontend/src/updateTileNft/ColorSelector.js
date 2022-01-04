@@ -2,25 +2,24 @@ import {PhotoshopPicker} from "react-color";
 import {useEffect, useState} from "react";
 
 const ColorSelector = () => {
-  const [background, setBackground] = useState('#fff');
+  const [hex, setHex] = useState('#333');
 
   useEffect(() => {
-    console.log(background);
+    console.log('useEffect', hex);
     return;
-  }, []);
+  }, [hex]);
 
   const handleChange = (color, event) => {
-    console.log('handleChange', event, color);
-    setBackground(color.hex);
+    event.preventDefault();
+    setHex(color.hex);
   };
 
   const handleChangeComplete = (color, event) => {
-    console.log('handleChangeComplete', event, color);
-    setBackground(color.hex);
+    event.preventDefault();
+    setHex(color.hex);
   };
 
-
-  return <PhotoshopPicker onChange={handleChange} onChangeComplete={handleChangeComplete} />;
+  return <PhotoshopPicker color={hex} onChange={handleChange} onChangeComplete={handleChangeComplete} />;
 }
 
 export default ColorSelector;
