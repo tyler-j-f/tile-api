@@ -15,6 +15,7 @@ const ViewToken = ({tokenLoadedCallback = noop, colorsToUpdate = [], emojisToUpd
   });
 
   useEffect(() => {
+    console.log('ViewToken useEffect', colorsToUpdate, emojisToUpdate);
     if (colorsToUpdate.length > 0 || emojisToUpdate.length > 0) {
       //loadTokenImage();
     }
@@ -41,12 +42,17 @@ const ViewToken = ({tokenLoadedCallback = noop, colorsToUpdate = [], emojisToUpd
   }
 
   const getColorRequestValue = (colorsToUpdate, tileNumber) => {
-    let colorValue = colorsToUpdate[tileNumber - 1] != null ? stripHashTagFromHexColorValue(colorsToUpdate[tileNumber - 1]) : '';
+    let colorToUpdate = colorsToUpdate[tileNumber - 1];
+    console.log('getColorRequestValue', colorToUpdate);
+    let colorValue = colorToUpdate != null ? getRGBValue(colorToUpdate)  : '';
     return `tile${tileNumber}Color=${colorValue}`;
   }
 
-  const stripHashTagFromHexColorValue = (hexColorValue) => {
-    return hexColorValue.substring(1, hexColorValue.length);
+  const getRGBValue = (colorToUpdate) => {
+    console.log('getColorRequestValue start', colorToUpdate);
+    let rgbValue = colorToUpdate.r + colorToUpdate.g + colorToUpdate.b;
+    console.log('getColorRequestValue end', rgbValue);
+    return rgbValue;
   }
 
   const loadTokenImage = () => {

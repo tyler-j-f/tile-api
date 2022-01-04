@@ -21,10 +21,10 @@ const UpdateTileNft = () => {
     }
   }
 
-  const handleColorSelected = (color) => {
-    console.log('handleColorSelected', color);
+  const handleColorSelected = (colorData) => {
+    console.log('handleColorSelected', colorData);
     if (colorsToUpdate.length < NUMBER_OF_COLORS_TO_SET) {
-      setColorsToUpdate([...colorsToUpdate, color]);
+      setColorsToUpdate([...colorsToUpdate, colorData]);
     }
   }
 
@@ -47,13 +47,13 @@ const UpdateTileNft = () => {
         {tokenId !== '' && (
             <>
               {colorsToUpdate.length > 0 && colorsToUpdate.map(
-                  (colorHex, index) => handleColorSelected === null ? null :<StyledText>Tile {index + 1} color value: {colorHex}</StyledText>
+                  (colorData, index) => colorData === null ? null :<StyledText>Tile {index + 1} color value: {colorData.hex}</StyledText>
               )}
               {colorsToUpdate.length < NUMBER_OF_COLORS_TO_SET &&
                   <>
                     <StyledText>Select Tile {colorsToUpdate.length + 1} Color</StyledText>
                     <Button onClick={handleClickKeepTileNumberColor}>
-                      <p>Keep Tile ${colorsToUpdate.length + 1} Color</p>
+                      <p>Keep Tile {colorsToUpdate.length + 1} Color</p>
                     </Button>
                     <ColorSelector onAccept={handleColorSelected} />
                   </>
