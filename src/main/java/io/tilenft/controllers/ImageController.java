@@ -8,6 +8,7 @@ import io.tilenft.eth.token.traits.weighted.WeightedTraitTypeConstants;
 import io.tilenft.eth.token.traits.weightless.WeightlessTraitTypeConstants;
 import io.tilenft.image.ImageException;
 import io.tilenft.image.ImageResourcesLoader;
+import io.tilenft.image.MetadataSetDTO;
 import io.tilenft.image.drawers.ImageDrawer;
 import io.tilenft.sql.dtos.WeightlessTraitDTO;
 import java.io.IOException;
@@ -19,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -34,23 +36,131 @@ public class ImageController extends BaseController {
   @GetMapping(value = "tile/get/{tokenId}", produces = MediaType.IMAGE_PNG_VALUE)
   public void getTokenImage(HttpServletResponse response, @PathVariable Long tokenId)
       throws ImageException, IOException {
+    getImage(response, tokenId);
+  }
+
+  @GetMapping(value = "metadataSet/get/{tokenId}", produces = MediaType.IMAGE_PNG_VALUE)
+  public void getMetadataSetImage(
+      HttpServletResponse response,
+      @PathVariable Long tokenId,
+      @RequestParam(required = false, defaultValue = "") String tile1Color,
+      @RequestParam(required = false, defaultValue = "") String tile2Color,
+      @RequestParam(required = false, defaultValue = "") String tile3Color,
+      @RequestParam(required = false, defaultValue = "") String tile4Color,
+      @RequestParam(required = false, defaultValue = "") String tile1Emoji,
+      @RequestParam(required = false, defaultValue = "") String tile2Emoji,
+      @RequestParam(required = false, defaultValue = "") String tile3Emoji,
+      @RequestParam(required = false, defaultValue = "") String tile41Emoji)
+      throws ImageException, IOException {
+    getImage(
+        response,
+        tokenId,
+        MetadataSetDTO.builder()
+            .tile1Color(tile1Color)
+            .tile2Color(tile2Color)
+            .tile3Color(tile3Color)
+            .tile4Color(tile4Color)
+            .tile1Emoji(tile1Emoji)
+            .tile2Emoji(tile2Emoji)
+            .tile3Emoji(tile3Emoji)
+            .tile4Emoji(tile41Emoji)
+            .build());
+    return;
+  }
+
+  @GetMapping(value = "contractImage/get/{contractImageId}", produces = MediaType.IMAGE_PNG_VALUE)
+  public void getContractImage(HttpServletResponse response, @PathVariable Long contractImageId) {
+    return;
+  }
+
+  @GetMapping(value = "saleImage/get/{saleImageId}", produces = MediaType.IMAGE_PNG_VALUE)
+  public void getSaleImage(HttpServletResponse response, @PathVariable Long saleImageId) {
+    return;
+  }
+
+  private void getImage(HttpServletResponse response, Long tokenId)
+      throws ImageException, IOException {
+    getImage(response, tokenId, null);
+  }
+
+  private void getImage(HttpServletResponse response, Long tokenId, MetadataSetDTO metadataSetDTO)
+      throws ImageException, IOException {
     TokenFacadeDTO nft = tokenRetriever.get(tokenId);
     if (nft == null) {
       response.setStatus(HttpServletResponse.SC_NOT_FOUND);
       System.out.println("Token id not able to be found. TokenId: " + tokenId);
       return;
     }
-    String[] emojiFileNames = getEmojiFileNames(nft);
     response.setContentType(MediaType.IMAGE_PNG_VALUE);
+    List<String> tileColors = getTileColors(nft);
+    if (wasTileColorChangeRequested(metadataSetDTO)) {
+      updateTileColors(tileColors, metadataSetDTO);
+    }
+    String[] emojiFileNames = getEmojiFileNames(nft);
+    if (wasTileEmojiChangeRequested(metadataSetDTO)) {
+      updateTileEmojis(emojiFileNames, metadataSetDTO);
+    }
     byte[] byteArray =
         imageDrawer.drawImage(
             tokenId,
             getOverallRarityScore(nft.getWeightlessTraits()),
             imageResourcesLoader.getResourcesByName(emojiFileNames),
-            getTileColors(nft),
+            tileColors,
             getIsTokenBurnt(nft));
     writeBufferedImageToOutput(byteArray, response);
     return;
+  }
+
+  private boolean wasTileColorChangeRequested(MetadataSetDTO metadataSetDTO) {
+    return metadataSetDTO.getTile1Color() != null
+        || metadataSetDTO.getTile2Color() != null
+        || metadataSetDTO.getTile3Color() != null
+        || metadataSetDTO.getTile4Color() != null;
+  }
+
+  private void updateTileColors(List<String> tileColors, MetadataSetDTO metadataSetDTO) {
+    String tile1Color = metadataSetDTO.getTile1Color();
+    if (!tile1Color.equals("")) {
+      tileColors.set(1, tile1Color);
+    }
+    String tile2Color = metadataSetDTO.getTile2Color();
+    if (!tile2Color.equals("")) {
+      tileColors.set(2, tile2Color);
+    }
+    String tile3Color = metadataSetDTO.getTile3Color();
+    if (!tile3Color.equals("")) {
+      tileColors.set(3, tile3Color);
+    }
+    String tile4Color = metadataSetDTO.getTile4Color();
+    if (!tile4Color.equals("")) {
+      tileColors.set(4, tile4Color);
+    }
+  }
+
+  private void updateTileEmojis(String[] emojiFileNames, MetadataSetDTO metadataSetDTO) {
+    String tile1Emoji = metadataSetDTO.getTile1Emoji();
+    if (!tile1Emoji.equals("")) {
+      emojiFileNames[0] = tile1Emoji;
+    }
+    String tile2Emoji = metadataSetDTO.getTile2Emoji();
+    if (!tile2Emoji.equals("")) {
+      emojiFileNames[1] = tile2Emoji;
+    }
+    String tile3Emoji = metadataSetDTO.getTile3Emoji();
+    if (!tile3Emoji.equals("")) {
+      emojiFileNames[2] = tile3Emoji;
+    }
+    String tile4Emoji = metadataSetDTO.getTile4Color();
+    if (!tile4Emoji.equals("")) {
+      emojiFileNames[3] = tile4Emoji;
+    }
+  }
+
+  private boolean wasTileEmojiChangeRequested(MetadataSetDTO metadataSetDTO) {
+    return metadataSetDTO.getTile1Emoji() != null
+        || metadataSetDTO.getTile2Emoji() != null
+        || metadataSetDTO.getTile3Emoji() != null
+        || metadataSetDTO.getTile4Emoji() != null;
   }
 
   private Long getOverallRarityScore(List<WeightlessTraitDTO> weightlessTraits) {
@@ -94,16 +204,6 @@ public class ImageController extends BaseController {
       }
     }
     return names;
-  }
-
-  @GetMapping(value = "contractImage/get/{contractImageId}", produces = MediaType.IMAGE_PNG_VALUE)
-  public void getContractImage(HttpServletResponse response, @PathVariable Long contractImageId) {
-    return;
-  }
-
-  @GetMapping(value = "saleImage/get/{saleImageId}", produces = MediaType.IMAGE_PNG_VALUE)
-  public void getSaleImage(HttpServletResponse response, @PathVariable Long saleImageId) {
-    return;
   }
 
   private void writeBufferedImageToOutput(byte[] pixelArray, HttpServletResponse response)
