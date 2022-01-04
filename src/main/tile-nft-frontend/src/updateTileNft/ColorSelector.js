@@ -1,13 +1,10 @@
 import {PhotoshopPicker} from "react-color";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
-const ColorSelector = () => {
+const noop = () => {};
+
+const ColorSelector = ({onAccept = noop}) => {
   const [hex, setHex] = useState('#333');
-
-  useEffect(() => {
-    console.log('useEffect', hex);
-    return;
-  }, [hex]);
 
   const handleChange = (color, event) => {
     event.preventDefault();
@@ -19,7 +16,13 @@ const ColorSelector = () => {
     setHex(color.hex);
   };
 
-  return <PhotoshopPicker color={hex} onChange={handleChange} onChangeComplete={handleChangeComplete} />;
+  const handleOnAccept = (event) => {
+    console.log('handleOnAccept', event);
+    event.preventDefault();
+    onAccept(hex);
+  };
+
+  return <PhotoshopPicker color={hex} onAccept={handleOnAccept} onChange={handleChange} onChangeComplete={handleChangeComplete} />;
 }
 
 export default ColorSelector;

@@ -4,16 +4,32 @@ import {useEthers} from "@usedapp/core";
 import ViewToken from "../view/ViewToken";
 import {useState} from "react";
 import ColorSelector from "./ColorSelector";
+import {Button} from "react-bootstrap";
+
+const NUMBER_OF_COLORS_TO_SET = 4;
 
 const UpdateTileNft = () => {
   const {account} = useEthers();
   const [tokenId, setTokenId] = useState('');
+  const [colorsToUpdate, setColorsToUpdate] = useState([]);
 
   const handleTokenLoaded = (tokenId) => {
     if (tokenId) {
       setTokenId(tokenId);
       console.log("Token id found in callback", tokenId)
     }
+  }
+
+  const handleColorSelected = (color) => {
+    console.log('handleColorSelected', color);
+    if (colorsToUpdate.length < NUMBER_OF_COLORS_TO_SET) {
+      setColorsToUpdate([...colorsToUpdate, color]);
+    }
+  }
+
+  const handleClearSelectedColors = () => {
+    console.log('handleClearSelectedColors');
+    setColorsToUpdate([]);
   }
 
   return (
@@ -24,7 +40,17 @@ const UpdateTileNft = () => {
               <ConnectButton />
               {account &&
                 <>
-                  <ColorSelector />
+                  {colorsToUpdate.length > 0 && colorsToUpdate.map(
+                      (colorHex, index) => <p>Tile {index + 1} color value: {colorHex}</p>
+                  )}
+                  {colorsToUpdate.length < NUMBER_OF_COLORS_TO_SET &&
+                    <ColorSelector onAccept={handleColorSelected} />
+                  }
+                  {colorsToUpdate.length > 0 &&
+                    <Button onClick={handleClearSelectedColors}>
+                      <p>Clear Selected Colors</p>
+                    </Button>
+                  }
                   <MetadataSetContractWrapper
                       tokenId={tokenId}
                       contractAddress={CONTRACT_ADDRESS}
