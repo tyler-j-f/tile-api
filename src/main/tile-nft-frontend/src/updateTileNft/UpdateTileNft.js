@@ -35,7 +35,10 @@ const UpdateTileNft = () => {
 
   return (
       <>
-        <ViewToken tokenLoadedCallback={handleTokenLoaded} />
+        <ViewToken
+            tokenLoadedCallback={handleTokenLoaded}
+            colorsToUpdate={colorsToUpdate}
+        />
         {tokenId !== '' && (
             <>
               {colorsToUpdate.length > 0 && colorsToUpdate.map(
@@ -56,7 +59,6 @@ const UpdateTileNft = () => {
                       contractAddress={CONTRACT_ADDRESS}
                       dataToSet={DATA_TO_SET}
                       dataToSetIndex={DATA_TO_SET_INDEX}
-                      colorsToUpdate={colorsToUpdate}
                   />
               )}
             </>

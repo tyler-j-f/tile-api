@@ -1,10 +1,12 @@
-import {Component, useState} from 'react';
+import {Component, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import Spinner from 'react-bootstrap/Spinner';
+import {ethers} from "ethers";
+import TileContract from "../contractsJson/Tile.json";
 
 const noop = () => {};
 
-const ViewToken = ({tokenLoadedCallback = noop, colorsToUpdate = []}) => {
+const ViewToken = ({tokenLoadedCallback = noop, colorsToUpdate = [], emojisToUpdate = []}) => {
 
   const [viewTokenData, setViewTokenData] = useState({
     tokenId: '',
@@ -13,6 +15,12 @@ const ViewToken = ({tokenLoadedCallback = noop, colorsToUpdate = []}) => {
     isGeneralError: false,
     imgValue: ''
   });
+
+  useEffect(() => {
+    if (colorsToUpdate.length > 0 || emojisToUpdate.length > 0) {
+      loadTokenImage();
+    }
+  }, [colorsToUpdate, emojisToUpdate]);
 
   const handleChange = (event) => {
     setViewTokenData({...viewTokenData, tokenId: event.target.value})
@@ -25,16 +33,22 @@ const ViewToken = ({tokenLoadedCallback = noop, colorsToUpdate = []}) => {
   }
 
   const getUrl = () => {
+    console.log("getUrl", colorsToUpdate, colorsToUpdate.length)
     if (colorsToUpdate.length === 0) {
       return `http://localhost:8080/api/image/tile/get/${viewTokenData.tokenId}`;
     }
-    let url = `http://localhost:8080/api/image/metadataSet/get/${viewTokenData.tokenId}?${getColorRequestValue(colorsToUpdate, 0)}&${getColorRequestValue(colorsToUpdate, 1)}&${getColorRequestValue(colorsToUpdate, 2)}&${getColorRequestValue(colorsToUpdate, 3)}`;
+    let url = `http://localhost:8080/api/image/metadataSet/get/${viewTokenData.tokenId}?${getColorRequestValue(colorsToUpdate, 1)}&${getColorRequestValue(colorsToUpdate, 2)}&${getColorRequestValue(colorsToUpdate, 3)}&${getColorRequestValue(colorsToUpdate, 4)}`;
     console.log('getUrl', url);
     return url;
   }
 
-  const getColorRequestValue = (colorsToUpdate, index) => {
-    return colorsToUpdate[index] ? colorsToUpdate[index] : '';
+  const getColorRequestValue = (colorsToUpdate, tileNumber) => {
+    let colorValue = colorsToUpdate[tileNumber - 1] != null ? stripHashTagFromHexColorValue(colorsToUpdate[tileNumber - 1]) : '';
+    return `tile${tileNumber}Color=${colorValue}`;
+  }
+
+  const stripHashTagFromHexColorValue = (hexColorValue) => {
+    return hexColorValue.substring(1, hexColorValue.length);
   }
 
   const loadTokenImage = () => {
