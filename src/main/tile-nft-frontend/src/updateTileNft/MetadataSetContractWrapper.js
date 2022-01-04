@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import MetadataSetContract
   from "./MetadataSetContract";
 
-function MetadataSetContractWrapper() {
+const MetadataSetContractWrapper = ({contractAddress, tokenId, dataToSetIndex, dataToSet}) => {
   const { library: provider } = useEthers()
   const [tileContract, setTileContract] = useState(null);
   const [signer, setSigner] = useState(null);
@@ -13,7 +13,7 @@ function MetadataSetContractWrapper() {
   useEffect(() => {
     if (provider) {
       setTileContract(
-          new ethers.Contract(CONTRACT_ADDRESS, TileContract.abi, provider)
+          new ethers.Contract(contractAddress, TileContract.abi, provider)
       );
       // The MetaMask plugin also allows signing transactions to
       // send ether and pay to change state within the blockchain.
@@ -25,11 +25,9 @@ function MetadataSetContractWrapper() {
 
   return (
       <>
-        {tileContract && signer && <MetadataSetContract contract={tileContract} />}
+        {tileContract && signer && tokenId && <MetadataSetContract contract={tileContract} tokenId={tokenId} dataToSetIndex={dataToSetIndex} dataToSet={dataToSet} />}
       </>
   );
 }
-
-export const CONTRACT_ADDRESS     = "0xEc9547ABc4a8c24B99226BeE239c6E29814903Cd";
 
 export default MetadataSetContractWrapper;
