@@ -36,9 +36,9 @@ public class Scheduler {
       handleResetSqlTask.execute();
       hasSqlTablesBeenReset = true;
     }
-    handleMintEventsTask.execute();
-    handleSetColorsEventsTask.execute();
-    handleSetEmojisEventsTask.execute();
-    handleMergeEventsTask.execute();
+    //    handleMintEventsTask.execute();
+    //    handleSetColorsEventsTask.execute();
+    //    handleSetEmojisEventsTask.execute();
+    //    handleMergeEventsTask.execute();
   }
 }

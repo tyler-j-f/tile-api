@@ -93,13 +93,18 @@ public class ImageController extends BaseController {
     }
     response.setContentType(MediaType.IMAGE_PNG_VALUE);
     List<String> tileColors = getTileColors(nft);
-    if (wasTileColorChangeRequested(metadataSetDTO)) {
+    System.out.println("metadataSetDTO: " + metadataSetDTO);
+    System.out.println("tileColors: " + tileColors);
+    boolean shouldUpdateColors = wasTileColorChangeRequested(metadataSetDTO);
+    System.out.println("shouldUpdateColors" + metadataSetDTO);
+    if (shouldUpdateColors) {
       updateTileColors(tileColors, metadataSetDTO);
     }
+    System.out.println("Updated Colors: " + tileColors);
     String[] emojiFileNames = getEmojiFileNames(nft);
-    if (wasTileEmojiChangeRequested(metadataSetDTO)) {
-      updateTileEmojis(emojiFileNames, metadataSetDTO);
-    }
+    //    if (wasTileEmojiChangeRequested(metadataSetDTO)) {
+    //      updateTileEmojis(emojiFileNames, metadataSetDTO);
+    //    }
     byte[] byteArray =
         imageDrawer.drawImage(
             tokenId,
@@ -122,19 +127,27 @@ public class ImageController extends BaseController {
   private void updateTileColors(List<String> tileColors, MetadataSetDTO metadataSetDTO) {
     String tile1Color = metadataSetDTO.getTile1Color();
     if (!tile1Color.equals("")) {
-      tileColors.set(1, tile1Color);
+      tileColors.set(0, tile1Color.substring(0, 3));
+      tileColors.set(1, tile1Color.substring(3, 6));
+      tileColors.set(2, tile1Color.substring(6, 9));
     }
     String tile2Color = metadataSetDTO.getTile2Color();
     if (!tile2Color.equals("")) {
-      tileColors.set(2, tile2Color);
+      tileColors.set(3, tile2Color.substring(0, 3));
+      tileColors.set(4, tile2Color.substring(3, 6));
+      tileColors.set(5, tile2Color.substring(6, 9));
     }
     String tile3Color = metadataSetDTO.getTile3Color();
     if (!tile3Color.equals("")) {
-      tileColors.set(3, tile3Color);
+      tileColors.set(6, tile3Color.substring(0, 3));
+      tileColors.set(7, tile3Color.substring(3, 6));
+      tileColors.set(8, tile3Color.substring(6, 9));
     }
     String tile4Color = metadataSetDTO.getTile4Color();
     if (!tile4Color.equals("")) {
-      tileColors.set(4, tile4Color);
+      tileColors.set(9, tile4Color.substring(0, 3));
+      tileColors.set(10, tile4Color.substring(3, 6));
+      tileColors.set(11, tile4Color.substring(6, 9));
     }
   }
 
