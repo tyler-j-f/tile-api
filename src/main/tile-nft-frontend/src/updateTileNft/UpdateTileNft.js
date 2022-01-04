@@ -1,7 +1,7 @@
 import ConnectButton from "./ConnectButton";
-import MetadataSetContractMethod from "./MetadataSetContractMethod";
+import MetadataSetContractWrapper from "./MetadataSetContractWrapper";
 import {useEthers} from "@usedapp/core";
-import TokenNumberForm from "../view/TokenNumberForm";
+import ViewToken from "../view/ViewToken";
 import {useState} from "react";
 
 const UpdateTileNft = () => {
@@ -17,11 +17,11 @@ const UpdateTileNft = () => {
 
   return (
       <>
-        <TokenNumberForm tokenLoadedCallback={handleTokenLoaded} />
+        <ViewToken tokenLoadedCallback={handleTokenLoaded} />
         {tokenId !== '' && (
             <>
               <ConnectButton />
-              {account && <MetadataSetContractMethod />}
+              {account && <MetadataSetContractWrapper />}
             </>
         )}
       </>

@@ -1,12 +1,12 @@
 import React from 'react'
 import styled from 'styled-components';
-import TokenNumberForm from "../view/TokenNumberForm";
+import ViewToken from "../view/ViewToken";
 
 const ViewPage = () => {
   return (
       <StyledPage>
         <Heading className="animate__animated animate__fadeInLeft">View TileNFT</Heading>
-        <TokenNumberForm />
+        <ViewToken />
       </StyledPage>
   )
 }

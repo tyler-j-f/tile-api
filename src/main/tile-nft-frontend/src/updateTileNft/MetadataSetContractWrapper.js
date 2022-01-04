@@ -2,10 +2,10 @@ import TileContract from '../contractsJson/Tile.json'
 import { ethers } from "ethers";
 import {useEthers} from "@usedapp/core";
 import {useEffect, useState} from "react";
-import MetadataSetContractMethodInternal
-  from "./MetadataSetContractMethodInternal";
+import MetadataSetContract
+  from "./MetadataSetContract";
 
-function MetadataSetContractMethod() {
+function MetadataSetContractWrapper() {
   const { library: provider } = useEthers()
   const [tileContract, setTileContract] = useState(null);
   const [signer, setSigner] = useState(null);
@@ -25,11 +25,11 @@ function MetadataSetContractMethod() {
 
   return (
       <>
-        {tileContract && signer && <MetadataSetContractMethodInternal contract={tileContract} />}
+        {tileContract && signer && <MetadataSetContract contract={tileContract} />}
       </>
   );
 }
 
 export const CONTRACT_ADDRESS     = "0xEc9547ABc4a8c24B99226BeE239c6E29814903Cd";
 
-export default MetadataSetContractMethod;
+export default MetadataSetContractWrapper;

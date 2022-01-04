@@ -4,7 +4,7 @@ import styled from "styled-components";
 import {Button} from "react-bootstrap";
 import { parseEther } from "@ethersproject/units";
 
-const MetadataSetContractMethodInternal = ({contract}) => {
+const MetadataSetContract = ({contract}) => {
   const { state, send } = useContractFunction(contract, 'metadataSet', {value: parseEther('.1')});
 
   function handleSendTx() {
@@ -33,4 +33,4 @@ export const CONTRACT_METHOD_NAME = "metadataSet";
 export const METADATA = "0x0000111000022200003330000444000000000000000000000000000000000000";
 
 
-export default MetadataSetContractMethodInternal;
+export default MetadataSetContract;

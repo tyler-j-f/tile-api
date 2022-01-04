@@ -2,7 +2,9 @@ import {Component, useState} from 'react';
 import styled from 'styled-components';
 import Spinner from 'react-bootstrap/Spinner';
 
-const TokenNumberForm = ({tokenLoadedCallback}) => {
+const noop = () => {};
+
+const ViewToken = ({tokenLoadedCallback = noop}) => {
 
   const [viewTokenData, setViewTokenData] = useState({
     tokenId: '',
@@ -144,4 +146,4 @@ const StyledLabel =
       color: #F8F8FF;
       `;
 
-export default TokenNumberForm;
+export default ViewToken;
