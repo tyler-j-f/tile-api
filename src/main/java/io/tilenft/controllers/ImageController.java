@@ -13,6 +13,7 @@ import io.tilenft.image.drawers.ImageDrawer;
 import io.tilenft.sql.dtos.WeightlessTraitDTO;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,18 +94,13 @@ public class ImageController extends BaseController {
     }
     response.setContentType(MediaType.IMAGE_PNG_VALUE);
     List<String> tileColors = getTileColors(nft);
-    System.out.println("metadataSetDTO: " + metadataSetDTO);
-    System.out.println("tileColors: " + tileColors);
-    boolean shouldUpdateColors = wasTileColorChangeRequested(metadataSetDTO);
-    System.out.println("shouldUpdateColors" + metadataSetDTO);
-    if (shouldUpdateColors) {
+    if (wasTileColorChangeRequested(metadataSetDTO)) {
       updateTileColors(tileColors, metadataSetDTO);
     }
-    System.out.println("Updated Colors: " + tileColors);
     String[] emojiFileNames = getEmojiFileNames(nft);
-    //    if (wasTileEmojiChangeRequested(metadataSetDTO)) {
-    //      updateTileEmojis(emojiFileNames, metadataSetDTO);
-    //    }
+    if (wasTileEmojiChangeRequested(metadataSetDTO)) {
+      updateTileEmojis(emojiFileNames, metadataSetDTO);
+    }
     byte[] byteArray =
         imageDrawer.drawImage(
             tokenId,
@@ -152,6 +148,11 @@ public class ImageController extends BaseController {
   }
 
   private void updateTileEmojis(String[] emojiFileNames, MetadataSetDTO metadataSetDTO) {
+    System.out.println(
+        "updateTileEmojis called. emojiFileNames: "
+            + Arrays.toString(emojiFileNames)
+            + ", metadataSetDTO: "
+            + metadataSetDTO);
     String tile1Emoji = metadataSetDTO.getTile1Emoji();
     if (!tile1Emoji.equals("")) {
       emojiFileNames[0] = tile1Emoji;

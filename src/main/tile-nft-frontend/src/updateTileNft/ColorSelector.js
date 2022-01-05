@@ -27,7 +27,6 @@ const ColorSelector = ({onAccept = noop}) => {
   };
 
   const handleOnAccept = (event) => {
-    console.log('handleOnAccept', event);
     event.preventDefault();
     onAccept(colorData);
   };

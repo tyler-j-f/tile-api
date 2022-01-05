@@ -17,24 +17,21 @@ const UpdateTileNft = () => {
   const handleTokenLoaded = (tokenId) => {
     if (tokenId) {
       setTokenId(tokenId);
-      console.log("Token id found in callback", tokenId)
+      console.log("Token id found to update. tokenId: ", tokenId)
     }
   }
 
   const handleColorSelected = (colorData) => {
-    console.log('handleColorSelected', colorData);
     if (colorsToUpdate.length < NUMBER_OF_COLORS_TO_SET) {
       setColorsToUpdate([...colorsToUpdate, colorData]);
     }
   }
 
   const handleClearSelectedColors = () => {
-    console.log('handleClearSelectedColors');
     setColorsToUpdate([]);
   }
 
   const handleClickKeepTileNumberColor = () => {
-    console.log('handleClickKeepTileNumberColor');
     setColorsToUpdate([...colorsToUpdate, null]);
   }
 
