@@ -30,9 +30,15 @@ const UpdateTileNft = () => {
     setColorsToUpdate([]);
   }
 
-  const handleClickKeepTileNumberColor = () => {
+  const handleKeepTileColor = () => {
+    if (colorsToUpdate.length === NUMBER_OF_COLORS_TO_SET - 1 && areAllEntriesNull(colorsToUpdate)) {
+      setColorsToUpdate([]);
+      return;
+    }
     setColorsToUpdate([...colorsToUpdate, null]);
   }
+
+  const areAllEntriesNull = (array) => array.every(val => val === null)
 
   return (
       <>
@@ -48,7 +54,7 @@ const UpdateTileNft = () => {
               {colorsToUpdate.length < NUMBER_OF_COLORS_TO_SET &&
                   <>
                     <StyledText>Select Tile {colorsToUpdate.length + 1} Color</StyledText>
-                    <Button onClick={handleClickKeepTileNumberColor}>
+                    <Button onClick={handleKeepTileColor}>
                       <p>Keep Tile {colorsToUpdate.length + 1} Color</p>
                     </Button>
                     <ColorSelector onAccept={handleColorSelected} />
