@@ -9,8 +9,45 @@ const MetadataSetContractWrapper = ({contractAddress, tokenId, dataToSetIndex, d
   const { library: provider } = useEthers()
   const [tileContract, setTileContract] = useState(null);
   const [signer, setSigner] = useState(null);
+  const [currentColorAttributes, setCurrentColorAttributes] = useState([]);
 
-  useEffect(() => {
+  useEffect(() => {loadTokenAttributes();}, []);
+
+  const loadTokenAttributes = () => {
+    fetch(`http://localhost:8080/api/tiles/get/${tokenId}`, {method: 'get'})
+    .then(response => {
+      if (response.status === 200) {
+        return response.json();
+      }
+      return null;
+    })
+    .then(json => {
+      if (json === null) {
+        let errorMessage = 'Token json is null';
+        console.log(errorMessage);
+        throw errorMessage;
+      }
+      handleAttributesJson(json.attributes);
+    })
+    .then(() => {
+      handleProviderAndSigner();
+    })
+    .catch(err => {
+      console.log("Error caught!!!", err);
+    });
+  }
+
+  const handleAttributesJson = (attributes) => {
+    console.log('tiles/get attributes found. attributes: ', attributes);
+    let filteredAttributes = attributes.filter(attribute => {
+      const tileColorRegex = /Tile \d Color/;
+      return attribute.trait_type.match(tileColorRegex);
+    })
+    console.log('filteredAttributes:', filteredAttributes)
+    setCurrentColorAttributes(currentColorAttributes);
+  }
+
+  const handleProviderAndSigner = () => {
     if (provider) {
       setTileContract(
           new ethers.Contract(contractAddress, TileContract.abi, provider)
@@ -20,8 +57,7 @@ const MetadataSetContractWrapper = ({contractAddress, tokenId, dataToSetIndex, d
       // For this, you need the account signer...
       setSigner(provider.getSigner());
     }
-    return;
-  }, []);
+  }
 
   return (
       <>

@@ -62,8 +62,7 @@ const ViewToken = ({tokenLoadedCallback = noop, colorsToUpdate = [], emojisToUpd
     }
   }
 
-
-    const loadTokenImage = () => {
+  const loadTokenImage = () => {
     fetch(getUrl(), {method: 'get'})
     .then(response => {
       if (response.status === 200) {
