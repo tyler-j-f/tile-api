@@ -116,10 +116,10 @@ public class ImageController extends BaseController {
 
   private boolean wasTileColorChangeRequested(MetadataSetDTO metadataSetDTO) {
     return metadataSetDTO != null
-        && (metadataSetDTO.getTile1Color() != null
-            || metadataSetDTO.getTile2Color() != null
-            || metadataSetDTO.getTile3Color() != null
-            || metadataSetDTO.getTile4Color() != null);
+        && (!metadataSetDTO.getTile1Color().equals("")
+            || !metadataSetDTO.getTile2Color().equals("")
+            || !metadataSetDTO.getTile3Color().equals("")
+            || !metadataSetDTO.getTile4Color().equals(""));
   }
 
   private void updateTileColors(List<String> tileColors, MetadataSetDTO metadataSetDTO) {
@@ -175,10 +175,10 @@ public class ImageController extends BaseController {
 
   private boolean wasTileEmojiChangeRequested(MetadataSetDTO metadataSetDTO) {
     return metadataSetDTO != null
-        && (metadataSetDTO.getTile1Emoji() != null
-            || metadataSetDTO.getTile2Emoji() != null
-            || metadataSetDTO.getTile3Emoji() != null
-            || metadataSetDTO.getTile4Emoji() != null);
+        && (!metadataSetDTO.getTile1Emoji().equals("")
+            || !metadataSetDTO.getTile2Emoji().equals("")
+            || !metadataSetDTO.getTile3Emoji().equals("")
+            || !metadataSetDTO.getTile4Emoji().equals(""));
   }
 
   private Long getOverallRarityScore(List<WeightlessTraitDTO> weightlessTraits) {
