@@ -66,7 +66,7 @@ const MetadataSetContractWrapper = ({contractAddress, tokenId, dataToSetIndex, c
 
   const getDataToSet = () => {
     const zeros = '0000000000000000000000000000'
-    let output = `${getTileColorDataToSet(1)}${getTileColorDataToSet(2)}${getTileColorDataToSet(3)}${getTileColorDataToSet(4)}${zeros}`;
+    let output = `0x${getTileColorDataToSet(1)}${getTileColorDataToSet(2)}${getTileColorDataToSet(3)}${getTileColorDataToSet(4)}${zeros}`;
     console.log('dataToSet output', output);
     return output;
   }

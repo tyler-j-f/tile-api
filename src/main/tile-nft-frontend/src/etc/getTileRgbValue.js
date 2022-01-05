@@ -25,6 +25,4 @@ const getPixelSubRgbValue = (subPixelValue) => {
   }
 }
 
-1030080081640591180021531411030080080000000000000000000000000000
-
 export default getTileRgbValue

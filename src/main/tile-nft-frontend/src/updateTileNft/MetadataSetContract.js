@@ -9,7 +9,7 @@ const MetadataSetContract = ({contract, tokenId, dataToSetIndex, dataToSet}) => 
 
   function handleSendTx() {
     send(tokenId, dataToSetIndex, dataToSet).then(response => {
-      console.log("response found!!!", response, state);
+      console.log("response found!!!", tokenId, dataToSetIndex, dataToSet, response, state);
     }).catch(e => {
       console.log("ERROR CAUGHT!!!", e);
     });
