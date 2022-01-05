@@ -1,6 +1,7 @@
 import {Component, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import Spinner from 'react-bootstrap/Spinner';
+import {getTileRgbValue} from "../etc/getTileRgbValue";
 
 const noop = () => {};
 
@@ -37,29 +38,6 @@ const ViewToken = ({tokenLoadedCallback = noop, colorsToUpdate = [], emojisToUpd
       return `http://localhost:8080/api/image/tile/get/${viewTokenData.tokenId}`;
     }
     return `http://localhost:8080/api/image/metadataSet/get/${viewTokenData.tokenId}?${getTileRgbValue(colorsToUpdate, 1)}&${getTileRgbValue(colorsToUpdate, 2)}&${getTileRgbValue(colorsToUpdate, 3)}&${getTileRgbValue(colorsToUpdate, 4)}`;
-  }
-
-  const getTileRgbValue = (colorsToUpdate, tileNumber) => {
-    let colorToUpdate = colorsToUpdate[tileNumber - 1];
-    let valueBaseString = `tile${tileNumber}Color=`;
-    if (!colorToUpdate) {
-      return valueBaseString;
-    }
-    let rgbValue = `${getPixelSubRgbValue(colorToUpdate.r)}${getPixelSubRgbValue(colorToUpdate.g)}${getPixelSubRgbValue(colorToUpdate.b)}`;
-    return `${valueBaseString}${rgbValue}`;
-  }
-
-  const getPixelSubRgbValue = (subPixelValue) => {
-    switch (subPixelValue.toString().length) {
-      case 0:
-        return null;
-      case 1:
-        return `00${subPixelValue}`;
-      case 2:
-        return `0${subPixelValue}`;
-      case 3:
-        return subPixelValue;
-    }
   }
 
   const loadTokenImage = () => {
