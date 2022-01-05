@@ -11,12 +11,14 @@ const ViewToken = ({tokenLoadedCallback = noop, colorsToUpdate = [], emojisToUpd
     isLoading: false,
     isInvalidTokenNumber: false,
     isGeneralError: false,
-    imgValue: ''
+    imgValue: '',
+    loadedColorsToUpdate: [],
+    loadedEmojisToUpdate: []
   });
 
   useEffect(() => {
     console.log('ViewToken useEffect', colorsToUpdate, emojisToUpdate);
-    if (colorsToUpdate.length > 0 || emojisToUpdate.length > 0) {
+    if ((colorsToUpdate.length > 0 && colorsToUpdate.length !== viewTokenData.loadedColorsToUpdate.length) || (emojisToUpdate.length > 0 && emojisToUpdate.length !== viewTokenData.loadedEmojisToUpdate.length)) {
       loadTokenImage();
     }
   }, [colorsToUpdate, emojisToUpdate]);
@@ -82,7 +84,9 @@ const ViewToken = ({tokenLoadedCallback = noop, colorsToUpdate = [], emojisToUpd
         isLoading: false,
         isInvalidTokenNumber: false,
         isGeneralError: false,
-        imgValue: URL.createObjectURL(blob)
+        imgValue: URL.createObjectURL(blob),
+        loadedColorsToUpdate: colorsToUpdate,
+        loadedEmojisToUpdate: emojisToUpdate
       })
       tokenLoadedCallback(viewTokenData.tokenId);
     })
