@@ -19,9 +19,9 @@ public class TilesDrawer {
         new Point(0, 38),
         new Point(175, 175),
         new Scalar(
-            getRGBValue(tileColors, 0),
-            getRGBValue(tileColors, 1),
             getRGBValue(tileColors, 2),
+            getRGBValue(tileColors, 1),
+            getRGBValue(tileColors, 0),
             255),
         -1);
     Imgproc.rectangle(src, new Point(0, 38), new Point(175, 175), new Scalar(0, 0, 0, 255), 1);
@@ -31,9 +31,9 @@ public class TilesDrawer {
         new Point(175, 38),
         new Point(350, 175),
         new Scalar(
-            getRGBValue(tileColors, 3),
-            getRGBValue(tileColors, 4),
             getRGBValue(tileColors, 5),
+            getRGBValue(tileColors, 4),
+            getRGBValue(tileColors, 3),
             255),
         -1);
     Imgproc.rectangle(src, new Point(175, 38), new Point(350, 175), new Scalar(0, 0, 0, 255), 1);
@@ -43,9 +43,9 @@ public class TilesDrawer {
         new Point(0, 175),
         new Point(175, 312),
         new Scalar(
-            getRGBValue(tileColors, 6),
-            getRGBValue(tileColors, 7),
             getRGBValue(tileColors, 8),
+            getRGBValue(tileColors, 7),
+            getRGBValue(tileColors, 6),
             255),
         -1);
     Imgproc.rectangle(src, new Point(0, 175), new Point(175, 312), new Scalar(0, 0, 0, 255), 1);
@@ -55,9 +55,9 @@ public class TilesDrawer {
         new Point(175, 175),
         new Point(350, 312),
         new Scalar(
-            getRGBValue(tileColors, 9),
-            getRGBValue(tileColors, 10),
             getRGBValue(tileColors, 11),
+            getRGBValue(tileColors, 10),
+            getRGBValue(tileColors, 9),
             255),
         -1);
     Imgproc.rectangle(src, new Point(175, 175), new Point(350, 312), new Scalar(0, 0, 0, 255), 1);

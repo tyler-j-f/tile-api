@@ -47,7 +47,7 @@ const UpdateTileNft = () => {
         {tokenId !== '' && (
             <>
               {colorsToUpdate.length > 0 && colorsToUpdate.map(
-                  (colorData, index) => colorData === null ? null :<StyledText>Tile {index + 1} color value: {colorData.hex}</StyledText>
+                  (colorData, index) => colorData === null ? null :<StyledText>Tile {index + 1} updated color value: {colorData.hex}</StyledText>
               )}
               {colorsToUpdate.length < NUMBER_OF_COLORS_TO_SET &&
                   <>
