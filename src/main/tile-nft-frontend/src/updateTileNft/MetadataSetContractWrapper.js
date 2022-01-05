@@ -5,7 +5,9 @@ import {useEffect, useState} from "react";
 import MetadataSetContract
   from "./MetadataSetContract";
 
-const MetadataSetContractWrapper = ({contractAddress, tokenId, dataToSetIndex, dataToSet}) => {
+const NUMBER_OF_COLORS_TO_SET = 4;
+
+const MetadataSetContractWrapper = ({contractAddress, tokenId, dataToSetIndex, colorsToUpdate = []}) => {
   const { library: provider } = useEthers()
   const [tileContract, setTileContract] = useState(null);
   const [signer, setSigner] = useState(null);
@@ -44,11 +46,13 @@ const MetadataSetContractWrapper = ({contractAddress, tokenId, dataToSetIndex, d
       return attribute.trait_type.match(tileColorRegex);
     })
     console.log('filteredAttributes:', filteredAttributes)
-    setCurrentColorAttributes(currentColorAttributes);
+    setCurrentColorAttributes(filteredAttributes);
   }
 
   const handleProviderAndSigner = () => {
+    console.log('handleProviderAndSigner called');
     if (provider) {
+      console.log('provider found called');
       setTileContract(
           new ethers.Contract(contractAddress, TileContract.abi, provider)
       );
@@ -59,9 +63,34 @@ const MetadataSetContractWrapper = ({contractAddress, tokenId, dataToSetIndex, d
     }
   }
 
+  const getDataToSet = () => {
+    let output = `${getTileColorDataToSet(0)}${getTileColorDataToSet(1)}${getTileColorDataToSet(2)}${getTileColorDataToSet(3)}`;
+    console.log('dataToSet output', output);
+    return output;
+  }
+
+  const getTileColorDataToSet = (index) => {
+    let colorData = colorsToUpdate[index];
+    return colorData !== null ? colorData : currentColorAttributes[index].value;
+  }
+  
+  const getShouldRender = () => {
+    let result = tileContract && signer && tokenId && currentColorAttributes.length === NUMBER_OF_COLORS_TO_SET && colorsToUpdate.length === NUMBER_OF_COLORS_TO_SET
+    console.log('getShouldRender', result);
+    console.log("tileContract", tileContract, "signer", signer, "tokenId", tokenId, "currentColorAttributes", currentColorAttributes, "colorsToUpdate", colorsToUpdate);
+    return result;
+  }
+
   return (
       <>
-        {tileContract && signer && tokenId && <MetadataSetContract contract={tileContract} tokenId={tokenId} dataToSetIndex={dataToSetIndex} dataToSet={dataToSet} />}
+        {getShouldRender() &&
+          <MetadataSetContract
+              contract={tileContract}
+              tokenId={tokenId}
+              dataToSetIndex={dataToSetIndex}
+              dataToSet={getDataToSet()}
+          />
+        }
       </>
   );
 }

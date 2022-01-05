@@ -69,8 +69,8 @@ const UpdateTileNft = () => {
               {account && colorsToUpdate.length === NUMBER_OF_COLORS_TO_SET && (
                   <MetadataSetContractWrapper
                       tokenId={tokenId}
+                      colorsToUpdate={colorsToUpdate}
                       contractAddress={CONTRACT_ADDRESS}
-                      dataToSet={DATA_TO_SET}
                       dataToSetIndex={DATA_TO_SET_INDEX}
                   />
               )}
