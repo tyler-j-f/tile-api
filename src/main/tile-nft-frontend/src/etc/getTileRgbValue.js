@@ -1,12 +1,15 @@
 
 export const getTileRgbValue = (colorsToUpdate, tileNumber) => {
   let colorToUpdate = colorsToUpdate[tileNumber - 1];
-  let valueBaseString = `tile${tileNumber}Color=`;
   if (!colorToUpdate) {
-    return valueBaseString;
+    return '';
   }
-  let rgbValue = `${getPixelSubRgbValue(colorToUpdate.r)}${getPixelSubRgbValue(colorToUpdate.g)}${getPixelSubRgbValue(colorToUpdate.b)}`;
-  return `${valueBaseString}${rgbValue}`;
+  return `${getPixelSubRgbValue(colorToUpdate.r)}${getPixelSubRgbValue(colorToUpdate.g)}${getPixelSubRgbValue(colorToUpdate.b)}`;
+}
+
+export const getTileRgbUrlValue = (colorsToUpdate, tileNumber) => {
+  let valueBaseString = `tile${tileNumber}Color=`;
+  return `${valueBaseString}${getTileRgbValue(colorsToUpdate, tileNumber)}`;
 }
 
 const getPixelSubRgbValue = (subPixelValue) => {
@@ -22,5 +25,6 @@ const getPixelSubRgbValue = (subPixelValue) => {
   }
 }
 
+1030080081640591180021531411030080080000000000000000000000000000
 
 export default getTileRgbValue

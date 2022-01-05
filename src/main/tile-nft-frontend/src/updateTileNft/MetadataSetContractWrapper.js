@@ -4,6 +4,7 @@ import {useEthers} from "@usedapp/core";
 import {useEffect, useState} from "react";
 import MetadataSetContract
   from "./MetadataSetContract";
+import {getTileRgbValue} from "../etc/getTileRgbValue";
 
 const NUMBER_OF_COLORS_TO_SET = 4;
 
@@ -64,21 +65,18 @@ const MetadataSetContractWrapper = ({contractAddress, tokenId, dataToSetIndex, c
   }
 
   const getDataToSet = () => {
-    let output = `${getTileColorDataToSet(0)}${getTileColorDataToSet(1)}${getTileColorDataToSet(2)}${getTileColorDataToSet(3)}`;
+    const zeros = '0000000000000000000000000000'
+    let output = `${getTileColorDataToSet(1)}${getTileColorDataToSet(2)}${getTileColorDataToSet(3)}${getTileColorDataToSet(4)}${zeros}`;
     console.log('dataToSet output', output);
     return output;
   }
 
-  const getTileColorDataToSet = (index) => {
-    let colorData = colorsToUpdate[index];
-    return colorData !== null ? colorData : currentColorAttributes[index].value;
+  const getTileColorDataToSet = (tileNumber) => {
+    return colorsToUpdate[tileNumber - 1] !== null ? getTileRgbValue(colorsToUpdate, tileNumber) : currentColorAttributes[tileNumber - 1].value;
   }
   
   const getShouldRender = () => {
-    let result = tileContract && signer && tokenId && currentColorAttributes.length === NUMBER_OF_COLORS_TO_SET && colorsToUpdate.length === NUMBER_OF_COLORS_TO_SET
-    console.log('getShouldRender', result);
-    console.log("tileContract", tileContract, "signer", signer, "tokenId", tokenId, "currentColorAttributes", currentColorAttributes, "colorsToUpdate", colorsToUpdate);
-    return result;
+    return tileContract && signer && tokenId && currentColorAttributes.length === NUMBER_OF_COLORS_TO_SET && colorsToUpdate.length === NUMBER_OF_COLORS_TO_SET
   }
 
   return (

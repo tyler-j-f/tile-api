@@ -1,7 +1,7 @@
-import {Component, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import Spinner from 'react-bootstrap/Spinner';
-import {getTileRgbValue} from "../etc/getTileRgbValue";
+import {getTileRgbUrlValue} from "../etc/getTileRgbValue";
 
 const noop = () => {};
 
@@ -37,7 +37,7 @@ const ViewToken = ({tokenLoadedCallback = noop, colorsToUpdate = [], emojisToUpd
     if (colorsToUpdate.length === 0) {
       return `http://localhost:8080/api/image/tile/get/${viewTokenData.tokenId}`;
     }
-    return `http://localhost:8080/api/image/metadataSet/get/${viewTokenData.tokenId}?${getTileRgbValue(colorsToUpdate, 1)}&${getTileRgbValue(colorsToUpdate, 2)}&${getTileRgbValue(colorsToUpdate, 3)}&${getTileRgbValue(colorsToUpdate, 4)}`;
+    return `http://localhost:8080/api/image/metadataSet/get/${viewTokenData.tokenId}?${getTileRgbUrlValue(colorsToUpdate, 1)}&${getTileRgbUrlValue(colorsToUpdate, 2)}&${getTileRgbUrlValue(colorsToUpdate, 3)}&${getTileRgbUrlValue(colorsToUpdate, 4)}`;
   }
 
   const loadTokenImage = () => {
