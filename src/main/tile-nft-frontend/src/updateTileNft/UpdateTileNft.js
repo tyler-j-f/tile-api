@@ -14,10 +14,9 @@ const UpdateTileNft = () => {
   const [tokenId, setTokenId] = useState('');
   const [colorsToUpdate, setColorsToUpdate] = useState([]);
 
-  const handleTokenLoaded = (tokenId) => {
-    if (tokenId) {
-      setTokenId(tokenId);
-      console.log("Token id found to update. tokenId: ", tokenId)
+  const handleTokenLoaded = (tokenIdToSet) => {
+    if (tokenIdToSet && tokenId !== tokenIdToSet) {
+      setTokenId(tokenIdToSet);
     }
   }
 

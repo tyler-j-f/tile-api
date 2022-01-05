@@ -17,8 +17,7 @@ const ViewToken = ({tokenLoadedCallback = noop, colorsToUpdate = [], emojisToUpd
   });
 
   useEffect(() => {
-    console.log('ViewToken useEffect', colorsToUpdate, emojisToUpdate);
-    if ((colorsToUpdate.length > 0 && colorsToUpdate.length !== viewTokenData.loadedColorsToUpdate.length) || (emojisToUpdate.length > 0 && emojisToUpdate.length !== viewTokenData.loadedEmojisToUpdate.length)) {
+    if (colorsToUpdate.length !== viewTokenData.loadedColorsToUpdate.length || emojisToUpdate.length !== viewTokenData.loadedEmojisToUpdate.length) {
       loadTokenImage();
     }
   }, [colorsToUpdate, emojisToUpdate]);
@@ -34,52 +33,39 @@ const ViewToken = ({tokenLoadedCallback = noop, colorsToUpdate = [], emojisToUpd
   }
 
   const getUrl = () => {
-    console.log("getUrl", colorsToUpdate, colorsToUpdate.length)
     if (colorsToUpdate.length === 0) {
       return `http://localhost:8080/api/image/tile/get/${viewTokenData.tokenId}`;
     }
-    let url = `http://localhost:8080/api/image/metadataSet/get/${viewTokenData.tokenId}?${getTileRgbValue(colorsToUpdate, 1)}&${getTileRgbValue(colorsToUpdate, 2)}&${getTileRgbValue(colorsToUpdate, 3)}&${getTileRgbValue(colorsToUpdate, 4)}`;
-    console.log('getUrl', url);
-    return url;
+    return `http://localhost:8080/api/image/metadataSet/get/${viewTokenData.tokenId}?${getTileRgbValue(colorsToUpdate, 1)}&${getTileRgbValue(colorsToUpdate, 2)}&${getTileRgbValue(colorsToUpdate, 3)}&${getTileRgbValue(colorsToUpdate, 4)}`;
   }
 
   const getTileRgbValue = (colorsToUpdate, tileNumber) => {
     let colorToUpdate = colorsToUpdate[tileNumber - 1];
+    let valueBaseString = `tile${tileNumber}Color=`;
     if (!colorToUpdate) {
-      console.log('getTileRgbValue is null/undefined', colorToUpdate);
-      return `tile${tileNumber}Color=`;
+      return valueBaseString;
     }
     let rgbValue = `${getPixelSubRgbValue(colorToUpdate.r)}${getPixelSubRgbValue(colorToUpdate.g)}${getPixelSubRgbValue(colorToUpdate.b)}`;
-    let parameter = `tile${tileNumber}Color=${rgbValue}`;
-    console.log('getTileRgbValue parameter', colorToUpdate, parameter);
-    return parameter;
+    return `${valueBaseString}${rgbValue}`;
   }
 
   const getPixelSubRgbValue = (subPixelValue) => {
-    let pixelValue = null;
     switch (subPixelValue.toString().length) {
       case 0:
-        pixelValue = null;
-        break;
+        return null;
       case 1:
-        pixelValue = `00${subPixelValue}`;
-        break;
+        return `00${subPixelValue}`;
       case 2:
-        pixelValue = `0${subPixelValue}`;
-        break;
+        return `0${subPixelValue}`;
       case 3:
-        pixelValue = subPixelValue;
-        break;
+        return subPixelValue;
     }
-    console.log('getPixelSubRgbValue', pixelValue);
-    return pixelValue;
   }
 
 
     const loadTokenImage = () => {
     fetch(getUrl(), {method: 'get'})
     .then(response => {
-      console.log("loadTokenImage response", response);
       if (response.status === 200) {
         return response.blob();
       }
