@@ -7,13 +7,13 @@ import ColorSelector from "./ColorSelector";
 import {Button} from "react-bootstrap";
 import styled from "styled-components";
 
-const NUMBER_OF_COLORS_TO_SET = 4;
+const NUMBER_OF_DATA_ENTRIES_TO_SET = 4;
 const noop = () => {};
 
 const UpdateTileNft = ({successCallback = noop, dataToSetIndex = null}) => {
   const {account} = useEthers();
   const [tokenId, setTokenId] = useState('');
-  const [colorsToUpdate, setColorsToUpdate] = useState([]);
+  const [metadataToUpdate, setMetadataToUpdate] = useState([]);
 
   const handleTokenLoaded = (tokenIdToSet) => {
     if (tokenIdToSet && tokenId !== tokenIdToSet) {
@@ -21,22 +21,22 @@ const UpdateTileNft = ({successCallback = noop, dataToSetIndex = null}) => {
     }
   }
 
-  const handleColorSelected = (colorData) => {
-    if (colorsToUpdate.length < NUMBER_OF_COLORS_TO_SET) {
-      setColorsToUpdate([...colorsToUpdate, colorData]);
+  const handleDataSelected = (data) => {
+    if (metadataToUpdate.length < NUMBER_OF_DATA_ENTRIES_TO_SET) {
+      setMetadataToUpdate([...metadataToUpdate, data]);
     }
   }
 
-  const handleClearSelectedColors = () => {
-    setColorsToUpdate([]);
+  const handleClearSelections = () => {
+    setMetadataToUpdate([]);
   }
 
-  const handleKeepTileColor = () => {
-    if (colorsToUpdate.length === NUMBER_OF_COLORS_TO_SET - 1 && areAllEntriesNull(colorsToUpdate)) {
-      setColorsToUpdate([]);
+  const handleKeepMetadataValue = () => {
+    if (metadataToUpdate.length === NUMBER_OF_DATA_ENTRIES_TO_SET - 1 && areAllEntriesNull(metadataToUpdate)) {
+      setMetadataToUpdate([]);
       return;
     }
-    setColorsToUpdate([...colorsToUpdate, null]);
+    setMetadataToUpdate([...metadataToUpdate, null]);
   }
 
   const areAllEntriesNull = (array) => array.every(val => val === null)
@@ -45,34 +45,34 @@ const UpdateTileNft = ({successCallback = noop, dataToSetIndex = null}) => {
       <>
         <ViewToken
             tokenLoadedCallback={handleTokenLoaded}
-            colorsToUpdate={colorsToUpdate}
+            metadataToUpdate={metadataToUpdate}
         />
         {tokenId !== '' && (
             <>
-              {colorsToUpdate.length > 0 && colorsToUpdate.map(
-                  (colorData, index) => colorData === null ? null :<StyledText>Tile {index + 1} updated color value: {colorData.hex}</StyledText>
+              {metadataToUpdate.length > 0 && metadataToUpdate.map(
+                  (metaData, index) => metaData === null ? null :<StyledText>Tile {index + 1} updated color value: {metaData.hex}</StyledText>
               )}
-              {colorsToUpdate.length < NUMBER_OF_COLORS_TO_SET &&
+              {metadataToUpdate.length < NUMBER_OF_DATA_ENTRIES_TO_SET &&
                   <>
-                    <StyledText>Select Tile {colorsToUpdate.length + 1} Color</StyledText>
-                    <Button onClick={handleKeepTileColor}>
-                      <p>Keep Tile {colorsToUpdate.length + 1} Color</p>
+                    <StyledText>Select Tile {metadataToUpdate.length + 1} Color</StyledText>
+                    <Button onClick={handleKeepMetadataValue}>
+                      <p>Keep Tile {metadataToUpdate.length + 1} Color</p>
                     </Button>
-                    <ColorSelector onAccept={handleColorSelected} />
+                    <ColorSelector onAccept={handleDataSelected} />
                   </>
               }
-              {colorsToUpdate.length > 0 &&
-                <Button onClick={handleClearSelectedColors}>
-                  <p>Clear Selected Colors</p>
+              {metadataToUpdate.length > 0 &&
+                <Button onClick={handleClearSelections}>
+                  <p>Clear Selected</p>
                 </Button>
               }
               <ConnectButton />
-              {account && colorsToUpdate.length === NUMBER_OF_COLORS_TO_SET && (
+              {account && metadataToUpdate.length === NUMBER_OF_DATA_ENTRIES_TO_SET && (
                   <MetadataSetContractWrapper
                       tokenId={tokenId}
-                      colorsToUpdate={colorsToUpdate}
+                      metadataToUpdate={metadataToUpdate}
                       contractAddress={CONTRACT_ADDRESS}
-                      dataToSetIndex={dataToSetIndex}
+                      metadataToSetIndex={dataToSetIndex}
                       successCallback={successCallback}
                   />
               )}

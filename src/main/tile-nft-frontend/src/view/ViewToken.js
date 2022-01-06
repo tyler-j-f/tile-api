@@ -5,7 +5,7 @@ import {getTileRgbUrlValue} from "../etc/getTileRgbValue";
 
 const noop = () => {};
 
-const ViewToken = ({tokenLoadedCallback = noop, colorsToUpdate = [], emojisToUpdate = []}) => {
+const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = []}) => {
 
   const [viewTokenData, setViewTokenData] = useState({
     tokenId: '',
@@ -13,15 +13,14 @@ const ViewToken = ({tokenLoadedCallback = noop, colorsToUpdate = [], emojisToUpd
     isInvalidTokenNumber: false,
     isGeneralError: false,
     imgValue: '',
-    loadedColorsToUpdate: [],
-    loadedEmojisToUpdate: []
+    previouslyUsedMetadataToUpdate: []
   });
 
   useEffect(() => {
-    if (colorsToUpdate.length !== viewTokenData.loadedColorsToUpdate.length || emojisToUpdate.length !== viewTokenData.loadedEmojisToUpdate.length) {
+    if (metadataToUpdate.length !== viewTokenData.previouslyUsedMetadataToUpdate.length) {
       loadTokenImage();
     }
-  }, [colorsToUpdate, emojisToUpdate]);
+  }, [metadataToUpdate]);
 
   const handleChange = (event) => {
     setViewTokenData({...viewTokenData, tokenId: event.target.value})
@@ -34,10 +33,10 @@ const ViewToken = ({tokenLoadedCallback = noop, colorsToUpdate = [], emojisToUpd
   }
 
   const getUrl = () => {
-    if (colorsToUpdate.length === 0) {
+    if (metadataToUpdate.length === 0) {
       return `http://localhost:8080/api/image/tile/get/${viewTokenData.tokenId}`;
     }
-    return `http://localhost:8080/api/image/metadataSet/get/${viewTokenData.tokenId}?${getTileRgbUrlValue(colorsToUpdate, 1)}&${getTileRgbUrlValue(colorsToUpdate, 2)}&${getTileRgbUrlValue(colorsToUpdate, 3)}&${getTileRgbUrlValue(colorsToUpdate, 4)}`;
+    return `http://localhost:8080/api/image/metadataSet/get/${viewTokenData.tokenId}?${getTileRgbUrlValue(metadataToUpdate, 1)}&${getTileRgbUrlValue(metadataToUpdate, 2)}&${getTileRgbUrlValue(metadataToUpdate, 3)}&${getTileRgbUrlValue(metadataToUpdate, 4)}`;
   }
 
   const loadTokenImage = () => {
@@ -68,8 +67,7 @@ const ViewToken = ({tokenLoadedCallback = noop, colorsToUpdate = [], emojisToUpd
         isInvalidTokenNumber: false,
         isGeneralError: false,
         imgValue: URL.createObjectURL(blob),
-        loadedColorsToUpdate: colorsToUpdate,
-        loadedEmojisToUpdate: emojisToUpdate
+        previouslyUsedMetadataToUpdate: metadataToUpdate
       })
       tokenLoadedCallback(viewTokenData.tokenId);
     })
