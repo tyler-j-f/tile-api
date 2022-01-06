@@ -60,6 +60,9 @@ const UpdateTileNftPage = () => {
                   ColorSelectorSection
                 }
                 attributesRegex={/Tile \d Color/}
+                metadataMapper={
+                  (metaData, index) => metaData !== null ? <StyledText>Tile {index + 1} updated color value: {metaData.hex}</StyledText> : null
+                }
             />
           }
           {txData.dataToSetIndex === 1 && <p>Update emoji</p>}

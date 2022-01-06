@@ -8,7 +8,15 @@ import {getTileRgbValue} from "../etc/getTileRgbValue";
 
 const noop = () => {};
 
-const MetadataSetContractWrapper = ({contractAddress, tokenId, metadataToSetIndex, metadataToUpdate = [], successCallback = noop, attributesRegex = '', numberOfEntriesToSet = 4}) => {
+const MetadataSetContractWrapper = ({
+  contractAddress,
+  tokenId = null,
+  metadataToSetIndex,
+  metadataToUpdate = [],
+  successCallback = noop,
+  attributesRegex = '',
+  numberOfEntriesToSet = 4}
+) => {
   const { library: provider } = useEthers()
   const [tileContract, setTileContract] = useState(null);
   const [signer, setSigner] = useState(null);

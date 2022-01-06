@@ -4,11 +4,18 @@ import {useEthers} from "@usedapp/core";
 import ViewToken from "../view/ViewToken";
 import {useState} from "react";
 import {Button} from "react-bootstrap";
-import styled from "styled-components";
 
 const noop = () => {};
 
-const UpdateTileNft = ({successCallback = noop, dataToSetIndex = null, SelectorSection = null, attributesRegex = '', numberOfEntriesToSet = 4}) => {
+const UpdateTileNft = ({
+  contractAddress = "0xEc9547ABc4a8c24B99226BeE239c6E29814903Cd",
+  successCallback = noop,
+  metadataMapper = noop,
+  dataToSetIndex = null,
+  SelectorSection = null,
+  attributesRegex = '',
+  numberOfEntriesToSet = 4
+}) => {
   const {account} = useEthers();
   const [tokenId, setTokenId] = useState('');
   const [metadataToUpdate, setMetadataToUpdate] = useState([]);
@@ -48,7 +55,7 @@ const UpdateTileNft = ({successCallback = noop, dataToSetIndex = null, SelectorS
         {tokenId !== '' && (
             <>
               {metadataToUpdate.length > 0 && metadataToUpdate.map(
-                  (metaData, index) => metaData === null ? null :<StyledText>Tile {index + 1} updated color value: {metaData.hex}</StyledText>
+                  metadataMapper
               )}
               {metadataToUpdate.length < numberOfEntriesToSet &&
                 <SelectorSection
@@ -67,7 +74,7 @@ const UpdateTileNft = ({successCallback = noop, dataToSetIndex = null, SelectorS
                   <MetadataSetContractWrapper
                       tokenId={tokenId}
                       metadataToUpdate={metadataToUpdate}
-                      contractAddress={CONTRACT_ADDRESS}
+                      contractAddress={contractAddress}
                       metadataToSetIndex={dataToSetIndex}
                       successCallback={successCallback}
                       attributesRegex={attributesRegex}
@@ -79,16 +86,5 @@ const UpdateTileNft = ({successCallback = noop, dataToSetIndex = null, SelectorS
       </>
   );
 }
-
-const StyledText =
-    styled.p`
-    color: white;
-    font-weight: bold;
-    `;
-
-
-export const DATA_TO_SET_INDEX = 0;
-export const DATA_TO_SET = "0x0000111000022200003330000444000000000000000000000000000000000000";
-export const CONTRACT_ADDRESS = "0xEc9547ABc4a8c24B99226BeE239c6E29814903Cd";
 
 export default UpdateTileNft;
