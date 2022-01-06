@@ -9,11 +9,12 @@ import {getTileRgbValue} from "../etc/getTileRgbValue";
 const noop = () => {};
 
 const MetadataSetContractWrapper = ({
-  contractAddress,
+  contractAddress = null,
   tokenId = null,
-  metadataToSetIndex,
   metadataToUpdate = [],
+  metadataToSetIndex,
   successCallback = noop,
+  dataToSetGetter = noop,
   attributesRegex = '',
   numberOfEntriesToSet = 4}
 ) => {
@@ -71,17 +72,6 @@ const MetadataSetContractWrapper = ({
       setSigner(provider.getSigner());
     }
   }
-
-  const getDataToSet = () => {
-    const zeros = '0000000000000000000000000000'
-    let output = `0x${getMetadataValueToSet(1)}${getMetadataValueToSet(2)}${getMetadataValueToSet(3)}${getMetadataValueToSet(4)}${zeros}`;
-    console.log('dataToSet output', output);
-    return output;
-  }
-
-  const getMetadataValueToSet = (index) => {
-    return metadataToUpdate[index - 1] !== null ? getTileRgbValue(metadataToUpdate, index) : currentTokenAttributes[index - 1].value;
-  }
   
   const getShouldRender = () => {
     return tileContract && signer && tokenId && currentTokenAttributes.length === numberOfEntriesToSet && metadataToUpdate.length === numberOfEntriesToSet
@@ -94,7 +84,7 @@ const MetadataSetContractWrapper = ({
               contract={tileContract}
               tokenId={tokenId}
               dataToSetIndex={metadataToSetIndex}
-              dataToSet={getDataToSet()}
+              dataToSet={dataToSetGetter(metadataToUpdate, currentTokenAttributes)}
               successCallback={successCallback}
           />
         }
