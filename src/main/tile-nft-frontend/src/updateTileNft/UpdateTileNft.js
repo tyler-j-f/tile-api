@@ -10,7 +10,7 @@ import styled from "styled-components";
 const NUMBER_OF_COLORS_TO_SET = 4;
 const noop = () => {};
 
-const UpdateTileNft = ({successCallback = noop}) => {
+const UpdateTileNft = ({successCallback = noop, dataToSetIndex = null}) => {
   const {account} = useEthers();
   const [tokenId, setTokenId] = useState('');
   const [colorsToUpdate, setColorsToUpdate] = useState([]);
@@ -72,7 +72,7 @@ const UpdateTileNft = ({successCallback = noop}) => {
                       tokenId={tokenId}
                       colorsToUpdate={colorsToUpdate}
                       contractAddress={CONTRACT_ADDRESS}
-                      dataToSetIndex={DATA_TO_SET_INDEX}
+                      dataToSetIndex={dataToSetIndex}
                       successCallback={successCallback}
                   />
               )}

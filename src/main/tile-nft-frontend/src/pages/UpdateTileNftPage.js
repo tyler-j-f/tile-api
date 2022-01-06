@@ -6,24 +6,35 @@ import {Button} from "react-bootstrap";
 const UpdateTileNftPage = () => {
   const [txData, setTxData] = useState({
     isSuccess: false,
-    txId: ''
+    txId: '',
+    dataToSetIndex: null
   });
 
   const handleSuccessfulTx = (txId) => {
     setTxData({
       isSuccess: true,
-      txId: txId
+      txId: txId,
+      dataToSetIndex: null
     });
   }
 
   const handleSendAnotherTx = () => {
     setTxData({
       isSuccess: false,
-      txId: ''
+      txId: '',
+      dataToSetIndex: null
     });
   }
 
-  const getSuccessFulTxHtml = () => {
+  const handleSelectWhatToUpdateClicked = (index) => {
+    console.log('handleSelectWhatToUpdateClicked', index);
+    setTxData({
+      ...txData,
+      dataToSetIndex: index
+    });
+  }
+
+  const getSuccessHtml = () => {
     return (
         <>
           <StyledText>
@@ -37,10 +48,35 @@ const UpdateTileNftPage = () => {
     );
   }
 
+  const getUpdateHtml = () => {
+    return (
+        <>
+          {txData.dataToSetIndex === 0 && <UpdateTileNft successCallback={handleSuccessfulTx} />}
+          {txData.dataToSetIndex === 1 && <p>Update emoji</p>}
+        </>
+    );
+  }
+
+  const getSelectWhatToUpdateButtons = () => {
+    return (
+        <>
+          {txData.dataToSetIndex !== null && <Button onClick={() => handleSelectWhatToUpdateClicked(null)} >Back</Button>}
+          {txData.dataToSetIndex === null && (
+              <>
+                <Button onClick={() => handleSelectWhatToUpdateClicked(0)} >Update Colors</Button>
+                <Button onClick={() => handleSelectWhatToUpdateClicked(1)} >Update Emojis</Button>
+              </>
+          )}
+        </>
+    );
+  }
+
   return (
       <StyledUpdateTileNftPage>
         <Heading className="animate__animated animate__fadeInLeft">Update TileNft</Heading>
-        {txData.isSuccess ? getSuccessFulTxHtml() : <UpdateTileNft successCallback={handleSuccessfulTx} />}
+        {getSelectWhatToUpdateButtons()}
+        {txData.dataToSetIndex !== null && getUpdateHtml()}
+        {txData.isSuccess && getSuccessHtml()}
       </StyledUpdateTileNftPage>
   )
 }
