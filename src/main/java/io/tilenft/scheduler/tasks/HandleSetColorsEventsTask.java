@@ -45,10 +45,9 @@ public class HandleSetColorsEventsTask extends AbstractMetadataSetEventsRetrieve
 
   private List<List<String>> getTilesRGBValues(SetMetadataEvent event) {
     List<List<String>> tilesValuesList = new ArrayList<>();
+    String hex = hexStringPrefixStripper.strip0xFromHexString(event.getMetadataToSet());
     for (int x = 0; x < NUMBER_OF_SUB_TILES; x++) {
-      List<String> tileValuesList =
-          getTileRGBValue(
-              hexStringPrefixStripper.strip0xFromHexString(event.getMetadataToSet()), x);
+      List<String> tileValuesList = getTileRGBValue(hex, x);
       tilesValuesList.add(tileValuesList);
     }
     return tilesValuesList;
@@ -160,7 +159,7 @@ public class HandleSetColorsEventsTask extends AbstractMetadataSetEventsRetrieve
               + tileRGBValues);
       return null;
     }
-    String rgbToSet = tileRGBValues.get(2) + tileRGBValues.get(1) + tileRGBValues.get(0);
+    String rgbToSet = tileRGBValues.get(0) + tileRGBValues.get(1) + tileRGBValues.get(2);
     if (rgbToSet.equals(trait.getValue())) {
       System.out.println(
           "Trait value is already set. Will not update trait for tile #"
