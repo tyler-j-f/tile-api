@@ -71,6 +71,7 @@ const UpdateTileNft = ({successCallback = noop, dataToSetIndex = null, SelectorS
                       metadataToSetIndex={dataToSetIndex}
                       successCallback={successCallback}
                       attributesRegex={attributesRegex}
+                      numberOfEntriesToSet={numberOfEntriesToSet}
                   />
               )}
             </>

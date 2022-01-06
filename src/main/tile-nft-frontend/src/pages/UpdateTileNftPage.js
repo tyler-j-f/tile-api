@@ -56,7 +56,7 @@ const UpdateTileNftPage = () => {
             <UpdateTileNft
                 successCallback={handleSuccessfulTx}
                 dataToSetIndex={0}
-                selectorSection={
+                SelectorSection={
                   ColorSelectorSection
                 }
                 attributesRegex={/Tile \d Color/}
