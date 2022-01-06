@@ -5,6 +5,8 @@ import {Button} from "react-bootstrap";
 import ColorSelectorSection from "../updateTileNft/sections/ColorSelectorSection";
 import colorDataToSetGetter
   from "../updateTileNft/dataToSetGetters/colorDataToSetGetter";
+import emojiDataToSetGetter
+  from "../updateTileNft/dataToSetGetters/emojiDataToSetGetter";
 
 const UpdateTileNftPage = () => {
   const [txData, setTxData] = useState({
@@ -54,22 +56,43 @@ const UpdateTileNftPage = () => {
   const getUpdateHtml = () => {
     return (
         <>
-          {txData.dataToSetIndex === 0 &&
-            <UpdateTileNft
-                successCallback={handleSuccessfulTx}
-                dataToSetIndex={0}
-                SelectorSection={
-                  ColorSelectorSection
-                }
-                attributesRegex={/Tile \d Color/}
-                metadataMapper={
-                  (metaData, index) => metaData !== null ? <StyledText>Tile {index + 1} updated color value: {metaData.hex}</StyledText> : null
-                }
-                dataToSetGetter={colorDataToSetGetter}
-            />
-          }
-          {txData.dataToSetIndex === 1 && <p>Update emoji</p>}
+          {txData.dataToSetIndex === 0 && getUpdateColorsHtml()}
+          {txData.dataToSetIndex === 1 && getUpdateEmojisHtml()}
         </>
+    );
+  }
+
+  const getUpdateColorsHtml = () => {
+    return (
+        <UpdateTileNft
+            successCallback={handleSuccessfulTx}
+            dataToSetIndex={0}
+            SelectorSection={
+              ColorSelectorSection
+            }
+            attributesRegex={/Tile \d Color/}
+            metadataMapper={
+              (data, index) => data !== null ? <StyledText>Tile {index + 1} updated color value: {data.hex}</StyledText> : null
+            }
+            dataToSetGetter={colorDataToSetGetter}
+        />
+    );
+  }
+
+  const getUpdateEmojisHtml = () => {
+    return (
+        <UpdateTileNft
+            successCallback={handleSuccessfulTx}
+            dataToSetIndex={1}
+            SelectorSection={
+              ColorSelectorSection
+            }
+            attributesRegex={/Tile \d Emoji/}
+            metadataMapper={
+              (data, index) => data !== null ? <StyledText>Tile {index + 1} updated emoji value: {data.hex}</StyledText> : null
+            }
+            dataToSetGetter={emojiDataToSetGetter}
+        />
     );
   }
 
