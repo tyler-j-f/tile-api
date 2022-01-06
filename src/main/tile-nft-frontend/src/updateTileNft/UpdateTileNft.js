@@ -3,14 +3,12 @@ import MetadataSetContractWrapper from "./MetadataSetContractWrapper";
 import {useEthers} from "@usedapp/core";
 import ViewToken from "../view/ViewToken";
 import {useState} from "react";
-import ColorSelector from "./ColorSelector";
 import {Button} from "react-bootstrap";
 import styled from "styled-components";
 
-const NUMBER_OF_DATA_ENTRIES_TO_SET = 4;
 const noop = () => {};
 
-const UpdateTileNft = ({successCallback = noop, dataToSetIndex = null}) => {
+const UpdateTileNft = ({successCallback = noop, dataToSetIndex = null, SelectorSection = null, attributesRegex = '', numberOfEntriesToSet = 4}) => {
   const {account} = useEthers();
   const [tokenId, setTokenId] = useState('');
   const [metadataToUpdate, setMetadataToUpdate] = useState([]);
@@ -22,7 +20,7 @@ const UpdateTileNft = ({successCallback = noop, dataToSetIndex = null}) => {
   }
 
   const handleDataSelected = (data) => {
-    if (metadataToUpdate.length < NUMBER_OF_DATA_ENTRIES_TO_SET) {
+    if (metadataToUpdate.length < numberOfEntriesToSet) {
       setMetadataToUpdate([...metadataToUpdate, data]);
     }
   }
@@ -32,7 +30,7 @@ const UpdateTileNft = ({successCallback = noop, dataToSetIndex = null}) => {
   }
 
   const handleKeepMetadataValue = () => {
-    if (metadataToUpdate.length === NUMBER_OF_DATA_ENTRIES_TO_SET - 1 && areAllEntriesNull(metadataToUpdate)) {
+    if (metadataToUpdate.length === numberOfEntriesToSet - 1 && areAllEntriesNull(metadataToUpdate)) {
       setMetadataToUpdate([]);
       return;
     }
@@ -52,14 +50,12 @@ const UpdateTileNft = ({successCallback = noop, dataToSetIndex = null}) => {
               {metadataToUpdate.length > 0 && metadataToUpdate.map(
                   (metaData, index) => metaData === null ? null :<StyledText>Tile {index + 1} updated color value: {metaData.hex}</StyledText>
               )}
-              {metadataToUpdate.length < NUMBER_OF_DATA_ENTRIES_TO_SET &&
-                  <>
-                    <StyledText>Select Tile {metadataToUpdate.length + 1} Color</StyledText>
-                    <Button onClick={handleKeepMetadataValue}>
-                      <p>Keep Tile {metadataToUpdate.length + 1} Color</p>
-                    </Button>
-                    <ColorSelector onAccept={handleDataSelected} />
-                  </>
+              {metadataToUpdate.length < numberOfEntriesToSet &&
+                <SelectorSection
+                    metadataToUpdate={metadataToUpdate}
+                    handleKeepMetadataValue={handleKeepMetadataValue}
+                    handleDataSelected={handleDataSelected}
+                />
               }
               {metadataToUpdate.length > 0 &&
                 <Button onClick={handleClearSelections}>
@@ -67,13 +63,14 @@ const UpdateTileNft = ({successCallback = noop, dataToSetIndex = null}) => {
                 </Button>
               }
               <ConnectButton />
-              {account && metadataToUpdate.length === NUMBER_OF_DATA_ENTRIES_TO_SET && (
+              {account && metadataToUpdate.length === numberOfEntriesToSet && (
                   <MetadataSetContractWrapper
                       tokenId={tokenId}
                       metadataToUpdate={metadataToUpdate}
                       contractAddress={CONTRACT_ADDRESS}
                       metadataToSetIndex={dataToSetIndex}
                       successCallback={successCallback}
+                      attributesRegex={attributesRegex}
                   />
               )}
             </>

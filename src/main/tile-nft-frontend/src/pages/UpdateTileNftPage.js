@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import styled from 'styled-components';
 import UpdateTileNft from "../updateTileNft/UpdateTileNft";
 import {Button} from "react-bootstrap";
+import ColorSelectorSection from "../updateTileNft/sections/ColorSelectorSection";
 
 const UpdateTileNftPage = () => {
   const [txData, setTxData] = useState({
@@ -51,7 +52,16 @@ const UpdateTileNftPage = () => {
   const getUpdateHtml = () => {
     return (
         <>
-          {txData.dataToSetIndex === 0 && <UpdateTileNft successCallback={handleSuccessfulTx} dataToSetIndex={0} />}
+          {txData.dataToSetIndex === 0 &&
+            <UpdateTileNft
+                successCallback={handleSuccessfulTx}
+                dataToSetIndex={0}
+                selectorSection={
+                  ColorSelectorSection
+                }
+                attributesRegex={/Tile \d Color/}
+            />
+          }
           {txData.dataToSetIndex === 1 && <p>Update emoji</p>}
         </>
     );

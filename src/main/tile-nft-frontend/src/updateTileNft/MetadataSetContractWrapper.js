@@ -6,10 +6,9 @@ import MetadataSetContract
   from "./MetadataSetContract";
 import {getTileRgbValue} from "../etc/getTileRgbValue";
 
-const NUMBER_OF_DATA_ENTRIES_TO_SET = 4;
 const noop = () => {};
 
-const MetadataSetContractWrapper = ({contractAddress, tokenId, metadataToSetIndex, metadataToUpdate = [], successCallback = noop}) => {
+const MetadataSetContractWrapper = ({contractAddress, tokenId, metadataToSetIndex, metadataToUpdate = [], successCallback = noop, attributesRegex = '', numberOfEntriesToSet = 4}) => {
   const { library: provider } = useEthers()
   const [tileContract, setTileContract] = useState(null);
   const [signer, setSigner] = useState(null);
@@ -44,7 +43,7 @@ const MetadataSetContractWrapper = ({contractAddress, tokenId, metadataToSetInde
   const handleAttributesJson = (attributes) => {
     console.log('tiles/get attributes found. attributes: ', attributes);
     let filteredAttributes = attributes.filter(attribute => {
-      const attributeRegex = /Tile \d Color/;
+      const attributeRegex = attributesRegex;
       return attribute.trait_type.match(attributeRegex);
     })
     console.log('filteredAttributes:', filteredAttributes)
@@ -77,7 +76,7 @@ const MetadataSetContractWrapper = ({contractAddress, tokenId, metadataToSetInde
   }
   
   const getShouldRender = () => {
-    return tileContract && signer && tokenId && currentTokenAttributes.length === NUMBER_OF_DATA_ENTRIES_TO_SET && metadataToUpdate.length === NUMBER_OF_DATA_ENTRIES_TO_SET
+    return tileContract && signer && tokenId && currentTokenAttributes.length === numberOfEntriesToSet && metadataToUpdate.length === numberOfEntriesToSet
   }
 
   return (
