@@ -7,8 +7,9 @@ import MetadataSetContract
 import {getTileRgbValue} from "../etc/getTileRgbValue";
 
 const NUMBER_OF_COLORS_TO_SET = 4;
+const noop = () => {};
 
-const MetadataSetContractWrapper = ({contractAddress, tokenId, dataToSetIndex, colorsToUpdate = []}) => {
+const MetadataSetContractWrapper = ({contractAddress, tokenId, dataToSetIndex, colorsToUpdate = [], successCallback = noop}) => {
   const { library: provider } = useEthers()
   const [tileContract, setTileContract] = useState(null);
   const [signer, setSigner] = useState(null);
@@ -87,6 +88,7 @@ const MetadataSetContractWrapper = ({contractAddress, tokenId, dataToSetIndex, c
               tokenId={tokenId}
               dataToSetIndex={dataToSetIndex}
               dataToSet={getDataToSet()}
+              successCallback={successCallback}
           />
         }
       </>

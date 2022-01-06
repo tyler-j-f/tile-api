@@ -1,12 +1,44 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components';
 import UpdateTileNft from "../updateTileNft/UpdateTileNft";
+import {Button} from "react-bootstrap";
 
 const UpdateTileNftPage = () => {
+  const [txData, setTxData] = useState({
+    isSuccess: false,
+    txId: ''
+  });
+
+  const handleSuccessfulTx = (txId) => {
+    setTxData({
+      isSuccess: true,
+      txId: txId
+    });
+  }
+
+  const handleSendAnotherTx = () => {
+    setTxData({
+      isSuccess: false,
+      txId: ''
+    });
+  }
+
+  const getSuccessFulTxHtml = () => {
+    return (
+        <>
+          <StyledText>Success!!! Transaction Id: {txData.txId}</StyledText>
+          <StyledText>Please wait a few minutes for the transaction to process and the TileNft to be updated.</StyledText>
+          <Button onClick={handleSendAnotherTx}>
+            Send another update transaction?
+          </Button>
+        </>
+    );
+  }
+
   return (
       <StyledUpdateTileNftPage>
         <Heading className="animate__animated animate__fadeInLeft">Update TileNft</Heading>
-        <UpdateTileNft />
+        {txData.isSuccess ? getSuccessFulTxHtml() : <UpdateTileNft successCallback={handleSuccessfulTx} />}
       </StyledUpdateTileNftPage>
   )
 }
@@ -36,14 +68,10 @@ const Heading = styled.h1`
    -ms-user-select: none; /* Internet Explorer/Edge */
 `;
 
-const Content = styled.div`
-    color: #eee;
-    font-size: clamp(1.5rem, 2vw, 4vw);
-
-    a {
-        color: skyblue;
-        text-decoration: none;
-    }
-`;
+const StyledText =
+    styled.p`
+    color: white;
+    font-weight: bold;
+    `;
 
 export default UpdateTileNftPage
