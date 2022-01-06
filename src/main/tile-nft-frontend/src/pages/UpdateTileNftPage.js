@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import UpdateTileNft from "../updateTileNft/UpdateTileNft";
 import {Button} from "react-bootstrap";
 import ColorSelectorSection from "../updateTileNft/sections/ColorSelectorSection";
-import {getTileRgbValue} from "../etc/getTileRgbValue";
+import colorDataToSetGetter
+  from "../updateTileNft/dataToSetGetters/colorDataToSetGetter";
 
 const UpdateTileNftPage = () => {
   const [txData, setTxData] = useState({
@@ -64,23 +65,12 @@ const UpdateTileNftPage = () => {
                 metadataMapper={
                   (metaData, index) => metaData !== null ? <StyledText>Tile {index + 1} updated color value: {metaData.hex}</StyledText> : null
                 }
-                dataToSetGetter={
-                  (metadataToUpdate, currentTokenAttributes) => {
-                    const zeros = '0000000000000000000000000000'
-                    let output = `0x${getMetadataValueToSet(metadataToUpdate, 1, currentTokenAttributes)}${getMetadataValueToSet(metadataToUpdate, 2, currentTokenAttributes)}${getMetadataValueToSet(metadataToUpdate, 3, currentTokenAttributes)}${getMetadataValueToSet(metadataToUpdate, 4, currentTokenAttributes)}${zeros}`;
-                    console.log('dataToSet output', output);
-                    return output;
-                  }
-                }
+                dataToSetGetter={colorDataToSetGetter}
             />
           }
           {txData.dataToSetIndex === 1 && <p>Update emoji</p>}
         </>
     );
-  }
-
-  const getMetadataValueToSet = (metadataToUpdate, index, currentTokenAttributes) => {
-    return metadataToUpdate[index - 1] !== null ? getTileRgbValue(metadataToUpdate, index) : currentTokenAttributes[index - 1].value;
   }
 
   const getSelectWhatToUpdateButtons = () => {
