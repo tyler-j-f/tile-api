@@ -51,7 +51,7 @@ const UpdateTileNftPage = () => {
   const getUpdateHtml = () => {
     return (
         <>
-          {txData.dataToSetIndex === 0 && <UpdateTileNft successCallback={handleSuccessfulTx} />}
+          {txData.dataToSetIndex === 0 && <UpdateTileNft successCallback={handleSuccessfulTx} dataToSetIndex={0} />}
           {txData.dataToSetIndex === 1 && <p>Update emoji</p>}
         </>
     );
@@ -74,7 +74,7 @@ const UpdateTileNftPage = () => {
   return (
       <StyledUpdateTileNftPage>
         <Heading className="animate__animated animate__fadeInLeft">Update TileNft</Heading>
-        {getSelectWhatToUpdateButtons()}
+        {!txData.isSuccess && getSelectWhatToUpdateButtons()}
         {txData.dataToSetIndex !== null && getUpdateHtml()}
         {txData.isSuccess && getSuccessHtml()}
       </StyledUpdateTileNftPage>
