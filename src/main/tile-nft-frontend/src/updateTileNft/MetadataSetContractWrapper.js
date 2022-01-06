@@ -6,14 +6,14 @@ import MetadataSetContract
   from "./MetadataSetContract";
 import {getTileRgbValue} from "../etc/getTileRgbValue";
 
-const NUMBER_OF_DATA_ENTRIES_TO_SET = 4;
+const NUMBER_OF_COLORS_TO_SET = 4;
 const noop = () => {};
 
-const MetadataSetContractWrapper = ({contractAddress, tokenId, metadataToSetIndex, metadataToUpdate = [], successCallback = noop}) => {
+const MetadataSetContractWrapper = ({contractAddress, tokenId, dataToSetIndex, colorsToUpdate = [], successCallback = noop}) => {
   const { library: provider } = useEthers()
   const [tileContract, setTileContract] = useState(null);
   const [signer, setSigner] = useState(null);
-  const [currentTokenAttributes, setCurrentTokenAttributes] = useState([]);
+  const [currentColorAttributes, setCurrentColorAttributes] = useState([]);
 
   useEffect(() => {loadTokenAttributes();}, []);
 
@@ -44,11 +44,11 @@ const MetadataSetContractWrapper = ({contractAddress, tokenId, metadataToSetInde
   const handleAttributesJson = (attributes) => {
     console.log('tiles/get attributes found. attributes: ', attributes);
     let filteredAttributes = attributes.filter(attribute => {
-      const attributeRegex = /Tile \d Color/;
-      return attribute.trait_type.match(attributeRegex);
+      const tileColorRegex = /Tile \d Color/;
+      return attribute.trait_type.match(tileColorRegex);
     })
     console.log('filteredAttributes:', filteredAttributes)
-    setCurrentTokenAttributes(filteredAttributes);
+    setCurrentColorAttributes(filteredAttributes);
   }
 
   const handleProviderAndSigner = () => {
@@ -67,17 +67,17 @@ const MetadataSetContractWrapper = ({contractAddress, tokenId, metadataToSetInde
 
   const getDataToSet = () => {
     const zeros = '0000000000000000000000000000'
-    let output = `0x${getMetadataValueToSet(1)}${getMetadataValueToSet(2)}${getMetadataValueToSet(3)}${getMetadataValueToSet(4)}${zeros}`;
+    let output = `0x${getTileColorDataToSet(1)}${getTileColorDataToSet(2)}${getTileColorDataToSet(3)}${getTileColorDataToSet(4)}${zeros}`;
     console.log('dataToSet output', output);
     return output;
   }
 
-  const getMetadataValueToSet = (index) => {
-    return metadataToUpdate[index - 1] !== null ? getTileRgbValue(metadataToUpdate, index) : currentTokenAttributes[index - 1].value;
+  const getTileColorDataToSet = (tileNumber) => {
+    return colorsToUpdate[tileNumber - 1] !== null ? getTileRgbValue(colorsToUpdate, tileNumber) : currentColorAttributes[tileNumber - 1].value;
   }
   
   const getShouldRender = () => {
-    return tileContract && signer && tokenId && currentTokenAttributes.length === NUMBER_OF_DATA_ENTRIES_TO_SET && metadataToUpdate.length === NUMBER_OF_DATA_ENTRIES_TO_SET
+    return tileContract && signer && tokenId && currentColorAttributes.length === NUMBER_OF_COLORS_TO_SET && colorsToUpdate.length === NUMBER_OF_COLORS_TO_SET
   }
 
   return (
@@ -86,7 +86,7 @@ const MetadataSetContractWrapper = ({contractAddress, tokenId, metadataToSetInde
           <MetadataSetContract
               contract={tileContract}
               tokenId={tokenId}
-              dataToSetIndex={metadataToSetIndex}
+              dataToSetIndex={dataToSetIndex}
               dataToSet={getDataToSet()}
               successCallback={successCallback}
           />

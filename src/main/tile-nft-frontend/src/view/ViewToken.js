@@ -5,7 +5,7 @@ import {getTileRgbUrlValue} from "../etc/getTileRgbValue";
 
 const noop = () => {};
 
-const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = []}) => {
+const ViewToken = ({tokenLoadedCallback = noop, colorsToUpdate = [], emojisToUpdate = []}) => {
 
   const [viewTokenData, setViewTokenData] = useState({
     tokenId: '',
@@ -13,14 +13,15 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = []}) => {
     isInvalidTokenNumber: false,
     isGeneralError: false,
     imgValue: '',
-    previouslyUsedMetadataToUpdate: []
+    loadedColorsToUpdate: [],
+    loadedEmojisToUpdate: []
   });
 
   useEffect(() => {
-    if (metadataToUpdate.length !== viewTokenData.previouslyUsedMetadataToUpdate.length) {
+    if (colorsToUpdate.length !== viewTokenData.loadedColorsToUpdate.length || emojisToUpdate.length !== viewTokenData.loadedEmojisToUpdate.length) {
       loadTokenImage();
     }
-  }, [metadataToUpdate]);
+  }, [colorsToUpdate, emojisToUpdate]);
 
   const handleChange = (event) => {
     setViewTokenData({...viewTokenData, tokenId: event.target.value})
@@ -33,10 +34,10 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = []}) => {
   }
 
   const getUrl = () => {
-    if (metadataToUpdate.length === 0) {
+    if (colorsToUpdate.length === 0) {
       return `http://localhost:8080/api/image/tile/get/${viewTokenData.tokenId}`;
     }
-    return `http://localhost:8080/api/image/metadataSet/get/${viewTokenData.tokenId}?${getTileRgbUrlValue(metadataToUpdate, 1)}&${getTileRgbUrlValue(metadataToUpdate, 2)}&${getTileRgbUrlValue(metadataToUpdate, 3)}&${getTileRgbUrlValue(metadataToUpdate, 4)}`;
+    return `http://localhost:8080/api/image/metadataSet/get/${viewTokenData.tokenId}?${getTileRgbUrlValue(colorsToUpdate, 1)}&${getTileRgbUrlValue(colorsToUpdate, 2)}&${getTileRgbUrlValue(colorsToUpdate, 3)}&${getTileRgbUrlValue(colorsToUpdate, 4)}`;
   }
 
   const loadTokenImage = () => {
@@ -67,7 +68,8 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = []}) => {
         isInvalidTokenNumber: false,
         isGeneralError: false,
         imgValue: URL.createObjectURL(blob),
-        previouslyUsedMetadataToUpdate: metadataToUpdate
+        loadedColorsToUpdate: colorsToUpdate,
+        loadedEmojisToUpdate: emojisToUpdate
       })
       tokenLoadedCallback(viewTokenData.tokenId);
     })
