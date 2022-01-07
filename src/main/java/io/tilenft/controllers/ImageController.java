@@ -101,6 +101,7 @@ public class ImageController extends BaseController {
     if (wasTileEmojiChangeRequested(metadataSetDTO)) {
       updateTileEmojis(emojiFileNames, metadataSetDTO);
     }
+    System.out.println(Arrays.toString(emojiFileNames));
     byte[] byteArray =
         imageDrawer.drawImage(
             tokenId,
@@ -147,36 +148,33 @@ public class ImageController extends BaseController {
     }
   }
 
-  private void updateTileEmojis(String[] emojiFileNames, MetadataSetDTO metadataSetDTO) {
-    System.out.println(
-        "updateTileEmojis called. emojiFileNames: "
-            + Arrays.toString(emojiFileNames)
-            + ", metadataSetDTO: "
-            + metadataSetDTO);
-    String tile1Emoji = metadataSetDTO.getTile1Emoji();
-    if (!tile1Emoji.equals("")) {
-      emojiFileNames[0] = tile1Emoji;
-    }
-    String tile2Emoji = metadataSetDTO.getTile2Emoji();
-    if (!tile2Emoji.equals("")) {
-      emojiFileNames[1] = tile2Emoji;
-    }
-    String tile3Emoji = metadataSetDTO.getTile3Emoji();
-    if (!tile3Emoji.equals("")) {
-      emojiFileNames[2] = tile3Emoji;
-    }
-    String tile4Emoji = metadataSetDTO.getTile4Color();
-    if (!tile4Emoji.equals("")) {
-      emojiFileNames[3] = tile4Emoji;
-    }
-  }
-
   private boolean wasTileEmojiChangeRequested(MetadataSetDTO metadataSetDTO) {
     return metadataSetDTO != null
         && (!metadataSetDTO.getTile1Emoji().equals("")
             || !metadataSetDTO.getTile2Emoji().equals("")
             || !metadataSetDTO.getTile3Emoji().equals("")
             || !metadataSetDTO.getTile4Emoji().equals(""));
+  }
+
+  private void updateTileEmojis(String[] emojiFileNames, MetadataSetDTO metadataSetDTO)
+      throws ImageException {
+    System.out.println(
+        "updateTileEmojis called. emojiFileNames: "
+            + Arrays.toString(emojiFileNames)
+            + ", metadataSetDTO: "
+            + metadataSetDTO);
+    if (!metadataSetDTO.getTile1Emoji().equals("")) {
+      emojiFileNames[0] = metadataSetDTO.getEmojiFilename(1);
+    }
+    if (!metadataSetDTO.getTile2Emoji().equals("")) {
+      emojiFileNames[1] = metadataSetDTO.getEmojiFilename(2);
+    }
+    if (!metadataSetDTO.getTile3Emoji().equals("")) {
+      emojiFileNames[2] = metadataSetDTO.getEmojiFilename(3);
+    }
+    if (!metadataSetDTO.getTile4Emoji().equals("")) {
+      emojiFileNames[3] = metadataSetDTO.getEmojiFilename(4);
+    }
   }
 
   private Long getOverallRarityScore(List<WeightlessTraitDTO> weightlessTraits) {

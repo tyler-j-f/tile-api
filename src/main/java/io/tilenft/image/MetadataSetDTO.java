@@ -14,4 +14,20 @@ public class MetadataSetDTO {
   private String tile2Emoji;
   private String tile3Emoji;
   private String tile4Emoji;
+
+  public String getEmojiFilename(int tileNumber) throws ImageException {
+    String pngFilExtension = ".png";
+    switch (tileNumber) {
+      case 1:
+        return tile1Emoji + pngFilExtension;
+      case 2:
+        return tile2Emoji + pngFilExtension;
+      case 3:
+        return tile3Emoji + pngFilExtension;
+      case 4:
+        return tile4Emoji + pngFilExtension;
+      default:
+        throw new ImageException("Invalid tileNumber: " + tileNumber);
+    }
+  }
 }

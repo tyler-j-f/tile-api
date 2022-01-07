@@ -1,6 +1,6 @@
 
 export const getTileEmojiUrlValue = (emojisToUpdate, emojiNumber) => {
-  let valueBaseString = `tile${tileNumber}Emoji=`;
+  let valueBaseString = `tile${emojiNumber}Emoji=`;
   return `${valueBaseString}${getEmojiColorValue(emojisToUpdate, emojiNumber)}`;
 }
 
