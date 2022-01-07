@@ -1,15 +1,19 @@
 
 export const getTileEmojiUrlValue = (emojisToUpdate, emojiNumber) => {
   let valueBaseString = `tile${emojiNumber}Emoji=`;
-  return `${valueBaseString}${getEmojiColorValue(emojisToUpdate, emojiNumber)}`;
+  return `${valueBaseString}${getTileEmojiValue(emojisToUpdate, emojiNumber)}`;
 }
 
-export const getEmojiColorValue = (emojisToUpdate, emojiNumber, shouldPadWithZeros = false) => {
-  let emojiToUpdate = emojisToUpdate[emojiNumber - 1];
+export const getTileEmojiValue = (emojisToUpdate, tileNumber) => {
+  let emojiToUpdate = emojisToUpdate[tileNumber - 1];
   if (!emojiToUpdate) {
     return '';
   }
-  return shouldPadWithZeros ? `${getEmojiValueWithPaddedZeros(emojiToUpdate)}` : emojiToUpdate;
+  return emojiToUpdate;
+}
+
+export const getTileEmojiIndexValue = (emojiIndexes, tileNumber) => {
+  return `${getEmojiValueWithPaddedZeros(emojiIndexes[tileNumber - 1])}`
 }
 
 const getEmojiValueWithPaddedZeros = (emojiIndex) => {
@@ -33,4 +37,4 @@ const getEmojiValueWithPaddedZeros = (emojiIndex) => {
   }
 }
 
-export default getEmojiColorValue
+export default getTileEmojiValue

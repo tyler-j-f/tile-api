@@ -13,7 +13,6 @@ export const loadEmojiTokenAttributes = ({
       {method: 'get'}
   )
   .then(response => {
-    console.log("loadEmojiTokenAttributes getRequestUrl response found", response);
     if (response.status === 200) {
       return response.json();
     }

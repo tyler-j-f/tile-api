@@ -31,7 +31,6 @@ const MetadataSetContractWrapper = ({
           attributesRegex,
           metadataToUpdate
         }).then(result => {
-          console.log("MetadataSetContractWrapper useEffect. result: ", result);
           setDataToUpdateRelatedData(result);
         }).then(() => {
           handleProviderAndSigner();
@@ -45,9 +44,7 @@ const MetadataSetContractWrapper = ({
   }
 
   const handleProviderAndSigner = () => {
-    console.log('handleProviderAndSigner called');
     if (provider) {
-      console.log('provider found called');
       setTileContract(
           new ethers.Contract(contractAddress, TileContract.abi, provider)
       );
