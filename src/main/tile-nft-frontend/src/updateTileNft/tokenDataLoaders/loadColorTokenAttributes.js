@@ -2,8 +2,18 @@
 export const loadColorTokenAttributes = ({
   tokenId,
   handleProviderAndSigner,
-  handleAttributesJson
+  attributesRegex,
+  setCurrentTokenAttributes
 }) => {
+
+  const handleAttributesJson = (attributes) => {
+    console.log('tiles/get attributes found. attributes: ', attributes);
+    let filteredAttributes = attributes.filter(attribute => {
+      return attribute.trait_type.match(attributesRegex);
+    })
+    console.log('filteredAttributes:', filteredAttributes)
+    setCurrentTokenAttributes(filteredAttributes);
+  }
 
   return fetch(`http://localhost:8080/api/tiles/get/${tokenId}`, {method: 'get'})
   .then(response => {

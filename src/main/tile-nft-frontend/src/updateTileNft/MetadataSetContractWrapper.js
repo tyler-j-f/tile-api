@@ -27,7 +27,8 @@ const MetadataSetContractWrapper = ({
   useEffect(() => {loadTokenAttributes({
     tokenId,
     handleProviderAndSigner,
-    handleAttributesJson
+    attributesRegex,
+    setCurrentTokenAttributes
   });}, []);
   
   const getShouldRender = () => {
@@ -46,15 +47,6 @@ const MetadataSetContractWrapper = ({
       // For this, you need the account signer...
       setSigner(provider.getSigner());
     }
-  }
-
-  const handleAttributesJson = (attributes) => {
-    console.log('tiles/get attributes found. attributes: ', attributes);
-    let filteredAttributes = attributes.filter(attribute => {
-      return attribute.trait_type.match(attributesRegex);
-    })
-    console.log('filteredAttributes:', filteredAttributes)
-    setCurrentTokenAttributes(filteredAttributes);
   }
 
   return (
