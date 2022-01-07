@@ -1,9 +1,7 @@
 
 export const loadColorTokenAttributes = ({
   tokenId,
-  handleProviderAndSigner,
-  attributesRegex,
-  setDataToUpdateRelatedData
+  attributesRegex
 }) => {
 
   const handleAttributesJson = (attributes) => {
@@ -12,7 +10,7 @@ export const loadColorTokenAttributes = ({
       return attribute.trait_type.match(attributesRegex);
     })
     console.log('Found color attributes:', filteredAttributes)
-    setDataToUpdateRelatedData(filteredAttributes);
+    return filteredAttributes;
   }
 
   return fetch(`http://localhost:8080/api/tiles/get/${tokenId}`, {method: 'get'})
@@ -28,10 +26,7 @@ export const loadColorTokenAttributes = ({
       console.log(errorMessage);
       throw errorMessage;
     }
-    handleAttributesJson(json.attributes);
-  })
-  .then(() => {
-    handleProviderAndSigner();
+    return handleAttributesJson(json.attributes);
   })
   .catch(err => {
     console.log("Error caught!!!", err);

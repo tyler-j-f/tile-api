@@ -24,12 +24,20 @@ const MetadataSetContractWrapper = ({
   const [signer, setSigner] = useState(null);
   const [dataToUpdateRelatedData, setDataToUpdateRelatedData] = useState([]);
 
-  useEffect(() => {loadDataToUpdateRelatedData({
-    tokenId,
-    handleProviderAndSigner,
-    attributesRegex,
-    setDataToUpdateRelatedData
-  });}, []);
+  useEffect(
+      () => {
+        loadDataToUpdateRelatedData({
+          tokenId,
+          attributesRegex
+        }).then(result => {
+          console.log("MetadataSetContractWrapper useEffect. result: ", result);
+          setDataToUpdateRelatedData(result);
+        }).then(() => {
+          handleProviderAndSigner();
+        })
+      },
+      []
+  );
   
   const getShouldRender = () => {
     return tileContract && signer && tokenId && dataToUpdateRelatedData.length === numberOfEntriesToSet && metadataToUpdate.length === numberOfEntriesToSet

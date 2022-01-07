@@ -15,6 +15,8 @@ import getEmojisMetadataUpdatedTokenUrl
   from "../view/metadataUpdatedTokenUrlGetters/getEmojisMetadataUpdatedTokenUrl";
 import loadColorTokenAttributes
   from "../updateTileNft/tokenDataLoaders/loadColorTokenAttributes";
+import loadEmojiTokenAttributes
+  from "../updateTileNft/tokenDataLoaders/loadEmojiTokenAttributes";
 
 const UpdateTileNftPage = () => {
   const [txData, setTxData] = useState({
@@ -102,7 +104,7 @@ const UpdateTileNftPage = () => {
             }
             dataToSetGetter={emojiDataToSetGetter}
             getMetadataUpdatedTokenUrl={getEmojisMetadataUpdatedTokenUrl}
-            loadDataToUpdateRelatedData={loadColorTokenAttributes}
+            loadDataToUpdateRelatedData={loadEmojiTokenAttributes}
         />
     );
   }
