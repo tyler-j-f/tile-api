@@ -12,24 +12,24 @@ export const getEmojiColorValue = (emojisToUpdate, emojiNumber, shouldPadWithZer
   return shouldPadWithZeros ? `${getEmojiValueWithPaddedZeros(emojiToUpdate)}` : emojiToUpdate;
 }
 
-const getEmojiValueWithPaddedZeros = (emojiValue) => {
-  switch (emojiValue.toString().length) {
+const getEmojiValueWithPaddedZeros = (emojiIndex) => {
+  switch (emojiIndex.toString().length) {
     case 0:
       return `0000000`;
     case 1:
-      return `000000${emojiValue}`;
+      return `000000${emojiIndex}`;
     case 2:
-      return `00000${emojiValue}`;
+      return `00000${emojiIndex}`;
     case 3:
-      return `0000${emojiValue}`;
+      return `0000${emojiIndex}`;
     case 4:
-      return `000${emojiValue}`;
+      return `000${emojiIndex}`;
     case 5:
-      return `00${emojiValue}`;
+      return `00${emojiIndex}`;
     case 6:
-      return `0${emojiValue}`;
+      return `0${emojiIndex}`;
     case 7:
-      return `${emojiValue}`;
+      return `${emojiIndex}`;
   }
 }
 

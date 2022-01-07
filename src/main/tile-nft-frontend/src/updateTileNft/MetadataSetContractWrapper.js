@@ -28,7 +28,8 @@ const MetadataSetContractWrapper = ({
       () => {
         loadDataToUpdateRelatedData({
           tokenId,
-          attributesRegex
+          attributesRegex,
+          metadataToUpdate
         }).then(result => {
           console.log("MetadataSetContractWrapper useEffect. result: ", result);
           setDataToUpdateRelatedData(result);

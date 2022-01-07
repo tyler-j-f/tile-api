@@ -79,11 +79,34 @@ public class ImageResourcesLoader {
     Resource[] resources = new Resource[names.length];
     int x = 0;
     for (String name : names) {
-      System.out.println("DEBUG getResourcesByName name: " + name);
       Resource a = getResourceByName(name);
-      System.out.println("DEBUG getResourcesByName found: " + a.getFilename());
       resources[x++] = a;
     }
     return resources;
+  }
+
+  public int[] getResourcesIndexes(String[] filenames) throws IOException, ImageException {
+    if (resources == null) {
+      loadResources();
+    }
+    int numberOfResources = filenames.length;
+    int[] indexes = new int[numberOfResources];
+    for (int x = 0; x < numberOfResources; x++) {
+      indexes[x] = getResourceIndex(filenames[x]);
+    }
+    return indexes;
+  }
+
+  public int getResourceIndex(String filename) throws IOException, ImageException {
+    System.out.println("DEBUG getResourceIndex filename: " + filename);
+    if (resources == null) {
+      loadResources();
+    }
+    for (int x = 0; x < resources.length; x++) {
+      if (resources[x].getFilename().equals(filename)) {
+        return x;
+      }
+    }
+    throw new ImageException("Unable to find image. filename: " + filename);
   }
 }

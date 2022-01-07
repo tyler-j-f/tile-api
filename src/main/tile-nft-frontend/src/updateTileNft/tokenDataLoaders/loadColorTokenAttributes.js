@@ -3,7 +3,6 @@ export const loadColorTokenAttributes = ({
   tokenId,
   attributesRegex
 }) => {
-
   const handleAttributesJson = (attributes) => {
     console.log('tiles/get attributes found. attributes: ', attributes);
     let filteredAttributes = attributes.filter(attribute => {

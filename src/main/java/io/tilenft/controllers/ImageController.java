@@ -1,5 +1,6 @@
 package io.tilenft.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tilenft.etc.lists.finders.WeightedTraitsListFinder;
 import io.tilenft.etc.lists.finders.WeightlessTraitsListFinder;
 import io.tilenft.eth.token.TokenFacadeDTO;
@@ -77,6 +78,24 @@ public class ImageController extends BaseController {
   @GetMapping(value = "saleImage/get/{saleImageId}", produces = MediaType.IMAGE_PNG_VALUE)
   public void getSaleImage(HttpServletResponse response, @PathVariable Long saleImageId) {
     return;
+  }
+
+  @GetMapping(value = "emojiIndexes/get")
+  public String getEmojiIndexes(
+      @RequestParam(required = false, defaultValue = "") String tile1Emoji,
+      @RequestParam(required = false, defaultValue = "") String tile2Emoji,
+      @RequestParam(required = false, defaultValue = "") String tile3Emoji,
+      @RequestParam(required = false, defaultValue = "") String tile4Emoji)
+      throws ImageException, IOException {
+    String[] emojiFilenames = new String[4];
+    emojiFilenames[0] = tile1Emoji;
+    emojiFilenames[1] = tile2Emoji;
+    emojiFilenames[2] = tile3Emoji;
+    emojiFilenames[3] = tile4Emoji;
+    System.out.println("DEBUG emojiFilenames: " + Arrays.toString(emojiFilenames));
+    int[] indexes = imageResourcesLoader.getResourcesIndexes(emojiFilenames);
+    System.out.println("DEBUG indexes: " + Arrays.toString(indexes));
+    return new ObjectMapper().writeValueAsString(indexes);
   }
 
   private void getImage(HttpServletResponse response, Long tokenId)
@@ -214,10 +233,14 @@ public class ImageController extends BaseController {
     for (WeightlessTraitDTO weightlessTrait : weightlessTraits) {
       Long traitTypeId = weightlessTrait.getTraitTypeId();
       if (traitTypeId == 11 || traitTypeId == 12 || traitTypeId == 13 || traitTypeId == 14) {
-        names[x++] = weightlessTrait.getValue() + ".png";
+        names[x++] = appendPngFileExtension(weightlessTrait.getValue());
       }
     }
     return names;
+  }
+
+  private String appendPngFileExtension(String input) {
+    return input + ".png";
   }
 
   private void writeBufferedImageToOutput(byte[] pixelArray, HttpServletResponse response)
