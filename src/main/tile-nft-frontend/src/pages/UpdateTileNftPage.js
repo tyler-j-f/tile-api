@@ -13,6 +13,8 @@ import getColorsMetadataUpdatedTokenUrl
   from "../view/metadataUpdatedTokenUrlGetters/getColorsMetadataUpdatedTokenUrl";
 import getEmojisMetadataUpdatedTokenUrl
   from "../view/metadataUpdatedTokenUrlGetters/getEmojisMetadataUpdatedTokenUrl";
+import loadColorTokenAttributes
+  from "../updateTileNft/tokenDataLoaders/loadColorTokenAttributes";
 
 const UpdateTileNftPage = () => {
   const [txData, setTxData] = useState({
@@ -81,6 +83,7 @@ const UpdateTileNftPage = () => {
             }
             dataToSetGetter={colorDataToSetGetter}
             getMetadataUpdatedTokenUrl={getColorsMetadataUpdatedTokenUrl}
+            loadTokenAttributes={loadColorTokenAttributes}
         />
     );
   }
@@ -99,6 +102,7 @@ const UpdateTileNftPage = () => {
             }
             dataToSetGetter={emojiDataToSetGetter}
             getMetadataUpdatedTokenUrl={getEmojisMetadataUpdatedTokenUrl}
+            loadTokenAttributes={loadColorTokenAttributes}
         />
     );
   }
