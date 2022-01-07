@@ -83,7 +83,7 @@ const UpdateTileNftPage = () => {
             }
             dataToSetGetter={colorDataToSetGetter}
             getMetadataUpdatedTokenUrl={getColorsMetadataUpdatedTokenUrl}
-            loadTokenAttributes={loadColorTokenAttributes}
+            loadDataToUpdateRelatedData={loadColorTokenAttributes}
         />
     );
   }
@@ -102,7 +102,7 @@ const UpdateTileNftPage = () => {
             }
             dataToSetGetter={emojiDataToSetGetter}
             getMetadataUpdatedTokenUrl={getEmojisMetadataUpdatedTokenUrl}
-            loadTokenAttributes={loadColorTokenAttributes}
+            loadDataToUpdateRelatedData={loadColorTokenAttributes}
         />
     );
   }

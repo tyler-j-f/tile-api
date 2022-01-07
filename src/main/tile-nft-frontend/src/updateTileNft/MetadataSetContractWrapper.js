@@ -14,7 +14,7 @@ const MetadataSetContractWrapper = ({
   metadataToSetIndex,
   successCallback = noop,
   dataToSetGetter = noop,
-  loadTokenAttributes = noop,
+  loadDataToUpdateRelatedData = noop,
   attributesRegex = '',
   numberOfEntriesToSet = 4
 }
@@ -22,17 +22,17 @@ const MetadataSetContractWrapper = ({
   const { library: provider } = useEthers()
   const [tileContract, setTileContract] = useState(null);
   const [signer, setSigner] = useState(null);
-  const [currentTokenAttributes, setCurrentTokenAttributes] = useState([]);
+  const [dataToUpdateRelatedData, setDataToUpdateRelatedData] = useState([]);
 
-  useEffect(() => {loadTokenAttributes({
+  useEffect(() => {loadDataToUpdateRelatedData({
     tokenId,
     handleProviderAndSigner,
     attributesRegex,
-    setCurrentTokenAttributes
+    setDataToUpdateRelatedData
   });}, []);
   
   const getShouldRender = () => {
-    return tileContract && signer && tokenId && currentTokenAttributes.length === numberOfEntriesToSet && metadataToUpdate.length === numberOfEntriesToSet
+    return tileContract && signer && tokenId && dataToUpdateRelatedData.length === numberOfEntriesToSet && metadataToUpdate.length === numberOfEntriesToSet
   }
 
   const handleProviderAndSigner = () => {
@@ -56,7 +56,7 @@ const MetadataSetContractWrapper = ({
               contract={tileContract}
               tokenId={tokenId}
               dataToSetIndex={metadataToSetIndex}
-              dataToSet={dataToSetGetter(metadataToUpdate, currentTokenAttributes)}
+              dataToSet={dataToSetGetter(metadataToUpdate, dataToUpdateRelatedData)}
               successCallback={successCallback}
           />
         }
