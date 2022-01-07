@@ -7,6 +7,8 @@ import colorDataToSetGetter
   from "../updateTileNft/dataToSetGetters/colorDataToSetGetter";
 import emojiDataToSetGetter
   from "../updateTileNft/dataToSetGetters/emojiDataToSetGetter";
+import EmojiSelectorSection
+  from "../updateTileNft/sections/EmojiSelectorSection";
 
 const UpdateTileNftPage = () => {
   const [txData, setTxData] = useState({
@@ -32,7 +34,6 @@ const UpdateTileNftPage = () => {
   }
 
   const handleSelectWhatToUpdateClicked = (index) => {
-    console.log('handleSelectWhatToUpdateClicked', index);
     setTxData({
       ...txData,
       dataToSetIndex: index
@@ -85,7 +86,7 @@ const UpdateTileNftPage = () => {
             successCallback={handleSuccessfulTx}
             dataToSetIndex={1}
             SelectorSection={
-              ColorSelectorSection
+              EmojiSelectorSection
             }
             attributesRegex={/Tile \d Emoji/}
             metadataMapper={
