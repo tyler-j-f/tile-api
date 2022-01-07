@@ -1,4 +1,4 @@
-import {getTileRgbValue} from "../../etc/getTileRgbValue";
+import {getTileColorValue} from "../../etc/getTileColorValue";
 
 const emojiDataToSetGetter = (metadataToUpdate, currentTokenAttributes) => {
   const zeros = '000000000000000000000000000000000000'
@@ -12,7 +12,7 @@ const emojiDataToSetGetter = (metadataToUpdate, currentTokenAttributes) => {
 }
 
 const getMetadataValueToSet = (metadataToUpdate, index, currentTokenAttributes) => {
-  return metadataToUpdate[index - 1] !== null ? getTileRgbValue(metadataToUpdate, index) : currentTokenAttributes[index - 1].value;
+  return metadataToUpdate[index - 1] !== null ? getTileColorValue(metadataToUpdate, index) : currentTokenAttributes[index - 1].value;
 }
 
 export default emojiDataToSetGetter;
