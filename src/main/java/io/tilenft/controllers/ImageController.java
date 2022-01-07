@@ -80,7 +80,7 @@ public class ImageController extends BaseController {
     return;
   }
 
-  @GetMapping(value = "emojiIndexes/get")
+  @GetMapping(value = "emoji/indexes")
   public String getEmojiIndexes(
       @RequestParam(required = false, defaultValue = "") String tile1Emoji,
       @RequestParam(required = false, defaultValue = "") String tile2Emoji,
