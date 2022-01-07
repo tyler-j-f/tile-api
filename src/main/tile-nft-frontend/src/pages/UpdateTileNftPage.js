@@ -90,7 +90,7 @@ const UpdateTileNftPage = () => {
             }
             attributesRegex={/Tile \d Emoji/}
             metadataMapper={
-              (data, index) => data !== null ? <StyledText>Tile {index + 1} updated emoji value: {data.hex}</StyledText> : null
+              (data, index) => data !== null ? <StyledText>Tile {index + 1} updated emoji value: {data}</StyledText> : null
             }
             dataToSetGetter={emojiDataToSetGetter}
         />

@@ -7,12 +7,13 @@ const ColorSelectorSection = ({metadataToUpdate, handleKeepMetadataValue, handle
   const handleEmojiPickerClick = ({target: {currentSrc}}) => {
     if (currentSrc) {
       console.log(currentSrc);
-      let myRegexp = new RegExp("\/([a-zA-Z0-9]+.png)");
+      let myRegexp = new RegExp("\/([a-zA-Z0-9]+).png");
       let match = myRegexp.exec(currentSrc);
-      console.log(match);
-      let toMatch2 = 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple@6.0.1/img/apple/64/1f3c2.png';
-      let match2 = myRegexp.exec(toMatch2);
-      console.log(match2);
+      let emojiUnicodeValue = match[1];
+      console.log("Emoji selected. Unicode: ", emojiUnicodeValue);
+      if (emojiUnicodeValue) {
+        handleDataSelected(emojiUnicodeValue);
+      }
     }
   }
 
