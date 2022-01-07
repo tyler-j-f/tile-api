@@ -1,7 +1,7 @@
-import {getTileColorUrlValue} from "../../etc/getTileColorValue";
+import {getTileEmojiUrlValue} from "../metadataUpdatedTokenValueGetters/getTileEmojiValue";
 
 const getEmojisMetadataUpdatedTokenUrl = (tokenId, metadataToUpdate) => {
-  return `http://localhost:8080/api/image/metadataSet/get/${tokenId}?${getTileColorUrlValue(metadataToUpdate, 1)}&${getTileColorUrlValue(metadataToUpdate, 2)}&${getTileColorUrlValue(metadataToUpdate, 3)}&${getTileColorUrlValue(metadataToUpdate, 4)}`;
+  return `http://localhost:8080/api/image/metadataSet/get/${tokenId}?${getTileEmojiUrlValue(metadataToUpdate, 1)}&${getTileEmojiUrlValue(metadataToUpdate, 2)}&${getTileEmojiUrlValue(metadataToUpdate, 3)}&${getTileEmojiUrlValue(metadataToUpdate, 4)}`;
 }
 
 export default getEmojisMetadataUpdatedTokenUrl;

@@ -1,18 +1,15 @@
-import {getTileColorValue} from "../../etc/getTileColorValue";
+import getTileEmojiValue
+  from "../../view/metadataUpdatedTokenValueGetters/getTileEmojiValue";
 
 const emojiDataToSetGetter = (metadataToUpdate, currentTokenAttributes) => {
   const zeros = '000000000000000000000000000000000000'
-  const emojiOne = '0000100';
-  const emojiTwo = '0000200';
-  const emojiThree = '0000300';
-  const emojiFour = '0000400';
-  let output = `0x${emojiOne}${emojiTwo}${emojiThree}${emojiFour}${zeros}`;
-  console.log('dataToSet output', output, metadataToUpdate, currentTokenAttributes);
+  let output = `0x${getMetadataValueToSet(metadataToUpdate, 1, currentTokenAttributes)}${getMetadataValueToSet(metadataToUpdate, 2, currentTokenAttributes)}${getMetadataValueToSet(metadataToUpdate, 3, currentTokenAttributes)}${getMetadataValueToSet(metadataToUpdate, 4, currentTokenAttributes)}${zeros}`;
+  console.log('emojiDataToSetGetter output', output);
   return output;
 }
 
 const getMetadataValueToSet = (metadataToUpdate, index, currentTokenAttributes) => {
-  return metadataToUpdate[index - 1] !== null ? getTileColorValue(metadataToUpdate, index) : currentTokenAttributes[index - 1].value;
+  return metadataToUpdate[index - 1] !== null ? getTileEmojiValue(metadataToUpdate, index) : currentTokenAttributes[index - 1].value;
 }
 
 export default emojiDataToSetGetter;

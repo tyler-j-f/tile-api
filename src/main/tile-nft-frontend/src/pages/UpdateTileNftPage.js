@@ -11,6 +11,8 @@ import EmojiSelectorSection
   from "../updateTileNft/sections/EmojiSelectorSection";
 import getColorsMetadataUpdatedTokenUrl
   from "../view/metadataUpdatedTokenUrlGetters/getColorsMetadataUpdatedTokenUrl";
+import getEmojisMetadataUpdatedTokenUrl
+  from "../view/metadataUpdatedTokenUrlGetters/getEmojisMetadataUpdatedTokenUrl";
 
 const UpdateTileNftPage = () => {
   const [txData, setTxData] = useState({
@@ -96,7 +98,7 @@ const UpdateTileNftPage = () => {
               (data, index) => data !== null ? <StyledText>Tile {index + 1} updated emoji value: {data}</StyledText> : null
             }
             dataToSetGetter={emojiDataToSetGetter}
-            getMetadataUpdatedTokenUrl={getColorsMetadataUpdatedTokenUrl}
+            getMetadataUpdatedTokenUrl={getEmojisMetadataUpdatedTokenUrl}
         />
     );
   }
