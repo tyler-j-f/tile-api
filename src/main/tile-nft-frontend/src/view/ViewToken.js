@@ -1,11 +1,10 @@
 import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import Spinner from 'react-bootstrap/Spinner';
-import {getTileRgbUrlValue} from "../etc/getTileRgbValue";
 
 const noop = () => {};
 
-const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = []}) => {
+const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetadataUpdatedTokenUrl = noop}) => {
 
   const [viewTokenData, setViewTokenData] = useState({
     tokenId: '',
@@ -36,7 +35,7 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = []}) => {
     if (metadataToUpdate.length === 0) {
       return `http://localhost:8080/api/image/tile/get/${viewTokenData.tokenId}`;
     }
-    return `http://localhost:8080/api/image/metadataSet/get/${viewTokenData.tokenId}?${getTileRgbUrlValue(metadataToUpdate, 1)}&${getTileRgbUrlValue(metadataToUpdate, 2)}&${getTileRgbUrlValue(metadataToUpdate, 3)}&${getTileRgbUrlValue(metadataToUpdate, 4)}`;
+    return getMetadataUpdatedTokenUrl(viewTokenData.tokenId, metadataToUpdate);
   }
 
   const loadTokenImage = () => {

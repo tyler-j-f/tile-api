@@ -12,6 +12,7 @@ const UpdateTileNft = ({
   successCallback = noop,
   metadataMapper = noop,
   dataToSetGetter = noop,
+  getMetadataUpdatedTokenUrl = noop,
   dataToSetIndex = null,
   SelectorSection = null,
   attributesRegex = '',
@@ -52,6 +53,7 @@ const UpdateTileNft = ({
         <ViewToken
             tokenLoadedCallback={handleTokenLoaded}
             metadataToUpdate={metadataToUpdate}
+            getMetadataUpdatedTokenUrl={getMetadataUpdatedTokenUrl}
         />
         {tokenId !== '' && (
             <>
