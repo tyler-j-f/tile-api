@@ -9,7 +9,7 @@ const emojiDataToSetGetter = (metadataToUpdate, currentTokenAttributes) => {
 }
 
 const getMetadataValueToSet = (metadataToUpdate, index, currentTokenAttributes) => {
-  return metadataToUpdate[index - 1] !== null ? getTileEmojiValue(metadataToUpdate, index) : currentTokenAttributes[index - 1].value;
+  return metadataToUpdate[index - 1] !== null ? getTileEmojiValue(metadataToUpdate, index, true) : currentTokenAttributes[index - 1].value;
 }
 
 export default emojiDataToSetGetter;

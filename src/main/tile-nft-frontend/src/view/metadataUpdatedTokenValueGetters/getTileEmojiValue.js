@@ -1,15 +1,15 @@
 
 export const getTileEmojiUrlValue = (emojisToUpdate, emojiNumber) => {
-  let valueBaseString = `emoji${emojiNumber}Color=`;
+  let valueBaseString = `tile${tileNumber}Emoji=`;
   return `${valueBaseString}${getEmojiColorValue(emojisToUpdate, emojiNumber)}`;
 }
 
-export const getEmojiColorValue = (emojisToUpdate, emojiNumber) => {
+export const getEmojiColorValue = (emojisToUpdate, emojiNumber, shouldPadWithZeros = false) => {
   let emojiToUpdate = emojisToUpdate[emojiNumber - 1];
   if (!emojiToUpdate) {
     return '';
   }
-  return `${getEmojiValueWithPaddedZeros(emojiToUpdate)}`;
+  return shouldPadWithZeros ? `${getEmojiValueWithPaddedZeros(emojiToUpdate)}` : emojiToUpdate;
 }
 
 const getEmojiValueWithPaddedZeros = (emojiValue) => {
