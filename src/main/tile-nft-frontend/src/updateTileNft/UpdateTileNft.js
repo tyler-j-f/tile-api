@@ -53,7 +53,7 @@ const UpdateTileNft = ({
         <ViewToken
             tokenLoadedCallback={handleTokenLoaded}
             metadataToUpdate={metadataToUpdate}
-            getMetadataUpdatedTokenUrl={getMetadataUpdatedTokenUrl}
+            getMetadataToUpdateTokenUrl={getMetadataUpdatedTokenUrl}
         />
         {tokenId !== '' && (
             <>

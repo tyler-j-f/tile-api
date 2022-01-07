@@ -4,7 +4,7 @@ import Spinner from 'react-bootstrap/Spinner';
 
 const noop = () => {};
 
-const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetadataUpdatedTokenUrl = noop}) => {
+const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetadataToUpdateTokenUrl = noop}) => {
 
   const [viewTokenData, setViewTokenData] = useState({
     tokenId: '',
@@ -35,7 +35,7 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
     if (metadataToUpdate.length === 0) {
       return `http://localhost:8080/api/image/tile/get/${viewTokenData.tokenId}`;
     }
-    return getMetadataUpdatedTokenUrl(viewTokenData.tokenId, metadataToUpdate);
+    return getMetadataToUpdateTokenUrl(viewTokenData.tokenId, metadataToUpdate);
   }
 
   const loadTokenImage = () => {
