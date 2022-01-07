@@ -88,10 +88,10 @@ public class ImageController extends BaseController {
       @RequestParam(required = false, defaultValue = "") String tile4Emoji)
       throws ImageException, IOException {
     String[] emojiFilenames = new String[4];
-    emojiFilenames[0] = tile1Emoji;
-    emojiFilenames[1] = tile2Emoji;
-    emojiFilenames[2] = tile3Emoji;
-    emojiFilenames[3] = tile4Emoji;
+    emojiFilenames[0] = appendPngFileExtension(tile1Emoji.toUpperCase());
+    emojiFilenames[1] = appendPngFileExtension(tile2Emoji.toUpperCase());
+    emojiFilenames[2] = appendPngFileExtension(tile3Emoji.toUpperCase());
+    emojiFilenames[3] = appendPngFileExtension(tile4Emoji.toUpperCase());
     System.out.println("DEBUG emojiFilenames: " + Arrays.toString(emojiFilenames));
     int[] indexes = imageResourcesLoader.getResourcesIndexes(emojiFilenames);
     System.out.println("DEBUG indexes: " + Arrays.toString(indexes));
