@@ -79,7 +79,10 @@ public class ImageResourcesLoader {
     Resource[] resources = new Resource[names.length];
     int x = 0;
     for (String name : names) {
-      resources[x++] = getResourceByName(name);
+      System.out.println("DEBUG getResourcesByName name: " + name);
+      Resource a = getResourceByName(name);
+      System.out.println("DEBUG getResourcesByName found: " + a.getFilename());
+      resources[x++] = a;
     }
     return resources;
   }

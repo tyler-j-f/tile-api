@@ -51,7 +51,7 @@ public class ImageController extends BaseController {
       @RequestParam(required = false, defaultValue = "") String tile1Emoji,
       @RequestParam(required = false, defaultValue = "") String tile2Emoji,
       @RequestParam(required = false, defaultValue = "") String tile3Emoji,
-      @RequestParam(required = false, defaultValue = "") String tile41Emoji)
+      @RequestParam(required = false, defaultValue = "") String tile4Emoji)
       throws ImageException, IOException {
     getImage(
         response,
@@ -64,7 +64,7 @@ public class ImageController extends BaseController {
             .tile1Emoji(tile1Emoji)
             .tile2Emoji(tile2Emoji)
             .tile3Emoji(tile3Emoji)
-            .tile4Emoji(tile41Emoji)
+            .tile4Emoji(tile4Emoji)
             .build());
     return;
   }

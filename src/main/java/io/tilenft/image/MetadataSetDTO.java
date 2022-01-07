@@ -19,13 +19,13 @@ public class MetadataSetDTO {
     String pngFilExtension = ".png";
     switch (tileNumber) {
       case 1:
-        return tile1Emoji + pngFilExtension;
+        return tile1Emoji.toUpperCase() + pngFilExtension;
       case 2:
-        return tile2Emoji + pngFilExtension;
+        return tile2Emoji.toUpperCase() + pngFilExtension;
       case 3:
-        return tile3Emoji + pngFilExtension;
+        return tile3Emoji.toUpperCase() + pngFilExtension;
       case 4:
-        return tile4Emoji + pngFilExtension;
+        return tile4Emoji.toUpperCase() + pngFilExtension;
       default:
         throw new ImageException("Invalid tileNumber: " + tileNumber);
     }
