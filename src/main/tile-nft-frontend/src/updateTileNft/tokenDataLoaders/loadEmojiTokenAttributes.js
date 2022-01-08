@@ -6,7 +6,7 @@ export const loadEmojiTokenAttributes = ({
 }) => {
 
   const getRequestUrl = () =>
-      `http://localhost:8080/api/image/emoji/indexes?${getTileEmojiUrlValue(metadataToUpdate, 1)}&${getTileEmojiUrlValue(metadataToUpdate, 2)}&${getTileEmojiUrlValue(metadataToUpdate, 3)}&${getTileEmojiUrlValue(metadataToUpdate, 4)}`;
+      `http://localhost:8080/api/image/emoji/indexes?tokenId=${tokenId}&${getTileEmojiUrlValue(metadataToUpdate, 1)}&${getTileEmojiUrlValue(metadataToUpdate, 2)}&${getTileEmojiUrlValue(metadataToUpdate, 3)}&${getTileEmojiUrlValue(metadataToUpdate, 4)}`;
 
   return fetch(
       getRequestUrl(),

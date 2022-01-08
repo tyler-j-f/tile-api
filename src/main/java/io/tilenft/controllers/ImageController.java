@@ -150,15 +150,12 @@ public class ImageController extends BaseController {
 
   private String getEmojiValueFromTraitsList(
       List<WeightlessTraitDTO> weightlessTraits, int traitTypeId) {
-    String foundExistingEmojiValue =
+    return appendPngFileExtension(
         weightlessTraits.stream()
             .filter(trait -> trait.getTraitTypeId() == traitTypeId)
             .findFirst()
             .get()
-            .getValue();
-    System.out.println(
-        "foundExistingEmojiValue: " + foundExistingEmojiValue + ", traitTypeId: " + traitTypeId);
-    return foundExistingEmojiValue;
+            .getValue());
   }
 
   private void getImage(HttpServletResponse response, Long tokenId)
