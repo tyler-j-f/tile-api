@@ -16,7 +16,7 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
   });
 
   useEffect(() => {
-    if (metadataToUpdate.length !== viewTokenData.previouslyUsedMetadataToUpdate.length) {
+    if (viewTokenData?.tokenId !== '' && metadataToUpdate?.length !== viewTokenData?.previouslyUsedMetadataToUpdate?.length) {
       loadTokenImage();
     }
   }, [metadataToUpdate]);
@@ -83,23 +83,23 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
       if (response.status === 200) {
         return response.blob();
       }
-      if (response.status !== 200) {
-        setViewTokenData({
+      if (response.status === 404) {
+        return {
           ...viewTokenData,
           isLoading: false,
           isInvalidTokenNumber: true,
           isGeneralError: false,
           imgValue: ''
-        })
+        };
       }
-      return null;
+      throw "Error: Unrecognized response."
     })
     .then(blob => {
       if (blob === null) {
         console.log('Image blob is null');
         return null;
       }
-      const viewDataToSet = {
+      return {
         ...viewTokenData,
         isLoading: false,
         isInvalidTokenNumber: false,
@@ -107,17 +107,16 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
         imgValue: URL.createObjectURL(blob),
         previouslyUsedMetadataToUpdate: metadataToUpdate
       };
-      return viewDataToSet;
     })
     .catch(err => {
-      setViewTokenData({
+      console.log("Error caught!!!", err);
+      return {
         ...viewTokenData,
         isLoading: false,
         isInvalidTokenNumber: false,
         isGeneralError: true,
         imgValue: ''
-      })
-      console.log("Error caught!!!", err);
+      };
     });
   }
 
@@ -172,7 +171,7 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
   }
 
   return (
-      viewTokenData.isLoading ? getSpinner() : getForm()
+      (!viewTokenData || viewTokenData.isLoading) ? getSpinner() : getForm()
   );
 
 }

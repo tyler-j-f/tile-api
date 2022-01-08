@@ -14,7 +14,7 @@ const MetadataSetContract = ({contract, tokenId, dataToSetIndex, dataToSet, succ
   });
 
   useEffect(() => {
-    if (contractState.receipt) {
+    if (contractState?.receipt) {
       successCallback(contractState.receipt.transactionHash);
     }
   }, [contractState]);
