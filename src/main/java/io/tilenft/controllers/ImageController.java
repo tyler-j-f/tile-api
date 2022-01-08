@@ -85,17 +85,80 @@ public class ImageController extends BaseController {
       @RequestParam(required = false, defaultValue = "") String tile1Emoji,
       @RequestParam(required = false, defaultValue = "") String tile2Emoji,
       @RequestParam(required = false, defaultValue = "") String tile3Emoji,
-      @RequestParam(required = false, defaultValue = "") String tile4Emoji)
+      @RequestParam(required = false, defaultValue = "") String tile4Emoji,
+      @RequestParam(required = false, defaultValue = "0") Long tokenId)
       throws ImageException, IOException {
+    boolean isThereAMissingEmojiValue =
+        tile1Emoji.equals("")
+            || tile2Emoji.equals("")
+            || tile3Emoji.equals("")
+            || tile4Emoji.equals("");
+    if (tokenId.equals(0L) && isThereAMissingEmojiValue) {
+      throw new ImageException(
+          "All tile emoji values must be specified. Or a tokenId can be passed and any tile emojis, 0-4, that's not requested will be replaced with current tokenId corresponding values.");
+    }
+    TokenFacadeDTO nft = isThereAMissingEmojiValue ? tokenRetriever.get(tokenId) : null;
     String[] emojiFilenames = new String[4];
-    emojiFilenames[0] = appendPngFileExtension(tile1Emoji.toUpperCase());
-    emojiFilenames[1] = appendPngFileExtension(tile2Emoji.toUpperCase());
-    emojiFilenames[2] = appendPngFileExtension(tile3Emoji.toUpperCase());
-    emojiFilenames[3] = appendPngFileExtension(tile4Emoji.toUpperCase());
+    emojiFilenames[0] =
+        !tile1Emoji.equals("")
+            ? appendPngFileExtension(tile1Emoji.toUpperCase())
+            : getCurrentTokenEmojiValue(1, nft);
+    emojiFilenames[1] =
+        !tile2Emoji.equals("")
+            ? appendPngFileExtension(tile2Emoji.toUpperCase())
+            : getCurrentTokenEmojiValue(2, nft);
+    emojiFilenames[2] =
+        !tile3Emoji.equals("")
+            ? appendPngFileExtension(tile3Emoji.toUpperCase())
+            : getCurrentTokenEmojiValue(3, nft);
+    emojiFilenames[3] =
+        !tile4Emoji.equals("")
+            ? appendPngFileExtension(tile4Emoji.toUpperCase())
+            : getCurrentTokenEmojiValue(4, nft);
     System.out.println("DEBUG emojiFilenames: " + Arrays.toString(emojiFilenames));
     int[] indexes = imageResourcesLoader.getResourcesIndexes(emojiFilenames);
     System.out.println("DEBUG indexes: " + Arrays.toString(indexes));
     return new ObjectMapper().writeValueAsString(indexes);
+  }
+
+  private String getCurrentTokenEmojiValue(int tileNumber, TokenFacadeDTO nft)
+      throws ImageException {
+    List<WeightlessTraitDTO> weightlessTraits = nft.getWeightlessTraits();
+    switch (tileNumber) {
+      case 1:
+        return getEmojiValueFromTraitsList(
+            weightlessTraits, WeightlessTraitTypeConstants.TILE_1_EMOJI);
+      case 2:
+        return getEmojiValueFromTraitsList(
+            weightlessTraits, WeightlessTraitTypeConstants.TILE_2_EMOJI);
+      case 3:
+        return getEmojiValueFromTraitsList(
+            weightlessTraits, WeightlessTraitTypeConstants.TILE_3_EMOJI);
+      case 4:
+        return getEmojiValueFromTraitsList(
+            weightlessTraits, WeightlessTraitTypeConstants.TILE_4_EMOJI);
+      default:
+        throw new ImageException(
+            "getCurrentTokenEmojiValue failed. tokenId: "
+                + nft.getTokenDTO().getTokenId()
+                + ", tileNumber: "
+                + tileNumber
+                + ", nft: "
+                + nft);
+    }
+  }
+
+  private String getEmojiValueFromTraitsList(
+      List<WeightlessTraitDTO> weightlessTraits, int traitTypeId) {
+    String foundExistingEmojiValue =
+        weightlessTraits.stream()
+            .filter(trait -> trait.getTraitTypeId() == traitTypeId)
+            .findFirst()
+            .get()
+            .getValue();
+    System.out.println(
+        "foundExistingEmojiValue: " + foundExistingEmojiValue + ", traitTypeId: " + traitTypeId);
+    return foundExistingEmojiValue;
   }
 
   private void getImage(HttpServletResponse response, Long tokenId)
