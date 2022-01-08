@@ -8,7 +8,6 @@ import {Button} from "react-bootstrap";
 const noop = () => {};
 
 const UpdateTileNft = ({
-  contractAddress = "0xEc9547ABc4a8c24B99226BeE239c6E29814903Cd",
   successCallback = noop,
   metadataMapper = noop,
   dataToSetGetter = noop,
@@ -21,11 +20,15 @@ const UpdateTileNft = ({
 }) => {
   const {account} = useEthers();
   const [tokenId, setTokenId] = useState('');
+  const [contractAddress, setContractAddress] = useState('');
   const [metadataToUpdate, setMetadataToUpdate] = useState([]);
 
-  const handleTokenLoaded = (tokenIdToSet) => {
+  const handleTokenLoaded = (tokenIdToSet, contractAddressToSet) => {
     if (tokenIdToSet && tokenId !== tokenIdToSet) {
       setTokenId(tokenIdToSet);
+    }
+    if (contractAddress !== contractAddressToSet) {
+      setContractAddress(contractAddressToSet);
     }
   }
 
@@ -74,7 +77,7 @@ const UpdateTileNft = ({
                 </Button>
               }
               <ConnectButton />
-              {account && metadataToUpdate.length === numberOfEntriesToSet && (
+              {account && metadataToUpdate.length === numberOfEntriesToSet && contractAddress && (
                   <MetadataSetContractWrapper
                       tokenId={tokenId}
                       metadataToUpdate={metadataToUpdate}

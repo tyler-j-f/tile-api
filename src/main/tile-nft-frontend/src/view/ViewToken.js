@@ -39,7 +39,46 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
   }
 
   const loadTokenImage = () => {
-    fetch(getUrl(), {method: 'get'})
+    loadTokenImageData().then(
+        loadTokenImageDataResult => {
+          loadContractAddress().then(
+              contractAddress => {
+                setViewTokenData(loadTokenImageDataResult);
+                tokenLoadedCallback(viewTokenData.tokenId, contractAddress);
+              }
+          )
+        }
+    )
+  }
+
+  const loadContractAddress = () => {
+    return fetch(
+        `http://localhost:8080/api/contract/getAddress`,
+        {method: 'get'}
+    )
+    .then(response => {
+      if (response.status === 200) {
+        return response.json();
+      }
+      return null;
+    })
+    .then(json => {
+      console.log("ViewToken loadContractAddress json found", json);
+      if (json === null) {
+        let errorMessage = 'loadContractAddress json is null';
+        console.log(errorMessage);
+        throw errorMessage;
+      }
+      return json
+    })
+    .catch(err => {
+      console.log("Error caught!!!", err);
+    });
+  }
+
+
+  const loadTokenImageData = () => {
+    return fetch(getUrl(), {method: 'get'})
     .then(response => {
       if (response.status === 200) {
         return response.blob();
@@ -60,15 +99,15 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
         console.log('Image blob is null');
         return null;
       }
-      setViewTokenData({
+      const viewDataToSet = {
         ...viewTokenData,
         isLoading: false,
         isInvalidTokenNumber: false,
         isGeneralError: false,
         imgValue: URL.createObjectURL(blob),
         previouslyUsedMetadataToUpdate: metadataToUpdate
-      })
-      tokenLoadedCallback(viewTokenData.tokenId);
+      };
+      return viewDataToSet;
     })
     .catch(err => {
       setViewTokenData({
