@@ -115,10 +115,8 @@ public class ImageController extends BaseController {
         !tile4Emoji.equals("")
             ? appendPngFileExtension(tile4Emoji.toUpperCase())
             : getCurrentTokenEmojiValue(4, nft);
-    System.out.println("DEBUG emojiFilenames: " + Arrays.toString(emojiFilenames));
-    int[] indexes = imageResourcesLoader.getResourcesIndexes(emojiFilenames);
-    System.out.println("DEBUG indexes: " + Arrays.toString(indexes));
-    return new ObjectMapper().writeValueAsString(indexes);
+    return new ObjectMapper()
+        .writeValueAsString(imageResourcesLoader.getResourcesIndexes(emojiFilenames));
   }
 
   private String getCurrentTokenEmojiValue(int tileNumber, TokenFacadeDTO nft)
