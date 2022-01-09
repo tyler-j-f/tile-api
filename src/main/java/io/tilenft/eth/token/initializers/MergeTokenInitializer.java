@@ -88,9 +88,6 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
 
   protected List<WeightedTraitTypeWeightDTO> filterAndModifyWeightedTraitTypeWeights(
       List<WeightedTraitTypeWeightDTO> traitTypeWeightsList) {
-    System.out.println(
-        "\nDEBUG: findByIgnoringTraitTypeWeightIdList input traitTypeWeightsList: "
-            + traitTypeWeightsList);
     List<WeightedTraitTypeWeightDTO> output =
         traitTypeWeightsList.stream()
             .filter(
@@ -102,25 +99,22 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
                         if (traitTypeWeight
                             .getTraitTypeWeightId()
                             .equals(valueOfOneMultiplierWeight)) {
+                          // We will keep one weight for each multiplier trait type.
+                          // This trait type we keep has the value of 1.
+                          // Let's set the likelihood to 100 since it is now the only trait type
+                          // weight.
                           traitTypeWeight.setLikelihood(100L);
-                          System.out.println(
-                              "DEBUG, multiplier 1 found. Likelihood set to 100. traitTypeWeight: "
-                                  + traitTypeWeight);
                           return true;
                         }
                       }
                       // traitTypeWeight was not found in
                       // MULTIPLIER_TRAIT_TYPE_WEIGHTS_WITH_VALUE_OF_ONE
-                      System.out.println(
-                          "DEBUG, not multiplier 1. traitTypeWeight: " + traitTypeWeight);
                       return false;
                     }
                   }
                   return true;
                 })
             .collect(Collectors.toList());
-    System.out.println(
-        "\nDEBUG: findByIgnoringTraitTypeWeightIdList input traitTypeWeightIdsToIgnore: " + output);
     return output;
   }
 }
