@@ -102,15 +102,18 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
                         if (traitTypeWeight
                             .getTraitTypeWeightId()
                             .equals(valueOfOneMultiplierWeight)) {
-                          System.out.println("DEBUG, 1 likelihood set to 100");
                           traitTypeWeight.setLikelihood(100L);
-                          return true;
-                        } else {
                           System.out.println(
-                              "DEBUG, not 1 likelihood found. traitTypeWeight: " + traitTypeWeight);
-                          return false;
+                              "DEBUG, multiplier 1 found. Likelihood set to 100. traitTypeWeight: "
+                                  + traitTypeWeight);
+                          return true;
                         }
                       }
+                      // traitTypeWeight was not found in
+                      // MULTIPLIER_TRAIT_TYPE_WEIGHTS_WITH_VALUE_OF_ONE
+                      System.out.println(
+                          "DEBUG, not multiplier 1. traitTypeWeight: " + traitTypeWeight);
+                      return false;
                     }
                   }
                   return true;
