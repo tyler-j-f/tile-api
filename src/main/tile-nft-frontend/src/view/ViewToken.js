@@ -94,17 +94,23 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
       }
       throw "Error: Unrecognized response."
     })
-    .then(blob => {
-      if (blob === null) {
+    .then(response => {
+      console.log("loadTokenImageData then. response: ", response)
+      if (response === null) {
         console.log('Image blob is null');
         return null;
       }
+      if (response.isInvalidTokenNumber) {
+        console.log('Invalid token number requested.');
+        return response;
+      }
+      // Otherwise return response.blob(); was called above.
       return {
         ...viewTokenData,
         isLoading: false,
         isInvalidTokenNumber: false,
         isGeneralError: false,
-        imgValue: URL.createObjectURL(blob),
+        imgValue: URL.createObjectURL(response),
         previouslyUsedMetadataToUpdate: metadataToUpdate
       };
     })
