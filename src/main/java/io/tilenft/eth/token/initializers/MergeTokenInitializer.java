@@ -1,18 +1,12 @@
 package io.tilenft.eth.token.initializers;
 
-import io.tilenft.etc.lists.finders.WeightedTraitTypeWeightsListFinder;
 import io.tilenft.eth.token.TokenFacadeDTO;
 import io.tilenft.eth.token.traits.creators.TraitsCreatorContext;
 import io.tilenft.eth.token.traits.creators.weighted.WeightedTraitsCreator;
 import io.tilenft.eth.token.traits.creators.weightless.MergeTokenWeightlessTraitsCreator;
 import io.tilenft.eth.token.traits.weighted.WeightedTraitTypeConstants;
-import io.tilenft.sql.dtos.WeightedTraitTypeWeightDTO;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class MergeTokenInitializer extends AbstractTokenInitializer {
-
-  @Autowired private WeightedTraitTypeWeightsListFinder weightedTraitTypeWeightsListFinder;
 
   public MergeTokenInitializer(
       MergeTokenWeightlessTraitsCreator weightlessTraitsCreator,
@@ -59,7 +53,6 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
 
   private TraitsCreatorContext getContext(
       Long tokenId, Long seedForTraits, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2) {
-    filterAndUpdateWeightedTraitTypeWeights();
     return TraitsCreatorContext.builder()
         .tokenId(tokenId)
         .seedForTraits(seedForTraits)
@@ -70,70 +63,6 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
         .weightedTraitTypeWeights(weightedTraitTypeWeights)
         .burnedNft1(burnedNft1)
         .burnedNft2(burnedNft2)
-        .build();
-  }
-
-  private List<WeightedTraitTypeWeightDTO> filterAndUpdateWeightedTraitTypeWeights() {
-    System.out.println(
-        "weightedTraitTypeWeights, before filtering and modifying: " + weightedTraitTypeWeights);
-    Long[] traitTypeIds = new Long[4];
-    traitTypeIds[0] = (long) WeightedTraitTypeConstants.TILE_1_MULTIPLIER;
-    traitTypeIds[1] = (long) WeightedTraitTypeConstants.TILE_2_MULTIPLIER;
-    traitTypeIds[2] = (long) WeightedTraitTypeConstants.TILE_3_MULTIPLIER;
-    traitTypeIds[3] = (long) WeightedTraitTypeConstants.TILE_4_MULTIPLIER;
-    int nextWeightedTraitTypeWeightId = weightedTraitTypeWeights.size() + 1;
-    weightedTraitTypeWeightsListFinder.removeByTraitTypeIds(weightedTraitTypeWeights, traitTypeIds);
-    System.out.println("weightedTraitTypeWeights, post removes: " + weightedTraitTypeWeights);
-    createNewOneValueOneHundredPercentTraits(nextWeightedTraitTypeWeightId);
-    System.out.println("weightedTraitTypeWeights, post adds: " + weightedTraitTypeWeights);
-    return weightedTraitTypeWeights;
-  }
-
-  private void createNewOneValueOneHundredPercentTraits(int nextWeightedTraitTypeWeightId) {
-    weightedTraitTypeWeights.add(
-        createNewOneValueOneHundredPercent(
-            (long) nextWeightedTraitTypeWeightId++,
-            (long) WeightedTraitTypeConstants.TILE_1_MULTIPLIER));
-    weightedTraitTypeWeights.add(
-        createNewOneValueOneHundredPercent(
-            (long) nextWeightedTraitTypeWeightId++,
-            (long) WeightedTraitTypeConstants.TILE_2_MULTIPLIER));
-    weightedTraitTypeWeights.add(
-        createNewOneValueOneHundredPercent(
-            (long) nextWeightedTraitTypeWeightId++,
-            (long) WeightedTraitTypeConstants.TILE_3_MULTIPLIER));
-    weightedTraitTypeWeights.add(
-        createNewOneValueOneHundredPercent(
-            (long) nextWeightedTraitTypeWeightId,
-            (long) WeightedTraitTypeConstants.TILE_4_MULTIPLIER));
-  }
-
-  private WeightedTraitTypeWeightDTO createNewOneValueOneHundredPercent(
-      Long traitTypeWeightId, Long traitTypeId) {
-    return WeightedTraitTypeWeightDTO.builder()
-        .id(traitTypeWeightId)
-        .traitTypeWeightId(traitTypeWeightId)
-        .traitTypeId(traitTypeId)
-        .likelihood(100L)
-        .value("1")
-        .displayTypeValue("")
-        .build();
-  }
-
-  private WeightedTraitTypeWeightDTO createNewWeightedTraitTypeWeight(
-      Long id,
-      Long traitTypeWeightId,
-      Long traitTypeId,
-      Long likelihood,
-      String value,
-      String displayTypeValue) {
-    return WeightedTraitTypeWeightDTO.builder()
-        .id(id)
-        .traitTypeWeightId(traitTypeWeightId)
-        .traitTypeId(traitTypeId)
-        .likelihood(likelihood)
-        .value(value)
-        .displayTypeValue(displayTypeValue)
         .build();
   }
 }
