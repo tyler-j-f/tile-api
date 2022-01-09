@@ -3,13 +3,11 @@ package io.tilenft.eth.token.initializers;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.tilenft.config.external.TokenConfig;
-import io.tilenft.etc.lists.finders.WeightedTraitTypeWeightsListFinder;
 import io.tilenft.etc.lists.finders.WeightedTraitTypesListFinder;
 import io.tilenft.eth.token.TokenFacadeDTO;
 import io.tilenft.eth.token.traits.creators.TraitsCreatorContext;
 import io.tilenft.eth.token.traits.creators.weighted.WeightedTraitsCreator;
 import io.tilenft.eth.token.traits.creators.weightless.MergeTokenWeightlessTraitsCreator;
-import io.tilenft.eth.token.traits.weighted.WeightedTraitTypeWeightConstants;
 import io.tilenft.sql.dtos.TokenDTO;
 import io.tilenft.sql.dtos.WeightedTraitDTO;
 import io.tilenft.sql.dtos.WeightedTraitTypeDTO;
@@ -46,7 +44,6 @@ public class MergeTokenInitializerTest {
   @Mock private TokenRepository tokenRepository;
   @Mock private TokenConfig tokenConfig;
   @Mock private WeightedTraitTypesListFinder weightedTraitTypesListFinder;
-  @Mock private WeightedTraitTypeWeightsListFinder weightedTraitTypeWeightsListFinder;
   @Mock protected WeightedTraitTypeRepository weightedTraitTypeRepository;
   @Mock private WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository;
   @Mock private WeightlessTraitTypeRepository weightlessTraitTypeRepository;
@@ -115,11 +112,6 @@ public class MergeTokenInitializerTest {
             weightedTraitTypesListFinder.findByIgnoringTraitTypeIdList(
                 mockedWeightedTraitTypes, MergeTokenInitializer.WEIGHTED_TRAIT_TYPES_TO_IGNORE))
         .thenReturn(filteredMockedWeightedTraitTypes);
-    Mockito.when(
-            weightedTraitTypeWeightsListFinder.findByIgnoringTraitTypeWeightIdList(
-                mockedWeightedTraitTypeWeights,
-                WeightedTraitTypeWeightConstants.MERGE_MULTIPLIER_TRAITS_TO_IGNORE))
-        .thenReturn(mockedWeightedTraitTypeWeights);
     TokenFacadeDTO results =
         mergeTokenInitializer.initialize(NEW_TOKEN_ID, burntToken1, burntToken2, SEED_FOR_TRAITS);
     assertThat(results).isInstanceOf(TokenFacadeDTO.class);
@@ -210,10 +202,12 @@ public class MergeTokenInitializerTest {
     weightedTraitTypeWeights.add(
         WeightedTraitTypeWeightDTO.builder()
             .traitTypeWeightId(WEIGHTED_TRAIT_TYPE_WEIGHT_ID_1)
+            .traitTypeId(WEIGHTED_TRAIT_TYPE_ID_1)
             .build());
     weightedTraitTypeWeights.add(
         WeightedTraitTypeWeightDTO.builder()
             .traitTypeWeightId(WEIGHTED_TRAIT_TYPE_WEIGHT_ID_2)
+            .traitTypeId(WEIGHTED_TRAIT_TYPE_ID_2)
             .build());
     Mockito.when(weightedTraitTypeWeightRepository.read()).thenReturn(weightedTraitTypeWeights);
     return weightedTraitTypeWeights;

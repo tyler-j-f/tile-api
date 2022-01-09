@@ -1,6 +1,5 @@
 package io.tilenft.eth.token.initializers;
 
-import io.tilenft.etc.lists.finders.WeightedTraitTypeWeightsListFinder;
 import io.tilenft.eth.token.TokenFacadeDTO;
 import io.tilenft.eth.token.traits.creators.TraitsCreatorContext;
 import io.tilenft.eth.token.traits.creators.weighted.WeightedTraitsCreator;
@@ -9,11 +8,9 @@ import io.tilenft.eth.token.traits.weighted.WeightedTraitTypeConstants;
 import io.tilenft.eth.token.traits.weighted.WeightedTraitTypeWeightConstants;
 import io.tilenft.sql.dtos.WeightedTraitTypeWeightDTO;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.stream.Collectors;
 
 public class MergeTokenInitializer extends AbstractTokenInitializer {
-
-  @Autowired private WeightedTraitTypeWeightsListFinder weightedTraitTypeWeightsListFinder;
 
   public MergeTokenInitializer(
       MergeTokenWeightlessTraitsCreator weightlessTraitsCreator,
@@ -27,6 +24,20 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
     WeightedTraitTypeConstants.TILE_3_RARITY,
     WeightedTraitTypeConstants.TILE_4_RARITY,
     WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE
+  };
+
+  public static final Long[] MULTIPLIER_WEIGHTED_TRAIT_TYPES = {
+    (long) WeightedTraitTypeConstants.TILE_1_MULTIPLIER,
+    (long) WeightedTraitTypeConstants.TILE_2_MULTIPLIER,
+    (long) WeightedTraitTypeConstants.TILE_3_MULTIPLIER,
+    (long) WeightedTraitTypeConstants.TILE_4_MULTIPLIER
+  };
+
+  public static final Long[] MULTIPLIER_TRAIT_TYPE_WEIGHTS_WITH_VALUE_OF_ONE = {
+    (long) WeightedTraitTypeWeightConstants.TILE_1_MULTIPLIER_VALUE_1,
+    (long) WeightedTraitTypeWeightConstants.TILE_2_MULTIPLIER_VALUE_1,
+    (long) WeightedTraitTypeWeightConstants.TILE_3_MULTIPLIER_VALUE_1,
+    (long) WeightedTraitTypeWeightConstants.TILE_4_MULTIPLIER_VALUE_1
   };
 
   public TokenFacadeDTO initialize(
@@ -52,9 +63,7 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
         filterOutWeightedTraitTypesToIgnore(
             weightedTraitTypeRepository.read(), WEIGHTED_TRAIT_TYPES_TO_IGNORE);
     weightedTraitTypeWeights =
-        filterOutWeightedTraitTypeWeightsToIgnore(
-            weightedTraitTypeWeightRepository.read(),
-            WeightedTraitTypeWeightConstants.MERGE_MULTIPLIER_TRAITS_TO_IGNORE);
+        filterAndModifyWeightedTraitTypeWeights(weightedTraitTypeWeightRepository.read());
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
     weightedTraitsCreator.createTraits(getContext(tokenId, seedForTraits, burnedNft1, burnedNft2));
     weightedTraits = weightedTraitsCreator.getCreatedWeightedTraits();
@@ -77,12 +86,38 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
         .build();
   }
 
-  protected List<WeightedTraitTypeWeightDTO> filterOutWeightedTraitTypeWeightsToIgnore(
-      List<WeightedTraitTypeWeightDTO> traitTypeWeightsList, int[] traitTypeWeightIdsToIgnore) {
+  protected List<WeightedTraitTypeWeightDTO> filterAndModifyWeightedTraitTypeWeights(
+      List<WeightedTraitTypeWeightDTO> traitTypeWeightsList) {
+    System.out.println(
+        "\nDEBUG: findByIgnoringTraitTypeWeightIdList input traitTypeWeightsList: "
+            + traitTypeWeightsList);
     List<WeightedTraitTypeWeightDTO> output =
-        weightedTraitTypeWeightsListFinder.findByIgnoringTraitTypeWeightIdList(
-            traitTypeWeightsList, traitTypeWeightIdsToIgnore);
-    System.out.println("filterOutWeightedTraitTypeWeightsToIgnore output: " + output);
+        traitTypeWeightsList.stream()
+            .filter(
+                traitTypeWeight -> {
+                  for (Long multiplierTraitType : MULTIPLIER_WEIGHTED_TRAIT_TYPES) {
+                    if (traitTypeWeight.getTraitTypeId().equals(multiplierTraitType)) {
+                      for (Long valueOfOneMultiplierWeight :
+                          MULTIPLIER_TRAIT_TYPE_WEIGHTS_WITH_VALUE_OF_ONE) {
+                        if (traitTypeWeight
+                            .getTraitTypeWeightId()
+                            .equals(valueOfOneMultiplierWeight)) {
+                          System.out.println("DEBUG, 1 likelihood set to 100");
+                          traitTypeWeight.setLikelihood(100L);
+                          return true;
+                        } else {
+                          System.out.println(
+                              "DEBUG, not 1 likelihood found. traitTypeWeight: " + traitTypeWeight);
+                          return false;
+                        }
+                      }
+                    }
+                  }
+                  return true;
+                })
+            .collect(Collectors.toList());
+    System.out.println(
+        "\nDEBUG: findByIgnoringTraitTypeWeightIdList input traitTypeWeightIdsToIgnore: " + output);
     return output;
   }
 }
