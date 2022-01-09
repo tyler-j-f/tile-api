@@ -41,7 +41,9 @@ public class TokenInitializer extends AbstractTokenInitializer {
           "TokenInitializer failed to initialize the token with tokenId: " + tokenId);
       return null;
     }
-    weightedTraitTypes = weightedTraitTypeRepository.read();
+    weightedTraitTypes =
+        filterOutWeightedTraitTypesToIgnore(
+            weightedTraitTypeRepository.read(), WEIGHTED_TRAIT_TYPES_TO_IGNORE);
     weightedTraitTypeWeights = weightedTraitTypeWeightRepository.read();
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
     List<WeightlessTraitTypeDTO> filteredWeightlessTraitTypes =
@@ -62,8 +64,7 @@ public class TokenInitializer extends AbstractTokenInitializer {
         .seedForTraits(seedForTraits)
         .weightlessTraitTypes(filteredWeightlessTraitTypes)
         .weightedTraits(weightedTraits)
-        .weightedTraitTypes(
-            filterOutWeightedTraitTypesToIgnore(weightedTraitTypes, WEIGHTED_TRAIT_TYPES_TO_IGNORE))
+        .weightedTraitTypes(weightedTraitTypes)
         .weightedTraitTypeWeights(weightedTraitTypeWeights)
         .build();
   }

@@ -11,7 +11,7 @@ import io.tilenft.eth.token.TokenRetriever;
 import io.tilenft.eth.token.initializers.MergeTokenInitializer;
 import io.tilenft.eth.token.initializers.TokenInitializeException;
 import io.tilenft.eth.token.traits.weighted.WeightedTraitTypeConstants;
-import io.tilenft.eth.token.traits.weighted.WeightedTraitWeightConstants;
+import io.tilenft.eth.token.traits.weighted.WeightedTraitTypeWeightConstants;
 import io.tilenft.eth.token.traits.weightless.pickers.WeightlessTraitPickerException;
 import io.tilenft.scheduler.TaskSchedulerException;
 import io.tilenft.sql.dtos.WeightedTraitDTO;
@@ -101,7 +101,7 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
             .traitId(traitId)
             .tokenId(nft.getTokenDTO().getTokenId())
             .traitTypeId((long) WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE)
-            .traitTypeWeightId((long) WeightedTraitWeightConstants.IS_BURNT_TOKEN_EQUALS_TRUE)
+            .traitTypeWeightId((long) WeightedTraitTypeWeightConstants.IS_BURNT_TOKEN_EQUALS_TRUE)
             .build());
     System.out.println(
         "Added burn trait for burnt token. tokenId: "

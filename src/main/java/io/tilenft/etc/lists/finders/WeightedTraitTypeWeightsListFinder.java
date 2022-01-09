@@ -2,6 +2,7 @@ package io.tilenft.etc.lists.finders;
 
 import io.tilenft.sql.dtos.WeightedTraitTypeWeightDTO;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class WeightedTraitTypeWeightsListFinder extends AbstractListFinder {
 
@@ -31,19 +32,31 @@ public class WeightedTraitTypeWeightsListFinder extends AbstractListFinder {
     return get(weightedTraitTypeWeightsList, traitTypeId, "getTraitTypeId");
   }
 
-  public List<WeightedTraitTypeWeightDTO> removeByTraitTypeId(
-      List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeightsList, Long traitTypeId) {
-    List<WeightedTraitTypeWeightDTO> itemsToRemove =
-        findByTraitTypeId(weightedTraitTypeWeightsList, traitTypeId);
-    weightedTraitTypeWeightsList.removeAll(itemsToRemove);
-    return weightedTraitTypeWeightsList;
-  }
-
-  public List<WeightedTraitTypeWeightDTO> removeByTraitTypeIds(
-      List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeightsList, Long[] traitTypeIds) {
-    for (Long traitTypeId : traitTypeIds) {
-      removeByTraitTypeId(weightedTraitTypeWeightsList, traitTypeId);
-    }
-    return weightedTraitTypeWeightsList;
+  public List<WeightedTraitTypeWeightDTO> findByIgnoringTraitTypeWeightIdList(
+      List<WeightedTraitTypeWeightDTO> traitTypeWeightsList, int[] traitTypeWeightIdsToIgnore) {
+    System.out.println(
+        "DEBUG: findByIgnoringTraitTypeWeightIdList input traitTypeWeightsList: "
+            + traitTypeWeightsList);
+    System.out.println(
+        "DEBUG: findByIgnoringTraitTypeWeightIdList input traitTypeWeightIdsToIgnore: "
+            + traitTypeWeightIdsToIgnore);
+    return traitTypeWeightsList.stream()
+        .filter(
+            traitTypeWeight -> {
+              System.out.println("DEBUG: traitTypeWeight: " + traitTypeWeight);
+              for (int traitTypeWeightId : traitTypeWeightIdsToIgnore) {
+                if (traitTypeWeight.getTraitTypeWeightId().equals((long) traitTypeWeightId)) {
+                  System.out.println(
+                      "DEBUG: false: "
+                          + traitTypeWeight.getTraitTypeWeightId()
+                          + ", traitTypeWeightId: "
+                          + traitTypeWeightId);
+                  return false;
+                }
+              }
+              System.out.println("DEBUG: true");
+              return true;
+            })
+        .collect(Collectors.toList());
   }
 }
