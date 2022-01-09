@@ -8,6 +8,8 @@ import io.tilenft.eth.token.TokenFacadeDTO;
 import io.tilenft.eth.token.traits.creators.TraitsCreatorContext;
 import io.tilenft.eth.token.traits.creators.weighted.WeightedTraitsCreator;
 import io.tilenft.eth.token.traits.creators.weightless.MergeTokenWeightlessTraitsCreator;
+import io.tilenft.eth.token.traits.weighted.WeightedTraitTypeConstants;
+import io.tilenft.eth.token.traits.weighted.WeightedTraitTypeWeightConstants;
 import io.tilenft.sql.dtos.TokenDTO;
 import io.tilenft.sql.dtos.WeightedTraitDTO;
 import io.tilenft.sql.dtos.WeightedTraitTypeDTO;
@@ -20,6 +22,7 @@ import io.tilenft.sql.repositories.WeightedTraitTypeWeightRepository;
 import io.tilenft.sql.repositories.WeightlessTraitTypeRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -35,6 +38,7 @@ public class MergeTokenInitializerTest {
   private final Long WEIGHTED_TRAIT_TYPE_ID_2 = 2L;
   private final Long WEIGHTED_TRAIT_TYPE_WEIGHT_ID_1 = 3L;
   private final Long WEIGHTED_TRAIT_TYPE_WEIGHT_ID_2 = 4L;
+  private final Long WEIGHTED_TRAIT_TYPE_WEIGHT_ID_3 = 11L;
   private final Long WEIGHTLESS_TRAIT_TYPE_ID_1 = 5L;
   private final Long WEIGHTLESS_TRAIT_TYPE_ID_2 = 6L;
   private final Long WEIGHTLESS_TRAIT_1 = 7L;
@@ -105,6 +109,10 @@ public class MergeTokenInitializerTest {
         mockedWeightedTraitTypes.subList(0, 1);
     List<WeightedTraitTypeWeightDTO> mockedWeightedTraitTypeWeights =
         mockWeightedTraitTypeWeights();
+    List<WeightedTraitTypeWeightDTO> filteredMockedWeightedTraitTypeWeights =
+        mockedWeightedTraitTypeWeights.stream()
+            .filter(i -> !i.getTraitTypeWeightId().equals(WEIGHTED_TRAIT_TYPE_WEIGHT_ID_3))
+            .collect(Collectors.toList());
     List<WeightlessTraitTypeDTO> mockedWeightlessTraitTypes = mockWeightlessTraitTypes();
     List<WeightedTraitDTO> mockedWeightedTraits = mockWeightedTraits();
     List<WeightlessTraitDTO> mockedWeightlessTraits = mockWeightlessTraits();
@@ -126,14 +134,14 @@ public class MergeTokenInitializerTest {
         NEW_TOKEN_ID,
         SEED_FOR_TRAITS,
         filteredMockedWeightedTraitTypes,
-        mockedWeightedTraitTypeWeights,
+        filteredMockedWeightedTraitTypeWeights,
         mockedWeightlessTraitTypes);
     assertOnWeightlessTraitsCreation(
         NEW_TOKEN_ID,
         SEED_FOR_TRAITS,
         mockedWeightedTraits,
         filteredMockedWeightedTraitTypes,
-        mockedWeightedTraitTypeWeights,
+        filteredMockedWeightedTraitTypeWeights,
         mockedWeightlessTraitTypes,
         mockedWeightedTraits);
   }
@@ -208,6 +216,19 @@ public class MergeTokenInitializerTest {
         WeightedTraitTypeWeightDTO.builder()
             .traitTypeWeightId(WEIGHTED_TRAIT_TYPE_WEIGHT_ID_2)
             .traitTypeId(WEIGHTED_TRAIT_TYPE_ID_2)
+            .build());
+    // This trait type weight is for a multiplier trait type WITH a value of 1. It should be kept
+    weightedTraitTypeWeights.add(
+        WeightedTraitTypeWeightDTO.builder()
+            .traitTypeWeightId((long) WeightedTraitTypeWeightConstants.TILE_1_MULTIPLIER_VALUE_1)
+            .traitTypeId((long) WeightedTraitTypeConstants.TILE_1_MULTIPLIER)
+            .build());
+    // This trait type weight is for a multiplier trait type WITHOUT a value of 1.
+    // It should be removed by the method filterAndModifyWeightedTraitTypeWeights
+    weightedTraitTypeWeights.add(
+        WeightedTraitTypeWeightDTO.builder()
+            .traitTypeWeightId(WEIGHTED_TRAIT_TYPE_WEIGHT_ID_3)
+            .traitTypeId((long) WeightedTraitTypeConstants.TILE_1_MULTIPLIER)
             .build());
     Mockito.when(weightedTraitTypeWeightRepository.read()).thenReturn(weightedTraitTypeWeights);
     return weightedTraitTypeWeights;
