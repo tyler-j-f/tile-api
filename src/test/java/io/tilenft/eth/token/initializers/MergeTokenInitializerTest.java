@@ -9,6 +9,7 @@ import io.tilenft.eth.token.TokenFacadeDTO;
 import io.tilenft.eth.token.traits.creators.TraitsCreatorContext;
 import io.tilenft.eth.token.traits.creators.weighted.WeightedTraitsCreator;
 import io.tilenft.eth.token.traits.creators.weightless.MergeTokenWeightlessTraitsCreator;
+import io.tilenft.eth.token.traits.weighted.WeightedTraitTypeWeightConstants;
 import io.tilenft.sql.dtos.TokenDTO;
 import io.tilenft.sql.dtos.WeightedTraitDTO;
 import io.tilenft.sql.dtos.WeightedTraitTypeDTO;
@@ -114,6 +115,11 @@ public class MergeTokenInitializerTest {
             weightedTraitTypesListFinder.findByIgnoringTraitTypeIdList(
                 mockedWeightedTraitTypes, MergeTokenInitializer.WEIGHTED_TRAIT_TYPES_TO_IGNORE))
         .thenReturn(filteredMockedWeightedTraitTypes);
+    Mockito.when(
+            weightedTraitTypeWeightsListFinder.findByIgnoringTraitTypeWeightIdList(
+                mockedWeightedTraitTypeWeights,
+                WeightedTraitTypeWeightConstants.MERGE_MULTIPLIER_TRAITS_TO_IGNORE))
+        .thenReturn(mockedWeightedTraitTypeWeights);
     TokenFacadeDTO results =
         mergeTokenInitializer.initialize(NEW_TOKEN_ID, burntToken1, burntToken2, SEED_FOR_TRAITS);
     assertThat(results).isInstanceOf(TokenFacadeDTO.class);
