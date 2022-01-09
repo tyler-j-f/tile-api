@@ -3,7 +3,6 @@ package io.tilenft.eth.token.initializers;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.tilenft.config.external.TokenConfig;
-import io.tilenft.etc.lists.finders.WeightedTraitTypeWeightsListFinder;
 import io.tilenft.etc.lists.finders.WeightedTraitTypesListFinder;
 import io.tilenft.eth.token.TokenFacadeDTO;
 import io.tilenft.eth.token.traits.creators.TraitsCreatorContext;
@@ -45,7 +44,6 @@ public class MergeTokenInitializerTest {
   @Mock private TokenRepository tokenRepository;
   @Mock private TokenConfig tokenConfig;
   @Mock private WeightedTraitTypesListFinder weightedTraitTypesListFinder;
-  @Mock private WeightedTraitTypeWeightsListFinder weightedTraitTypeWeightsListFinder;
   @Mock protected WeightedTraitTypeRepository weightedTraitTypeRepository;
   @Mock private WeightedTraitTypeWeightRepository weightedTraitTypeWeightRepository;
   @Mock private WeightlessTraitTypeRepository weightlessTraitTypeRepository;
