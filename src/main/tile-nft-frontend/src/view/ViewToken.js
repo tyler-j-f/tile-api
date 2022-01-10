@@ -53,7 +53,7 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
 
   const loadContractAddress = () => {
     return fetch(
-        `http://localhost:8080/api/contract/getAddress`,
+        `http://localhost:8080/api/contract/getContractAddress`,
         {method: 'get'}
     )
     .then(response => {

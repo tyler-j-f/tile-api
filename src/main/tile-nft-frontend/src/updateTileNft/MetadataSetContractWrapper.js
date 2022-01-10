@@ -4,6 +4,8 @@ import {useEffect, useState} from "react";
 import MetadataSetContract
   from "./MetadataSetContract";
 import {ethers} from "ethers";
+import loadTokenOwnerAddress from "./tokenDataLoaders/loadTokenOwnerAddress";
+import styled from "styled-components";
 
 const noop = () => {};
 
@@ -16,13 +18,17 @@ const MetadataSetContractWrapper = ({
   dataToSetGetter = noop,
   loadDataToUpdateRelatedData = noop,
   attributesRegex = '',
-  numberOfEntriesToSet = 4
+  numberOfEntriesToSet = 4,
+  account= {}
 }
 ) => {
   const { library: provider } = useEthers()
   const [tileContract, setTileContract] = useState(null);
   const [signer, setSigner] = useState(null);
-  const [dataToUpdateRelatedData, setDataToUpdateRelatedData] = useState([]);
+  const [dataToUpdateRelatedData, setDataToUpdateRelatedData] = useState({
+    contractData: [],
+    tokenOwnerAddress: ''
+  });
 
   useEffect(
       () => {
@@ -30,17 +36,20 @@ const MetadataSetContractWrapper = ({
           tokenId,
           attributesRegex,
           metadataToUpdate
-        }).then(result => {
-          setDataToUpdateRelatedData(result);
-        }).then(() => {
-          handleProviderAndSigner();
-        })
+        }).then(loadDataResult => {
+          loadTokenOwnerAddress({tokenId, setDataToUpdateRelatedData}).then(tokenOwnerAddress => {
+            setDataToUpdateRelatedData({
+              contractData: loadDataResult,
+              tokenOwnerAddress: tokenOwnerAddress
+            });
+          })
+        }).then(() => handleProviderAndSigner())
       },
       []
   );
-  
-  const getShouldRender = () => {
-    return tileContract && signer && tokenId && dataToUpdateRelatedData.length === numberOfEntriesToSet && metadataToUpdate.length === numberOfEntriesToSet
+
+  const getShouldRenderContract = () => {
+    return tileContract && signer && tokenId && dataToUpdateRelatedData?.contractData?.length === numberOfEntriesToSet && metadataToUpdate.length === numberOfEntriesToSet
   }
 
   const handleProviderAndSigner = () => {
@@ -57,17 +66,27 @@ const MetadataSetContractWrapper = ({
 
   return (
       <>
-        {getShouldRender() &&
+        {dataToUpdateRelatedData.tokenOwnerAddress !== '' && dataToUpdateRelatedData.tokenOwnerAddress !== account &&
+            <StyledText>Logged in account does not own token Id: ${tokenId}!!!</StyledText>
+        }
+        {getShouldRenderContract() &&
           <MetadataSetContract
               contract={tileContract}
               tokenId={tokenId}
               dataToSetIndex={metadataToSetIndex}
-              dataToSet={dataToSetGetter(metadataToUpdate, dataToUpdateRelatedData)}
+              dataToSet={dataToSetGetter(metadataToUpdate, dataToUpdateRelatedData?.contractData)}
               successCallback={successCallback}
+              account={account}
           />
         }
       </>
   );
 }
+
+const StyledText =
+    styled.p`
+    color: white;
+    font-weight: bold;
+    `;
 
 export default MetadataSetContractWrapper;
