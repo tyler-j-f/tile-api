@@ -1,9 +1,10 @@
 import TileContract from '../contractsJson/Tile.json'
-import {useEthers} from "@usedapp/core";
+import {useContractCall, useEthers} from "@usedapp/core";
 import {useEffect, useState} from "react";
 import MetadataSetContract
   from "./MetadataSetContract";
 import {ethers} from "ethers";
+import styled from "styled-components";
 
 const noop = () => {};
 
@@ -16,13 +17,15 @@ const MetadataSetContractWrapper = ({
   dataToSetGetter = noop,
   loadDataToUpdateRelatedData = noop,
   attributesRegex = '',
-  numberOfEntriesToSet = 4
+  numberOfEntriesToSet = 4,
+  account = {}
 }
 ) => {
   const { library: provider } = useEthers()
   const [tileContract, setTileContract] = useState(null);
   const [signer, setSigner] = useState(null);
   const [dataToUpdateRelatedData, setDataToUpdateRelatedData] = useState([]);
+  const [tokenOwnerAddress, setTokenOwnerAddress] = useState('');
 
   useEffect(
       () => {
@@ -38,9 +41,20 @@ const MetadataSetContractWrapper = ({
       },
       []
   );
+
+  useEffect(
+      () => {
+        if (tileContract && tokenOwnerAddress === '') {
+          tileContract.ownerOf(tokenId).then(
+              result => setTokenOwnerAddress(result)
+          );
+        };
+      },
+      [tileContract]
+  );
   
   const getShouldRender = () => {
-    return tileContract && signer && tokenId && dataToUpdateRelatedData.length === numberOfEntriesToSet && metadataToUpdate.length === numberOfEntriesToSet
+    return tileContract && signer && tokenId && dataToUpdateRelatedData.length === numberOfEntriesToSet && metadataToUpdate.length === numberOfEntriesToSet && getIsTokenOwner()
   }
 
   const handleProviderAndSigner = () => {
@@ -55,8 +69,11 @@ const MetadataSetContractWrapper = ({
     }
   }
 
+  const getIsTokenOwner = () => tokenOwnerAddress !== '' && account === tokenOwnerAddress;
+
   return (
       <>
+        {getIsTokenOwner() ? null : <StyledText>Logged in account is not the token owner.</StyledText>}
         {getShouldRender() &&
           <MetadataSetContract
               contract={tileContract}
@@ -69,5 +86,11 @@ const MetadataSetContractWrapper = ({
       </>
   );
 }
+
+const StyledText =
+    styled.p`
+    color: white;
+    font-weight: bold;
+    `;
 
 export default MetadataSetContractWrapper;
