@@ -61,15 +61,21 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
       throws TokenInitializeException, WeightlessTraitPickerException {
     for (MergeEvent event : events) {
       Long newTokenId = hexValueToDecimal.getLongFromHexString(event.getNewTokenId());
-      System.out.println("\nFound merge event for new token. newTokenId: " + newTokenId);
+      Long burnedToken1Id = hexValueToDecimal.getLongFromHexString(event.getBurnedToken1Id());
+      Long burnedToken2Id = hexValueToDecimal.getLongFromHexString(event.getBurnedToken2Id());
+      System.out.println(
+          "\nFound merge event for new token. newTokenId: "
+              + newTokenId
+              + ", burnedToken1Id: "
+              + burnedToken1Id
+              + ", burnedToken2Id: "
+              + burnedToken2Id);
       if (tokenRetriever.get(newTokenId) != null) {
         System.out.println("Token for merge event was already created. tokenId: " + newTokenId);
         continue;
       }
-      TokenFacadeDTO burnedNft1 =
-          tokenRetriever.get(hexValueToDecimal.getLongFromHexString(event.getBurnedToken1Id()));
-      TokenFacadeDTO burnedNft2 =
-          tokenRetriever.get(hexValueToDecimal.getLongFromHexString(event.getBurnedToken2Id()));
+      TokenFacadeDTO burnedNft1 = tokenRetriever.get(burnedToken1Id);
+      TokenFacadeDTO burnedNft2 = tokenRetriever.get(burnedToken2Id);
       if (burnedNft1 == null || burnedNft2 == null) {
         System.out.println(
             "ERROR!!! One of the requested tokens to burn, during merging, is not able to be retrieved.");
