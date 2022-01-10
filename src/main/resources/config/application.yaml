@@ -3,6 +3,8 @@ spring:
     alchemyAPIKey: "cM6mpgOs8PlQFVgeYtPIW-fUzy5L5tC8"
     alchemyBaseUrl: "https://eth-rinkeby.alchemyapi.io/v2/"
   datasource:
+    url: ""
+    username: "root"
     password: "kksb2iA18s22jaIk"
 
   profiles:
