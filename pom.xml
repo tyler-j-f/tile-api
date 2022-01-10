@@ -26,6 +26,12 @@
 
 		<profile>
 			<id>remote</id>
+
+			<properties>
+				<active-datasource-url></active-datasource-url>
+				<active-datasource-password>kksb2iA18s22jaIk</active-datasource-password>
+			</properties>
+
 			<dependencyManagement>
 				<dependencies>
 
@@ -57,6 +63,12 @@
 
 		<profile>
 			<id>local</id>
+
+			<properties>
+				<active-datasource-url>jdbc:mysql://localhost:3306/db1</active-datasource-url>
+				<active-datasource-password>adultMicros0ft</active-datasource-password>
+			</properties>
+
 			<dependencies>
 
 				<dependency>
