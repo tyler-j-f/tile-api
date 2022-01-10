@@ -14,8 +14,11 @@ public class HandleResetSqlTask extends AbstractEthEventsRetrieverTask {
 
   @Override
   public void execute() throws TaskSchedulerException {
-    sqlTablesDropper.dropSqlTables();
-    sqlTablesCreator.createSqlTables();
-    sqlTablesInitializer.initialTablesPopulate();
+    System.out.println("HandleResetSqlTask, dropSqlTables: " + sqlTablesDropper.dropSqlTables());
+    System.out.println(
+        "HandleResetSqlTask, createSqlTables: " + sqlTablesCreator.createSqlTables());
+    System.out.println(
+        "HandleResetSqlTask, initialTablesPopulate: "
+            + sqlTablesInitializer.initialTablesPopulate());
   }
 }
