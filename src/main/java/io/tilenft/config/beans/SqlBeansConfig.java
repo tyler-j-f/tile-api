@@ -22,6 +22,7 @@ import io.tilenft.sql.tbls.WeightedTraitTypesTable;
 import io.tilenft.sql.tbls.WeightedTraitsTable;
 import io.tilenft.sql.tbls.WeightlessTraitTypesTable;
 import io.tilenft.sql.tbls.WeightlessTraitsTable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -29,11 +30,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 @Configuration
 public class SqlBeansConfig {
-  private final JdbcTemplate jdbcTemplate;
 
-  public SqlBeansConfig(JdbcTemplate jdbcTemplate) {
-    this.jdbcTemplate = jdbcTemplate;
-  }
+  @Autowired private JdbcTemplate jdbcTemplate;
 
   @Bean
   public TokenRepository tokenRepository() {
