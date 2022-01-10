@@ -88,7 +88,6 @@ const UpdateTileNft = ({
                       successCallback={successCallback}
                       attributesRegex={attributesRegex}
                       numberOfEntriesToSet={numberOfEntriesToSet}
-                      account={account}
                   />
               )}
             </>
