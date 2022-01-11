@@ -32,28 +32,37 @@ const MergeTxWrapper = ({
 
   useEffect(
       () => {
-        if (tileContract && tokenOwnerAddresses.token1Owner === '') {
+        if (tileContract && tokenOwnerAddresses.token1Owner === '' && tokenOwnerAddresses.token2Owner === '') {
           tileContract.ownerOf(tokenId1).then(
-              result => setTokenOwnerAddresses({
-                token1Owner: result,
-                token2Owner: tokenOwnerAddresses.token2Owner
-              })
-          );
-        };
-        if (tileContract && tokenOwnerAddresses.token2Owner === '') {
-          tileContract.ownerOf(tokenId2).then(
-              result => setTokenOwnerAddresses({
-                token1Owner: tokenOwnerAddresses.token1Owner,
-                token2Owner: result
-              })
-          );
-        };
+              token1Owner => tileContract.ownerOf(tokenId2).then(
+                  token2Owner => setTokenOwnerAddresses({
+                    token1Owner: token1Owner,
+                    token2Owner: token2Owner
+                  })
+              )
+          ).catch(e => {
+            console.log("ERROR CAUGHT!!!", e);
+            setTokenOwnerAddresses({
+              token1Owner: '',
+              token2Owner: ''
+            });
+          });
+        }
       },
-      [tileContract]
+      [tileContract, tokenId1, tokenId2]
+  );
+
+  useEffect(
+      () => {
+        if (tileContract && tokenOwnerAddresses.token2Owner === '') {
+
+        }
+      },
+      [tileContract, tokenId2]
   );
 
   const getShouldRender = () => {
-    return tileContract && signer && tokenId1 && tokenId2 && getIsTokenOwner(tokenOwnerAddresses.token1Owner) && getIsTokenOwner(tokenOwnerAddresses.token2Owner)
+    return tileContract && signer && tokenId1 && tokenId2 && getIsOwnerOfBothTokens();
   }
 
   const handleProviderAndSigner = () => {
@@ -66,6 +75,12 @@ const MergeTxWrapper = ({
       // For this, you need the account signer...
       setSigner(provider.getSigner());
     }
+  }
+
+
+  const getIsOwnerOfBothTokens = () => {
+    console.log("DEBUG getIsOwnerOfBothTokens", tokenOwnerAddresses, account);
+    return getIsTokenOwner(tokenOwnerAddresses.token1Owner) && getIsTokenOwner(tokenOwnerAddresses.token2Owner);
   }
 
   const getIsTokenOwner = (address) => {
