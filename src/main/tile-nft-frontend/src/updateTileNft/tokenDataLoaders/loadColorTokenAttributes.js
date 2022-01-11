@@ -1,3 +1,4 @@
+import loadTokenMetadata from "./loadTokenMetadata";
 
 export const loadColorTokenAttributes = ({
   tokenId,
@@ -12,13 +13,7 @@ export const loadColorTokenAttributes = ({
     return filteredAttributes;
   }
 
-  return fetch(`http://localhost:8080/api/tiles/get/${tokenId}`, {method: 'get'})
-  .then(response => {
-    if (response.status === 200) {
-      return response.json();
-    }
-    return null;
-  })
+  return loadTokenMetadata({tokenId})
   .then(json => {
     if (json === null) {
       let errorMessage = 'Token json is null';
@@ -28,7 +23,7 @@ export const loadColorTokenAttributes = ({
     return handleAttributesJson(json.attributes);
   })
   .catch(err => {
-    console.log("Error caught!!!", err);
+    console.log("loadColorTokenAttributes error caught!!!", err);
   });
 }
 

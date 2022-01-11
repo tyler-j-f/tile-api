@@ -1,12 +1,42 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import styled from 'styled-components';
 import ViewToken from "../view/ViewToken";
+import loadTokenAttributes
+  from "../updateTileNft/tokenDataLoaders/loadTokenAttributes";
 
 const ViewPage = () => {
+
+  const [tokenData, setTokenData] = useState({
+    tokenId: '',
+    tokenAttributes: {}
+  });
+
+  useEffect(() => {
+    if (tokenData.tokenId !== '') {
+      loadTokenAttributes({tokenId: tokenData.tokenId}).then(result => {
+        console.log("loadTokenAttributes result", result);
+        setTokenData({
+          ...setTokenData,
+          tokenAttributes: result
+        })
+      })
+    }
+  }, [tokenData.tokenId]);
+
+  const handleTokenLoadedCallback = ({tokenIdToSet}) => {
+    setTokenData({
+      ...setTokenData,
+      tokenId: tokenIdToSet
+    });
+  }
+
   return (
       <StyledPage>
         <Heading className="animate__animated animate__fadeInLeft">View TileNft</Heading>
-        <ViewToken />
+        <ViewToken
+          tokenLoadedCallback={handleTokenLoadedCallback}
+        />
+        {tokenData.tokenAttributes && <StyledText>Attributes found</StyledText>}
       </StyledPage>
   )
 }
@@ -36,4 +66,10 @@ const Heading = styled.h1`
    -ms-user-select: none; /* Internet Explorer/Edge */
 `;
 
-export default ViewPage
+const StyledText =
+  styled.p`
+  color: white;
+  font-weight: bold;
+`;
+
+export default ViewPage;
