@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import ViewToken from "../view/ViewToken";
 import loadTokenAttributes
   from "../updateTileNft/tokenDataLoaders/loadTokenAttributes";
+import AttributesTable from "../view/AttributesTable";
 
 const ViewPage = () => {
 
@@ -29,58 +30,15 @@ const ViewPage = () => {
     });
   }
 
-  const logIt = () => {
-    console.log("debug tokenData.tokenAttributes", tokenData.tokenAttributes);
-    return false;
-  }
-
-  const getAttributesHtml = () => {
-    return (
-        <table className="table">
-          {getAttributesHtmlHeader()}
-          {getAttributesHtmlRows()}
-        </table>
-    )
-  }
-
-  const getAttributesHtmlHeader = () => {
-    return (
-        <thead>
-          <tr>
-            <th scope="col"><StyledText>#</StyledText></th>
-            <th scope="col"><StyledText>Trait Type</StyledText></th>
-            <th scope="col"><StyledText>Value</StyledText></th>
-          </tr>
-        </thead>
-    );
-  }
-
-  const getAttributesHtmlRows = () => {
-    let rows = Object.values(tokenData.tokenAttributes).map((attribute, index) => {
-      console.log("Debug map", attribute, attribute.trait_type, attribute.value)
-      return (
-          <tr>
-            <th scope="row"><StyledText>{index + 1}</StyledText></th>
-            <td><StyledText>{attribute.trait_type}</StyledText></td>
-            <td><StyledText>{attribute.value}</StyledText></td>
-          </tr>
-      );
-    });
-    return (
-        <tbody>
-        {rows}
-        </tbody>
-    );
-  }
-
   return (
       <StyledPage>
         <Heading className="animate__animated animate__fadeInLeft">View TileNft</Heading>
         <ViewToken
           tokenLoadedCallback={handleTokenLoadedCallback}
         />
-        {logIt() && <StyledText>logIt</StyledText>}
-        {tokenData.tokenAttributes && Object.keys(tokenData.tokenAttributes).length && getAttributesHtml()}
+        {tokenData.tokenAttributes && Object.keys(tokenData.tokenAttributes).length &&
+          <AttributesTable tokenAttributes={tokenData.tokenAttributes}/>
+        }
       </StyledPage>
   )
 }
@@ -108,12 +66,6 @@ const Heading = styled.h1`
    -khtml-user-select: none; /* Konqueror HTML */
    -moz-user-select: none; /* Firefox */
    -ms-user-select: none; /* Internet Explorer/Edge */
-`;
-
-const StyledText =
-  styled.p`
-  color: white;
-  font-weight: bold;
 `;
 
 export default ViewPage;
