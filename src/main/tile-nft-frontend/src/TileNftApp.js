@@ -11,6 +11,7 @@ import HomePage from './pages/HomePage';
 import ViewPage from './pages/ViewPage';
 import ContactPage from './pages/ContactPage'
 import LeaderboardPage from "./pages/LeaderboardPage";
+import MergePage from "./pages/MergePage";
 import {Col, Container, Row} from "react-bootstrap";
 import styled from "styled-components";
 import UpdateTileNftPage from "./pages/UpdateTileNftPage";
@@ -64,6 +65,7 @@ function TileNftApp() {
               <Route exact path="/leaderboard" element={<LeaderboardPage/>}/>
               <Route exact path="/view" element={<ViewPage/>}/>
               <Route exact path="/update" element={<UpdateTileNftPage />}/>
+              <Route exact path="/merge" element={<MergePage />}/>
               <Route exact path="/contact" element={<ContactPage/>}/>
             </Routes>
           </Router>

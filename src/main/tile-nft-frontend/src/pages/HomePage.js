@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const HomePage = () => {
   return (
       <StyledHomePage>
-        <Heading className="animate__animated animate__fadeInLeft">TileNFT</Heading>
+        <Heading className="animate__animated animate__fadeInLeft">TileNft</Heading>
       </StyledHomePage>
   )
 }

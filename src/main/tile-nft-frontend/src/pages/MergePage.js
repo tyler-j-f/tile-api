@@ -2,10 +2,13 @@ import React from 'react'
 import styled from 'styled-components';
 import ViewToken from "../view/ViewToken";
 
-const ViewPage = () => {
+const MergePage = () => {
   return (
       <StyledPage>
-        <Heading className="animate__animated animate__fadeInLeft">View TileNft</Heading>
+        <Heading className="animate__animated animate__fadeInLeft">Merge A TileNft</Heading>
+        <StyledText>Select first tile to merge.</StyledText>
+        <ViewToken />
+        <StyledText>Select second tile to merge.</StyledText>
         <ViewToken />
       </StyledPage>
   )
@@ -36,4 +39,10 @@ const Heading = styled.h1`
    -ms-user-select: none; /* Internet Explorer/Edge */
 `;
 
-export default ViewPage
+const StyledText =
+    styled.p`
+    color: white;
+    font-weight: bold;
+    `;
+
+export default MergePage

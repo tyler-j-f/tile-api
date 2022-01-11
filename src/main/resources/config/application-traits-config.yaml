@@ -14,7 +14,7 @@ spring:
         - {id: null, weightlessTraitTypeId: 20, weightlessTraitTypeName: "Tile 2 Rarity", description: "Rarity value of the top right 'sub-tile'. The higher the rarity value, the better!"}
         - {id: null, weightlessTraitTypeId: 21, weightlessTraitTypeName: "Tile 3 Rarity", description: "Rarity value of the bottom left 'sub-tile'. The higher the rarity value, the better!"}
         - {id: null, weightlessTraitTypeId: 22, weightlessTraitTypeName: "Tile 4 Rarity", description: "Rarity value of the bottom right 'sub-tile'. The higher the rarity value, the better!"}
-        - {id: null, weightlessTraitTypeId: 23, weightlessTraitTypeName: "Overall Rarity", description: "Overall rarity of the TileNFT'. The higher the rarity value, the better!" }
+        - {id: null, weightlessTraitTypeId: 23, weightlessTraitTypeName: "Overall Rarity", description: "Overall rarity of the TileNft'. The higher the rarity value, the better!" }
       weighted-types:
         - {id: null, traitTypeId: 1, traitTypeName: "Tile 1 Rarity", description: "Rarity value of the top left 'sub-tile'. The higher the rarity value, the better!"}
         - {id: null, traitTypeId: 2, traitTypeName: "Tile 2 Rarity", description: "Rarity value of the top right 'sub-tile'. The higher the rarity value, the better!"}
@@ -24,8 +24,8 @@ spring:
         - {id: null, traitTypeId: 6, traitTypeName: "Tile 2 Multiplier", description: "Rarity Multiplier value of the top right 'sub-tile'. The higher the rarity value, the better!"}
         - {id: null, traitTypeId: 7, traitTypeName: "Tile 3 Multiplier", description: "Rarity multiplier value of the bottom left 'sub-tile'. The higher the rarity value, the better!"}
         - {id: null, traitTypeId: 8, traitTypeName: "Tile 4 Multiplier", description: "Rarity multiplier value of the bottom right 'sub-tile'. The higher the rarity value, the better!"}
-        - {id: null, traitTypeId: 9, traitTypeName: "Merge Multiplier", description: "Merge (and burn) Two TileNFTs to output ONE, even more rare TileNFT!!! The merge multiplier value of each TileNFT will be used to increase the rarity of the outputted TileNFT after merging two!! The higher the rarity value, the better!"}
-        - {id: null, traitTypeId: 10, traitTypeName: "Emoji Source", description: "Attribution/credit details for the emoji type used by the TileNFT"}
+        - {id: null, traitTypeId: 9, traitTypeName: "Merge Multiplier", description: "Merge (and burn) Two TileNFTs to output ONE, even more rare TileNft!!! The merge multiplier value of each TileNft will be used to increase the rarity of the outputted TileNft after merging two!! The higher the rarity value, the better!"}
+        - {id: null, traitTypeId: 10, traitTypeName: "Emoji Source", description: "Attribution/credit details for the emoji type used by the TileNft"}
         - {id: null, traitTypeId: 24, traitTypeName: "Is Burnt Token", description: "A token with this attribute has been burnt. The token is no longer tradable." }
       type-weights:
         - {id: null, traitTypeWeightId: 1, traitTypeId: 1, likelihood: 24, value: 1, displayTypeValue: null}
