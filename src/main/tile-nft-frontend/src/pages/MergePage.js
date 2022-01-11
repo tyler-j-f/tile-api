@@ -5,6 +5,7 @@ import {Button} from "react-bootstrap";
 import {useEthers} from "@usedapp/core";
 import ConnectButton from "../updateTileNft/ConnectButton";
 import MergeTxWrapper from "../merge/MergeTxWrapper";
+import TransactionSuccess from "../etc/TransactionSuccess";
 
 const MergePage = () => {
 
@@ -19,7 +20,11 @@ const MergePage = () => {
       tokenId: '',
       isInvalidTokenNumber: false
     },
-    contractAddress: ''
+    contractAddress: '',
+    txStatus: {
+      isSuccess: false,
+      txId: ''
+    }
   });
 
   const handleToken1Selected = ({
@@ -28,12 +33,12 @@ const MergePage = () => {
     contractAddress: contractAddressToSet
   }) => {
     setMergeData({
+      ...mergeData,
       token1: {
         ...mergeData.token1,
         tokenId: token1IdToSet,
         isInvalidTokenNumber: token1IdIsInvalid
       },
-      token2: mergeData.token2,
       contractAddress: contractAddressToSet
     });
   }
@@ -44,7 +49,7 @@ const MergePage = () => {
     contractAddress: contractAddressToSet
   }) => {
     setMergeData({
-      token1: mergeData.token1,
+      ...mergeData,
       token2: {
         ...mergeData.token2,
         tokenId: token2IdToSet,
@@ -54,8 +59,15 @@ const MergePage = () => {
     });
   }
 
-  const handleSuccessfulTx = (payload) => {
-    console.log('debug handleSuccessfulTx', payload);
+  const handleSuccessfulTx = (txId) => {
+    console.log('debug handleSuccessfulTx', txId);
+    setMergeData({
+      ...mergeData,
+      txStatus: {
+        isSuccess: true,
+        txId: txId
+      }
+    })
   }
 
   const getIsToken1IdValidAndSelected = () => {
@@ -70,27 +82,55 @@ const MergePage = () => {
     return account && getIsToken1IdValidAndSelected() && getIsToken2IdValidAndSelected();
   }
 
+  const handleSendAnotherTx = () => {
+    return setMergeData({
+      ...mergeData,
+      txStatus: {
+        isSuccess: false,
+        txId: ''
+      }
+    })
+  }
+
+  const getBody = () => (
+    <>
+      <TokenMergeSelector
+          headerText={'Select first tile to merge.'}
+          tokenLoadedCallback={handleToken1Selected}
+      />
+      <TokenMergeSelector
+          headerText={'Select second tile to merge.'}
+          tokenLoadedCallback={handleToken2Selected}
+      />
+      <ConnectButton />
+      {getShouldShowSendTransaction() &&
+      <MergeTxWrapper
+          tokenId1={mergeData.token1.tokenId}
+          tokenId2={mergeData.token2.tokenId}
+          contractAddress={mergeData.contractAddress}
+          account={account}
+          successCallback={handleSuccessfulTx}
+      />
+      }
+    </>
+  );
+
+  const getSuccessfulTx = () => {
+    return (
+        <TransactionSuccess
+            handleSendAnotherTx={handleSendAnotherTx}
+            txId={mergeData.txStatus.txId}
+            subText={'Please wait a few minutes for the transaction to process and the new TileNft to be sent to account: ' + account}
+        />
+    );
+  };
+
+
     return (
       <StyledPage>
         <Heading className="animate__animated animate__fadeInLeft">Merge A TileNft</Heading>
-        <TokenMergeSelector
-            headerText={'Select first tile to merge.'}
-            tokenLoadedCallback={handleToken1Selected}
-        />
-        <TokenMergeSelector
-            headerText={'Select second tile to merge.'}
-            tokenLoadedCallback={handleToken2Selected}
-        />
-        <ConnectButton />
-        {getShouldShowSendTransaction() &&
-          <MergeTxWrapper
-            tokenId1={mergeData.token1.tokenId}
-            tokenId2={mergeData.token2.tokenId}
-            contractAddress={mergeData.contractAddress}
-            account={account}
-            successCallback={handleSuccessfulTx}
-          />
-        }
+        {mergeData?.txStatus?.isSuccess && getSuccessfulTx()}
+        {!mergeData?.txStatus?.isSuccess && getBody()}
       </StyledPage>
   )
 }

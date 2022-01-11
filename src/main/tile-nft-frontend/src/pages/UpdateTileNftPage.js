@@ -17,6 +17,7 @@ import loadColorTokenAttributes
   from "../updateTileNft/tokenDataLoaders/loadColorTokenAttributes";
 import loadEmojiTokenAttributes
   from "../updateTileNft/tokenDataLoaders/loadEmojiTokenAttributes";
+import TransactionSuccess from "../etc/TransactionSuccess";
 
 const UpdateTileNftPage = () => {
   const [txData, setTxData] = useState({
@@ -128,7 +129,13 @@ const UpdateTileNftPage = () => {
         <Heading className="animate__animated animate__fadeInLeft">Update TileNft</Heading>
         {!txData.isSuccess && getSelectWhatToUpdateButtons()}
         {txData.dataToSetIndex !== null && getUpdateHtml()}
-        {txData.isSuccess && getSuccessHtml()}
+        {txData.isSuccess &&
+          <TransactionSuccess
+              handleSendAnotherTx={handleSendAnotherTx}
+              txId={txData.txId}
+              subText={'Please wait a few minutes for the transaction to process and the TileNft to be updated.'}
+          />
+        }
       </StyledUpdateTileNftPage>
   )
 }
