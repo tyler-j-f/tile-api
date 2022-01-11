@@ -22,7 +22,6 @@ const MetadataSetTx = ({contract, tokenId1, tokenId2, successCallback = noop}) =
   function handleSendTx() {
     setTxStatus({...txStatus, isLoading: true, errorText: ''});
     send(tokenId1, tokenId2).then(response => {
-      console.log("response found!!!", response, tokenId1, tokenId2, mergeTxState);
       setTxStatus({...txStatus, isLoading: false});
     }).catch(e => {
       console.log("ERROR CAUGHT!!!", e);

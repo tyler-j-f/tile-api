@@ -22,7 +22,6 @@ const MetadataSetTx = ({contract, tokenId, dataToSetIndex, dataToSet, successCal
   function handleSendTx() {
     setTxStatus({...txStatus, isLoading: true, errorText: ''});
     send(tokenId, dataToSetIndex, dataToSet).then(response => {
-      console.log("response found!!!", tokenId, dataToSetIndex, dataToSet, response, matadataSetTxState);
       setTxStatus({...txStatus, isLoading: false});
     }).catch(e => {
       console.log("ERROR CAUGHT!!!", e);
