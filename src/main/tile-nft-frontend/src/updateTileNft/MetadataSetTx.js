@@ -6,23 +6,23 @@ import { parseEther } from "@ethersproject/units";
 
 const noop = () => {};
 
-const MetadataSetContract = ({contract, tokenId, dataToSetIndex, dataToSet, successCallback = noop}) => {
-  const {state: contractState, send } = useContractFunction(contract, 'metadataSet', {value: parseEther('.1')});
+const MetadataSetTx = ({contract, tokenId, dataToSetIndex, dataToSet, successCallback = noop}) => {
+  const {state: matadataSetTxState, send } = useContractFunction(contract, 'metadataSet', {value: parseEther('.1')});
   const [txStatus, setTxStatus] = useState({
     isLoading: false,
     errorText: ''
   });
 
   useEffect(() => {
-    if (contractState?.receipt) {
-      successCallback(contractState.receipt.transactionHash);
+    if (matadataSetTxState?.receipt) {
+      successCallback(matadataSetTxState.receipt.transactionHash);
     }
-  }, [contractState]);
+  }, [matadataSetTxState]);
 
   function handleSendTx() {
     setTxStatus({...txStatus, isLoading: true, errorText: ''});
     send(tokenId, dataToSetIndex, dataToSet).then(response => {
-      console.log("response found!!!", tokenId, dataToSetIndex, dataToSet, response, contractState);
+      console.log("response found!!!", tokenId, dataToSetIndex, dataToSet, response, matadataSetTxState);
       setTxStatus({...txStatus, isLoading: false});
     }).catch(e => {
       console.log("ERROR CAUGHT!!!", e);
@@ -51,4 +51,4 @@ const StyledText =
     font-weight: bold;
     `;
 
-export default MetadataSetContract;
+export default MetadataSetTx;

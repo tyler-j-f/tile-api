@@ -14,7 +14,7 @@ public class RedirectController extends BaseController {
    *
    * @return RedirectView The frontend home page.
    */
-  @GetMapping(value = {"leaderboard", "view", "contact", "update"})
+  @GetMapping(value = {"leaderboard", "view", "contact", "update", "merge"})
   public RedirectView redirectToHomePage() {
     return new RedirectView("/");
   }

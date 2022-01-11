@@ -1,5 +1,5 @@
 import ConnectButton from "./ConnectButton";
-import MetadataSetContractWrapper from "./MetadataSetContractWrapper";
+import MetadataSetTxWrapper from "./MetadataSetTxWrapper";
 import {useEthers} from "@usedapp/core";
 import ViewToken from "../view/ViewToken";
 import {useState} from "react";
@@ -84,9 +84,9 @@ const UpdateTileNft = ({
                   <p>Clear Selected</p>
                 </Button>
               }
-              <ConnectButton />
+
               {account && metadataToUpdate.length === numberOfEntriesToSet && contractAddress && (
-                  <MetadataSetContractWrapper
+                  <MetadataSetTxWrapper
                       tokenId={tokenId}
                       metadataToUpdate={metadataToUpdate}
                       contractAddress={contractAddress}

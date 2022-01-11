@@ -1,14 +1,14 @@
 import TileContract from '../contractsJson/Tile.json'
-import {useContractCall, useEthers} from "@usedapp/core";
+import {useEthers} from "@usedapp/core";
 import {useEffect, useState} from "react";
-import MetadataSetContract
-  from "./MetadataSetContract";
+import MetadataSetTx
+  from "./MetadataSetTx";
 import {ethers} from "ethers";
 import styled from "styled-components";
 
 const noop = () => {};
 
-const MetadataSetContractWrapper = ({
+const MetadataSetTxWrapper = ({
   contractAddress = null,
   tokenId = null,
   metadataToUpdate = [],
@@ -75,7 +75,7 @@ const MetadataSetContractWrapper = ({
       <>
         {getIsTokenOwner() ? null : <StyledText>Logged in account is not the token owner.</StyledText>}
         {getShouldRender() &&
-          <MetadataSetContract
+          <MetadataSetTx
               contract={tileContract}
               tokenId={tokenId}
               dataToSetIndex={metadataToSetIndex}
@@ -93,4 +93,4 @@ const StyledText =
     font-weight: bold;
     `;
 
-export default MetadataSetContractWrapper;
+export default MetadataSetTxWrapper;

@@ -1,10 +1,14 @@
 import React, {useEffect, useState} from 'react'
 import styled from 'styled-components';
-import ViewToken from "../view/ViewToken";
 import TokenMergeSelector from "../merge/TokenMergeSelector";
 import {Button} from "react-bootstrap";
+import {useEthers} from "@usedapp/core";
+import ConnectButton from "../updateTileNft/ConnectButton";
+import MergeTxWrapper from "../merge/MergeTxWrapper";
 
 const MergePage = () => {
+
+  const {account} = useEthers();
 
   const [mergeData, setMergeData] = useState({
     token1: {
@@ -17,13 +21,6 @@ const MergePage = () => {
     },
     contractAddress: ''
   });
-
-  useEffect(
-      () => {
-        console.log("debug mergeData", mergeData)
-      },
-      [mergeData]
-  );
 
   const handleToken1Selected = ({
     tokenId: token1IdToSet,
@@ -57,6 +54,10 @@ const MergePage = () => {
     });
   }
 
+  const handleSuccessfulTx = (payload) => {
+    console.log('debug handleSuccessfulTx', payload);
+  }
+
   const getIsToken1IdValidAndSelected = () => {
     return mergeData?.token1?.tokenId !== '' && !mergeData?.token1?.isInvalidTokenNumber;
   }
@@ -66,7 +67,7 @@ const MergePage = () => {
   }
 
   const getShouldShowSendTransaction = () => {
-    return getIsToken1IdValidAndSelected() && getIsToken2IdValidAndSelected();
+    return account && getIsToken1IdValidAndSelected() && getIsToken2IdValidAndSelected();
   }
 
     return (
@@ -80,10 +81,15 @@ const MergePage = () => {
             headerText={'Select second tile to merge.'}
             tokenLoadedCallback={handleToken2Selected}
         />
+        <ConnectButton />
         {getShouldShowSendTransaction() &&
-          <Button>
-            Send Transaction
-          </Button>
+          <MergeTxWrapper
+            tokenId1={mergeData.token1.tokenId}
+            tokenId2={mergeData.token2.tokenId}
+            contractAddress={mergeData.contractAddress}
+            account={account}
+            successCallback={handleSuccessfulTx}
+          />
         }
       </StyledPage>
   )
