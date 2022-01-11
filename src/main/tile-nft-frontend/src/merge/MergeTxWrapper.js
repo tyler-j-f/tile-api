@@ -7,6 +7,17 @@ import MergetTx from "./MergetTx";
 
 const noop = () => {};
 
+const initialTokenOwnerAddressesState = {
+  token1: {
+    tokenId: '',
+    owner: ''
+  },
+  token2: {
+    tokenId: '',
+    owner: ''
+  }
+};
+
 const MergeTxWrapper = ({
       contractAddress = null,
       tokenId1 = null,
@@ -18,10 +29,7 @@ const MergeTxWrapper = ({
   const { library: provider } = useEthers()
   const [tileContract, setTileContract] = useState(null);
   const [signer, setSigner] = useState(null);
-  const [tokenOwnerAddresses, setTokenOwnerAddresses] = useState({
-    token1Owner: '',
-    token2Owner: ''
-  });
+  const [tokenOwnerAddresses, setTokenOwnerAddresses] = useState(initialTokenOwnerAddressesState);
 
   useEffect(
       () => {
@@ -32,33 +40,33 @@ const MergeTxWrapper = ({
 
   useEffect(
       () => {
-        if (tileContract && tokenOwnerAddresses.token1Owner === '' && tokenOwnerAddresses.token2Owner === '') {
+        if (
+            tileContract &&
+            (
+                tokenOwnerAddresses.token1.owner === '' || tokenOwnerAddresses.token2.owner === '' ||
+                (tokenOwnerAddresses?.token1?.tokenId !== tokenId1 || tokenOwnerAddresses?.token2?.tokenId !== tokenId2)
+            )
+        ) {
           tileContract.ownerOf(tokenId1).then(
               token1Owner => tileContract.ownerOf(tokenId2).then(
                   token2Owner => setTokenOwnerAddresses({
-                    token1Owner: token1Owner,
-                    token2Owner: token2Owner
+                    token1: {
+                      tokenId: tokenId1,
+                      owner: token1Owner
+                    },
+                    token2: {
+                      tokenId: tokenId2,
+                      owner: token2Owner
+                    }
                   })
               )
           ).catch(e => {
             console.log("ERROR CAUGHT!!!", e);
-            setTokenOwnerAddresses({
-              token1Owner: '',
-              token2Owner: ''
-            });
+            setTokenOwnerAddresses(initialTokenOwnerAddressesState);
           });
         }
       },
       [tileContract, tokenId1, tokenId2]
-  );
-
-  useEffect(
-      () => {
-        if (tileContract && tokenOwnerAddresses.token2Owner === '') {
-
-        }
-      },
-      [tileContract, tokenId2]
   );
 
   const getShouldRender = () => {
@@ -80,7 +88,7 @@ const MergeTxWrapper = ({
 
   const getIsOwnerOfBothTokens = () => {
     console.log("DEBUG getIsOwnerOfBothTokens", tokenOwnerAddresses, account);
-    return getIsTokenOwner(tokenOwnerAddresses.token1Owner) && getIsTokenOwner(tokenOwnerAddresses.token2Owner);
+    return getIsTokenOwner(tokenOwnerAddresses.token1.owner) && getIsTokenOwner(tokenOwnerAddresses.token2.owner);
   }
 
   const getIsTokenOwner = (address) => {
@@ -89,7 +97,7 @@ const MergeTxWrapper = ({
 
   return (
       <>
-        {getIsTokenOwner() ? null : <StyledText>Logged in account is not the token owner.</StyledText>}
+        {getIsTokenOwner() ? null : <StyledText>Logged in account does not own both tokens.</StyledText>}
         {getShouldRender() &&
         <MergetTx
             contract={tileContract}
