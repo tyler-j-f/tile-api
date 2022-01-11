@@ -1,15 +1,90 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import styled from 'styled-components';
 import ViewToken from "../view/ViewToken";
+import TokenMergeSelector from "../merge/TokenMergeSelector";
+import {Button} from "react-bootstrap";
 
 const MergePage = () => {
-  return (
+
+  const [mergeData, setMergeData] = useState({
+    token1: {
+      tokenId: '',
+      isInvalidTokenNumber: false
+    },
+    token2: {
+      tokenId: '',
+      isInvalidTokenNumber: false
+    },
+    contractAddress: ''
+  });
+
+  useEffect(
+      () => {
+        console.log("debug mergeData", mergeData)
+      },
+      [mergeData]
+  );
+
+  const handleToken1Selected = ({
+    tokenId: token1IdToSet,
+    isInvalidTokenNumber: token1IdIsInvalid,
+    contractAddress: contractAddressToSet
+  }) => {
+    setMergeData({
+      token1: {
+        ...mergeData.token1,
+        tokenId: token1IdToSet,
+        isInvalidTokenNumber: token1IdIsInvalid
+      },
+      token2: mergeData.token2,
+      contractAddress: contractAddressToSet
+    });
+  }
+
+  const handleToken2Selected = ({
+    tokenId: token2IdToSet,
+    isInvalidTokenNumber: token2IdIsInvalid,
+    contractAddress: contractAddressToSet
+  }) => {
+    setMergeData({
+      token1: mergeData.token1,
+      token2: {
+        ...mergeData.token2,
+        tokenId: token2IdToSet,
+        isInvalidTokenNumber: token2IdIsInvalid
+      },
+      contractAddress: contractAddressToSet
+    });
+  }
+
+  const getIsToken1IdValidAndSelected = () => {
+    return mergeData?.token1?.tokenId !== '' && !mergeData?.token1?.isInvalidTokenNumber;
+  }
+
+  const getIsToken2IdValidAndSelected = () => {
+    return mergeData?.token2?.tokenId !== '' && !mergeData?.token2?.isInvalidTokenNumber;
+  }
+
+  const getShouldShowSendTransaction = () => {
+    return getIsToken1IdValidAndSelected() && getIsToken2IdValidAndSelected();
+  }
+
+    return (
       <StyledPage>
         <Heading className="animate__animated animate__fadeInLeft">Merge A TileNft</Heading>
-        <StyledText>Select first tile to merge.</StyledText>
-        <ViewToken />
-        <StyledText>Select second tile to merge.</StyledText>
-        <ViewToken />
+        <TokenMergeSelector
+            headerText={'Select first tile to merge.'}
+            tokenLoadedCallback={handleToken1Selected}
+        />
+        <TokenMergeSelector
+            headerText={'Select second tile to merge.'}
+            tokenLoadedCallback={handleToken2Selected}
+        />
+        {getShouldShowSendTransaction() &&
+          <Button>
+            Send Transaction
+          </Button>
+        }
       </StyledPage>
   )
 }
