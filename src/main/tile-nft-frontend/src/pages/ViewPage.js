@@ -36,7 +36,7 @@ const ViewPage = () => {
 
   const getAttributesHtml = () => {
     return (
-        <table>
+        <table className="table">
           {getAttributesHtmlHeader()}
           {getAttributesHtmlRows()}
         </table>
@@ -45,23 +45,32 @@ const ViewPage = () => {
 
   const getAttributesHtmlHeader = () => {
     return (
-        <tr>
-          <th>Trait Type</th>
-          <th>Value</th>
-        </tr>
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Trait Type</th>
+            <th scope="col">Value</th>
+          </tr>
+        </thead>
     );
   }
 
   const getAttributesHtmlRows = () => {
-    return Object.values(tokenData.tokenAttributes).map(attribute => {
+    let rows = Object.values(tokenData.tokenAttributes).map((attribute, index) => {
       console.log("Debug map", attribute, attribute.trait_type, attribute.value)
       return (
           <tr>
-            <td>{attribute.trait_type}</td>
+            <th scope="row">{index + 1}</th>
+            <td>attribute.trait_type}</td>
             <td>{attribute.value}</td>
           </tr>
       );
     });
+    return (
+        <tbody>
+        {rows}
+        </tbody>
+    );
   }
 
   return (
