@@ -22,13 +22,21 @@ const UpdateTileNft = ({
   const [tokenId, setTokenId] = useState('');
   const [contractAddress, setContractAddress] = useState('');
   const [metadataToUpdate, setMetadataToUpdate] = useState([]);
+  const [isInvalidTokenNumber, setIsInvalidTokenNumber] = useState(false);
 
-  const handleTokenLoaded = (tokenIdToSet, contractAddressToSet) => {
+  const handleTokenLoaded = ({
+    tokenId: tokenIdToSet,
+    contractAddress: contractAddressToSet,
+    isInvalidTokenNumber: isInvalidTokenNumberToSet
+  }) => {
     if (tokenIdToSet && tokenId !== tokenIdToSet) {
       setTokenId(tokenIdToSet);
     }
     if (contractAddress !== contractAddressToSet) {
       setContractAddress(contractAddressToSet);
+    }
+    if (isInvalidTokenNumberToSet !== isInvalidTokenNumber) {
+      setIsInvalidTokenNumber(isInvalidTokenNumberToSet);
     }
   }
 
@@ -59,7 +67,7 @@ const UpdateTileNft = ({
             metadataToUpdate={metadataToUpdate}
             getMetadataToUpdateTokenUrl={getMetadataUpdatedTokenUrl}
         />
-        {tokenId !== '' && (
+        {tokenId !== '' && !isInvalidTokenNumber && (
             <>
               {metadataToUpdate.length > 0 && metadataToUpdate.map(
                   metadataMapper

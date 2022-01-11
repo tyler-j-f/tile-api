@@ -44,7 +44,11 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
           loadContractAddress().then(
               contractAddress => {
                 setViewTokenData(loadTokenImageDataResult);
-                tokenLoadedCallback(viewTokenData.tokenId, contractAddress);
+                tokenLoadedCallback({
+                  tokenId: viewTokenData.tokenId,
+                  contractAddress: contractAddress,
+                  isInvalidTokenNumber: loadTokenImageDataResult.isInvalidTokenNumber
+                });
               }
           )
         }
