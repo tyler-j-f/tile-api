@@ -14,7 +14,6 @@ const ViewPage = () => {
   useEffect(() => {
     if (tokenData?.tokenId !== '') {
       loadTokenAttributes({tokenId: tokenData.tokenId}).then(result => {
-        console.log("tokenAttributes", result);
         setTokenData({
           ...tokenData,
           tokenAttributes: result
@@ -35,6 +34,35 @@ const ViewPage = () => {
     return false;
   }
 
+  const getAttributesHtml = () => {
+    return (
+        <table>
+          {getAttributesHtmlHeader()}
+          {getAttributesHtmlRows()}
+        </table>
+    )
+  }
+
+  const getAttributesHtmlHeader = () => {
+    return (
+        <tr>
+          <th>Trait Type</th>
+          <th>Value</th>
+        </tr>
+    );
+  }
+
+  const getAttributesHtmlRows = () => {
+    return Object.values(tokenData.tokenAttributes).map(attribute => {
+      console.log("Debug map", attribute, attribute.trait_type, attribute.value)
+      return (
+          <tr>
+            <td>{attribute.trait_type}</td>
+            <td>{attribute.value}</td>
+          </tr>
+      );
+    });
+  }
 
   return (
       <StyledPage>
@@ -43,7 +71,7 @@ const ViewPage = () => {
           tokenLoadedCallback={handleTokenLoadedCallback}
         />
         {logIt() && <StyledText>logIt</StyledText>}
-        {tokenData.tokenAttributes && Object.keys(tokenData.tokenAttributes).length && <StyledText>Attributes found</StyledText>}
+        {tokenData.tokenAttributes && Object.keys(tokenData.tokenAttributes).length && getAttributesHtml()}
       </StyledPage>
   )
 }
