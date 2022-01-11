@@ -47,9 +47,9 @@ const ViewPage = () => {
     return (
         <thead>
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">Trait Type</th>
-            <th scope="col">Value</th>
+            <th scope="col"><StyledText>#</StyledText></th>
+            <th scope="col"><StyledText>Trait Type</StyledText></th>
+            <th scope="col"><StyledText>Value</StyledText></th>
           </tr>
         </thead>
     );
@@ -60,9 +60,9 @@ const ViewPage = () => {
       console.log("Debug map", attribute, attribute.trait_type, attribute.value)
       return (
           <tr>
-            <th scope="row">{index + 1}</th>
-            <td>attribute.trait_type}</td>
-            <td>{attribute.value}</td>
+            <th scope="row"><StyledText>{index + 1}</StyledText></th>
+            <td><StyledText>{attribute.trait_type}</StyledText></td>
+            <td><StyledText>{attribute.value}</StyledText></td>
           </tr>
       );
     });
