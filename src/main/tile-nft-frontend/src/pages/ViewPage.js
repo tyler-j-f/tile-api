@@ -12,23 +12,29 @@ const ViewPage = () => {
   });
 
   useEffect(() => {
-    if (tokenData.tokenId !== '') {
+    if (tokenData?.tokenId !== '') {
       loadTokenAttributes({tokenId: tokenData.tokenId}).then(result => {
-        console.log("loadTokenAttributes result", result);
+        console.log("tokenAttributes", result);
         setTokenData({
-          ...setTokenData,
+          ...tokenData,
           tokenAttributes: result
         })
       })
     }
   }, [tokenData.tokenId]);
 
-  const handleTokenLoadedCallback = ({tokenIdToSet}) => {
+  const handleTokenLoadedCallback = ({tokenId}) => {
     setTokenData({
-      ...setTokenData,
-      tokenId: tokenIdToSet
+      ...tokenData,
+      tokenId
     });
   }
+
+  const logIt = () => {
+    console.log("debug tokenData.tokenAttributes", tokenData.tokenAttributes);
+    return false;
+  }
+
 
   return (
       <StyledPage>
@@ -36,7 +42,8 @@ const ViewPage = () => {
         <ViewToken
           tokenLoadedCallback={handleTokenLoadedCallback}
         />
-        {tokenData.tokenAttributes && <StyledText>Attributes found</StyledText>}
+        {logIt() && <StyledText>logIt</StyledText>}
+        {tokenData.tokenAttributes && Object.keys(tokenData.tokenAttributes).length && <StyledText>Attributes found</StyledText>}
       </StyledPage>
   )
 }
