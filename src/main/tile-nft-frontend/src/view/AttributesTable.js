@@ -15,19 +15,50 @@ const AttributesTable = ({tokenAttributes}) => {
     );
   }
 
+  const getAttributeRow = (attribute, index) => {
+    return (
+        <tr>
+          <th scope="row"><StyledText>{index + 1}</StyledText></th>
+          <td><StyledText>{attribute.trait_type}</StyledText></td>
+          <td><StyledText>{attribute.value}</StyledText></td>
+        </tr>
+    );
+  }
+
   const getAttributesHtmlRows = () => {
-    let rows = Object.values(tokenAttributes).map((attribute, index) => {
-      return (
-          <tr>
-            <th scope="row"><StyledText>{index + 1}</StyledText></th>
-            <td><StyledText>{attribute.trait_type}</StyledText></td>
-            <td><StyledText>{attribute.value}</StyledText></td>
-          </tr>
-      );
-    });
+    let overallRarityTraitType = 'Overall Rarity';
+    let emojiSourceTraitType = 'Emoji Source';
+    let attributesArray = Object.values(tokenAttributes);
+    let attributeNumber = 0;
+    let overallRarityRow =
+        attributesArray.map(
+            (attribute) => {
+              if (attribute.trait_type === overallRarityTraitType) {
+                return getAttributeRow(attribute, attributeNumber++);
+              }
+            }
+        );
+    let rows =
+       attributesArray.map(
+            (attribute) => {
+              if (attribute.trait_type !== overallRarityTraitType && attribute.trait_type !== emojiSourceTraitType) {
+                return getAttributeRow(attribute, attributeNumber++);
+              }
+            }
+        );
+    let emojiSourceRow =
+        attributesArray.map(
+            (attribute) => {
+              if (attribute.trait_type === emojiSourceTraitType) {
+                return getAttributeRow(attribute, attributeNumber++);
+              }
+            }
+        );
     return (
         <tbody>
-        {rows}
+          {overallRarityRow}
+          {rows}
+          {emojiSourceRow}
         </tbody>
     );
   }
