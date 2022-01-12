@@ -15,33 +15,71 @@ const AttributesTable = ({tokenAttributes}) => {
     );
   }
 
-  const getAttributeRow = (attribute, index) => {
-    return (
-        <tr>
-          <th scope="row"><StyledText>{index + 1}</StyledText></th>
-          <td><StyledText>{attribute.trait_type}</StyledText></td>
-          <td><StyledText>{attribute.value}</StyledText></td>
-        </tr>
-    );
+  const getPointsSuffix = ({attribute, addPointsSuffix}) => {
+    if (addPointsSuffix) {
+      return (attribute?.value && attribute.value > 1)  ? "points" : "point";
+    }
+    return "";
   }
+
+  const getAttributeRow = (attribute, index, addPointsSuffix = false) => (
+      <tr>
+        <th scope="row"><StyledText>{index + 1}</StyledText></th>
+        <td><StyledText>{attribute.trait_type}</StyledText></td>
+        <td><StyledText>{attribute.value} {getPointsSuffix({attribute, addPointsSuffix})}</StyledText></td>
+      </tr>
+  );
 
   const getAttributesHtmlRows = () => {
     let overallRarityTraitType = 'Overall Rarity';
     let emojiSourceTraitType = 'Emoji Source';
+    let mergeMultiplierTraitType = 'Merge Multiplier';
+    let rarityAttributesRegex = /Tile \d Rarity/;
+    let multiplierAttributesRegex = /Tile \d Multiplier/;
     let attributesArray = Object.values(tokenAttributes);
     let attributeNumber = 0;
     let overallRarityRow =
         attributesArray.map(
             (attribute) => {
               if (attribute.trait_type === overallRarityTraitType) {
+                return getAttributeRow(attribute, attributeNumber++, true);
+              }
+            }
+        );
+    let tileRarityRows =
+        attributesArray.map(
+            (attribute) => {
+              if (attribute.trait_type.match(rarityAttributesRegex)) {
+                return getAttributeRow(attribute, attributeNumber++, true);
+              }
+            }
+        );
+    let tileMultiplierRows =
+        attributesArray.map(
+            (attribute) => {
+              if (attribute.trait_type.match(multiplierAttributesRegex)) {
                 return getAttributeRow(attribute, attributeNumber++);
               }
             }
         );
-    let rows =
+    let mergeMultiplierRow =
+        attributesArray.map(
+            (attribute) => {
+              if (attribute.trait_type === mergeMultiplierTraitType) {
+                return getAttributeRow(attribute, attributeNumber++);
+              }
+            }
+        );
+    let otherAttributesRows =
        attributesArray.map(
             (attribute) => {
-              if (attribute.trait_type !== overallRarityTraitType && attribute.trait_type !== emojiSourceTraitType) {
+              if (
+                  attribute.trait_type !== overallRarityTraitType &&
+                  attribute.trait_type !== emojiSourceTraitType &&
+                  !attribute.trait_type.match(rarityAttributesRegex) &&
+                  !attribute.trait_type.match(multiplierAttributesRegex) &&
+                  !attribute.trait_type.match(mergeMultiplierTraitType)
+              ) {
                 return getAttributeRow(attribute, attributeNumber++);
               }
             }
@@ -57,7 +95,10 @@ const AttributesTable = ({tokenAttributes}) => {
     return (
         <tbody>
           {overallRarityRow}
-          {rows}
+          {tileRarityRows}
+          {tileMultiplierRows}
+          {mergeMultiplierRow}
+          {otherAttributesRows}
           {emojiSourceRow}
         </tbody>
     );
