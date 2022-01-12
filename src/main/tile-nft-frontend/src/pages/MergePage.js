@@ -128,7 +128,7 @@ const MergePage = () => {
 
     return (
       <StyledPage>
-        <Heading className="animate__animated animate__fadeInLeft">Merge 2 TileNFTs</Heading>
+        <Heading className="animate__animated animate__fadeInLeft">Merge TileNFTs</Heading>
         {mergeData?.txStatus?.isSuccess && getSuccessfulTx()}
         {!mergeData?.txStatus?.isSuccess && getBody()}
       </StyledPage>
