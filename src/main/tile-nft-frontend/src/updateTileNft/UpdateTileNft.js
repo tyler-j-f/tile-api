@@ -60,12 +60,7 @@ const UpdateTileNft = ({
 
   const areAllEntriesNull = (array) => array.every(val => val === null)
 
-  const getShouldShowSendTx = () => {
-    console.log(
-        "debug getShouldShowSendTx", account, metadataToUpdate, metadataToUpdate.length, numberOfEntriesToSet, contractAddress
-    );
-    return account && metadataToUpdate.length === numberOfEntriesToSet && contractAddress;
-  }
+  const getShouldShowSendTx = () => account && metadataToUpdate.length === numberOfEntriesToSet && contractAddress;
 
   return (
       <>
