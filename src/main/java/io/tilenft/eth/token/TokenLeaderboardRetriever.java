@@ -8,24 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class TokenLeaderboardRetriever {
   @Autowired private TokenLeaderboardDao tokenLeaderboardDao;
-  private static final int START_INDEX_DEFAULT = 0;
-  private static final int DEFAULT_PAGE_SIZE = 5;
 
-  public List<Long> get() {
-    return get(START_INDEX_DEFAULT, START_INDEX_DEFAULT + DEFAULT_PAGE_SIZE);
-  }
-
-  public List<Long> get(int startIndex) {
-    return get(startIndex, startIndex + DEFAULT_PAGE_SIZE);
-  }
-
-  public List<Long> get(int startIndex, int endIndex) {
+  public List<Long> get(int totalNumberOfTokens) {
     List<Long> leaderTokenIds =
         tokenLeaderboardDao.getLeaderTokenIds(
             (long) WeightlessTraitTypeConstants.OVERALL_RARITY,
             (long) WeightedTraitTypeConstants.IS_BURNT_TOKEN_EQUALS_TRUE,
-            endIndex - startIndex,
-            startIndex);
+            totalNumberOfTokens,
+            0);
     return leaderTokenIds;
   }
 

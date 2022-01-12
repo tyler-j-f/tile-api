@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tilenft.eth.token.TokenLeaderboardRetriever;
 import io.tilenft.sql.repositories.TokenRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +23,14 @@ public class FrontendController extends BaseController {
       @RequestParam(required = false, defaultValue = "0") int startIndex,
       @RequestParam(required = false, defaultValue = "5") int endIndex)
       throws JsonProcessingException {
+    List<Long> tokenIdList = tokenLeaderboardRetriever.get(endIndex);
     return new ObjectMapper()
-        .writeValueAsString(String.valueOf(tokenLeaderboardRetriever.get(startIndex, endIndex)));
+        .writeValueAsString(
+            String.valueOf(tokenIdList.subList(startIndex, getEndIndex(tokenIdList, endIndex))));
+  }
+
+  private int getEndIndex(List<Long> tokenIdList, int endIndex) {
+    return Math.min(endIndex, tokenIdList.size());
   }
 
   @GetMapping("getNumberOfTokens")
