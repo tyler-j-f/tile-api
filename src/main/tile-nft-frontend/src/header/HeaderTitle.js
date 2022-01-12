@@ -2,7 +2,7 @@
 function HeaderTitle() {
   return (
       <div>
-        <h1>TileNft</h1>
+        <h1>TileNFT</h1>
       </div>
   );
 }

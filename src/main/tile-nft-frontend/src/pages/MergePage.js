@@ -120,7 +120,7 @@ const MergePage = () => {
         <TransactionSuccess
             handleSendAnotherTx={handleSendAnotherTx}
             txId={mergeData.txStatus.txId}
-            subText={'Please wait a few minutes for the transaction to process and the new TileNft to be sent to account: ' + account}
+            subText={'Please wait a few minutes for the transaction to process and the new TileNFT to be sent to account: ' + account}
         />
     );
   };
@@ -128,7 +128,7 @@ const MergePage = () => {
 
     return (
       <StyledPage>
-        <Heading className="animate__animated animate__fadeInLeft">Merge A TileNft</Heading>
+        <Heading className="animate__animated animate__fadeInLeft">Merge 2 TileNFTs</Heading>
         {mergeData?.txStatus?.isSuccess && getSuccessfulTx()}
         {!mergeData?.txStatus?.isSuccess && getBody()}
       </StyledPage>

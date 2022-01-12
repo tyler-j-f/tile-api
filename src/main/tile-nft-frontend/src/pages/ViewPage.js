@@ -32,7 +32,7 @@ const ViewPage = () => {
 
   return (
       <StyledPage>
-        <Heading className="animate__animated animate__fadeInLeft">View TileNft</Heading>
+        <Heading className="animate__animated animate__fadeInLeft">View TileNFT</Heading>
         <ViewToken
           tokenLoadedCallback={handleTokenLoadedCallback}
         />

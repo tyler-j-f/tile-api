@@ -55,7 +55,7 @@ const UpdateTileNftPage = () => {
           <StyledText>
             Success!!! Transaction Id: <a href={`https://rinkeby.etherscan.io/tx/${txData.txId}`} >{txData.txId}</a>
           </StyledText>
-          <StyledText>Please wait a few minutes for the transaction to process and the TileNft to be updated.</StyledText>
+          <StyledText>Please wait a few minutes for the transaction to process and the TileNFT to be updated.</StyledText>
           <Button onClick={handleSendAnotherTx}>
             Send another update transaction?
           </Button>
@@ -126,14 +126,14 @@ const UpdateTileNftPage = () => {
 
   return (
       <StyledUpdateTileNftPage>
-        <Heading className="animate__animated animate__fadeInLeft">Update TileNft</Heading>
+        <Heading className="animate__animated animate__fadeInLeft">Update TileNFT</Heading>
         {!txData.isSuccess && getSelectWhatToUpdateButtons()}
         {txData.dataToSetIndex !== null && getUpdateHtml()}
         {txData.isSuccess &&
           <TransactionSuccess
               handleSendAnotherTx={handleSendAnotherTx}
               txId={txData.txId}
-              subText={'Please wait a few minutes for the transaction to process and the TileNft to be updated.'}
+              subText={'Please wait a few minutes for the transaction to process and the TileNFT to be updated.'}
           />
         }
       </StyledUpdateTileNftPage>
