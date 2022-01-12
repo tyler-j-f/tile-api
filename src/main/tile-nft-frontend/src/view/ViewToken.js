@@ -33,7 +33,7 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
 
   const getUrl = () => {
     if (metadataToUpdate.length === 0) {
-      return `http://localhost:8080/api/image/tile/get/${viewTokenData.tokenId}`;
+      return `${window.location.origin}/api/image/tile/get/${viewTokenData.tokenId}`;
     }
     return getMetadataToUpdateTokenUrl(viewTokenData.tokenId, metadataToUpdate);
   }
@@ -57,7 +57,7 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
 
   const loadContractAddress = () => {
     return fetch(
-        `http://localhost:8080/api/contract/getAddress`,
+        `${window.location.origin}/api/contract/getAddress`,
         {method: 'get'}
     )
     .then(response => {
