@@ -15,18 +15,26 @@ const AttributesTable = ({tokenAttributes}) => {
     );
   }
 
-  const getPointsSuffix = ({attribute, addPointsSuffix}) => {
-    if (addPointsSuffix) {
-      return (attribute?.value && attribute.value > 1)  ? "points" : "point";
-    }
-    return "";
+  const getPointsSuffix = ({attribute}) => {
+    return (attribute?.value && attribute.value > 1)  ? "points" : "point";
   }
 
-  const getAttributeRow = (attribute, index, addPointsSuffix = false) => (
+  const getAttributePointsRow = (attribute, index) => {
+    let formatIntegerRegex = /\B(?=(\d{3})+(?!\d))/g;
+    return (
+        <tr>
+          <th scope="row"><StyledText>{index + 1}</StyledText></th>
+          <td><StyledText>{attribute.trait_type}</StyledText></td>
+          <td><StyledText>{attribute.value.toString().replace(formatIntegerRegex, ",")} {getPointsSuffix({attribute})}</StyledText></td>
+        </tr>
+    );
+  }
+
+  const getAttributeRow = (attribute, index) => (
       <tr>
         <th scope="row"><StyledText>{index + 1}</StyledText></th>
         <td><StyledText>{attribute.trait_type}</StyledText></td>
-        <td><StyledText>{attribute.value} {getPointsSuffix({attribute, addPointsSuffix})}</StyledText></td>
+        <td><StyledText>{attribute.value}</StyledText></td>
       </tr>
   );
 
@@ -42,7 +50,7 @@ const AttributesTable = ({tokenAttributes}) => {
         attributesArray.map(
             (attribute) => {
               if (attribute.trait_type === overallRarityTraitType) {
-                return getAttributeRow(attribute, attributeNumber++, true);
+                return getAttributePointsRow(attribute, attributeNumber++);
               }
             }
         );
@@ -50,7 +58,7 @@ const AttributesTable = ({tokenAttributes}) => {
         attributesArray.map(
             (attribute) => {
               if (attribute.trait_type.match(rarityAttributesRegex)) {
-                return getAttributeRow(attribute, attributeNumber++, true);
+                return getAttributePointsRow(attribute, attributeNumber++);
               }
             }
         );
