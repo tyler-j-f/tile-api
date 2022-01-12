@@ -49,20 +49,6 @@ const UpdateTileNftPage = () => {
     });
   }
 
-  const getSuccessHtml = () => {
-    return (
-        <>
-          <StyledText>
-            Success!!! Transaction Id: <a href={`https://rinkeby.etherscan.io/tx/${txData.txId}`} >{txData.txId}</a>
-          </StyledText>
-          <StyledText>Please wait a few minutes for the transaction to process and the TileNFT to be updated.</StyledText>
-          <Button onClick={handleSendAnotherTx}>
-            Send another update transaction?
-          </Button>
-        </>
-    );
-  }
-
   const getUpdateHtml = () => {
     return (
         <>

@@ -31,6 +31,7 @@ const UpdateTileNft = ({
   }) => {
     if (tokenIdToSet && tokenId !== tokenIdToSet) {
       setTokenId(tokenIdToSet);
+      clearSelections();
     }
     if (contractAddress !== contractAddressToSet) {
       setContractAddress(contractAddressToSet);
@@ -47,12 +48,14 @@ const UpdateTileNft = ({
   }
 
   const handleClearSelections = () => {
-    setMetadataToUpdate([]);
+    clearSelections();
   }
+
+  const clearSelections = () => setMetadataToUpdate([]);
 
   const handleKeepMetadataValue = () => {
     if (metadataToUpdate.length === numberOfEntriesToSet - 1 && areAllEntriesNull(metadataToUpdate)) {
-      setMetadataToUpdate([]);
+      clearSelections();
       return;
     }
     setMetadataToUpdate([...metadataToUpdate, null]);
