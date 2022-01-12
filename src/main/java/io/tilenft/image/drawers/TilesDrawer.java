@@ -12,7 +12,7 @@ public class TilesDrawer {
   public Mat drawTiles(List<String> tileColors) {
     Mat src = new Mat(350, 350, CvType.CV_8UC4);
     // Set background white
-    src.setTo(new Scalar(255, 255, 255, 0));
+    src.setTo(new Scalar(255, 255, 255, 255));
     // Top left square, blue
     Imgproc.rectangle(
         src,

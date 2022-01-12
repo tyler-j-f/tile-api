@@ -15,7 +15,7 @@ public class SubTitleDrawer {
   public Mat drawSubTitle(Mat src, Long score) {
     Imgproc.putText(
         src,
-        "Rarity: " + numberFormat.format(score),
+        "Rarity: " + numberFormat.format(score) + " Points",
         new Point(20, 335),
         Core.FONT_HERSHEY_COMPLEX_SMALL,
         1,
