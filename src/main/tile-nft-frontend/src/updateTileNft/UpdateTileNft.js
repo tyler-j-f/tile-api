@@ -2,7 +2,7 @@ import ConnectButton from "./ConnectButton";
 import MetadataSetTxWrapper from "./MetadataSetTxWrapper";
 import {useEthers} from "@usedapp/core";
 import ViewToken from "../view/ViewToken";
-import {useState} from "react";
+import React, {useState} from "react";
 import {Button} from "react-bootstrap";
 
 const noop = () => {};
@@ -60,6 +60,13 @@ const UpdateTileNft = ({
 
   const areAllEntriesNull = (array) => array.every(val => val === null)
 
+  const getShouldShowSendTx = () => {
+    console.log(
+        "debug getShouldShowSendTx", account, metadataToUpdate, metadataToUpdate.length, numberOfEntriesToSet, contractAddress
+    );
+    return account && metadataToUpdate.length === numberOfEntriesToSet && contractAddress;
+  }
+
   return (
       <>
         <ViewToken
@@ -84,8 +91,8 @@ const UpdateTileNft = ({
                   <p>Clear Selected</p>
                 </Button>
               }
-
-              {account && metadataToUpdate.length === numberOfEntriesToSet && contractAddress && (
+              <ConnectButton />
+              {getShouldShowSendTx() && (
                   <MetadataSetTxWrapper
                       tokenId={tokenId}
                       metadataToUpdate={metadataToUpdate}

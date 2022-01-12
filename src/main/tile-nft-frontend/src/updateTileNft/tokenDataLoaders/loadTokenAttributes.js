@@ -3,7 +3,6 @@ import loadTokenMetadata from "./loadTokenMetadata";
 export const loadTokenAttributes = ({
   tokenId
 }) => {
-  console.log("debug tokenId 2", tokenId);
   return loadTokenMetadata({tokenId})
   .then(result => {
     if (result === null) {

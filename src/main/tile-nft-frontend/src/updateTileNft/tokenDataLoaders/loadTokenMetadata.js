@@ -2,7 +2,6 @@
 export const loadTokenMetadata = ({
   tokenId
 }) => {
-  console.log("debug tokenId 3", tokenId);
   return fetch(`${window.location.origin}/api/tiles/get/${tokenId}`, {method: 'get'})
   .then(response => {
     if (response.status === 200) {
