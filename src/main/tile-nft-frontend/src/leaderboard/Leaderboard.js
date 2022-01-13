@@ -30,7 +30,7 @@ class Leaderboard extends Component {
   getLeaderboardUrl(startPageNumber) {
     let startIndex = (startPageNumber - 1) * this.state.itemsPerPage;
     let endIndex = startIndex + this.state.itemsPerPage;
-    return `${window.location.origin}/api/frontend/getLeaders?startIndex=${startIndex}&endIndex=${endIndex}`;
+    return `${window.location.origin}/api/leaderboard/getLeaders?startIndex=${startIndex}&endIndex=${endIndex}`;
   }
 
   loadLeaderboardData(startPageNumber) {
@@ -42,7 +42,7 @@ class Leaderboard extends Component {
 
   loadNumberOfTokens() {
     return fetch(
-        `${window.location.origin}/api/frontend/getNumberOfTokens`,
+        `${window.location.origin}/api/leaderboard/getNumberOfTokens`,
         {method: 'get'}
     )
     .then(response => {

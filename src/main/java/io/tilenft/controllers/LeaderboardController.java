@@ -2,18 +2,20 @@ package io.tilenft.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.tilenft.etc.GetOverallRankDTO;
 import io.tilenft.eth.token.TokenLeaderboardRetriever;
 import io.tilenft.sql.repositories.TokenRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = {"/api/frontend"})
-public class FrontendController extends BaseController {
+@RequestMapping(value = {"/api/leaderboard"})
+public class LeaderboardController extends BaseController {
 
   @Autowired private TokenLeaderboardRetriever tokenLeaderboardRetriever;
   @Autowired private TokenRepository tokenRepository;
@@ -29,8 +31,18 @@ public class FrontendController extends BaseController {
             String.valueOf(tokenIdList.subList(startIndex, getEndIndex(tokenIdList, endIndex))));
   }
 
-  private int getEndIndex(List<Long> tokenIdList, int endIndex) {
-    return Math.min(endIndex, tokenIdList.size());
+  @GetMapping("getOverallRank/{tokenId}")
+  public String getOverallRank(@PathVariable Long tokenId) throws JsonProcessingException {
+    List<Long> allTokenIds =
+        tokenLeaderboardRetriever.get(Math.toIntExact(tokenRepository.getCount()));
+    Long rank = (long) (allTokenIds.indexOf(tokenId) + 1);
+    return new ObjectMapper()
+        .writeValueAsString(
+            GetOverallRankDTO.builder()
+                .tokenId(tokenId)
+                .rank(rank)
+                .totalTokens((long) allTokenIds.size())
+                .build());
   }
 
   @GetMapping("getNumberOfTokens")
@@ -38,5 +50,9 @@ public class FrontendController extends BaseController {
     return new ObjectMapper()
         .writeValueAsString(
             String.valueOf(tokenLeaderboardRetriever.getSize(tokenRepository.getCount())));
+  }
+
+  private int getEndIndex(List<Long> tokenIdList, int endIndex) {
+    return Math.min(endIndex, tokenIdList.size());
   }
 }

@@ -4,6 +4,7 @@ import ViewToken from "../view/ViewToken";
 import loadTokenAttributes
   from "../updateTileNft/tokenDataLoaders/loadTokenAttributes";
 import AttributesTable from "../view/AttributesTable";
+import OverallRank from "../view/OverallRank";
 
 const ViewPage = () => {
 
@@ -36,6 +37,11 @@ const ViewPage = () => {
         <ViewToken
           tokenLoadedCallback={handleTokenLoadedCallback}
         />
+        {tokenData.tokenId !== null &&
+          <OverallRank
+              tokenId={tokenData.tokenId}
+          />
+        }
         {tokenData.tokenAttributes && Object.keys(tokenData.tokenAttributes).length &&
           <AttributesTable tokenAttributes={tokenData.tokenAttributes}/>
         }
