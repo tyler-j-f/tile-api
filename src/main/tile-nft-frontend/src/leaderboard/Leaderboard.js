@@ -204,6 +204,8 @@ class Leaderboard extends Component {
     let pagePlusOneButton = shouldShowNextPageButton ? this.getPagePlusOneButton() : null;
     let shouldShowPagePlusTwoButton = currentPage + 1 < this.state.maxPaginationPage;
     let pagePlusTwoButton = shouldShowPagePlusTwoButton ? this.getPagePlusTwoButton() : null;
+    let shouldShowLastPageButton = currentPage + 2 < this.state.maxPaginationPage;
+    let lastPageButton = shouldShowLastPageButton ? this.getLastPageButton() : null;
     let currentPageButton = this.getCurrentPageButton()
     return (
         <nav aria-label="Page navigation example">
@@ -214,6 +216,7 @@ class Leaderboard extends Component {
             {currentPageButton}
             {pagePlusOneButton}
             {pagePlusTwoButton}
+            {lastPageButton}
             {nextPageButton}
           </ul>
         </nav>
@@ -266,6 +269,13 @@ class Leaderboard extends Component {
         </li>
     );
   }
+
+  getLastPageButton() {
+    return (
+        <li className="page-item"><a className="page-link" onClick={() => this.setPageAndLoad.bind(this)(this.state.maxPaginationPage)}>{this.state.maxPaginationPage}</a></li>
+    );
+  }
+
 }
 
 const StyledImg =
