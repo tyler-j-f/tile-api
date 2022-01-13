@@ -27,17 +27,17 @@ class Leaderboard extends Component {
     return isLoading ? loadingSymbol : leaderboard;
   }
 
-  getLeaderboardUrl(startPageNumber) {
-    let startIndex = (startPageNumber - 1) * this.state.itemsPerPage;
+  getLeaderboardUrl(pageNumber) {
+    let startIndex = (pageNumber - 1) * this.state.itemsPerPage;
     let endIndex = startIndex + this.state.itemsPerPage;
     return `${window.location.origin}/api/leaderboard/getLeaders?startIndex=${startIndex}&endIndex=${endIndex}`;
   }
 
-  loadLeaderboardData(startPageNumber) {
+  loadLeaderboardData(pageNumber) {
     this.setState({
       isLoading: true
     });
-    return this.loadNumberOfTokens().then(() => this.loadLeaders(startPageNumber))
+    return this.loadNumberOfTokens().then(() => this.loadLeaders(pageNumber))
   }
 
   loadNumberOfTokens() {
@@ -67,8 +67,8 @@ class Leaderboard extends Component {
     });
   }
 
-  loadLeaders(startPageNumber) {
-    return fetch(this.getLeaderboardUrl(startPageNumber), {method: 'get'})
+  loadLeaders(pageNumber) {
+    return fetch(this.getLeaderboardUrl(pageNumber), {method: 'get'})
     .then(response => {
       console.log(response);
       return response.json();
@@ -130,12 +130,18 @@ class Leaderboard extends Component {
     );
   }
 
+  setPageAndLoad(pageNumber) {
+    this.setState({
+      paginationPage: pageNumber
+    });
+    this.loadLeaderboardData(pageNumber);
+  }
+
   decrementPageAndLoad() {
     let pageNumber = this.state.paginationPage;
     this.decrementPage();
     this.loadLeaderboardData(pageNumber - 1);
   }
-
 
   incrementPageAndLoad() {
     let pageNumber = this.state.paginationPage;
@@ -185,7 +191,10 @@ class Leaderboard extends Component {
   getPagination() {
     let currentPage = this.state.paginationPage;
     let shouldShowPreviousPageButton = currentPage > 1;
+    let shouldShowPageOneButton = currentPage > 2;
     let previousPageButton = shouldShowPreviousPageButton ? this.getPreviousPageButton() : null;
+    let pageOneButton = shouldShowPageOneButton ? this.getPageOneButton() : null;
+    console.log("Debug pageOneButton", pageOneButton);
     let pageMinusOneButton = shouldShowPreviousPageButton ? this.getPageMinusOneButton() : null;
     let shouldShowNextPageButton = currentPage < this.state.maxPaginationPage;
     let nextPageButton = shouldShowNextPageButton ? this.getNextPageButton() : null;
@@ -200,6 +209,7 @@ class Leaderboard extends Component {
         <nav aria-label="Page navigation example">
           <ul className="pagination">
             {previousPageButton}
+            {pageOneButton}
             {pageMinusOneButton}
             {currentPageButton}
             {pagePlusOneButton}
@@ -220,6 +230,13 @@ class Leaderboard extends Component {
   getPreviousPageButton() {
     return (
         <li className="page-item"><a className="page-link" onClick={this.decrementPageAndLoad.bind(this)}>Previous</a></li>
+    );
+  }
+
+
+  getPageOneButton() {
+    return (
+        <li className="page-item"><a className="page-link" onClick={() => this.setPageAndLoad.bind(this)(1)}>1</a></li>
     );
   }
 
