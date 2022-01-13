@@ -10,17 +10,19 @@ const OverallRank = ({tokenId = ''}) => {
   });
 
   useEffect(() => {
-    loadOverallRank().then((response) => {
-      if (response === null) {
-        return;
-      }
-      setOverallRankData({
-        rank: response.rank,
-        totalTokens: response.totalTokens
-      })}).catch(err => {
-      console.log("Error caught!!!", err);
-    });
-  }, []);
+    if (tokenId !== '') {
+      loadOverallRank().then((response) => {
+        if (response === null) {
+          return;
+        }
+        setOverallRankData({
+          rank: response.rank,
+          totalTokens: response.totalTokens
+        })}).catch(err => {
+        console.log("Error caught!!!", err);
+      });
+    }
+  }, [tokenId]);
 
   const loadOverallRank = () => {
     return fetch(
@@ -60,6 +62,7 @@ const StyledText =
     styled.p`
     color: white;
     font-weight: bold;
+    font-size: 20px;
     `;
 
 export default OverallRank;

@@ -10,7 +10,8 @@ const ViewPage = () => {
 
   const [tokenData, setTokenData] = useState({
     tokenId: '',
-    tokenAttributes: {}
+    tokenAttributes: {},
+    isInvalidTokenNumber: false
   });
 
   useEffect(() => {
@@ -24,10 +25,11 @@ const ViewPage = () => {
     }
   }, [tokenData.tokenId]);
 
-  const handleTokenLoadedCallback = ({tokenId}) => {
+  const handleTokenLoadedCallback = ({tokenId, isInvalidTokenNumber}) => {
     setTokenData({
       ...tokenData,
-      tokenId
+      tokenId,
+      isInvalidTokenNumber
     });
   }
 
@@ -37,7 +39,7 @@ const ViewPage = () => {
         <ViewToken
           tokenLoadedCallback={handleTokenLoadedCallback}
         />
-        {tokenData.tokenId !== null &&
+        {tokenData.tokenId !== '' && !tokenData.isInvalidTokenNumber &&
           <OverallRank
               tokenId={tokenData.tokenId}
           />
