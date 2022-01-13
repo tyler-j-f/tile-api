@@ -15,24 +15,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tile-api
+  name: hello-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tile-api
+      app: hello-app
   template:
     metadata:
       labels:
-        app: tile-api
+        app: hello-app
     spec:
       volumes:
       - name: google-cloud-key
         secret:
-          secretName: default-token-8gwd7
+          secretName: hello-app-key
       containers:
-      - name: tile-api
-        image: us-east4-docker.pkg.dev/dev-eth-api/tile-api-repo/tile-api:v1.0.21
+      - name: hello-app
+        image: us-east4-docker.pkg.dev/dev-eth-api/hello-repo/hello-app:v1.0.18
         volumeMounts:
         - name: google-cloud-key
           mountPath: /var/secrets/google
