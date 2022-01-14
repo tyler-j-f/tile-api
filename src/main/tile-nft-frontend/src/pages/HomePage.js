@@ -9,7 +9,7 @@ const HomePage = () => {
   useEffect(() => {
     let tokenId = new URL(window.location.href).searchParams.get('tokenId');
     if (tokenId) {
-      navigate("/view");
+      navigate("/view?tokenId=" + tokenId);
     }
   }, []);
 

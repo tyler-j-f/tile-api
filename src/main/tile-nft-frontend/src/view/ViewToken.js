@@ -4,7 +4,7 @@ import Spinner from 'react-bootstrap/Spinner';
 
 const noop = () => {};
 
-const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetadataToUpdateTokenUrl = noop}) => {
+const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetadataToUpdateTokenUrl = noop, enableUrlSearch = false}) => {
 
   const [viewTokenData, setViewTokenData] = useState({
     tokenId: '',
@@ -16,8 +16,23 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
   });
 
   useEffect(() => {
+    if (enableUrlSearch) {
+      let tokenId = new URL(window.location.href).searchParams.get('tokenId');
+      if (tokenId) {
+        setViewTokenData({
+          ...viewTokenData,
+          tokenId,
+          isLoading: true
+        })
+        loadTokenImage(tokenId);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     if (viewTokenData?.tokenId !== '' && metadataToUpdate?.length !== viewTokenData?.previouslyUsedMetadataToUpdate?.length) {
-      loadTokenImage();
+      setViewTokenData({...viewTokenData, isLoading: true})
+      loadTokenImage(viewTokenData?.tokenId);
     }
   }, [metadataToUpdate]);
 
@@ -27,25 +42,25 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
 
   const handleSubmit = (event) => {
     setViewTokenData({...viewTokenData, isLoading: true})
-    loadTokenImage();
+    loadTokenImage(viewTokenData?.tokenId);
     event.preventDefault();
   }
 
-  const getUrl = () => {
+  const getUrl = (tokenId) => {
     if (metadataToUpdate.length === 0) {
-      return `${window.location.origin}/api/image/tile/get/${viewTokenData.tokenId}`;
+      return `${window.location.origin}/api/image/tile/get/${tokenId}`;
     }
     return getMetadataToUpdateTokenUrl(viewTokenData.tokenId, metadataToUpdate);
   }
 
-  const loadTokenImage = () => {
-    loadTokenImageData().then(
+  const loadTokenImage = (tokenId) => {
+    loadTokenImageData(tokenId).then(
         loadTokenImageDataResult => {
           loadContractAddress().then(
               contractAddress => {
                 setViewTokenData(loadTokenImageDataResult);
                 tokenLoadedCallback({
-                  tokenId: viewTokenData.tokenId,
+                  tokenId: tokenId,
                   contractAddress: contractAddress,
                   isInvalidTokenNumber: loadTokenImageDataResult.isInvalidTokenNumber
                 });
@@ -81,8 +96,8 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
   }
 
 
-  const loadTokenImageData = () => {
-    return fetch(getUrl(), {method: 'get'})
+  const loadTokenImageData = (tokenId) => {
+    return fetch(getUrl(tokenId), {method: 'get'})
     .then(response => {
       if (response.status === 200) {
         return response.blob();

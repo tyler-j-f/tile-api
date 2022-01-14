@@ -38,6 +38,7 @@ const ViewPage = () => {
         <Heading className="animate__animated animate__fadeInLeft">View TileNFT</Heading>
         <ViewToken
           tokenLoadedCallback={handleTokenLoadedCallback}
+          enableUrlSearch={true}
         />
         {tokenData.tokenId !== '' && !tokenData.isInvalidTokenNumber &&
           <OverallRank
