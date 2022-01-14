@@ -15,6 +15,18 @@ const ViewPage = () => {
   });
 
   useEffect(() => {
+    let urlTokenId = new URL(window.location.href).searchParams.get('tokenId');
+    console.log("debug urlTokenId", urlTokenId);
+    if (urlTokenId !== null) {
+      console.log("debug urlTokenId 2", urlTokenId);
+      setTokenData({
+        ...tokenData,
+        tokenId: urlTokenId
+      });
+    }
+  }, []);
+
+  useEffect(() => {
     if (tokenData?.tokenId !== '') {
       loadTokenAttributes({tokenId: tokenData.tokenId}).then(result => {
         setTokenData({
