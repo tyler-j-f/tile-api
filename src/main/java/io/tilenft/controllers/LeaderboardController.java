@@ -28,7 +28,8 @@ public class LeaderboardController extends BaseController {
       throws JsonProcessingException {
     List<LeaderboardEntryDTO> leaderboardEntries = tokenLeaderboardRetriever.get(endIndex);
     return new ObjectMapper()
-        .writeValueAsString(leaderboardEntries.subList(startIndex, getEndIndex(leaderboardEntries, endIndex)));
+        .writeValueAsString(
+            leaderboardEntries.subList(startIndex, getEndIndex(leaderboardEntries, endIndex)));
   }
 
   @GetMapping("getOverallRank/{tokenId}")
@@ -51,7 +52,8 @@ public class LeaderboardController extends BaseController {
             GetOverallRankDTO.builder()
                 .tokenId(foundEntry.getTokenId())
                 .rank(foundEntry.getRankCount())
-                .totalTokens((long) leaderboardEntries.size())
+                .totalTokens(
+                    (long) leaderboardEntries.get(leaderboardEntries.size() - 1).getRankCount())
                 .build());
   }
 

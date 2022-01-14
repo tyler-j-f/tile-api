@@ -1,6 +1,7 @@
 import {Component} from 'react';
 import styled from 'styled-components';
 import Spinner from 'react-bootstrap/Spinner';
+import {forEach} from "react-bootstrap/ElementChildren";
 
 class Leaderboard extends Component {
 
@@ -9,7 +10,7 @@ class Leaderboard extends Component {
     this.state = {
       isGeneralError: false,
       isLoading: false,
-      tokenIds: [],
+      leaders: [],
       itemsPerPage: 10,
       paginationPage: 1,
       maxPaginationPage: 10
@@ -21,7 +22,7 @@ class Leaderboard extends Component {
   }
 
   render() {
-    let isLoading = this.state.isLoading && this.state.tokenIds !== [];
+    let isLoading = this.state.isLoading && this.state.leaders !== [];
     let loadingSymbol = isLoading ? this.getSpinner() : null;
     let leaderboard = isLoading ? null : this.getLeaderboard();
     return isLoading ? loadingSymbol : leaderboard;
@@ -73,11 +74,9 @@ class Leaderboard extends Component {
       console.log(response);
       return response.json();
     })
-    .then(tokenIds => {
-      let output = tokenIds.replace('[', '').replace(']', '').split(', ')
-      console.log("leaderboard tokenIds", output);
+    .then(leaders => {
       this.setState({
-        tokenIds: output,
+        leaders,
         isLoading: false,
         isGeneralError: false
       });
@@ -96,9 +95,10 @@ class Leaderboard extends Component {
     if (this.state.isGeneralError) {
       return this.getGeneralErrorText();
     }
-    let startIndex = (this.state.paginationPage - 1) * this.state.itemsPerPage;
-    let leaderboard =  this.state.tokenIds.map(
-        (tokenId, index) => this.getTokenImage(tokenId, startIndex + index)
+    let leaderboard =  this.state.leaders.map(
+        (
+            {tokenId, rankCount}
+        ) => this.getTokenImage(tokenId, rankCount)
     );
     let pagination = this.getPagination();
     return (
@@ -115,10 +115,10 @@ class Leaderboard extends Component {
     )
   }
 
-  getTokenImage(tokenId, index) {
+  getTokenImage(tokenId, rank) {
     return (
         <div>
-          <StyledLabel># {index + 1}</StyledLabel>
+          <StyledLabel># {rank}</StyledLabel>
           <StyledImg imgSource={`${window.location.origin}/api/image/tile/get/${tokenId}`} />
         </div>
     );
@@ -194,7 +194,6 @@ class Leaderboard extends Component {
     let shouldShowPageOneButton = currentPage > 2;
     let previousPageButton = shouldShowPreviousPageButton ? this.getPreviousPageButton() : null;
     let pageOneButton = shouldShowPageOneButton ? this.getPageOneButton() : null;
-    console.log("Debug pageOneButton", pageOneButton);
     let pageMinusOneButton = shouldShowPreviousPageButton ? this.getPageMinusOneButton() : null;
     let shouldShowNextPageButton = currentPage < this.state.maxPaginationPage;
     let nextPageButton = shouldShowNextPageButton ? this.getNextPageButton() : null;
