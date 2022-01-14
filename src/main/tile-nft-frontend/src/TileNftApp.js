@@ -1,8 +1,11 @@
 // style
 import './css/App.css';
-import TileNftHeader from "./header/TileNftHeader";
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes
+} from 'react-router-dom';
 // components
 import Toggle from './components/Toggle';
 import Menu from './components/Menu';

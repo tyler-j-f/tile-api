@@ -1,7 +1,18 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styled from 'styled-components';
+import {useNavigate} from "react-router-dom";
 
 const HomePage = () => {
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    let tokenId = new URL(window.location.href).searchParams.get('tokenId');
+    if (tokenId) {
+      navigate("/view");
+    }
+  }, []);
+
   return (
       <StyledHomePage>
         <Heading className="animate__animated animate__fadeInLeft">TileNFT</Heading>
