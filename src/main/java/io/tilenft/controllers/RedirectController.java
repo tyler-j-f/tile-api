@@ -2,7 +2,6 @@ package io.tilenft.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -15,20 +14,8 @@ public class RedirectController extends BaseController {
    *
    * @return RedirectView The frontend home page.
    */
-  @GetMapping(value = {"leaderboard", "contact", "update", "merge"})
+  @GetMapping(value = {"leaderboard", "view", "contact", "update", "merge"})
   public RedirectView redirectToHomePage() {
-    return new RedirectView("/");
-  }
-
-  @GetMapping(
-      value = {
-        "view",
-      })
-  public RedirectView redirectToViewPage(
-      @RequestParam(required = false, defaultValue = "0") Long tokenId) {
-    if (!tokenId.equals(0L)) {
-      return new RedirectView("/?initialTokenId=" + tokenId);
-    }
     return new RedirectView("/");
   }
 }
