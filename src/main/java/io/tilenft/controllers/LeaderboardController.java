@@ -2,8 +2,9 @@ package io.tilenft.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.tilenft.etc.GetOverallRankDTO;
 import io.tilenft.eth.token.TokenLeaderboardRetriever;
+import io.tilenft.sql.dtos.GetOverallRankDTO;
+import io.tilenft.sql.dtos.LeaderboardEntryDTO;
 import io.tilenft.sql.repositories.TokenRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,23 +26,32 @@ public class LeaderboardController extends BaseController {
       @RequestParam(required = false, defaultValue = "0") int startIndex,
       @RequestParam(required = false, defaultValue = "5") int endIndex)
       throws JsonProcessingException {
-    List<Long> tokenIdList = tokenLeaderboardRetriever.get(endIndex);
+    List<LeaderboardEntryDTO> leaderboardEntries = tokenLeaderboardRetriever.get(endIndex);
     return new ObjectMapper()
-        .writeValueAsString(
-            String.valueOf(tokenIdList.subList(startIndex, getEndIndex(tokenIdList, endIndex))));
+        .writeValueAsString(leaderboardEntries.subList(startIndex, getEndIndex(leaderboardEntries, endIndex)));
   }
 
   @GetMapping("getOverallRank/{tokenId}")
-  public String getOverallRank(@PathVariable Long tokenId) throws JsonProcessingException {
-    List<Long> allTokenIds =
+  public String getOverallRank(@PathVariable Long tokenId)
+      throws JsonProcessingException, ControllerException {
+    List<LeaderboardEntryDTO> leaderboardEntries =
         tokenLeaderboardRetriever.get(Math.toIntExact(tokenRepository.getCount()));
-    Long rank = (long) (allTokenIds.indexOf(tokenId) + 1);
+    LeaderboardEntryDTO foundEntry = null;
+    for (LeaderboardEntryDTO entry : leaderboardEntries) {
+      if (entry.getTokenId().equals(tokenId)) {
+        foundEntry = entry;
+        break;
+      }
+    }
+    if (foundEntry == null) {
+      throw new ControllerException("getOverallRank -> could not find tokenId");
+    }
     return new ObjectMapper()
         .writeValueAsString(
             GetOverallRankDTO.builder()
-                .tokenId(tokenId)
-                .rank(rank)
-                .totalTokens((long) allTokenIds.size())
+                .tokenId(foundEntry.getTokenId())
+                .rank(foundEntry.getRankCount())
+                .totalTokens((long) leaderboardEntries.size())
                 .build());
   }
 
@@ -52,7 +62,7 @@ public class LeaderboardController extends BaseController {
             String.valueOf(tokenLeaderboardRetriever.getSize(tokenRepository.getCount())));
   }
 
-  private int getEndIndex(List<Long> tokenIdList, int endIndex) {
+  private int getEndIndex(List<LeaderboardEntryDTO> tokenIdList, int endIndex) {
     return Math.min(endIndex, tokenIdList.size());
   }
 }

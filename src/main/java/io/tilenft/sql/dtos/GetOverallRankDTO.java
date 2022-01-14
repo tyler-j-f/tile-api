@@ -1,4 +1,4 @@
-package io.tilenft.etc;
+package io.tilenft.sql.dtos;
 
 import lombok.Builder;
 import lombok.Data;
