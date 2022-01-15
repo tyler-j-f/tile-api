@@ -36,7 +36,7 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
 
   useEffect(() => {
     if (enableBlockExplorerLink && viewTokenData.tokenId !== '') {
-      loadBlockExplorerUrl().then(
+      loadBlockExplorerUrl(viewTokenData.tokenId).then(
           response => {
             console.log("ViewToken url response", response);
             setViewTokenData({
@@ -46,7 +46,7 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
           }
       )
     }
-  }, []);
+  }, [viewTokenData.tokenId]);
 
   useEffect(() => {
     if (viewTokenData?.tokenId !== '' && metadataToUpdate?.length !== viewTokenData?.previouslyUsedMetadataToUpdate?.length) {

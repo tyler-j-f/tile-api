@@ -1,8 +1,8 @@
 const noop = () => {};
 
-const loadBlockExplorerUrl = ({
-  tokenId = '', viewTokenData  = null, setViewTokenData = noop, tokenLoadedCallback = noop, metadataToUpdate = [], getMetadataToUpdateTokenUrl = noop
-}) => {
+const loadBlockExplorerUrl = (
+  tokenId = ''
+) => {
 
   const loadUrl = () => {
     return fetch(
@@ -31,7 +31,8 @@ const loadBlockExplorerUrl = ({
 
   return loadUrl().then(
       response => {
-        console.log("Debug loadBlockExplorerUrl response", response)
+        console.log("Debug loadBlockExplorerUrl response", response);
+        return response;
       }
   );
 }

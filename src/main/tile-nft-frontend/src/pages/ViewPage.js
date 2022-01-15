@@ -39,6 +39,7 @@ const ViewPage = () => {
         <ViewToken
           tokenLoadedCallback={handleTokenLoadedCallback}
           enableUrlSearch={true}
+          enableBlockExplorerLink={true}
         />
         {tokenData.tokenId !== '' && !tokenData.isInvalidTokenNumber &&
           <OverallRank
