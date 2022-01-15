@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import Spinner from 'react-bootstrap/Spinner';
+import loadTokenImage from "./loadTokenImage";
 
 const noop = () => {};
 
@@ -24,7 +25,9 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
           tokenId,
           isLoading: true
         })
-        loadTokenImage(tokenId);
+        loadTokenImage({
+          tokenId, viewTokenData, setViewTokenData, tokenLoadedCallback, metadataToUpdate, getMetadataToUpdateTokenUrl
+        });
       }
     }
   }, []);
@@ -32,7 +35,9 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
   useEffect(() => {
     if (viewTokenData?.tokenId !== '' && metadataToUpdate?.length !== viewTokenData?.previouslyUsedMetadataToUpdate?.length) {
       setViewTokenData({...viewTokenData, isLoading: true})
-      loadTokenImage(viewTokenData?.tokenId);
+      loadTokenImage({
+        tokenId: viewTokenData.tokenId, viewTokenData, setViewTokenData, tokenLoadedCallback, metadataToUpdate, getMetadataToUpdateTokenUrl
+      });
     }
   }, [metadataToUpdate]);
 
@@ -42,107 +47,10 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
 
   const handleSubmit = (event) => {
     setViewTokenData({...viewTokenData, isLoading: true})
-    loadTokenImage(viewTokenData?.tokenId);
+    loadTokenImage({
+      tokenId: viewTokenData.tokenId, viewTokenData, setViewTokenData, tokenLoadedCallback, metadataToUpdate, getMetadataToUpdateTokenUrl
+    });
     event.preventDefault();
-  }
-
-  const getUrl = (tokenId) => {
-    if (metadataToUpdate.length === 0) {
-      return `${window.location.origin}/api/image/tile/get/${tokenId}`;
-    }
-    return getMetadataToUpdateTokenUrl(viewTokenData.tokenId, metadataToUpdate);
-  }
-
-  const loadTokenImage = (tokenId) => {
-    loadTokenImageData(tokenId).then(
-        loadTokenImageDataResult => {
-          loadContractAddress().then(
-              contractAddress => {
-                setViewTokenData(loadTokenImageDataResult);
-                tokenLoadedCallback({
-                  tokenId: tokenId,
-                  contractAddress: contractAddress,
-                  isInvalidTokenNumber: loadTokenImageDataResult.isInvalidTokenNumber
-                });
-              }
-          )
-        }
-    )
-  }
-
-  const loadContractAddress = () => {
-    return fetch(
-        `${window.location.origin}/api/contract/getAddress`,
-        {method: 'get'}
-    )
-    .then(response => {
-      if (response.status === 200) {
-        return response.json();
-      }
-      return null;
-    })
-    .then(json => {
-      console.log("ViewToken loadContractAddress json found", json);
-      if (json === null) {
-        let errorMessage = 'loadContractAddress json is null';
-        console.log(errorMessage);
-        throw errorMessage;
-      }
-      return json
-    })
-    .catch(err => {
-      console.log("Error caught!!!", err);
-    });
-  }
-
-
-  const loadTokenImageData = (tokenId) => {
-    return fetch(getUrl(tokenId), {method: 'get'})
-    .then(response => {
-      if (response.status === 200) {
-        return response.blob();
-      }
-      if (response.status === 404) {
-        return {
-          ...viewTokenData,
-          isLoading: false,
-          isInvalidTokenNumber: true,
-          isGeneralError: false,
-          imgValue: ''
-        };
-      }
-      throw "Error: Unrecognized response."
-    })
-    .then(response => {
-      console.log("loadTokenImageData then. response: ", response)
-      if (response === null) {
-        console.log('Image blob is null');
-        return null;
-      }
-      if (response.isInvalidTokenNumber) {
-        console.log('Invalid token number requested.');
-        return response;
-      }
-      // Otherwise return response.blob(); was called above.
-      return {
-        ...viewTokenData,
-        isLoading: false,
-        isInvalidTokenNumber: false,
-        isGeneralError: false,
-        imgValue: URL.createObjectURL(response),
-        previouslyUsedMetadataToUpdate: metadataToUpdate
-      };
-    })
-    .catch(err => {
-      console.log("Error caught!!!", err);
-      return {
-        ...viewTokenData,
-        isLoading: false,
-        isInvalidTokenNumber: false,
-        isGeneralError: true,
-        imgValue: ''
-      };
-    });
   }
 
   const getGeneralErrorText = () => {
