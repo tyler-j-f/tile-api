@@ -70,7 +70,7 @@ const MergeTxWrapper = ({
   );
 
   const getShouldRender = () => {
-    return tileContract && signer && tokenId1 && tokenId2 && getIsOwnerOfBothTokens();
+    return tileContract && signer && tokenId1 && tokenId2 && getIsOwnerOfBothTokens() && !getIsBothTokensTheSame();
   }
 
   const handleProviderAndSigner = () => {
@@ -87,8 +87,11 @@ const MergeTxWrapper = ({
 
 
   const getIsOwnerOfBothTokens = () => {
-    console.log("DEBUG getIsOwnerOfBothTokens", tokenOwnerAddresses, account);
     return getIsTokenOwner(tokenOwnerAddresses.token1.owner) && getIsTokenOwner(tokenOwnerAddresses.token2.owner);
+  }
+
+  const getIsBothTokensTheSame = () => {
+    return tokenOwnerAddresses?.token1?.tokenId === tokenOwnerAddresses?.token2?.tokenId
   }
 
   const getIsTokenOwner = (address) => {
@@ -97,7 +100,8 @@ const MergeTxWrapper = ({
 
   return (
       <>
-        {getIsTokenOwner() ? null : <StyledText>Logged in account does not own both tokens.</StyledText>}
+        {getIsOwnerOfBothTokens() ? null : <StyledText>Logged in account does not own both tokens.</StyledText>}
+        {getIsBothTokensTheSame() ? null : <StyledText>Cannot merge a token with itself.</StyledText>}
         {getShouldRender() &&
         <MergetTx
             contract={tileContract}

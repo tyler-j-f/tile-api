@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components';
 import TokenMergeSelector from "../merge/TokenMergeSelector";
-import {Button} from "react-bootstrap";
 import {useEthers} from "@usedapp/core";
 import ConnectButton from "../updateTileNft/ConnectButton";
 import MergeTxWrapper from "../merge/MergeTxWrapper";

@@ -6,7 +6,7 @@ import { parseEther } from "@ethersproject/units";
 
 const noop = () => {};
 
-const MetadataSetTx = ({contract, tokenId1, tokenId2, successCallback = noop}) => {
+const MergeTx = ({contract, tokenId1, tokenId2, successCallback = noop}) => {
   const {state: mergeTxState, send } = useContractFunction(contract, 'merge', {value: parseEther('.1')});
   const [txStatus, setTxStatus] = useState({
     isLoading: false,
@@ -50,4 +50,4 @@ const StyledText =
     font-weight: bold;
     `;
 
-export default MetadataSetTx;
+export default MergeTx;
