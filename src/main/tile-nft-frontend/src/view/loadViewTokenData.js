@@ -91,25 +91,37 @@ const loadViewTokenData = ({
       loadTokenImageDataResult => {
         loadContractAddress().then(
             contractAddress => {
-              setViewTokenData({
+              let dataToSet = {
                 ...viewTokenData,
                 ...loadTokenImageDataResult
-              });
-              tokenLoadedCallback({
+              };
+              let dataToCallback = {
                 tokenId: tokenId,
                 contractAddress: contractAddress,
                 isInvalidTokenNumber: loadTokenImageDataResult.isInvalidTokenNumber
-              });
+              };
+              if (!enableBlockExplorerLink) {
+                setViewTokenData(dataToSet);
+                tokenLoadedCallback(dataToCallback);
+              }
+              return {
+                dataToSet,
+                dataToCallback
+              };
             }
-        ).then(() => {
-          if (enableBlockExplorerLink && viewTokenData.tokenId !== '') {
-            loadBlockExplorerUrl(viewTokenData.tokenId).then(
+        ).then(({
+          dataToSet,
+            dataToCallback
+        }) => {
+          if (enableBlockExplorerLink) {
+            loadBlockExplorerUrl(tokenId).then(
                 response => {
                   console.log("ViewToken url response", response);
                   setViewTokenData({
-                    ...viewTokenData,
+                    ...dataToSet,
                     blockExplorerUrl: response
-                  })
+                  });
+                  tokenLoadedCallback(dataToCallback);
                 }
             )
           }
