@@ -2,10 +2,11 @@ import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import Spinner from 'react-bootstrap/Spinner';
 import loadTokenImage from "./loadTokenImage";
+import loadBlockExplorerUrl from "./loadBlockExplorerUrl";
 
 const noop = () => {};
 
-const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetadataToUpdateTokenUrl = noop, enableUrlSearch = false}) => {
+const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetadataToUpdateTokenUrl = noop, enableUrlSearch = false, enableBlockExplorerLink = false}) => {
 
   const [viewTokenData, setViewTokenData] = useState({
     tokenId: '',
@@ -13,7 +14,8 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
     isInvalidTokenNumber: false,
     isGeneralError: false,
     imgValue: '',
-    previouslyUsedMetadataToUpdate: []
+    previouslyUsedMetadataToUpdate: [],
+    blockExplorerUrl: ''
   });
 
   useEffect(() => {
@@ -29,6 +31,20 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
           tokenId, viewTokenData, setViewTokenData, tokenLoadedCallback, metadataToUpdate, getMetadataToUpdateTokenUrl
         });
       }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (enableBlockExplorerLink && viewTokenData.tokenId !== '') {
+      loadBlockExplorerUrl().then(
+          response => {
+            console.log("ViewToken url response", response);
+            setViewTokenData({
+              ...viewTokenData,
+              blockExplorerUrl: response
+            })
+          }
+      )
     }
   }, []);
 
@@ -93,6 +109,7 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
         {
           viewTokenData.imgValue !== '' && <StyledImg imgSource={viewTokenData.imgValue} />
         }
+        {viewTokenData.blockExplorerUrl !== '' && <StyledText>View Token On Block Explorer: {viewTokenData.blockExplorerUrl}</StyledText>}
       </>
     );
   }
@@ -128,7 +145,13 @@ const StyledErrorText =
 
 const StyledLabel =
     styled.label`
-      color: #F8F8FF;
-      `;
+     color: #F8F8FF;
+     `;
+
+const StyledText =
+    styled.p`
+    color: white;
+    font-weight: bold;
+    `;
 
 export default ViewToken;
