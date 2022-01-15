@@ -10,7 +10,7 @@ import org.springframework.core.io.support.ResourcePatternUtils;
 public class ImageResourcesLoader {
 
   private ResourceLoader resourceLoader;
-  private static Resource[] resources;
+  private Resource[] resources;
   private String loadPattern;
   private int randomListSize;
   private static final int DEFAULT_RANDOM_LIST_SIZE = 4;

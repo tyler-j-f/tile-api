@@ -3,7 +3,6 @@ package io.tilenft.scheduler.tasks;
 import io.tilenft.eth.events.EthEventException;
 import io.tilenft.eth.events.implementations.SetMetadataEvent;
 import io.tilenft.eth.token.TokenFacadeDTO;
-import io.tilenft.eth.token.TokenRetriever;
 import io.tilenft.eth.token.traits.weightless.WeightlessTraitTypeConstants;
 import io.tilenft.eth.token.traits.weightless.pickers.EmojiTraitPicker;
 import io.tilenft.image.ImageResourcesLoader;
@@ -14,14 +13,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.Resource;
 
 public class HandleSetEmojisEventsTask extends AbstractMetadataSetEventsRetrieverTask {
   private static final int NUMBER_OF_SUB_TILES = 4;
   private static final int EMOJI_SET_SPECIFIER_INDEX = 0;
 
-  @Autowired private TokenRetriever tokenRetriever;
-  @Autowired private ImageResourcesLoader imageResourcesLoader;
+  @Qualifier("emojiResourceLoader")
+  @Autowired
+  private ImageResourcesLoader emojiResourcesLoader;
+
   @Autowired private EmojiTraitPicker emojiTraitPicker;
   @Autowired private WeightlessTraitRepository weightlessTraitRepository;
 
@@ -102,7 +104,7 @@ public class HandleSetEmojisEventsTask extends AbstractMetadataSetEventsRetrieve
     List<WeightlessTraitDTO> traits = nft.getWeightlessTraits();
     List<WeightlessTraitDTO> traitsToUpdate = new ArrayList<>();
     WeightlessTraitDTO updateTrait;
-    Resource[] resources = imageResourcesLoader.getResources();
+    Resource[] resources = emojiResourcesLoader.getResources();
     int resourcesArrayLength = resources.length;
     for (String tileEmojiIndex : getTileEmojiIndexFromEvent(event)) {
       if (!validateTraitValueToUpdate(tileEmojiIndex, resourcesArrayLength)) {

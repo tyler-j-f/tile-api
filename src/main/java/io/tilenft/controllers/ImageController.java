@@ -18,7 +18,10 @@ import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +33,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class ImageController extends BaseController {
 
   @Autowired private ImageDrawer imageDrawer;
-  @Autowired private ImageResourcesLoader imageResourcesLoader;
+
+  @Qualifier("emojiResourceLoader")
+  @Autowired
+  private ImageResourcesLoader emojiResourceLoader;
+
+  @Qualifier("logoResourceLoader")
+  @Autowired
+  private ImageResourcesLoader logoResourcesLoader;
+
   @Autowired private TokenRetriever tokenRetriever;
   @Autowired private WeightlessTraitsListFinder weightlessTraitsListFinder;
   @Autowired private WeightedTraitsListFinder weightedTraitsListFinder;
@@ -116,7 +127,14 @@ public class ImageController extends BaseController {
             ? appendPngFileExtension(tile4Emoji.toUpperCase())
             : getCurrentTokenEmojiValue(4, nft);
     return new ObjectMapper()
-        .writeValueAsString(imageResourcesLoader.getResourcesIndexes(emojiFilenames));
+        .writeValueAsString(emojiResourceLoader.getResourcesIndexes(emojiFilenames));
+  }
+
+  @GetMapping(value = "getLogo")
+  public void getLogo(HttpServletResponse response) throws IOException {
+    response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+    Resource imgFile = logoResourcesLoader.getResourceByName("logo.jpg");
+    StreamUtils.copy(imgFile.getInputStream(), response.getOutputStream());
   }
 
   private String getCurrentTokenEmojiValue(int tileNumber, TokenFacadeDTO nft)
@@ -185,7 +203,7 @@ public class ImageController extends BaseController {
         imageDrawer.drawImage(
             tokenId,
             getOverallRarityScore(nft.getWeightlessTraits()),
-            imageResourcesLoader.getResourcesByName(emojiFileNames),
+            emojiResourceLoader.getResourcesByName(emojiFileNames),
             tileColors,
             getIsTokenBurnt(nft));
     writeBufferedImageToOutput(byteArray, response);

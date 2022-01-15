@@ -3,17 +3,20 @@ package io.tilenft.eth.token.traits.weightless.pickers;
 import io.tilenft.image.ImageResourcesLoader;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 public class EmojiTraitPicker implements WeightlessTraitPickerInterface {
 
-  @Autowired private ImageResourcesLoader imageResourcesLoader;
+  @Qualifier("emojiResourceLoader")
+  @Autowired
+  private ImageResourcesLoader emojiResourcesLoader;
 
   @Override
   public String getValue(WeightlessTraitPickerContext context)
       throws WeightlessTraitPickerException {
     try {
       return stripExtension(
-          imageResourcesLoader.getRandomResource(context.getSeedForTrait()).getFilename());
+          emojiResourcesLoader.getRandomResource(context.getSeedForTrait()).getFilename());
     } catch (IOException e) {
       throw new WeightlessTraitPickerException(e.getMessage(), e.getCause());
     }

@@ -10,6 +10,7 @@ import io.tilenft.image.drawers.TilesDrawer;
 import io.tilenft.image.drawers.TitleDrawer;
 import java.text.NumberFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
@@ -20,8 +21,15 @@ public class ImageBeansConfig {
   @Autowired private ResourceLoader resourceLoader;
 
   @Bean
-  public ImageResourcesLoader imageResourcesLoader() {
+  @Qualifier(value = "emojiResourceLoader")
+  public ImageResourcesLoader emojiResourceLoader() {
     return new ImageResourcesLoader(resourceLoader, "classpath:openmoji/*.png");
+  }
+
+  @Bean
+  @Qualifier(value = "logoResourceLoader")
+  public ImageResourcesLoader logoResourceLoader() {
+    return new ImageResourcesLoader(resourceLoader, "classpath:logos/*");
   }
 
   @Bean
