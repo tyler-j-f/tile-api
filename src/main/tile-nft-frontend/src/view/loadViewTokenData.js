@@ -1,7 +1,9 @@
+import loadBlockExplorerUrl from "./loadBlockExplorerUrl";
+
 const noop = () => {};
 
-const loadTokenImage = ({
-  tokenId = '', viewTokenData  = null, setViewTokenData = noop, tokenLoadedCallback = noop, metadataToUpdate = [], getMetadataToUpdateTokenUrl = noop
+const loadViewTokenData = ({
+  tokenId = '', viewTokenData  = null, setViewTokenData = noop, tokenLoadedCallback = noop, metadataToUpdate = [], getMetadataToUpdateTokenUrl = noop, enableBlockExplorerLink = false
 }) => {
 
   const getUrl = (tokenId) => {
@@ -89,16 +91,31 @@ const loadTokenImage = ({
       loadTokenImageDataResult => {
         loadContractAddress().then(
             contractAddress => {
-              setViewTokenData(loadTokenImageDataResult);
+              setViewTokenData({
+                ...viewTokenData,
+                ...loadTokenImageDataResult
+              });
               tokenLoadedCallback({
                 tokenId: tokenId,
                 contractAddress: contractAddress,
                 isInvalidTokenNumber: loadTokenImageDataResult.isInvalidTokenNumber
               });
             }
-        );
+        ).then(() => {
+          if (enableBlockExplorerLink && viewTokenData.tokenId !== '') {
+            loadBlockExplorerUrl(viewTokenData.tokenId).then(
+                response => {
+                  console.log("ViewToken url response", response);
+                  setViewTokenData({
+                    ...viewTokenData,
+                    blockExplorerUrl: response
+                  })
+                }
+            )
+          }
+        });
       }
   );
 }
 
-export default loadTokenImage;
+export default loadViewTokenData;

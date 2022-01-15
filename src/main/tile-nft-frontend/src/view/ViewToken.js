@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import Spinner from 'react-bootstrap/Spinner';
-import loadTokenImage from "./loadTokenImage";
+import loadViewTokenData from "./loadViewTokenData";
 import loadBlockExplorerUrl from "./loadBlockExplorerUrl";
 
 const noop = () => {};
@@ -27,32 +27,18 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
           tokenId,
           isLoading: true
         })
-        loadTokenImage({
-          tokenId, viewTokenData, setViewTokenData, tokenLoadedCallback, metadataToUpdate, getMetadataToUpdateTokenUrl
+        loadViewTokenData({
+          tokenId, viewTokenData, setViewTokenData, tokenLoadedCallback, metadataToUpdate, getMetadataToUpdateTokenUrl, enableBlockExplorerLink
         });
       }
     }
   }, []);
 
   useEffect(() => {
-    if (enableBlockExplorerLink && viewTokenData.tokenId !== '') {
-      loadBlockExplorerUrl(viewTokenData.tokenId).then(
-          response => {
-            console.log("ViewToken url response", response);
-            setViewTokenData({
-              ...viewTokenData,
-              blockExplorerUrl: response
-            })
-          }
-      )
-    }
-  }, [viewTokenData.tokenId]);
-
-  useEffect(() => {
     if (viewTokenData?.tokenId !== '' && metadataToUpdate?.length !== viewTokenData?.previouslyUsedMetadataToUpdate?.length) {
       setViewTokenData({...viewTokenData, isLoading: true})
-      loadTokenImage({
-        tokenId: viewTokenData.tokenId, viewTokenData, setViewTokenData, tokenLoadedCallback, metadataToUpdate, getMetadataToUpdateTokenUrl
+      loadViewTokenData({
+        tokenId: viewTokenData.tokenId, viewTokenData, setViewTokenData, tokenLoadedCallback, metadataToUpdate, getMetadataToUpdateTokenUrl, enableBlockExplorerLink
       });
     }
   }, [metadataToUpdate]);
@@ -63,8 +49,8 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
 
   const handleSubmit = (event) => {
     setViewTokenData({...viewTokenData, isLoading: true})
-    loadTokenImage({
-      tokenId: viewTokenData.tokenId, viewTokenData, setViewTokenData, tokenLoadedCallback, metadataToUpdate, getMetadataToUpdateTokenUrl
+    loadViewTokenData({
+      tokenId: viewTokenData.tokenId, viewTokenData, setViewTokenData, tokenLoadedCallback, metadataToUpdate, getMetadataToUpdateTokenUrl, enableBlockExplorerLink
     });
     event.preventDefault();
   }
