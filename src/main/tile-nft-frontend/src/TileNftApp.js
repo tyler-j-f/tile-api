@@ -1,3 +1,5 @@
+// style
+import './css/App.css';
 import { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,

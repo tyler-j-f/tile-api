@@ -56,6 +56,7 @@ const StyledLink = styled(Link)`
 
 const CloseToggle = styled.button`
     position: fixed;
+    margin-top: 50px;
     top: 5%;
     right: 4%;
     background: #222;
