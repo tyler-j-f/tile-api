@@ -137,7 +137,7 @@ const MergePage = () => {
 const StyledPage = styled.div`
     min-height: 100vh;
     width: 100vw;
-    background-color: #282c34;
+    background-color: 336699;
 
     display: flex;
     flex-direction: column;

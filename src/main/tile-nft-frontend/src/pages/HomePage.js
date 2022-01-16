@@ -28,7 +28,7 @@ const HomePage = () => {
 const StyledHomePage = styled.div`
     min-height: 50vh;
     width: 100vw;
-    background-color: #282c34;
+    background-color: 336699;
 
     display: flex;
     flex-direction: column;

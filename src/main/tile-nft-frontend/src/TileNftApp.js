@@ -15,7 +15,7 @@ import ViewPage from './pages/ViewPage';
 import ContactPage from './pages/ContactPage'
 import LeaderboardPage from "./pages/LeaderboardPage";
 import MergePage from "./pages/MergePage";
-import {Col, Container, Row} from "react-bootstrap";
+import {Col, Container, Navbar, Row} from "react-bootstrap";
 import styled from "styled-components";
 import UpdateTileNftPage from "./pages/UpdateTileNftPage";
 
@@ -52,10 +52,12 @@ function TileNftApp() {
       <div className="App">
         <Container fluid>
           <Row>
-            <Col xs={8} sm={8} md={8} lg={8} xl={8} xxl={8} />
-            <Col xs={4} sm={4} md={4} lg={4} xl={4} xxl={4} >
+            <Navbar
+                fixed={"top"}
+                sticky={"top"}
+            >
               <Toggle handleNavToggle={handleNavToggle}/>
-            </Col>
+            </Navbar>
           </Row>
           <Row>
             {hasNotFoundError ? getNotFoundErrorText() : null}
