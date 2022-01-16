@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 import Leaderboard from "../leaderboard/Leaderboard";
 import {Col, Row} from "react-bootstrap";
+import StyledPage from "./StyledPage";
 
 const LeaderboardPage = () => {
   return (
@@ -18,17 +19,6 @@ const LeaderboardPage = () => {
       </StyledPage>
   );
 }
-
-const StyledPage = styled.div`
-    min-height: 100vh;
-    width: 100vw;
-    background-color: 336699;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-`;
 
 const Heading = styled.h1`
     font-size: clamp(3rem, 5vw, 7vw);

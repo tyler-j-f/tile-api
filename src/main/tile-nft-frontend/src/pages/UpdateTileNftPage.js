@@ -18,6 +18,7 @@ import loadColorTokenAttributes
 import loadEmojiTokenAttributes
   from "../updateTileNft/tokenDataLoaders/loadEmojiTokenAttributes";
 import TransactionSuccess from "../etc/TransactionSuccess";
+import StyledPage from "./StyledPage";
 
 const UpdateTileNftPage = () => {
   const [txData, setTxData] = useState({
@@ -111,7 +112,7 @@ const UpdateTileNftPage = () => {
   }
 
   return (
-      <StyledUpdateTileNftPage>
+      <StyledPage>
         <Heading className="animate__animated animate__fadeInLeft">Update TileNFT</Heading>
         {!txData.isSuccess && getSelectWhatToUpdateButtons()}
         {txData.dataToSetIndex !== null && getUpdateHtml()}
@@ -122,20 +123,9 @@ const UpdateTileNftPage = () => {
               subText={'Please wait a few minutes for the transaction to process and the TileNFT to be updated.'}
           />
         }
-      </StyledUpdateTileNftPage>
+      </StyledPage>
   )
 }
-
-const StyledUpdateTileNftPage = styled.div`
-    min-height: 100vh;
-    width: 100vw;
-    background-color: 336699;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-`;
 
 const Heading = styled.h1`
     font-size: clamp(3rem, 5vw, 7vw);

@@ -5,6 +5,7 @@ import loadTokenAttributes
   from "../updateTileNft/tokenDataLoaders/loadTokenAttributes";
 import AttributesTable from "../view/AttributesTable";
 import OverallRank from "../view/OverallRank";
+import StyledPage from "./StyledPage";
 
 const ViewPage = () => {
 
@@ -52,17 +53,6 @@ const ViewPage = () => {
       </StyledPage>
   )
 }
-
-const StyledPage = styled.div`
-    min-height: 100vh;
-    width: 100vw;
-    background-color: 336699;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-`;
 
 const Heading = styled.h1`
     font-size: clamp(3rem, 5vw, 7vw);

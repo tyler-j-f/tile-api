@@ -1,5 +1,3 @@
-// style
-import './css/App.css';
 import { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
@@ -59,10 +57,12 @@ function TileNftApp() {
               <Toggle handleNavToggle={handleNavToggle}/>
             </Navbar>
           </Row>
-          <Row>
-            {hasNotFoundError ? getNotFoundErrorText() : null}
-            {hasInternalError ? getInternalErrorText() : null}
-          </Row>
+          {hasNotFoundError || hasInternalError &&
+              <Row>
+                {hasNotFoundError ? getNotFoundErrorText() : null}
+                {hasInternalError ? getInternalErrorText() : null}
+              </Row>
+          }
           <Router>
             { navToggled ? <Menu handleNavToggle={handleNavToggle} /> : null }
             <Routes>

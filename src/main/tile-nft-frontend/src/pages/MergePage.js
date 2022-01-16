@@ -5,6 +5,7 @@ import {useEthers} from "@usedapp/core";
 import ConnectButton from "../updateTileNft/ConnectButton";
 import MergeTxWrapper from "../merge/MergeTxWrapper";
 import TransactionSuccess from "../etc/TransactionSuccess";
+import StyledPage from "./StyledPage";
 
 const MergePage = () => {
 
@@ -134,17 +135,6 @@ const MergePage = () => {
   )
 }
 
-const StyledPage = styled.div`
-    min-height: 100vh;
-    width: 100vw;
-    background-color: 336699;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-`;
-
 const Heading = styled.h1`
     font-size: clamp(3rem, 5vw, 7vw);
     color: #eee;
@@ -158,11 +148,5 @@ const Heading = styled.h1`
    -moz-user-select: none; /* Firefox */
    -ms-user-select: none; /* Internet Explorer/Edge */
 `;
-
-const StyledText =
-    styled.p`
-    color: white;
-    font-weight: bold;
-    `;
 
 export default MergePage

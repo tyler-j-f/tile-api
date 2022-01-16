@@ -1,28 +1,19 @@
 import React from 'react'
 import styled from 'styled-components';
+import StyledPage from "./StyledPage";
 
 const ContactPage = () => {
   return (
-      <StyledContactPage>
+      <StyledPage>
         <Heading className="animate__animated animate__fadeInLeft">Contact Page</Heading>
         <Content>
           <h1>👋 Hey there </h1>
           <p>Like the demo? Let me know on <a href="https://www.twitter.com/hyggedev">Twitter! </a></p>
         </Content>
-      </StyledContactPage>
+      </StyledPage>
   )
 }
 
-const StyledContactPage = styled.div`
-    min-height: 100vh;
-    width: 100vw;
-    background-color: 336699;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-`;
 
 const Heading = styled.h1`
     font-size: clamp(3rem, 5vw, 7vw);

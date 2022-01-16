@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react'
 import styled from 'styled-components';
 import {useNavigate} from "react-router-dom";
+import StyledPage from "./StyledPage";
 
 const HomePage = () => {
 
@@ -16,39 +17,14 @@ const HomePage = () => {
   const getImageUrl = () => `${window.location.origin}/api/image/getLogo`;
 
   return (
-      <StyledHomePage>
+      <StyledPage>
         <StyledImg
             src={getImageUrl()}
             alt={"TileNFT"}
         />
-      </StyledHomePage>
+      </StyledPage>
   )
 }
-
-const StyledHomePage = styled.div`
-    min-height: 50vh;
-    width: 100vw;
-    background-color: 336699;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-`;
-
-const Heading = styled.h1`
-    font-size: clamp(3rem, 5vw, 7vw);
-    color: #eee;
-    font-weight: 700;
-    margin: 0;
-    padding: 0;
-
-    user-select: none; /* supported by Chrome and Opera */
-   -webkit-user-select: none; /* Safari */
-   -khtml-user-select: none; /* Konqueror HTML */
-   -moz-user-select: none; /* Firefox */
-   -ms-user-select: none; /* Internet Explorer/Edge */
-`;
 
 const StyledImg =
     styled.img.attrs(props => props)`
