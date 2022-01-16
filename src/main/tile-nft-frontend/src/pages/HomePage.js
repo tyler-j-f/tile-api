@@ -13,9 +13,14 @@ const HomePage = () => {
     }
   }, []);
 
+  const getImageUrl = () => `${window.location.origin}/api/image/getLogo`;
+
   return (
       <StyledHomePage>
-        <Heading className="animate__animated animate__fadeInLeft">TileNFT</Heading>
+        <StyledImg
+            src={getImageUrl()}
+            alt={"TileNFT"}
+        />
       </StyledHomePage>
   )
 }
@@ -44,5 +49,13 @@ const Heading = styled.h1`
    -moz-user-select: none; /* Firefox */
    -ms-user-select: none; /* Internet Explorer/Edge */
 `;
+
+const StyledImg =
+    styled.img.attrs(props => props)`
+    margin: 10px;
+    display: block;
+    width: 350px;
+    height: 428px;
+    `;
 
 export default HomePage
