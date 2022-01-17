@@ -98,7 +98,7 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
           viewTokenData.imgValue !== '' && <StyledImg imgSource={viewTokenData.imgValue} />
         }
         {viewTokenData.blockExplorerUrl !== '' && (
-            <a href={viewTokenData.blockExplorerUrl}>
+            <a href={viewTokenData.blockExplorerUrl} className="centered" >
               <StyledText>View Token On Block Explorer</StyledText>
             </a>
         )}

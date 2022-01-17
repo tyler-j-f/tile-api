@@ -49,7 +49,7 @@ const OverallRank = ({tokenId = ''}) => {
   return (
       <>
         {overallRankData.rank !== null && overallRankData.totalTokens !== null && (
-            <StyledText>
+            <StyledText className="centered" >
               Overall Rank: {overallRankData.rank} / {overallRankData.totalTokens}
             </StyledText>
         )}

@@ -6,6 +6,7 @@ import AttributesTable from "../view/AttributesTable";
 import OverallRank from "../view/OverallRank";
 import StyledPage from "../styledComponents/StyledPage";
 import PageHeader from "../styledComponents/PageHeader";
+import {Col, Row} from "react-bootstrap";
 
 const ViewPage = () => {
 
@@ -34,21 +35,42 @@ const ViewPage = () => {
     });
   }
 
+  const shouldRenderAttributesTable = () => tokenData.tokenAttributes &&
+      Object.keys(tokenData.tokenAttributes).length > 0;
+
   return (
       <StyledPage>
-        <PageHeader>View TileNFT</PageHeader>
-        <ViewToken
-          tokenLoadedCallback={handleTokenLoadedCallback}
-          enableUrlSearch={true}
-          enableBlockExplorerLink={true}
-        />
-        {tokenData.tokenId !== '' && !tokenData.isInvalidTokenNumber &&
-          <OverallRank
-              tokenId={tokenData.tokenId}
-          />
-        }
-        {tokenData.tokenAttributes && Object.keys(tokenData.tokenAttributes).length > 0 &&
-          <AttributesTable tokenAttributes={tokenData.tokenAttributes}/>
+        <Row>
+          <Col xs={2} />
+          <Col xs={10} >
+            <PageHeader>View TileNFT</PageHeader>
+            <ViewToken
+                tokenLoadedCallback={handleTokenLoadedCallback}
+                enableUrlSearch={true}
+                enableBlockExplorerLink={true}
+            />
+          </Col>
+          <Col xs={2} />
+        </Row>
+        <Row>
+          <Col />
+          <Col >
+            {tokenData.tokenId !== '' && !tokenData.isInvalidTokenNumber &&
+              <OverallRank
+                  tokenId={tokenData.tokenId}
+              />
+            }
+          </Col>
+          <Col />
+        </Row>
+        {shouldRenderAttributesTable() &&
+          <Row>
+            <Col />
+            <Col >
+              <AttributesTable tokenAttributes={tokenData.tokenAttributes}/>
+            </Col>
+            <Col />
+          </Row>
         }
       </StyledPage>
   )
