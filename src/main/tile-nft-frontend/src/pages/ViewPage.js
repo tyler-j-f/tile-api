@@ -104,12 +104,12 @@ const ViewPage = () => {
 const StyledAnchor = styled.a`
   width: 275px;
   text-align: center;
-  color: #9F566F
+  color: #9F566F;
 `;
 
 
 const StyledList = styled.ul`
-  width: 275px
+  width: 275px;
 `;
 
 export default ViewPage;
