@@ -2,6 +2,7 @@ import { useEthers, useEtherBalance } from "@usedapp/core";
 import { formatEther } from "@ethersproject/units";
 import {Button} from "react-bootstrap";
 import styled from "styled-components";
+import StyledText from "../styledComponents/StyledText";
 
 export default function ConnectButton() {
   const {activateBrowserWallet, account } = useEthers();
@@ -21,9 +22,3 @@ export default function ConnectButton() {
       </Button>
   );
 }
-
-const StyledText =
-    styled.p`
-    color: white;
-    font-weight: bold;
-    `;

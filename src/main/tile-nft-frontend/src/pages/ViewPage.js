@@ -49,8 +49,8 @@ const ViewPage = () => {
   return (
       <StyledPage>
         <Row>
-          <Col xs={2} />
-          <Col xs={10} >
+          <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+          <Col xs={8} sm={8} md={8} lg={8} xl={8} >
             <PageHeader>View TileNFT</PageHeader>
             <ViewToken
                 tokenLoadedCallback={handleTokenLoadedCallback}
@@ -58,7 +58,7 @@ const ViewPage = () => {
                 enableBlockExplorerLink={true}
             />
           </Col>
-          <Col xs={2} />
+          <Col xs={2} sm={2} md={2} lg={2} xl={2} />
         </Row>
         {(shouldRenderOverallRank() || shouldRenderBlockExplorerLink()) &&
           <Row>

@@ -8,16 +8,16 @@ const LeaderboardPage = () => {
   return (
       <StyledPage>
       <Row>
-        <Col />
-        <Col xs={8} md={6} >
+        <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+        <Col xs={8} sm={8} md={8} lg={8} xl={8} >
           <PageHeader
-              className="leaderboardPageHeader animate__animated animate__fadeInLeft"
+              className="animate__animated animate__fadeInLeft"
           >
             Leaderboard
           </PageHeader>
           <Leaderboard/>
         </Col>
-        <Col />
+        <Col xs={2} sm={2} md={2} lg={2} xl={2} />
       </Row>
       </StyledPage>
   );

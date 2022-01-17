@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import ViewToken from "../view/ViewToken";
+import StyledText from "../styledComponents/StyledText";
 
 const noop = () => {};
 
@@ -17,11 +18,5 @@ const TokenMergeSelector = ({
       </>
   )
 }
-
-const StyledText =
-    styled.p`
-    color: white;
-    font-weight: bold;
-    `;
 
 export default TokenMergeSelector

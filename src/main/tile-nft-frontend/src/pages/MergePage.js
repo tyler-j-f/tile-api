@@ -105,13 +105,13 @@ const MergePage = () => {
       />
       <ConnectButton />
       {getShouldShowSendTransaction() &&
-      <MergeTxWrapper
-          tokenId1={mergeData.token1.tokenId}
-          tokenId2={mergeData.token2.tokenId}
-          contractAddress={mergeData.contractAddress}
-          account={account}
-          successCallback={handleSuccessfulTx}
-      />
+        <MergeTxWrapper
+            tokenId1={mergeData.token1.tokenId}
+            tokenId2={mergeData.token2.tokenId}
+            contractAddress={mergeData.contractAddress}
+            account={account}
+            successCallback={handleSuccessfulTx}
+        />
       }
     </>
   );
