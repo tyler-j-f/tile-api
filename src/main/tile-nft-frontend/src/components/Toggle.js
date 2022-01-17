@@ -5,7 +5,7 @@ import { FaBars } from 'react-icons/fa';
 
 const Toggle = ({handleNavToggle}) => {
   return (
-      <StyledToggle className="animate__animated animate__fadeInRight" onClick={handleNavToggle}>
+      <StyledToggle onClick={handleNavToggle}>
         <FaBars/>
       </StyledToggle>
   )

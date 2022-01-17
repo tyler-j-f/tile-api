@@ -134,7 +134,7 @@ const StyledErrorText =
 
 const StyledLabel =
     styled.label`
-     color: #F8F8FF;
+     color: #424C55;
      `;
 
 const StyledText =

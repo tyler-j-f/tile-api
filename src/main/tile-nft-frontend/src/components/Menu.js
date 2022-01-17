@@ -6,13 +6,13 @@ import { FaTimes } from 'react-icons/fa';
 const Menu = ({handleNavToggle}) => {
   return (
       <StyledMenu>
-        <StyledLink className="animate__animated animate__fadeInRight" onClick={handleNavToggle} to="/">Home</StyledLink>
-        <StyledLink className="animate__animated animate__fadeInRight" onClick={handleNavToggle} to="/leaderboard">Leaderboard</StyledLink>
-        <StyledLink className="animate__animated animate__fadeInRight" onClick={handleNavToggle} to="/view">View TileNFT</StyledLink>
-        <StyledLink className="animate__animated animate__fadeInRight" onClick={handleNavToggle} to="/update">Update TileNFT</StyledLink>
-        <StyledLink className="animate__animated animate__fadeInRight" onClick={handleNavToggle} to="/merge">Merge TileNFTs</StyledLink>
-        <StyledLink className="animate__animated animate__fadeInRight" onClick={handleNavToggle} to="/contact">Contact Page</StyledLink>
-        <CloseToggle className="animate__animated animate__fadeInRight" onClick={handleNavToggle}><FaTimes/></CloseToggle>
+        <StyledLink onClick={handleNavToggle} to="/">Home</StyledLink>
+        <StyledLink onClick={handleNavToggle} to="/leaderboard">Leaderboard</StyledLink>
+        <StyledLink onClick={handleNavToggle} to="/view">View TileNFT</StyledLink>
+        <StyledLink onClick={handleNavToggle} to="/update">Update TileNFT</StyledLink>
+        <StyledLink onClick={handleNavToggle} to="/merge">Merge TileNFTs</StyledLink>
+        <StyledLink onClick={handleNavToggle} to="/contact">Contact Page</StyledLink>
+        <CloseToggle onClick={handleNavToggle}><FaTimes/></CloseToggle>
       </StyledMenu>
   )
 }

@@ -6,7 +6,7 @@ import StyledPage from "../styledComponents/StyledPage";
 const ContactPage = () => {
   return (
       <StyledPage>
-        <PageHeader className="animate__animated animate__fadeInLeft">Contact Page</PageHeader>
+        <PageHeader>Contact Page</PageHeader>
         <Content>
           <h1>👋 Hey there </h1>
           <p>Like the demo? Let me know on <a href="https://www.twitter.com/hyggedev">Twitter! </a></p>
@@ -14,21 +14,6 @@ const ContactPage = () => {
       </StyledPage>
   )
 }
-
-
-const Heading = styled.h1`
-    font-size: clamp(3rem, 5vw, 7vw);
-    color: #eee;
-    font-weight: 700;
-    margin: 0;
-    padding: 0;
-
-    user-select: none; /* supported by Chrome and Opera */
-   -webkit-user-select: none; /* Safari */
-   -khtml-user-select: none; /* Konqueror HTML */
-   -moz-user-select: none; /* Firefox */
-   -ms-user-select: none; /* Internet Explorer/Edge */
-`;
 
 const Content = styled.div`
     color: #eee;
