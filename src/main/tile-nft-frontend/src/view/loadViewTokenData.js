@@ -117,11 +117,11 @@ const loadViewTokenData = ({
             loadBlockExplorerUrl(tokenId).then(
                 response => {
                   console.log("ViewToken url response", response);
-                  setViewTokenData({
-                    ...dataToSet,
+                  setViewTokenData(dataToSet);
+                  tokenLoadedCallback({
+                    ...dataToCallback,
                     blockExplorerUrl: response
                   });
-                  tokenLoadedCallback(dataToCallback);
                 }
             )
           }

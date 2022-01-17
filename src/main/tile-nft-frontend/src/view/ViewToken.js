@@ -16,8 +16,7 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
     isInvalidTokenNumber: false,
     isGeneralError: false,
     imgValue: '',
-    previouslyUsedMetadataToUpdate: [],
-    blockExplorerUrl: ''
+    previouslyUsedMetadataToUpdate: []
   });
 
   useEffect(() => {
@@ -78,7 +77,7 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
               Token Number:&nbsp;
               <input type="number" value={viewTokenData.tokenId} onChange={handleChange} />
             </StyledLabel>
-            <input type="submit" value="Submit" />
+            <StyledInput type="submit" value="Submit" />
             {formBody}
           </form>
         </>
@@ -92,17 +91,8 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
     if (viewTokenData.isInvalidTokenNumber) {
       return getTokenNumberErrorText();
     }
-    return (
-      <>
-        {
-          viewTokenData.imgValue !== '' && <StyledImg imgSource={viewTokenData.imgValue} />
-        }
-        {viewTokenData.blockExplorerUrl !== '' && (
-            <a href={viewTokenData.blockExplorerUrl} className="centered" >
-              <StyledText>View Token On Block Explorer</StyledText>
-            </a>
-        )}
-      </>
+    return viewTokenData.imgValue !== '' && (
+        <StyledImg imgSource={viewTokenData.imgValue} />
     );
   }
 
@@ -117,6 +107,12 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
   );
 
 }
+
+const StyledInput =
+    styled.input`
+    position: absolute;
+    margin-left: 5px;
+    `;
 
 const StyledImg =
     styled.img.attrs(props => ({

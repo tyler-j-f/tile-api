@@ -7,13 +7,16 @@ import OverallRank from "../view/OverallRank";
 import StyledPage from "../styledComponents/StyledPage";
 import PageHeader from "../styledComponents/PageHeader";
 import {Col, Row} from "react-bootstrap";
+import StyledText from "../styledComponents/StyledText";
+import styled from "styled-components";
 
 const ViewPage = () => {
 
   const [tokenData, setTokenData] = useState({
     tokenId: '',
     tokenAttributes: {},
-    isInvalidTokenNumber: false
+    isInvalidTokenNumber: false,
+    blockExplorerUrl: ''
   });
 
   useEffect(() => {
@@ -27,16 +30,21 @@ const ViewPage = () => {
     }
   }, [tokenData.tokenId]);
 
-  const handleTokenLoadedCallback = ({tokenId, isInvalidTokenNumber}) => {
+  const handleTokenLoadedCallback = ({tokenId, isInvalidTokenNumber, blockExplorerUrl}) => {
     setTokenData({
       ...tokenData,
       tokenId,
-      isInvalidTokenNumber
+      isInvalidTokenNumber,
+      blockExplorerUrl
     });
   }
 
   const shouldRenderAttributesTable = () => tokenData.tokenAttributes &&
       Object.keys(tokenData.tokenAttributes).length > 0;
+
+  const shouldRenderOverallRank = () => tokenData.tokenId !== '' && !tokenData.isInvalidTokenNumber;
+
+  const shouldRenderBlockExplorerLink = () => tokenData.blockExplorerUrl !== '';
 
   return (
       <StyledPage>
@@ -52,17 +60,33 @@ const ViewPage = () => {
           </Col>
           <Col xs={2} />
         </Row>
-        <Row>
-          <Col />
-          <Col >
-            {tokenData.tokenId !== '' && !tokenData.isInvalidTokenNumber &&
-              <OverallRank
-                  tokenId={tokenData.tokenId}
-              />
-            }
-          </Col>
-          <Col />
-        </Row>
+        {(shouldRenderOverallRank() || shouldRenderBlockExplorerLink()) &&
+          <Row>
+            <Col />
+            <Col >
+              <StyledList>
+                {shouldRenderOverallRank() &&
+                  <li>
+                    <OverallRank
+                        tokenId={tokenData.tokenId}
+                    />
+                  </li>
+                }
+                {shouldRenderBlockExplorerLink() &&
+                  <li>
+                    <StyledText>
+                      <StyledAnchor href={tokenData.blockExplorerUrl} >
+                        View Token
+                      </StyledAnchor>
+                      &nbsp;On Block Explorer
+                    </StyledText>
+                  </li>
+                }
+              </StyledList>
+            </Col>
+            <Col />
+          </Row>
+        }
         {shouldRenderAttributesTable() &&
           <Row>
             <Col />
@@ -75,5 +99,17 @@ const ViewPage = () => {
       </StyledPage>
   )
 }
+
+
+const StyledAnchor = styled.a`
+  width: 275px;
+  text-align: center;
+  color: #9F566F
+`;
+
+
+const StyledList = styled.ul`
+  width: 275px
+`;
 
 export default ViewPage;
