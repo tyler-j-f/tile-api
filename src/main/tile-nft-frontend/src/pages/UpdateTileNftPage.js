@@ -18,7 +18,8 @@ import loadColorTokenAttributes
 import loadEmojiTokenAttributes
   from "../updateTileNft/tokenDataLoaders/loadEmojiTokenAttributes";
 import TransactionSuccess from "../etc/TransactionSuccess";
-import StyledPage from "./StyledPage";
+import StyledPage from "../styledComponents/StyledPage";
+import PageHeader from "../styledComponents/PageHeader";
 
 const UpdateTileNftPage = () => {
   const [txData, setTxData] = useState({
@@ -113,7 +114,7 @@ const UpdateTileNftPage = () => {
 
   return (
       <StyledPage>
-        <Heading className="animate__animated animate__fadeInLeft">Update TileNFT</Heading>
+        <PageHeader className="animate__animated animate__fadeInLeft">Update TileNFT</PageHeader>
         {!txData.isSuccess && getSelectWhatToUpdateButtons()}
         {txData.dataToSetIndex !== null && getUpdateHtml()}
         {txData.isSuccess &&

@@ -2,7 +2,6 @@ import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import Spinner from 'react-bootstrap/Spinner';
 import loadViewTokenData from "./loadViewTokenData";
-import loadBlockExplorerUrl from "./loadBlockExplorerUrl";
 
 const noop = () => {};
 

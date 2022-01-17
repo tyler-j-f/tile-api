@@ -5,7 +5,8 @@ import {useEthers} from "@usedapp/core";
 import ConnectButton from "../updateTileNft/ConnectButton";
 import MergeTxWrapper from "../merge/MergeTxWrapper";
 import TransactionSuccess from "../etc/TransactionSuccess";
-import StyledPage from "./StyledPage";
+import StyledPage from "../styledComponents/StyledPage";
+import PageHeader from "../styledComponents/PageHeader";
 
 const MergePage = () => {
 
@@ -128,7 +129,7 @@ const MergePage = () => {
 
     return (
       <StyledPage>
-        <Heading className="animate__animated animate__fadeInLeft">Merge TileNFTs</Heading>
+        <PageHeader className="animate__animated animate__fadeInLeft">Merge TileNFTs</PageHeader>
         {mergeData?.txStatus?.isSuccess && getSuccessfulTx()}
         {!mergeData?.txStatus?.isSuccess && getBody()}
       </StyledPage>

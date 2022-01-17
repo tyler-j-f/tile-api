@@ -15,7 +15,7 @@ import ViewPage from './pages/ViewPage';
 import ContactPage from './pages/ContactPage'
 import LeaderboardPage from "./pages/LeaderboardPage";
 import MergePage from "./pages/MergePage";
-import {Col, Container, Navbar, Row} from "react-bootstrap";
+import {Container, Navbar, Row} from "react-bootstrap";
 import styled from "styled-components";
 import UpdateTileNftPage from "./pages/UpdateTileNftPage";
 

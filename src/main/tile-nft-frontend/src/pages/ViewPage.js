@@ -5,7 +5,8 @@ import loadTokenAttributes
   from "../updateTileNft/tokenDataLoaders/loadTokenAttributes";
 import AttributesTable from "../view/AttributesTable";
 import OverallRank from "../view/OverallRank";
-import StyledPage from "./StyledPage";
+import StyledPage from "../styledComponents/StyledPage";
+import PageHeader from "../styledComponents/PageHeader";
 
 const ViewPage = () => {
 
@@ -36,7 +37,7 @@ const ViewPage = () => {
 
   return (
       <StyledPage>
-        <Heading className="animate__animated animate__fadeInLeft">View TileNFT</Heading>
+        <PageHeader className="animate__animated animate__fadeInLeft">View TileNFT</PageHeader>
         <ViewToken
           tokenLoadedCallback={handleTokenLoadedCallback}
           enableUrlSearch={true}

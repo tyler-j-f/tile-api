@@ -1,9 +1,8 @@
 import React from 'react'
-import styled from 'styled-components';
 import Leaderboard from "../leaderboard/Leaderboard";
 import {Col, Row} from "react-bootstrap";
-import StyledPage from "./StyledPage";
-import PageHeader from "./PageHeader";
+import StyledPage from "../styledComponents/StyledPage";
+import PageHeader from "../styledComponents/PageHeader";
 
 const LeaderboardPage = () => {
   return (
