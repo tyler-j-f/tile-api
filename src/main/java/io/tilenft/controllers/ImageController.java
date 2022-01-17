@@ -19,7 +19,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -133,8 +132,17 @@ public class ImageController extends BaseController {
   @GetMapping(value = "getLogo")
   public void getLogo(HttpServletResponse response) throws IOException {
     response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-    Resource imgFile = logoResourcesLoader.getResourceByName("logo.jpg");
-    StreamUtils.copy(imgFile.getInputStream(), response.getOutputStream());
+    StreamUtils.copy(
+        logoResourcesLoader.getResourceByName("logo.jpg").getInputStream(),
+        response.getOutputStream());
+  }
+
+  @GetMapping(value = "getHeaderLogo")
+  public void getHeaderLogo(HttpServletResponse response) throws IOException {
+    response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+    StreamUtils.copy(
+        logoResourcesLoader.getResourceByName("logo-with-no-text.png").getInputStream(),
+        response.getOutputStream());
   }
 
   private String getCurrentTokenEmojiValue(int tileNumber, TokenFacadeDTO nft)

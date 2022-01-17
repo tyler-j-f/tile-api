@@ -48,50 +48,67 @@ function TileNftApp() {
     return;
   }, [hasNotFoundError, hasInternalError]);
 
+  const getHeader = () => (
+      <Row>
+        <StyledDiv>
+          <Navbar
+              fixed={"top"}
+              sticky={"top"}
+          >
+            <Toggle handleNavToggle={handleNavToggle}/>
+          </Navbar>
+        </StyledDiv>
+      </Row>
+  );
+
+  const getRouter = () => (
+      <Router>
+        {navToggled ? <Menu handleNavToggle={handleNavToggle} /> : null }
+        <Routes>
+          <Route exact path="/" element={<HomePage/>}/>
+          <Route exact path="/leaderboard" element={<LeaderboardPage/>}/>
+          <Route exact path="/view" element={<ViewPage/>}/>
+          <Route exact path="/update" element={<UpdateTileNftPage />}/>
+          <Route exact path="/merge" element={<MergePage />}/>
+          <Route exact path="/contact" element={<ContactPage/>}/>
+        </Routes>
+      </Router>
+  );
+
+  const getErrorText = () => (
+      <Row>
+        {hasNotFoundError ? getNotFoundErrorText() : null}
+        {hasInternalError ? getInternalErrorText() : null}
+      </Row>
+  );
+
+  const getNotFoundErrorText = () => {
+    return (
+        <StyledErrorText>Error! Page not found. Please check the URL is correct and then retry.</StyledErrorText>
+    )
+  }
+
+  const getInternalErrorText = () => {
+    return (
+        <StyledErrorText>Internal error! Please try again later.</StyledErrorText>
+    )
+  }
+
   return (
       <div className="App">
         <Container fluid>
-          <Row>
-            <Navbar
-                fixed={"top"}
-                sticky={"top"}
-            >
-              <Toggle handleNavToggle={handleNavToggle}/>
-            </Navbar>
-          </Row>
-          {hasNotFoundError || hasInternalError &&
-              <Row>
-                {hasNotFoundError ? getNotFoundErrorText() : null}
-                {hasInternalError ? getInternalErrorText() : null}
-              </Row>
-          }
-          <Router>
-            { navToggled ? <Menu handleNavToggle={handleNavToggle} /> : null }
-            <Routes>
-              <Route exact path="/" element={<HomePage/>}/>
-              <Route exact path="/leaderboard" element={<LeaderboardPage/>}/>
-              <Route exact path="/view" element={<ViewPage/>}/>
-              <Route exact path="/update" element={<UpdateTileNftPage />}/>
-              <Route exact path="/merge" element={<MergePage />}/>
-              <Route exact path="/contact" element={<ContactPage/>}/>
-            </Routes>
-          </Router>
+          {!navToggled && getHeader()}
+          {hasNotFoundError || hasInternalError && getErrorText()}
+          {getRouter()}
         </Container>
       </div>
   );
 }
 
-const getNotFoundErrorText = () => {
-  return (
-      <StyledErrorText>Error! Page not found. Please check the URL is correct and then retry.</StyledErrorText>
-  )
-}
-
-const getInternalErrorText = () => {
-  return (
-      <StyledErrorText>Internal error! Please try again later.</StyledErrorText>
-  )
-}
+const StyledDiv =
+    styled.div`
+    background-color: #61988E
+    `;
 
 const StyledErrorText =
     styled.p`
