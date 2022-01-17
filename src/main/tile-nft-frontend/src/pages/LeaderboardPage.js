@@ -12,7 +12,7 @@ const LeaderboardPage = () => {
         <Col />
         <Col xs={8} md={6} >
           <PageHeader
-              className="animate__animated animate__fadeInLeft"
+              className="leaderboardPageHeader animate__animated animate__fadeInLeft"
           >
             Leaderboard
           </PageHeader>
