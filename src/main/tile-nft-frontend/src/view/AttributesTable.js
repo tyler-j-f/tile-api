@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import StyledText from "../styledComponents/StyledText";
 
 const AttributesTable = ({tokenAttributes}) => {
 
@@ -119,11 +120,5 @@ const AttributesTable = ({tokenAttributes}) => {
       </table>
   )
 }
-
-const StyledText =
-    styled.p`
-  color: white;
-  font-weight: bold;
-`;
 
 export default AttributesTable;

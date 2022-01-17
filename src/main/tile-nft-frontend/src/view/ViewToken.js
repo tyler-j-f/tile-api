@@ -2,6 +2,9 @@ import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import Spinner from 'react-bootstrap/Spinner';
 import loadViewTokenData from "./loadViewTokenData";
+import StyledLabel from "../styledComponents/StyledLabel";
+import StyledErrorText from "../styledComponents/StyledErrorText";
+import StyledText from "../styledComponents/StyledText";
 
 const noop = () => {};
 
@@ -123,24 +126,6 @@ const StyledImg =
     height: 350px;
     margin: 10px;
     display: block
-    `;
-
-const StyledErrorText =
-    styled.p`
-      display: block;
-      color: #FF4500;
-      text-align: center;
-      `;
-
-const StyledLabel =
-    styled.label`
-     color: #424C55;
-     `;
-
-const StyledText =
-    styled.p`
-    color: white;
-    font-weight: bold;
     `;
 
 export default ViewToken;

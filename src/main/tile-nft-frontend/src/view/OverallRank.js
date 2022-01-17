@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import styled from 'styled-components';
+import StyledText from "../styledComponents/StyledText";
 
 const OverallRank = ({tokenId = ''}) => {
 
@@ -56,12 +57,5 @@ const OverallRank = ({tokenId = ''}) => {
   );
 
 }
-
-const StyledText =
-    styled.p`
-    color: white;
-    font-weight: bold;
-    font-size: 20px;
-    `;
 
 export default OverallRank;

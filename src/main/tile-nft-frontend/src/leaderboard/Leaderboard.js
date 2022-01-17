@@ -2,6 +2,7 @@ import {Component} from 'react';
 import styled from 'styled-components';
 import Spinner from 'react-bootstrap/Spinner';
 import {forEach} from "react-bootstrap/ElementChildren";
+import StyledLabel from "../styledComponents/StyledLabel";
 
 class Leaderboard extends Component {
 
@@ -302,12 +303,6 @@ const StyledErrorText =
     display: block;
     color: #FF4500;
     text-align: center;
-    `;
-
-const StyledLabel =
-    styled.label`
-    color: #F8F8FF;
-    margin: 0px 0px 0px 10px;
     `;
 
 const StyledCurrentPageAnchor =

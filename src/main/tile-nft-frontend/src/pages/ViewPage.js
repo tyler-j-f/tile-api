@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react'
-import styled from 'styled-components';
 import ViewToken from "../view/ViewToken";
 import loadTokenAttributes
   from "../updateTileNft/tokenDataLoaders/loadTokenAttributes";
