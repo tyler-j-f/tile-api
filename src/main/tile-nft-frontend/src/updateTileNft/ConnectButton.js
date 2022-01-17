@@ -17,7 +17,7 @@ export default function ConnectButton() {
         Logged in account Balance: {parseFloat(formatEther(etherBalance)).toFixed(3)} ETH
       </StyledText>
   ) : (
-      <Button onClick={handleConnectWallet}>
+      <Button onClick={handleConnectWallet} className="styledButton" >
         <p>Connect to a wallet</p>
       </Button>
   );

@@ -7,3 +7,11 @@
 .centered {
   text-align: center;
 }
+
+.styledButton {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: #61988E;
+  border-color: #424C55;
+  color: #774054;
+}

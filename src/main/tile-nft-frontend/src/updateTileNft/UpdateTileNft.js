@@ -85,7 +85,7 @@ const UpdateTileNft = ({
                 />
               }
               {metadataToUpdate.length > 0 &&
-                <Button onClick={handleClearSelections}>
+                <Button onClick={handleClearSelections} className="styledButton"  >
                   <p>Clear Selected</p>
                 </Button>
               }

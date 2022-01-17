@@ -20,6 +20,7 @@ import loadEmojiTokenAttributes
 import TransactionSuccess from "../etc/TransactionSuccess";
 import StyledPage from "../styledComponents/StyledPage";
 import PageHeader from "../styledComponents/PageHeader";
+import StyledText from "../styledComponents/StyledText";
 
 const UpdateTileNftPage = () => {
   const [txData, setTxData] = useState({
@@ -101,11 +102,11 @@ const UpdateTileNftPage = () => {
   const getSelectWhatToUpdateButtons = () => {
     return (
         <>
-          {txData.dataToSetIndex !== null && <Button onClick={() => handleSelectWhatToUpdateClicked(null)} >Back</Button>}
+          {txData.dataToSetIndex !== null && <Button onClick={() => handleSelectWhatToUpdateClicked(null)} className="styledButton" >Back</Button>}
           {txData.dataToSetIndex === null && (
               <>
-                <Button onClick={() => handleSelectWhatToUpdateClicked(0)} >Update Colors</Button>
-                <Button onClick={() => handleSelectWhatToUpdateClicked(1)} >Update Emojis</Button>
+                <Button onClick={() => handleSelectWhatToUpdateClicked(0)} className="styledButton" >Update Colors</Button>
+                <Button onClick={() => handleSelectWhatToUpdateClicked(1)} className="styledButton" >Update Emojis</Button>
               </>
           )}
         </>
@@ -127,11 +128,5 @@ const UpdateTileNftPage = () => {
       </StyledPage>
   )
 }
-
-const StyledText =
-    styled.p`
-    color: white;
-    font-weight: bold;
-    `;
 
 export default UpdateTileNftPage
