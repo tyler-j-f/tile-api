@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import styled from 'styled-components';
 import TokenMergeSelector from "../merge/TokenMergeSelector";
 import {useEthers} from "@usedapp/core";
 import ConnectButton from "../updateTileNft/ConnectButton";
@@ -7,6 +6,7 @@ import MergeTxWrapper from "../merge/MergeTxWrapper";
 import TransactionSuccess from "../etc/TransactionSuccess";
 import StyledPage from "../styledComponents/StyledPage";
 import PageHeader from "../styledComponents/PageHeader";
+import {Col, Row} from "react-bootstrap";
 
 const MergePage = () => {
 
@@ -129,9 +129,15 @@ const MergePage = () => {
 
     return (
       <StyledPage>
-        <PageHeader>Merge TileNFTs</PageHeader>
-        {mergeData?.txStatus?.isSuccess && getSuccessfulTx()}
-        {!mergeData?.txStatus?.isSuccess && getBody()}
+        <Row>
+          <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+          <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
+            <PageHeader>Merge TileNFTs</PageHeader>
+            {mergeData?.txStatus?.isSuccess && getSuccessfulTx()}
+            {!mergeData?.txStatus?.isSuccess && getBody()}
+          </Col>
+          <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+        </Row>
       </StyledPage>
   )
 }

@@ -50,7 +50,7 @@ const ViewPage = () => {
       <StyledPage>
         <Row>
           <Col xs={2} sm={2} md={2} lg={2} xl={2} />
-          <Col xs={8} sm={8} md={8} lg={8} xl={8} >
+          <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
             <PageHeader>View TileNFT</PageHeader>
             <ViewToken
                 tokenLoadedCallback={handleTokenLoadedCallback}
@@ -62,8 +62,8 @@ const ViewPage = () => {
         </Row>
         {(shouldRenderOverallRank() || shouldRenderBlockExplorerLink()) &&
           <Row>
-            <Col />
-            <Col >
+            <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+            <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
               <StyledList>
                 {shouldRenderOverallRank() &&
                   <li>
@@ -84,16 +84,16 @@ const ViewPage = () => {
                 }
               </StyledList>
             </Col>
-            <Col />
+            <Col xs={2} sm={2} md={2} lg={2} xl={2} />
           </Row>
         }
         {shouldRenderAttributesTable() &&
           <Row>
-            <Col />
-            <Col >
+            <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+            <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
               <AttributesTable tokenAttributes={tokenData.tokenAttributes}/>
             </Col>
-            <Col />
+            <Col xs={2} sm={2} md={2} lg={2} xl={2} />
           </Row>
         }
       </StyledPage>

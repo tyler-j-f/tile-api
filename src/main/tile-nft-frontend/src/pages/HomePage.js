@@ -29,6 +29,8 @@ const HomePage = () => {
 const StyledImg =
     styled.img.attrs(props => props)`
     margin: 10px;
+    margin-top: 100px;
+    margin-bottom: 100px;
     display: block;
     width: 350px;
     height: 428px;
