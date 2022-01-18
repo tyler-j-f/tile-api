@@ -1,8 +1,9 @@
-import {Component} from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
 import Spinner from 'react-bootstrap/Spinner';
 import {forEach} from "react-bootstrap/ElementChildren";
 import StyledLabel from "../styledComponents/StyledLabel";
+import TotalTokens from "../view/TotalTokens";
 
 class Leaderboard extends Component {
 
@@ -14,7 +15,9 @@ class Leaderboard extends Component {
       leaders: [],
       itemsPerPage: 10,
       paginationPage: 1,
-      maxPaginationPage: 10
+      maxPaginationPage: 10,
+      totalUnburntTokens: null,
+      totalTokens: null
     };
   }
 
@@ -27,6 +30,15 @@ class Leaderboard extends Component {
     let loadingSymbol = isLoading ? this.getSpinner() : null;
     let leaderboard = isLoading ? null : this.getLeaderboard();
     return isLoading ? loadingSymbol : leaderboard;
+  }
+
+  getTotalTokens() {
+    return (
+        <TotalTokens
+            totalUnburntTokens={this.state.totalUnburntTokens}
+            totalTokens={this.state.totalTokens}
+        />
+    )
   }
 
   getLeaderboardUrl(pageNumber) {
@@ -102,8 +114,10 @@ class Leaderboard extends Component {
         ) => this.getTokenImage(tokenId, rankCount)
     );
     let pagination = this.getPagination();
+    let totalTokens = this.getTotalTokens();
     return (
         <>
+          {totalTokens}
           {leaderboard}
           {pagination}
         </>

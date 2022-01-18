@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import StyledText from "../styledComponents/StyledText";
+import TotalTokens from "./TotalTokens";
 
 const OverallRank = ({tokenId = ''}) => {
 
@@ -59,18 +60,10 @@ const OverallRank = ({tokenId = ''}) => {
         <StyledText className="centered" >
           Overall Rank: {overallRankData.rank} / {overallRankData.totalTokenRanks}
         </StyledText>
-        <ul>
-          <li>
-            <StyledText className="centered" >
-              {overallRankData.totalUnburntTokens} total unburnt tokens.
-            </StyledText>
-          </li>
-          <li>
-            <StyledText className="centered" >
-              {overallRankData.totalTokens} total tokens, including burnt tokens.
-            </StyledText>
-          </li>
-        </ul>
+        <TotalTokens
+            totalUnburntTokens={overallRankData.totalUnburntTokens}
+            totalTokens={overallRankData.totalTokens}
+        />
       </>
   );
 }
