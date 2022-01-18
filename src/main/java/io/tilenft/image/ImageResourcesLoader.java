@@ -98,7 +98,6 @@ public class ImageResourcesLoader {
   }
 
   public int getResourceIndex(String filename) throws IOException, ImageException {
-    System.out.println("DEBUG getResourceIndex filename: " + filename);
     if (resources == null) {
       loadResources();
     }

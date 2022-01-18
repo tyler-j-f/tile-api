@@ -44,7 +44,7 @@ class Leaderboard extends Component {
 
   loadNumberOfTokens() {
     return fetch(
-        `${window.location.origin}/api/leaderboard/getNumberOfTokens`,
+        `${window.location.origin}/api/leaderboard/getNumberOfUnburntTokens`,
         {method: 'get'}
     )
     .then(response => {

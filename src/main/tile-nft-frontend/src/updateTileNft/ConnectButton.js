@@ -12,7 +12,7 @@ export default function ConnectButton() {
   }
 
   return (account && etherBalance) ? (
-      <StyledText>
+      <StyledText className="addMargin5" >
         Logged in account Balance: {parseFloat(formatEther(etherBalance)).toFixed(3)} ETH
       </StyledText>
   ) : (

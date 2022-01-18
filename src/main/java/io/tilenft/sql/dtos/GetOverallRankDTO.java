@@ -8,5 +8,7 @@ import lombok.Data;
 public class GetOverallRankDTO {
   private Long tokenId;
   private Long rank;
+  private Long totalTokenRanks;
+  private Long totalUnburntTokens;
   private Long totalTokens;
 }

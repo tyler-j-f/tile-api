@@ -203,7 +203,6 @@ public class ImageController extends BaseController {
     }
     String[] emojiFileNames = getEmojiFileNames(nft);
     if (wasTileEmojiChangeRequested(metadataSetDTO)) {
-      System.out.println("debug wasTileEmojiChangeRequested true");
       updateTileEmojis(emojiFileNames, metadataSetDTO);
     }
     System.out.println(Arrays.toString(emojiFileNames));

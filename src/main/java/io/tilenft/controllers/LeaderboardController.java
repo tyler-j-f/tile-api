@@ -44,21 +44,42 @@ public class LeaderboardController extends BaseController {
         break;
       }
     }
+    GetOverallRankDTO.GetOverallRankDTOBuilder getOverallRankDTOBuilder =
+        GetOverallRankDTO.builder()
+            .tokenId(tokenId)
+            .totalTokenRanks(getHighestTokenRank(leaderboardEntries))
+            .totalUnburntTokens((long) leaderboardEntries.size())
+            .totalTokens(getNumberOfAllTokensLong());
     if (foundEntry == null) {
-      throw new ControllerException("getOverallRank -> could not find tokenId");
+      getOverallRankDTOBuilder.rank(0L);
+    } else {
+      getOverallRankDTOBuilder.rank(foundEntry.getRankCount());
     }
-    return new ObjectMapper()
-        .writeValueAsString(
-            GetOverallRankDTO.builder()
-                .tokenId(foundEntry.getTokenId())
-                .rank(foundEntry.getRankCount())
-                .totalTokens(
-                    (long) leaderboardEntries.get(leaderboardEntries.size() - 1).getRankCount())
-                .build());
+    return new ObjectMapper().writeValueAsString(getOverallRankDTOBuilder.build());
   }
 
-  @GetMapping("getNumberOfTokens")
-  public String getNumberOfTokens() throws JsonProcessingException {
+  private Long getHighestTokenRank(List<LeaderboardEntryDTO> leaderboardEntries) {
+    Long highestRank = 0L;
+    for (LeaderboardEntryDTO entry : leaderboardEntries) {
+      Long rank = entry.getRankCount();
+      if (rank > highestRank) {
+        highestRank = rank;
+      }
+    }
+    return highestRank;
+  }
+
+  private Long getNumberOfAllTokensLong() {
+    return tokenRepository.getCount();
+  }
+
+  @GetMapping("getNumberOfAllTokens")
+  public String getNumberOfAllTokens() throws JsonProcessingException {
+    return new ObjectMapper().writeValueAsString(getNumberOfAllTokensLong());
+  }
+
+  @GetMapping("getNumberOfUnburntTokens")
+  public String getNumberOfUnburntTokens() throws JsonProcessingException {
     return new ObjectMapper()
         .writeValueAsString(
             String.valueOf(tokenLeaderboardRetriever.getSize(tokenRepository.getCount())));

@@ -9,6 +9,7 @@ import PageHeader from "../styledComponents/PageHeader";
 import {Col, Row} from "react-bootstrap";
 import StyledText from "../styledComponents/StyledText";
 import styled from "styled-components";
+import PageSubHeader from "../styledComponents/PageSubHeader";
 
 const ViewPage = () => {
 
@@ -91,6 +92,7 @@ const ViewPage = () => {
           <Row>
             <Col xs={2} sm={2} md={2} lg={2} xl={2} />
             <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
+              <PageSubHeader>Token Attributes</PageSubHeader>
               <AttributesTable tokenAttributes={tokenData.tokenAttributes}/>
             </Col>
             <Col xs={2} sm={2} md={2} lg={2} xl={2} />

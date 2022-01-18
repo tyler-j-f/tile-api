@@ -6,6 +6,8 @@ const OverallRank = ({tokenId = ''}) => {
 
   const [overallRankData, setOverallRankData] = useState({
     rank: null,
+    totalTokenRanks: null,
+    totalUnburntTokens: null,
     totalTokens: null
   });
 
@@ -17,7 +19,9 @@ const OverallRank = ({tokenId = ''}) => {
         }
         setOverallRankData({
           rank: response.rank,
-          totalTokens: response.totalTokens
+          totalTokenRanks: response.totalTokenRanks,
+          totalUnburntTokens: response.totalUnburntTokens,
+          totalTokens: response.totalTokens,
         })}).catch(err => {
         console.log("Error caught!!!", err);
       });
@@ -46,16 +50,29 @@ const OverallRank = ({tokenId = ''}) => {
     });
   }
 
-  return (
+  const getShouldRender = () => {
+    return overallRankData.rank !== null && overallRankData.totalTokenRanks !== null && overallRankData.totalUnburntTokens !== null && overallRankData.totalTokens !== null;
+  }
+
+  return getShouldRender() && (
       <>
-        {overallRankData.rank !== null && overallRankData.totalTokens !== null && (
+        <StyledText className="centered" >
+          Overall Rank: {overallRankData.rank} / {overallRankData.totalTokenRanks}
+        </StyledText>
+        <ul>
+          <li>
             <StyledText className="centered" >
-              Overall Rank: {overallRankData.rank} / {overallRankData.totalTokens}
+              {overallRankData.totalUnburntTokens} total unburnt tokens.
             </StyledText>
-        )}
+          </li>
+          <li>
+            <StyledText className="centered" >
+              {overallRankData.totalTokens} total tokens, including burnt tokens.
+            </StyledText>
+          </li>
+        </ul>
       </>
   );
-
 }
 
 export default OverallRank;
