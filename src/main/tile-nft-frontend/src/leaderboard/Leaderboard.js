@@ -37,6 +37,7 @@ class Leaderboard extends Component {
         <TotalTokens
             totalUnburntTokens={this.state.totalUnburntTokens}
             totalTokens={this.state.totalTokens}
+            useLoadData
         />
     )
   }

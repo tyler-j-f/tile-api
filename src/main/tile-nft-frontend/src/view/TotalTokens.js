@@ -1,5 +1,5 @@
 import StyledText from "../styledComponents/StyledText";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import loadTotalTokensData from "./loadTotalTokensData";
 
 const TotalTokens = ({
@@ -8,9 +8,22 @@ const TotalTokens = ({
   useLoadData = false
 }) => {
 
+  const [totalTokensData, setTotalTokensData] = useState({
+    totalUnburntTokens,
+    totalTokens
+  });
+
   useEffect(
-      (useLoadData) => {
-        loadTotalTokensData().then(r => console.log("TotalTokens useLoadData", r));
+      () => {
+        if (useLoadData) {
+          loadTotalTokensData().then(result => {
+            console.log("TotalTokens useLoadData", result);
+            setTotalTokensData({
+              ...totalTokensData,
+              ...result
+            });
+          });
+        }
       },
       []
   );
@@ -19,12 +32,12 @@ const TotalTokens = ({
       <ul>
         <li>
           <StyledText className="centered" >
-            {totalUnburntTokens} total unburnt tokens.
+            {totalTokensData.totalUnburntTokens} total unburnt tokens.
           </StyledText>
         </li>
         <li>
           <StyledText className="centered" >
-            {totalTokens} total tokens, including burnt tokens.
+            {totalTokensData.totalTokens} total tokens, including burnt tokens.
           </StyledText>
         </li>
       </ul>

@@ -1,6 +1,6 @@
 const loadTotalTokensData = () => {
   return fetch(
-      `${window.location.origin}/api/contract/getAddress`,
+      `${window.location.origin}/api/leaderboard/getTotalTokensData`,
       {method: 'get'}
   )
   .then(response => {
@@ -11,6 +11,7 @@ const loadTotalTokensData = () => {
     return null;
   }).then(data => {
     console.log("loadTotalTokensData data", data);
+    return data;
   })
 }
 

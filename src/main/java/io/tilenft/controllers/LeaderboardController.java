@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tilenft.eth.token.TokenLeaderboardRetriever;
 import io.tilenft.sql.dtos.GetOverallRankDTO;
 import io.tilenft.sql.dtos.LeaderboardEntryDTO;
+import io.tilenft.sql.dtos.TotalTokensDTO;
 import io.tilenft.sql.repositories.TokenRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,9 @@ public class LeaderboardController extends BaseController {
   @GetMapping("getOverallRank/{tokenId}")
   public String getOverallRank(@PathVariable Long tokenId)
       throws JsonProcessingException, ControllerException {
+    Long numberOfTokens = getNumberOfAllTokensLong();
     List<LeaderboardEntryDTO> leaderboardEntries =
-        tokenLeaderboardRetriever.get(Math.toIntExact(tokenRepository.getCount()));
+        tokenLeaderboardRetriever.get(Math.toIntExact(numberOfTokens));
     LeaderboardEntryDTO foundEntry = null;
     for (LeaderboardEntryDTO entry : leaderboardEntries) {
       if (entry.getTokenId().equals(tokenId)) {
@@ -49,7 +51,7 @@ public class LeaderboardController extends BaseController {
             .tokenId(tokenId)
             .totalTokenRanks(getHighestTokenRank(leaderboardEntries))
             .totalUnburntTokens((long) leaderboardEntries.size())
-            .totalTokens(getNumberOfAllTokensLong());
+            .totalTokens(numberOfTokens);
     if (foundEntry == null) {
       getOverallRankDTOBuilder.rank(0L);
     } else {
@@ -71,6 +73,18 @@ public class LeaderboardController extends BaseController {
 
   private Long getNumberOfAllTokensLong() {
     return tokenRepository.getCount();
+  }
+
+  @GetMapping("getTotalTokensData")
+  public String getTotalTokensData() throws JsonProcessingException {
+    Long numberOfTokens = getNumberOfAllTokensLong();
+    return new ObjectMapper()
+        .writeValueAsString(
+            TotalTokensDTO.builder()
+                .totalTokens(getNumberOfAllTokensLong())
+                .totalUnburntTokens(
+                    (long) tokenLeaderboardRetriever.get(Math.toIntExact(numberOfTokens)).size())
+                .build());
   }
 
   @GetMapping("getNumberOfAllTokens")
