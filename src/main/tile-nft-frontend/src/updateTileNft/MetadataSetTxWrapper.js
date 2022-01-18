@@ -5,6 +5,7 @@ import MetadataSetTx
   from "./MetadataSetTx";
 import {ethers} from "ethers";
 import styled from "styled-components";
+import StyledText from "../styledComponents/StyledText";
 
 const noop = () => {};
 
@@ -86,11 +87,5 @@ const MetadataSetTxWrapper = ({
       </>
   );
 }
-
-const StyledText =
-    styled.p`
-    color: white;
-    font-weight: bold;
-    `;
 
 export default MetadataSetTxWrapper;

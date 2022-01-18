@@ -2,8 +2,8 @@ import TileContract from '../contractsJson/Tile.json'
 import {useEthers} from "@usedapp/core";
 import {useEffect, useState} from "react";
 import {ethers} from "ethers";
-import styled from "styled-components";
 import MergetTx from "./MergetTx";
+import StyledText from "../styledComponents/StyledText";
 
 const noop = () => {};
 
@@ -113,11 +113,5 @@ const MergeTxWrapper = ({
       </>
   );
 }
-
-const StyledText =
-    styled.p`
-    color: white;
-    font-weight: bold;
-    `;
 
 export default MergeTxWrapper;

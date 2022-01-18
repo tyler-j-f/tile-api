@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
-import styled from 'styled-components';
+import React from 'react'
 import {Button} from "react-bootstrap";
+import StyledText from "../styledComponents/StyledText";
 
 const TransactionSuccess = ({txId, handleSendAnotherTx, subText}) => {
 
@@ -16,11 +16,5 @@ const TransactionSuccess = ({txId, handleSendAnotherTx, subText}) => {
       </>
   )
 }
-
-const StyledText =
-    styled.p`
-    color: white;
-    font-weight: bold;
-    `;
 
 export default TransactionSuccess

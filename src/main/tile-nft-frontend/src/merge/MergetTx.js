@@ -1,8 +1,8 @@
-import {useContractFunction, useEthers} from "@usedapp/core";
+import {useContractFunction} from "@usedapp/core";
 import {useEffect, useState} from "react";
-import styled from "styled-components";
 import {Button} from "react-bootstrap";
 import { parseEther } from "@ethersproject/units";
+import StyledText from "../styledComponents/StyledText";
 
 const noop = () => {};
 
@@ -35,19 +35,13 @@ const MergeTx = ({contract, tokenId1, tokenId2, successCallback = noop}) => {
           Send Transaction
         </Button>
         {txStatus.isLoading &&
-        <StyledText>Sending Transaction...</StyledText>
+          <StyledText>Sending Transaction...</StyledText>
         }
         {txStatus.errorText !== '' &&
-        <StyledText>{txStatus.errorText}</StyledText>
+          <StyledText>{txStatus.errorText}</StyledText>
         }
       </>
   );
 }
-
-const StyledText =
-    styled.p`
-    color: white;
-    font-weight: bold;
-    `;
 
 export default MergeTx;

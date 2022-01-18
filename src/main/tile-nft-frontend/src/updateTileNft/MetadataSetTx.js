@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import styled from "styled-components";
 import {Button} from "react-bootstrap";
 import { parseEther } from "@ethersproject/units";
+import StyledText from "../styledComponents/StyledText";
 
 const noop = () => {};
 
@@ -43,11 +44,5 @@ const MetadataSetTx = ({contract, tokenId, dataToSetIndex, dataToSet, successCal
       </>
   );
 }
-
-const StyledText =
-    styled.p`
-    color: white;
-    font-weight: bold;
-    `;
 
 export default MetadataSetTx;
