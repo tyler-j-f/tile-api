@@ -101,11 +101,11 @@ const UpdateTileNftPage = () => {
   const getSelectWhatToUpdateButtons = () => {
     return (
         <>
-          {txData.dataToSetIndex !== null && <Button onClick={() => handleSelectWhatToUpdateClicked(null)} className="styledButton" >Back</Button>}
+          {txData.dataToSetIndex !== null && <Button onClick={() => handleSelectWhatToUpdateClicked(null)} className="styledButton" ><p>Back</p></Button>}
           {txData.dataToSetIndex === null && (
               <>
-                <Button onClick={() => handleSelectWhatToUpdateClicked(0)} className="styledButton" >Update Colors</Button>
-                <Button onClick={() => handleSelectWhatToUpdateClicked(1)} className="styledButton" >Update Emojis</Button>
+                <Button onClick={() => handleSelectWhatToUpdateClicked(0)} className="styledButton" ><p>Update Colors</p></Button>
+                <Button onClick={() => handleSelectWhatToUpdateClicked(1)} className="styledButton" ><p>Update Emojis</p></Button>
               </>
           )}
         </>

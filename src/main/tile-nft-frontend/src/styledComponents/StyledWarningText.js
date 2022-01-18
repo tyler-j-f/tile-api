@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-const StyledErrorText =
+const StyledWarningText =
     styled.p`
-    color: #8C2B3F;
+    color: #9F566F;
     font-weight: extra bold;
     `;
 
-export default StyledErrorText;
+export default StyledWarningText;

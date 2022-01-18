@@ -4,8 +4,7 @@ import {useEffect, useState} from "react";
 import MetadataSetTx
   from "./MetadataSetTx";
 import {ethers} from "ethers";
-import styled from "styled-components";
-import StyledText from "../styledComponents/StyledText";
+import StyledWarningText from "../styledComponents/StyledWarningText";
 
 const noop = () => {};
 
@@ -74,7 +73,7 @@ const MetadataSetTxWrapper = ({
 
   return (
       <>
-        {getIsTokenOwner() ? null : <StyledText>Logged in account is not the token owner.</StyledText>}
+        {getIsTokenOwner() ? null : <StyledWarningText>Logged in account is not the token owner!</StyledWarningText>}
         {getShouldRender() &&
           <MetadataSetTx
               contract={tileContract}

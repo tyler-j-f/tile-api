@@ -4,7 +4,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import loadViewTokenData from "./loadViewTokenData";
 import StyledLabel from "../styledComponents/StyledLabel";
 import StyledErrorText from "../styledComponents/StyledErrorText";
-import StyledText from "../styledComponents/StyledText";
+import {Button} from "react-bootstrap";
 
 const noop = () => {};
 
@@ -77,7 +77,9 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
               Token Number:&nbsp;
               <input type="number" value={viewTokenData.tokenId} onChange={handleChange} />
             </StyledLabel>
-            <StyledInput type="submit" value="Submit" />
+            <Button type='submit' value="Submit" className="styledButton" >
+              <p>Submit</p>
+            </Button>
             {formBody}
           </form>
         </>
@@ -107,12 +109,6 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
   );
 
 }
-
-const StyledInput =
-    styled.input`
-    position: absolute;
-    margin-left: 5px;
-    `;
 
 const StyledImg =
     styled.img.attrs(props => ({

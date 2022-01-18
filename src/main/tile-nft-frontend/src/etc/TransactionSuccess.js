@@ -11,7 +11,7 @@ const TransactionSuccess = ({txId, handleSendAnotherTx, subText}) => {
         </StyledText>
         <StyledText>{subText}</StyledText>
         <Button onClick={handleSendAnotherTx} className="styledButton" >
-          Send another update transaction?
+          <p>Send another update transaction?</p>
         </Button>
       </>
   )

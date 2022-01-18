@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {Button} from "react-bootstrap";
 import { parseEther } from "@ethersproject/units";
 import StyledText from "../styledComponents/StyledText";
+import StyledErrorText from "../styledComponents/StyledErrorText";
 
 const noop = () => {};
 
@@ -32,13 +33,13 @@ const MetadataSetTx = ({contract, tokenId, dataToSetIndex, dataToSet, successCal
   return (
       <>
         <Button onClick={handleSendTx} active={txStatus.isLoading} disabled={txStatus.isLoading} className="styledButton" >
-          Send Transaction
+          <p>Send Transaction</p>
         </Button>
         {txStatus.isLoading &&
-        <StyledText>Sending Transaction...</StyledText>
+          <StyledText>Sending Transaction...</StyledText>
         }
         {txStatus.errorText !== '' &&
-        <StyledText>{txStatus.errorText}</StyledText>
+          <StyledErrorText>{txStatus.errorText}</StyledErrorText>
         }
       </>
   );

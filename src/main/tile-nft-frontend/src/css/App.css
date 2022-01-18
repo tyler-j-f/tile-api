@@ -8,8 +8,8 @@
 }
 
 .styledButton {
-  margin-top: 5px;
-  margin-bottom: 5px;
+  height: 35px;
+  margin: 5px;
   background-color: white;
   border-color: #774054;
   color: #774054;

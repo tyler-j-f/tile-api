@@ -18,6 +18,7 @@ import MergePage from "./pages/MergePage";
 import {Container, Navbar, Row} from "react-bootstrap";
 import styled from "styled-components";
 import UpdateTileNftPage from "./pages/UpdateTileNftPage";
+import StyledErrorText from "./styledComponents/StyledErrorText";
 
 function TileNftApp() {
 
@@ -108,14 +109,6 @@ function TileNftApp() {
 const StyledDiv =
     styled.div`
     background-color: #00ACE6
-    `;
-
-const StyledErrorText =
-    styled.p`
-    display: block;
-    color: #FF4500;
-    text-align: center;
-    margin-top: 50px
     `;
 
 export default TileNftApp;

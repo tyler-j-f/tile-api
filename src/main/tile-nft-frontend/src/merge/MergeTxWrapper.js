@@ -3,7 +3,7 @@ import {useEthers} from "@usedapp/core";
 import {useEffect, useState} from "react";
 import {ethers} from "ethers";
 import MergetTx from "./MergetTx";
-import StyledText from "../styledComponents/StyledText";
+import StyledWarningText from "../styledComponents/StyledWarningText";
 
 const noop = () => {};
 
@@ -100,8 +100,8 @@ const MergeTxWrapper = ({
 
   return (
       <>
-        {!getIsOwnerOfBothTokens() && <StyledText>Logged in account does not own both tokens.</StyledText>}
-        {getIsBothTokensTheSame() && <StyledText>Cannot merge a token with itself.</StyledText>}
+        {!getIsOwnerOfBothTokens() && <StyledWarningText>Logged in account does not own both tokens!</StyledWarningText>}
+        {getIsBothTokensTheSame() && <StyledWarningText>Cannot merge a token with itself!</StyledWarningText>}
         {getShouldRender() &&
           <MergetTx
               contract={tileContract}
