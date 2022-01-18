@@ -309,7 +309,7 @@ const StyledImg =
       height: 150px;
     }
     margin: 10px;
-    display: block
+    display: block;
     `;
 
 const StyledErrorText =

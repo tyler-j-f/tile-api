@@ -41,11 +41,11 @@ const ViewPage = () => {
   }
 
   const shouldRenderAttributesTable = () => tokenData.tokenAttributes &&
-      Object.keys(tokenData.tokenAttributes).length > 0;
+      Object.keys(tokenData.tokenAttributes).length > 0 && !tokenData.isInvalidTokenNumber;
 
   const shouldRenderOverallRank = () => tokenData.tokenId !== '' && !tokenData.isInvalidTokenNumber;
 
-  const shouldRenderBlockExplorerLink = () => tokenData.blockExplorerUrl !== '';
+  const shouldRenderBlockExplorerLink = () => tokenData.blockExplorerUrl !== '' && !tokenData.isInvalidTokenNumber;
 
   return (
       <StyledPage>
