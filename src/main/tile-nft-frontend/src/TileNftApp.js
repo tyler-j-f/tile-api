@@ -107,7 +107,7 @@ function TileNftApp() {
 
 const StyledDiv =
     styled.div`
-    background-color: #61988E
+    background-color: #00ACE6
     `;
 
 const StyledErrorText =
