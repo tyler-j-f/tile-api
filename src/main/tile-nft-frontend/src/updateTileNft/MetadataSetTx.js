@@ -1,6 +1,5 @@
-import {useContractFunction, useEthers} from "@usedapp/core";
+import {useContractFunction} from "@usedapp/core";
 import {useEffect, useState} from "react";
-import styled from "styled-components";
 import {Button} from "react-bootstrap";
 import { parseEther } from "@ethersproject/units";
 import StyledText from "../styledComponents/StyledText";
@@ -32,7 +31,7 @@ const MetadataSetTx = ({contract, tokenId, dataToSetIndex, dataToSet, successCal
 
   return (
       <>
-        <Button onClick={handleSendTx} active={txStatus.isLoading} disabled={txStatus.isLoading}>
+        <Button onClick={handleSendTx} active={txStatus.isLoading} disabled={txStatus.isLoading} className="styledButton" >
           Send Transaction
         </Button>
         {txStatus.isLoading &&

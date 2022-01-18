@@ -1,7 +1,6 @@
 import { useEthers, useEtherBalance } from "@usedapp/core";
 import { formatEther } from "@ethersproject/units";
 import {Button} from "react-bootstrap";
-import styled from "styled-components";
 import StyledText from "../styledComponents/StyledText";
 
 export default function ConnectButton() {

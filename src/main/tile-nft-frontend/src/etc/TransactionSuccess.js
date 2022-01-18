@@ -10,7 +10,7 @@ const TransactionSuccess = ({txId, handleSendAnotherTx, subText}) => {
           Success!!! Transaction Id: <a href={`https://rinkeby.etherscan.io/tx/${txId}`} >{txId}</a>
         </StyledText>
         <StyledText>{subText}</StyledText>
-        <Button onClick={handleSendAnotherTx}>
+        <Button onClick={handleSendAnotherTx} className="styledButton" >
           Send another update transaction?
         </Button>
       </>

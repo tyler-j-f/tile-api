@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import styled from 'styled-components';
 import UpdateTileNft from "../updateTileNft/UpdateTileNft";
 import {Button} from "react-bootstrap";
 import ColorSelectorSection from "../updateTileNft/sections/ColorSelectorSection";

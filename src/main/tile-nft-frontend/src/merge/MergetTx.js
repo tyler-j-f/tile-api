@@ -31,7 +31,7 @@ const MergeTx = ({contract, tokenId1, tokenId2, successCallback = noop}) => {
 
   return (
       <>
-        <Button onClick={handleSendTx} active={txStatus.isLoading} disabled={txStatus.isLoading}>
+        <Button onClick={handleSendTx} active={txStatus.isLoading} disabled={txStatus.isLoading} className="styledButton" >
           Send Transaction
         </Button>
         {txStatus.isLoading &&
