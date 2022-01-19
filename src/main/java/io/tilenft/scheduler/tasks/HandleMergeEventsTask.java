@@ -8,7 +8,7 @@ import io.tilenft.eth.events.RemoveDuplicateMergeEthEvents;
 import io.tilenft.eth.events.implementations.MergeEvent;
 import io.tilenft.eth.token.TokenFacadeDTO;
 import io.tilenft.eth.token.TokenRetriever;
-import io.tilenft.eth.token.initializers.MergeTokenInitializer;
+import io.tilenft.eth.token.initializers.MergeTokenHandler;
 import io.tilenft.eth.token.initializers.TokenInitializeException;
 import io.tilenft.eth.token.traits.weighted.WeightedTraitTypeConstants;
 import io.tilenft.eth.token.traits.weighted.WeightedTraitTypeWeightConstants;
@@ -24,8 +24,8 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
 
   @Autowired private TokenRetriever tokenRetriever;
   @Autowired private RemoveDuplicateMergeEthEvents removeDuplicateMergeEthEvents;
-  @Autowired private MergeTokenInitializer mergeTokenInitializer;
   @Autowired private WeightedTraitRepository weightedTraitRepository;
+  @Autowired private MergeTokenHandler mergeTokenHandler;
 
   @Override
   public void execute() throws TaskSchedulerException {
@@ -58,7 +58,7 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
   }
 
   private void addTokensAndNewTraitsForMergeEvents(List<MergeEvent> events)
-      throws TokenInitializeException, WeightlessTraitPickerException {
+      throws TokenInitializeException {
     for (MergeEvent event : events) {
       Long newTokenId = hexValueToDecimal.getLongFromHexString(event.getNewTokenId());
       Long burnedToken1Id = hexValueToDecimal.getLongFromHexString(event.getBurnedToken1Id());
@@ -89,9 +89,9 @@ public class HandleMergeEventsTask extends AbstractEthEventsRetrieverTask {
 
   private void mintNewTokenForMerge(
       MergeEvent event, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2)
-      throws TokenInitializeException, WeightlessTraitPickerException {
+      throws TokenInitializeException {
     Long tokenId = hexValueToDecimal.getLongFromHexString(event.getNewTokenId());
-    mergeTokenInitializer.initialize(
+    mergeTokenHandler.mintNewTokenForMerge(
         tokenId,
         burnedNft1,
         burnedNft2,

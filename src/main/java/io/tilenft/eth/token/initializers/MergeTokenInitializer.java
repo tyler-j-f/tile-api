@@ -43,6 +43,16 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
   public TokenFacadeDTO initialize(
       Long tokenId, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2, Long seedForTraits)
       throws TokenInitializeException {
+    return initialize(tokenId, burnedNft1, burnedNft2, seedForTraits, false);
+  }
+
+  public TokenFacadeDTO initialize(
+      Long tokenId,
+      TokenFacadeDTO burnedNft1,
+      TokenFacadeDTO burnedNft2,
+      Long seedForTraits,
+      boolean isDryRun)
+      throws TokenInitializeException {
     if (burnedNft1 == null) {
       System.out.println(
           "TokenInitializer failed to load burned token 1. burnedNft1: " + burnedNft1);
@@ -65,15 +75,20 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
     weightedTraitTypeWeights =
         filterAndModifyWeightedTraitTypeWeights(weightedTraitTypeWeightRepository.read());
     weightlessTraitTypes = weightlessTraitTypeRepository.read();
-    weightedTraitsCreator.createTraits(getContext(tokenId, seedForTraits, burnedNft1, burnedNft2));
+    weightedTraitsCreator.createTraits(
+        getContext(tokenId, seedForTraits, burnedNft1, burnedNft2, isDryRun));
     weightedTraits = weightedTraitsCreator.getCreatedWeightedTraits();
     weightlessTraitsCreator.createTraits(
-        getContext(tokenId, seedForTraits, burnedNft1, burnedNft2));
+        getContext(tokenId, seedForTraits, burnedNft1, burnedNft2, isDryRun));
     return buildTokenFacadeDTO();
   }
 
   private TraitsCreatorContext getContext(
-      Long tokenId, Long seedForTraits, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2) {
+      Long tokenId,
+      Long seedForTraits,
+      TokenFacadeDTO burnedNft1,
+      TokenFacadeDTO burnedNft2,
+      boolean isDryRun) {
     return TraitsCreatorContext.builder()
         .tokenId(tokenId)
         .seedForTraits(seedForTraits)
@@ -83,7 +98,7 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
         .weightedTraitTypeWeights(weightedTraitTypeWeights)
         .burnedNft1(burnedNft1)
         .burnedNft2(burnedNft2)
-        .isDryRun(false)
+        .isDryRun(isDryRun)
         .build();
   }
 

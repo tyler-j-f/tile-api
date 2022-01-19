@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractEthEventsRetrieverTask implements TaskInterface {
 
-  public static final String ZERO_X = "0x";
-
   @Autowired protected EthEventsRetriever ethEventsRetriever;
   @Autowired protected EventsConfig eventsConfig;
   @Autowired protected BigIntegerFactory bigIntegerFactory;

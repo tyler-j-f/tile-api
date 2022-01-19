@@ -3,6 +3,7 @@ package io.tilenft.config.beans;
 import io.tilenft.eth.token.TokenFacade;
 import io.tilenft.eth.token.TokenLeaderboardRetriever;
 import io.tilenft.eth.token.TokenRetriever;
+import io.tilenft.eth.token.initializers.MergeTokenHandler;
 import io.tilenft.eth.token.initializers.MergeTokenInitializer;
 import io.tilenft.eth.token.initializers.TokenInitializer;
 import io.tilenft.eth.token.traits.creators.weighted.WeightedTraitsCreator;
@@ -27,6 +28,11 @@ public class TokenBeansConfig {
   @Bean
   public MergeTokenInitializer mergeTokenInitializer() {
     return new MergeTokenInitializer(mergeTokenWeightlessTraitsCreator, weightedTraitsCreator);
+  }
+
+  @Bean
+  public MergeTokenHandler mergeTokenHandler() {
+    return new MergeTokenHandler();
   }
 
   @Bean
