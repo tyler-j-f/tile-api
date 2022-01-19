@@ -1,5 +1,6 @@
 package io.tilenft.sql.daos;
 
+import io.tilenft.sql.dtos.GetLeaderEntriesDTO;
 import io.tilenft.sql.dtos.LeaderboardEntryDTO;
 import io.tilenft.sql.dtos.WeightlessTraitDTO;
 import io.tilenft.sql.tbls.WeightedTraitsTable;
@@ -35,6 +36,10 @@ public class TokenLeaderboardDao {
       Long isBurntTraitTypeId,
       int numberOfTokensToRetrieve,
       int startIndex) {
+    GetLeaderEntriesDTO getLeaderEntriesDTO =
+        GetLeaderEntriesDTO.builder().rankCount(0L).prevValue(null).build();
+    System.out.println(
+        "\n\nDEBUG: start getLeaderEntries: " + numberOfTokensToRetrieve + " " + startIndex);
     List<WeightlessTraitDTO> traitsList = new ArrayList<>();
     List<LeaderboardEntryDTO> leaderboardEntriesList = new ArrayList<>();
     int traitsListSize = 0, tokenIdsListSize = 0, prevTraitsListSize;
@@ -46,9 +51,16 @@ public class TokenLeaderboardDao {
         break;
       }
       traitsList.addAll(highestOverallRarityTraitsList);
+      System.out.println(
+          "DEBUG: highestOverallRarityTraitsList size: " + highestOverallRarityTraitsList.size());
+      System.out.println(
+          "DEBUG: highestOverallRarityTraitsList first: " + highestOverallRarityTraitsList.get(0));
+      System.out.println(
+          "DEBUG: highestOverallRarityTraitsList last: "
+              + highestOverallRarityTraitsList.get(highestOverallRarityTraitsList.size() - 1));
       leaderboardEntriesList.addAll(
           sortHighestOverallTraitAndGetTokenIds(
-              highestOverallRarityTraitsList, isBurntTraitTypeId));
+              highestOverallRarityTraitsList, isBurntTraitTypeId, getLeaderEntriesDTO));
       prevTraitsListSize = traitsListSize;
       traitsListSize = traitsList.size();
       tokenIdsListSize = leaderboardEntriesList.size();
@@ -58,7 +70,10 @@ public class TokenLeaderboardDao {
     if (traitsList.size() == 0) {
       return null;
     }
-    return getLeaderTokenIdsSubList(leaderboardEntriesList, numberOfTokensToRetrieve);
+    List<LeaderboardEntryDTO> result =
+        getLeaderTokenIdsSubList(leaderboardEntriesList, numberOfTokensToRetrieve);
+    System.out.println("DEBUG: end getLeaderEntries. Result: " + result);
+    return result;
   }
 
   public List<Long> getLeaderTokenIds(
@@ -102,7 +117,9 @@ public class TokenLeaderboardDao {
   }
 
   private List<LeaderboardEntryDTO> sortHighestOverallTraitAndGetTokenIds(
-      List<WeightlessTraitDTO> highestOverallRarityTraitsList, Long isBurntTraitTypeId) {
+      List<WeightlessTraitDTO> highestOverallRarityTraitsList,
+      Long isBurntTraitTypeId,
+      GetLeaderEntriesDTO getLeaderEntriesDTO) {
     Stream<WeightlessTraitDTO> stream = null;
     try {
       List<Long> tokenIds =
@@ -129,19 +146,19 @@ public class TokenLeaderboardDao {
       List<Long> foundBurntTokenIds =
           stream.map(trait -> trait.getTokenId()).collect(Collectors.toList());
       List<LeaderboardEntryDTO> results = new ArrayList<>();
-      long rankCount = 0L;
-      String prevValue = null;
       for (LeaderboardEntryDTO entry : leaderboardEntries) {
         if (foundBurntTokenIds.contains(entry.getTokenId())) {
           // Burn token, do not add to results
           continue;
         }
-        if (!entry.getOverallRankPoints().equals(prevValue)) {
+        Long rankCount = getLeaderEntriesDTO.getRankCount();
+        if (!entry.getOverallRankPoints().equals(getLeaderEntriesDTO.getPrevValue())) {
           rankCount++;
         }
         entry.setRankCount(rankCount);
         results.add(entry);
-        prevValue = entry.getOverallRankPoints();
+        getLeaderEntriesDTO.setRankCount(rankCount);
+        getLeaderEntriesDTO.setPrevValue(entry.getOverallRankPoints());
       }
       return results;
     } finally {
