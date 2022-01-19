@@ -51,6 +51,12 @@ public class ImageController extends BaseController {
     getImage(response, tokenId);
   }
 
+  @GetMapping(value = "twitter/tile/get/{tokenId}", produces = MediaType.IMAGE_PNG_VALUE)
+  public void getTokenTwitterImage(HttpServletResponse response, @PathVariable Long tokenId)
+      throws ImageException, IOException {
+    getImage(response, tokenId, true);
+  }
+
   @GetMapping(value = "metadataSet/get/{tokenId}", produces = MediaType.IMAGE_PNG_VALUE)
   public void getMetadataSetImage(
       HttpServletResponse response,
@@ -67,6 +73,7 @@ public class ImageController extends BaseController {
     getImage(
         response,
         tokenId,
+        false,
         MetadataSetDTO.builder()
             .tile1Color(tile1Color)
             .tile2Color(tile2Color)
@@ -184,10 +191,19 @@ public class ImageController extends BaseController {
 
   private void getImage(HttpServletResponse response, Long tokenId)
       throws ImageException, IOException {
-    getImage(response, tokenId, null);
+    getImage(response, tokenId, false, null);
   }
 
-  private void getImage(HttpServletResponse response, Long tokenId, MetadataSetDTO metadataSetDTO)
+  private void getImage(HttpServletResponse response, Long tokenId, boolean shouldAddBackground)
+      throws ImageException, IOException {
+    getImage(response, tokenId, shouldAddBackground, null);
+  }
+
+  private void getImage(
+      HttpServletResponse response,
+      Long tokenId,
+      boolean shouldAddBackground,
+      MetadataSetDTO metadataSetDTO)
       throws ImageException, IOException {
     TokenFacadeDTO nft = tokenRetriever.get(tokenId);
     if (nft == null) {
@@ -213,7 +229,7 @@ public class ImageController extends BaseController {
             emojiResourceLoader.getResourcesByName(emojiFileNames),
             tileColors,
             getIsTokenBurnt(nft),
-            true);
+            shouldAddBackground);
     writeBufferedImageToOutput(byteArray, response);
     return;
   }
