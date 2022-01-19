@@ -47,6 +47,8 @@ const ViewPage = () => {
 
   const shouldRenderBlockExplorerLink = () => tokenData.blockExplorerUrl !== '' && !tokenData.isInvalidTokenNumber;
 
+  const getTwitterImageUrl = () => `${window.location.origin}/api/image/twitter/tile/get/${tokenData.tokenId}`
+
   return (
       <StyledPage>
         <Row>
@@ -76,13 +78,21 @@ const ViewPage = () => {
                 {shouldRenderBlockExplorerLink() &&
                   <li>
                     <StyledText>
-                      <StyledAnchor href={tokenData.blockExplorerUrl} >
-                        View Token
+                      <StyledAnchor href={tokenData.blockExplorerUrl} target="_blank" >
+                        View token
                       </StyledAnchor>
-                      &nbsp;On Block Explorer
+                      &nbsp;on block explorer.
                     </StyledText>
                   </li>
                 }
+                <li>
+                  <StyledText>
+                    <StyledAnchor href={getTwitterImageUrl()} target="_blank" >
+                      View Twitter
+                    </StyledAnchor>
+                    &nbsp;version of image.
+                  </StyledText>
+                </li>
               </StyledList>
             </Col>
             <Col xs={2} sm={2} md={2} lg={2} xl={2} />
