@@ -38,8 +38,6 @@ public class TokenLeaderboardDao {
       int startIndex) {
     GetLeaderEntriesDTO getLeaderEntriesDTO =
         GetLeaderEntriesDTO.builder().rankCount(0L).prevValue(null).build();
-    System.out.println(
-        "\n\nDEBUG: start getLeaderEntries: " + numberOfTokensToRetrieve + " " + startIndex);
     List<WeightlessTraitDTO> traitsList = new ArrayList<>();
     List<LeaderboardEntryDTO> leaderboardEntriesList = new ArrayList<>();
     int traitsListSize = 0, tokenIdsListSize = 0, prevTraitsListSize;
@@ -51,13 +49,6 @@ public class TokenLeaderboardDao {
         break;
       }
       traitsList.addAll(highestOverallRarityTraitsList);
-      System.out.println(
-          "DEBUG: highestOverallRarityTraitsList size: " + highestOverallRarityTraitsList.size());
-      System.out.println(
-          "DEBUG: highestOverallRarityTraitsList first: " + highestOverallRarityTraitsList.get(0));
-      System.out.println(
-          "DEBUG: highestOverallRarityTraitsList last: "
-              + highestOverallRarityTraitsList.get(highestOverallRarityTraitsList.size() - 1));
       leaderboardEntriesList.addAll(
           sortHighestOverallTraitAndGetTokenIds(
               highestOverallRarityTraitsList, isBurntTraitTypeId, getLeaderEntriesDTO));
@@ -70,10 +61,7 @@ public class TokenLeaderboardDao {
     if (traitsList.size() == 0) {
       return null;
     }
-    List<LeaderboardEntryDTO> result =
-        getLeaderTokenIdsSubList(leaderboardEntriesList, numberOfTokensToRetrieve);
-    System.out.println("DEBUG: end getLeaderEntries. Result: " + result);
-    return result;
+    return getLeaderTokenIdsSubList(leaderboardEntriesList, numberOfTokensToRetrieve);
   }
 
   public List<Long> getLeaderTokenIds(
