@@ -89,8 +89,8 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
   /**
    * We want to modify the available weighted trait type weights when for merging. All tile X
    * multiplier traits should resolve to 1. To accomplish this, remove all multiplier trait type
-   * weights besides the weights that correspond to a value of 1. for the value of 1 multiplier
-   * weights that remain, set to a likelihood of 100.
+   * weights besides the weights that correspond to a value of 1. For the value of 1 multiplier
+   * weight trait type that remains, set to a likelihood of 100.
    *
    * @param traitTypeWeightsList
    * @return

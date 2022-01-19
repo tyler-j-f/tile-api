@@ -79,7 +79,7 @@ public class OverallRarityCalculator {
           tile4Multiplier = getValueFromTraitWeightsList(traitTypeWeightId, traitTypeWeights);
           break;
         default:
-          // There will be weighted traits that are not one of the trait types that correspond to
+          // There may be traits that are not one of the trait types that correspond to
           // rarity values, break; when we get to one of these.
           break;
       }
@@ -99,7 +99,7 @@ public class OverallRarityCalculator {
           tile4Value = Long.valueOf(weightlessTrait.getValue());
           break;
         default:
-          // There will be weighted traits that are not one of the trait types that correspond to
+          // There may be traits that are not one of the trait types that correspond to
           // rarity values, break; when we get to one of these.
           break;
       }
