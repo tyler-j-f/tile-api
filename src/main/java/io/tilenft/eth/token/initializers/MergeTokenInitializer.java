@@ -83,6 +83,7 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
         .weightedTraitTypeWeights(weightedTraitTypeWeights)
         .burnedNft1(burnedNft1)
         .burnedNft2(burnedNft2)
+        .isDryRun(false)
         .build();
   }
 

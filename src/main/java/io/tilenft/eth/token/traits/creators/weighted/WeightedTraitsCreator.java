@@ -48,7 +48,10 @@ public class WeightedTraitsCreator implements TraitsCreatorInterface {
             .traitTypeId(traitTypeId)
             .traitTypeWeightId(traitTypeWeight.getTraitTypeWeightId())
             .build();
-    return weightedTraitRepository.create(weightedTraitDTO);
+    if (context.isDryRun()) {
+      weightedTraitDTO.setId(traitId);
+    }
+    return context.isDryRun() ? weightedTraitDTO : weightedTraitRepository.create(weightedTraitDTO);
   }
 
   protected List<WeightedTraitTypeWeightDTO> getTraitTypeWeightsForTraitTypeId(Long traitTypeId) {

@@ -20,4 +20,5 @@ public class TraitsCreatorContext {
   private List<WeightedTraitTypeWeightDTO> weightedTraitTypeWeights;
   private TokenFacadeDTO burnedNft1;
   private TokenFacadeDTO burnedNft2;
+  private boolean isDryRun = false;
 }

@@ -66,6 +66,7 @@ public class TokenInitializer extends AbstractTokenInitializer {
         .weightedTraits(weightedTraits)
         .weightedTraitTypes(weightedTraitTypes)
         .weightedTraitTypeWeights(weightedTraitTypeWeights)
+        .isDryRun(false)
         .build();
   }
 

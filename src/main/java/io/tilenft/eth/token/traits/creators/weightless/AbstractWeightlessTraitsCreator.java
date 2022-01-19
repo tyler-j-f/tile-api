@@ -58,7 +58,10 @@ public abstract class AbstractWeightlessTraitsCreator implements TraitsCreatorIn
             .value(traitValue)
             .displayTypeValue(getWeightlessTraitDisplayTypeValue())
             .build();
-    return weightlessTraitRepository.create(trait);
+    if (context.isDryRun()) {
+      trait.setId(weightTraitId);
+    }
+    return context.isDryRun() ? trait : weightlessTraitRepository.create(trait);
   }
 
   public List<WeightlessTraitTypeDTO> getWeightlessTraitTypes() {
