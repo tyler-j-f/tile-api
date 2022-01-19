@@ -17,6 +17,7 @@ public class ImageDrawer {
   @Autowired TilesDrawer tilesDrawer;
   @Autowired TitleDrawer titleDrawer;
   @Autowired SubTitleDrawer subTitleDrawer;
+  @Autowired BackgroundDrawer backgroundDrawer;
   @Autowired BurntTokenDrawer burntTokenDrawer;
 
   public byte[] drawImage(
@@ -25,6 +26,17 @@ public class ImageDrawer {
       Resource[] emojiResources,
       List<String> tileColors,
       boolean isBurntToken)
+      throws IOException, ImageException {
+    return drawImage(tokenId, rarityScore, emojiResources, tileColors, isBurntToken, false);
+  }
+
+  public byte[] drawImage(
+      Long tokenId,
+      Long rarityScore,
+      Resource[] emojiResources,
+      List<String> tileColors,
+      boolean isBurntToken,
+      boolean shouldDrawABackground)
       throws IOException, ImageException {
     Mat tiles = drawBaseTiles(tileColors);
     if (tiles == null) {
@@ -38,6 +50,10 @@ public class ImageDrawer {
     subTitleDrawer.drawSubTitle(tiles, rarityScore);
     if (isBurntToken) {
       burntTokenDrawer.drawBurntTokenText(tiles);
+    }
+    if (shouldDrawABackground) {
+      Mat background = backgroundDrawer.drawBackground();
+      tiles = backgroundDrawer.drawTileOnBackground(background, tiles);
     }
     return getBufferedImageFromMat(tiles);
   }
@@ -59,7 +75,7 @@ public class ImageDrawer {
 
   private byte[] getBufferedImageFromMat(Mat matrix, String filetype) {
     MatOfByte byteMat = new MatOfByte();
-    Imgcodecs.imencode(".png", matrix, byteMat);
+    Imgcodecs.imencode(filetype, matrix, byteMat);
     byte ba[] = byteMat.toArray();
     return ba;
   }

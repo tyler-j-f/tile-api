@@ -2,6 +2,7 @@ package io.tilenft.config.beans;
 
 import io.tilenft.image.EmojiLoader;
 import io.tilenft.image.ImageResourcesLoader;
+import io.tilenft.image.drawers.BackgroundDrawer;
 import io.tilenft.image.drawers.BurntTokenDrawer;
 import io.tilenft.image.drawers.EmojiDrawer;
 import io.tilenft.image.drawers.ImageDrawer;
@@ -60,6 +61,11 @@ public class ImageBeansConfig {
   @Bean
   public SubTitleDrawer subTitleDrawer() {
     return new SubTitleDrawer();
+  }
+
+  @Bean
+  public BackgroundDrawer backgroundDrawer() {
+    return new BackgroundDrawer();
   }
 
   @Bean

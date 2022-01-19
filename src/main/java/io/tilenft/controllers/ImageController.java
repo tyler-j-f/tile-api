@@ -212,7 +212,8 @@ public class ImageController extends BaseController {
             getOverallRarityScore(nft.getWeightlessTraits()),
             emojiResourceLoader.getResourcesByName(emojiFileNames),
             tileColors,
-            getIsTokenBurnt(nft));
+            getIsTokenBurnt(nft),
+            true);
     writeBufferedImageToOutput(byteArray, response);
     return;
   }
