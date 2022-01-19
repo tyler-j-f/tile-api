@@ -2,7 +2,11 @@ package io.tilenft.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.tilenft.eth.token.TokenFacadeDTO;
 import io.tilenft.eth.token.TokenLeaderboardRetriever;
+import io.tilenft.eth.token.TokenRetriever;
+import io.tilenft.eth.token.initializers.MergeTokenHandler;
+import io.tilenft.eth.token.initializers.TokenInitializeException;
 import io.tilenft.sql.dtos.GetOverallRankDTO;
 import io.tilenft.sql.dtos.LeaderboardEntryDTO;
 import io.tilenft.sql.dtos.TotalTokensDTO;
@@ -21,6 +25,8 @@ public class LeaderboardController extends BaseController {
 
   @Autowired private TokenLeaderboardRetriever tokenLeaderboardRetriever;
   @Autowired private TokenRepository tokenRepository;
+  @Autowired private TokenRetriever tokenRetriever;
+  @Autowired private MergeTokenHandler mergeTokenHandler;
 
   @GetMapping("getLeaders")
   public String getLeaders(
@@ -97,6 +103,25 @@ public class LeaderboardController extends BaseController {
     return new ObjectMapper()
         .writeValueAsString(
             String.valueOf(tokenLeaderboardRetriever.getSize(tokenRepository.getCount())));
+  }
+
+  @GetMapping("getMergeOverallRarity/{burnedToken1}/{burnedToken2}")
+  public String getMergeOverallRarity(
+      @PathVariable Long burnedToken1, @PathVariable Long burnedToken2)
+      throws JsonProcessingException, TokenInitializeException, ControllerException {
+    TokenFacadeDTO burnedNft1 = tokenRetriever.get(burnedToken1);
+    TokenFacadeDTO burnedNft2 = tokenRetriever.get(burnedToken2);
+    if (burnedNft1 == null || burnedNft2 == null) {
+      throw new ControllerException("burnedNft1 or burnedNft2 is null");
+    }
+    TokenFacadeDTO mergeTokenOutput =
+        mergeTokenHandler.mintNewTokenForMerge(
+            getNumberOfAllTokensLong() + 1,
+            burnedNft1,
+            burnedNft2,
+            System.currentTimeMillis(),
+            true);
+    return new ObjectMapper().writeValueAsString(mergeTokenOutput);
   }
 
   private int getEndIndex(List<LeaderboardEntryDTO> tokenIdList, int endIndex) {

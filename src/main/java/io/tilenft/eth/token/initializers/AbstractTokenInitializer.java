@@ -52,15 +52,25 @@ public abstract class AbstractTokenInitializer implements TokenInitializerInterf
   }
 
   public TokenDTO createToken(Long tokenId) {
-    return tokenRepository.create(
+    return createToken(tokenId, false);
+  }
+
+  public TokenDTO createToken(Long tokenId, boolean isDryRun) {
+    TokenDTO.TokenDTOBuilder tokenDTOBuilder =
         TokenDTO.builder()
             .tokenId(tokenId)
             .saleId(1L)
             .name(tokenConfig.getBase_name() + " " + tokenId.toString())
             .description(tokenConfig.getDescription())
             .externalUrl(tokenConfig.getBase_external_url() + tokenId)
-            .imageUrl(tokenConfig.getBase_image_url() + tokenId)
-            .build());
+            .imageUrl(tokenConfig.getBase_image_url() + tokenId);
+    TokenDTO tokenDTO;
+    if (isDryRun) {
+      tokenDTO = tokenDTOBuilder.id(tokenId).build();
+    } else {
+      tokenDTO = tokenDTOBuilder.build();
+    }
+    return isDryRun ? tokenDTO : tokenRepository.create(tokenDTO);
   }
 
   protected List<WeightedTraitTypeDTO> filterOutWeightedTraitTypesToIgnore(

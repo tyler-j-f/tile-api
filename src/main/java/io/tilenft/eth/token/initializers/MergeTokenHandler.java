@@ -17,9 +17,19 @@ public class MergeTokenHandler {
   @Autowired protected WeightlessTraitsListFinder weightlessTraitsListFinder;
   @Autowired protected HexValueToDecimal hexValueToDecimal;
 
-  public void mintNewTokenForMerge(
+  public TokenFacadeDTO mintNewTokenForMerge(
       Long newTokenId, TokenFacadeDTO burnedNft1, TokenFacadeDTO burnedNft2, Long seedForTraits)
       throws TokenInitializeException {
-    mergeTokenInitializer.initialize(newTokenId, burnedNft1, burnedNft2, seedForTraits);
+    return mintNewTokenForMerge(newTokenId, burnedNft1, burnedNft2, seedForTraits, false);
+  }
+
+  public TokenFacadeDTO mintNewTokenForMerge(
+      Long newTokenId,
+      TokenFacadeDTO burnedNft1,
+      TokenFacadeDTO burnedNft2,
+      Long seedForTraits,
+      boolean isDryRun)
+      throws TokenInitializeException {
+    return mergeTokenInitializer.initialize(newTokenId, burnedNft1, burnedNft2, seedForTraits);
   }
 }

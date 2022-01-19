@@ -63,7 +63,7 @@ public class MergeTokenInitializer extends AbstractTokenInitializer {
           "TokenInitializer failed to load burned token 2. burnedNft2: " + burnedNft2);
       return null;
     }
-    tokenDTO = createToken(tokenId);
+    tokenDTO = isDryRun ? createToken(tokenId, true) : createToken(tokenId);
     if (tokenDTO == null) {
       System.out.println(
           "TokenInitializer failed to initialize the token with tokenId: " + tokenId);
