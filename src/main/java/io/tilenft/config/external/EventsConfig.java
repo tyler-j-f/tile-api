@@ -15,4 +15,13 @@ public class EventsConfig {
   private String setMetadataHashSignature;
   private String schedulerFixedRateMs;
   private String schedulerNumberOfBlocksToLookBack;
+  private String baseOpenSeaUrl;
+
+  public String getOpenSeaTokenUrl(Long tokenId) {
+    return baseOpenSeaUrl + nftContractAddress + "/" + tokenId;
+  }
+
+  public String getOpenSeaSaleUrl() {
+    return baseOpenSeaUrl + nftFactoryContractAddress + "/0";
+  }
 }

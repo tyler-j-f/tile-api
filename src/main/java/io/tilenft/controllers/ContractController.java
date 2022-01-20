@@ -7,6 +7,7 @@ import io.tilenft.config.external.EventsConfig;
 import io.tilenft.eth.metadata.ContractMetadataDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,5 +35,15 @@ public class ContractController extends BaseController {
   @GetMapping("getAddress")
   public String getContractAddress() throws JsonProcessingException {
     return new ObjectMapper().writeValueAsString(eventsConfig.getNftContractAddress());
+  }
+
+  @GetMapping("getOpenSeaTokenUrl/{tokenId}")
+  public String getOpenSeaTokenUrl(@PathVariable Long tokenId) throws JsonProcessingException {
+    return new ObjectMapper().writeValueAsString(eventsConfig.getOpenSeaTokenUrl(tokenId));
+  }
+
+  @GetMapping("getOpenSeaSaleUrl")
+  public String getOpenSeaSaleUrl() throws JsonProcessingException {
+    return new ObjectMapper().writeValueAsString(eventsConfig.getOpenSeaSaleUrl());
   }
 }
