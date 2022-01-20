@@ -91,7 +91,7 @@ const MergeTxWrapper = ({
   }
 
   const getIsBothTokensTheSame = () => {
-    return !!tokenOwnerAddresses?.token1?.tokenId && !!tokenOwnerAddresses?.token2?.tokenId && tokenOwnerAddresses?.token1?.tokenId === tokenOwnerAddresses?.token2?.tokenId;
+    return !!tokenOwnerAddresses?.token1?.tokenId && !!tokenOwnerAddresses?.token2?.tokenId && tokenOwnerAddresses.token1.tokenId === tokenOwnerAddresses.token2.tokenId;
   }
 
   const getIsTokenOwner = (address) => {

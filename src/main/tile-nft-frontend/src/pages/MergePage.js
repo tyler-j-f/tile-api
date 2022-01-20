@@ -38,7 +38,7 @@ const MergePage = () => {
 
   useEffect(
       () => {
-        if (getIsToken1IdValidAndSelected() && getIsToken2IdValidAndSelected()) {
+        if (getIsToken1IdValidAndSelected() && getIsToken2IdValidAndSelected() && !getIsBothTokensTheSame()) {
           loadMergeTokensOutputtedToken({
             tokenId1: mergeData.token1.tokenId,
             tokenId2: mergeData.token2.tokenId
@@ -86,7 +86,6 @@ const MergePage = () => {
   }
 
   const handleSuccessfulTx = (txId) => {
-    console.log('debug handleSuccessfulTx', txId);
     setMergeData({
       ...mergeData,
       txStatus: {
@@ -105,7 +104,7 @@ const MergePage = () => {
   }
 
   const getShouldShowSendTransaction = () => {
-    return account && getIsToken1IdValidAndSelected() && getIsToken2IdValidAndSelected();
+    return account && getIsToken1IdValidAndSelected() && getIsToken2IdValidAndSelected() && !getIsBothTokensTheSame();
   }
 
   const handleSendAnotherTx = () => {
@@ -118,46 +117,74 @@ const MergePage = () => {
     })
   }
 
+  const getIsBothTokensTheSame = () => {
+    return !!mergeData?.token1?.tokenId && !!mergeData?.token2?.tokenId && mergeData.token1.tokenId === mergeData.token2.tokenId;
+  }
+
   const getBody = () => (
-    <>
-      <TokenMergeSelector
-          headerText={'Select first tile to merge.'}
-          tokenLoadedCallback={handleToken1Selected}
-      />
-      <TokenMergeSelector
-          headerText={'Select second tile to merge.'}
-          tokenLoadedCallback={handleToken2Selected}
-      />
-      <ConnectButton />
-      {getShouldShowSendTransaction() &&
-        <>
-          <MergeTxWrapper
-              tokenId1={mergeData.token1.tokenId}
-              tokenId2={mergeData.token2.tokenId}
-              contractAddress={mergeData.contractAddress}
-              account={account}
-              successCallback={handleSuccessfulTx}
-          />
-          {
-            !!mergeData?.tokenMergeResult?.attributes && Object.keys(mergeData.tokenMergeResult.attributes).length > 0 && (
-              <>
+      <>
+        <Row>
+          <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+          <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
+            <TokenMergeSelector
+                headerText={'Select first tile to merge.'}
+                tokenLoadedCallback={handleToken1Selected}
+            />
+          </Col>
+          <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+        </Row>
+        <Row>
+          <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+          <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
+            <TokenMergeSelector
+                headerText={'Select second tile to merge.'}
+                tokenLoadedCallback={handleToken2Selected}
+            />
+          </Col>
+          <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+        </Row>
+        <Row>
+          <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+          <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
+            <ConnectButton />
+            {getShouldShowSendTransaction() &&  (
+                <MergeTxWrapper
+                    tokenId1={mergeData.token1.tokenId}
+                    tokenId2={mergeData.token2.tokenId}
+                    contractAddress={mergeData.contractAddress}
+                    account={account}
+                    successCallback={handleSuccessfulTx}
+                />
+            )}
+          </Col>
+          <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+        </Row>
+        {!!mergeData?.tokenMergeResult?.attributes && Object.keys(mergeData.tokenMergeResult.attributes).length > 0 && (
+            <Row>
+              <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+              <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
                 <PageSubHeader>Merge Result, {mergeData.tokenMergeResult.name}</PageSubHeader>
                 <AttributesTable tokenAttributes={mergeData.tokenMergeResult.attributes}/>
-              </>
-            )
-          }
-        </>
-      }
+              </Col>
+              <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+            </Row>
+        )}
     </>
   );
 
   const getSuccessfulTx = () => {
     return (
-        <TransactionSuccess
-            handleSendAnotherTx={handleSendAnotherTx}
-            txId={mergeData.txStatus.txId}
-            subText={'Please wait a few minutes for the transaction to process and the new TileNFT to be sent to account: ' + account}
-        />
+        <Row>
+          <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+          <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
+            <TransactionSuccess
+                handleSendAnotherTx={handleSendAnotherTx}
+                txId={mergeData.txStatus.txId}
+                subText={'Please wait a few minutes for the transaction to process and the new TileNFT to be sent to account: ' + account}
+            />
+          </Col>
+          <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+        </Row>
     );
   };
 
@@ -168,11 +195,11 @@ const MergePage = () => {
           <Col xs={2} sm={2} md={2} lg={2} xl={2} />
           <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
             <PageHeader>Merge TileNFTs</PageHeader>
-            {mergeData?.txStatus?.isSuccess && getSuccessfulTx()}
-            {!mergeData?.txStatus?.isSuccess && getBody()}
           </Col>
           <Col xs={2} sm={2} md={2} lg={2} xl={2} />
         </Row>
+        {mergeData?.txStatus?.isSuccess && getSuccessfulTx()}
+        {!mergeData?.txStatus?.isSuccess && getBody()}
       </StyledPage>
   )
 }
