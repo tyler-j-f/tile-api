@@ -17,7 +17,8 @@ const ViewPage = () => {
     tokenId: '',
     tokenAttributes: {},
     isInvalidTokenNumber: false,
-    blockExplorerUrl: ''
+    blockExplorerUrl: '',
+    openSeaData: {}
   });
 
   useEffect(() => {
@@ -43,11 +44,15 @@ const ViewPage = () => {
   const shouldRenderAttributesTable = () => tokenData.tokenAttributes &&
       Object.keys(tokenData.tokenAttributes).length > 0 && !tokenData.isInvalidTokenNumber;
 
-  const shouldRenderOverallRank = () => tokenData.tokenId !== '' && !tokenData.isInvalidTokenNumber;
+  const isValidLockedInTokenId = () => tokenData.tokenId !== '' && !tokenData.isInvalidTokenNumber;
 
   const shouldRenderBlockExplorerLink = () => tokenData.blockExplorerUrl !== '' && !tokenData.isInvalidTokenNumber;
 
   const getTwitterImageUrl = () => `${window.location.origin}/api/image/twitter/tile/get/${tokenData.tokenId}`
+
+  const getOpenSeaTokenUrl = () => `${window.location.origin}/api/contract/getOpenSeaTokenUrl/${tokenData.tokenId}`
+
+  const getOpenSeaSaleUrl = () => `${window.location.origin}/api/contract/getOpenSeaSaleUrl`
 
   return (
       <StyledPage>
@@ -63,12 +68,12 @@ const ViewPage = () => {
           </Col>
           <Col xs={2} sm={2} md={2} lg={2} xl={2} />
         </Row>
-        {(shouldRenderOverallRank() || shouldRenderBlockExplorerLink()) &&
+        {(isValidLockedInTokenId() || shouldRenderBlockExplorerLink()) &&
           <Row>
             <Col xs={2} sm={2} md={2} lg={2} xl={2} />
             <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
               <StyledList>
-                {shouldRenderOverallRank() &&
+                {isValidLockedInTokenId() &&
                   <li>
                     <OverallRank
                         tokenId={tokenData.tokenId}
@@ -85,14 +90,36 @@ const ViewPage = () => {
                     </StyledText>
                   </li>
                 }
-                <li>
-                  <StyledText>
-                    <StyledAnchor href={getTwitterImageUrl()} target="_blank" >
-                      View Twitter
-                    </StyledAnchor>
-                    &nbsp;version of image.
-                  </StyledText>
-                </li>
+                {isValidLockedInTokenId() && (
+                    <>
+                      <li>
+                        <StyledText>
+                          <StyledAnchor href={getOpenSeaTokenUrl()} target="_blank" >
+                            View token
+                          </StyledAnchor>
+                          &nbsp;on OpenSea.
+                        </StyledText>
+                      </li>
+                      <li>
+                        <StyledText>
+                          <StyledAnchor href={getOpenSeaSaleUrl()} target="_blank" >
+                            View token sale
+                          </StyledAnchor>
+                          &nbsp;on OpenSea.
+                        </StyledText>
+                      </li>
+                    </>
+                )}
+                {isValidLockedInTokenId() && (
+                    <li>
+                      <StyledText>
+                        <StyledAnchor href={getTwitterImageUrl()} target="_blank" >
+                          View Twitter
+                        </StyledAnchor>
+                        &nbsp;version of image.
+                      </StyledText>
+                    </li>
+                )}
               </StyledList>
             </Col>
             <Col xs={2} sm={2} md={2} lg={2} xl={2} />
