@@ -7,6 +7,8 @@ import TransactionSuccess from "../etc/TransactionSuccess";
 import StyledPage from "../styledComponents/StyledPage";
 import PageHeader from "../styledComponents/PageHeader";
 import {Col, Row} from "react-bootstrap";
+import PageSubHeader from "../styledComponents/PageSubHeader";
+import AttributesTable from "../view/AttributesTable";
 
 const MergePage = () => {
 
@@ -20,6 +22,9 @@ const MergePage = () => {
     token2: {
       tokenId: '',
       isInvalidTokenNumber: false
+    },
+    tokenMergeResult: {
+      tokenAttributes: {}
     },
     contractAddress: '',
     txStatus: {
@@ -105,13 +110,23 @@ const MergePage = () => {
       />
       <ConnectButton />
       {getShouldShowSendTransaction() &&
-        <MergeTxWrapper
-            tokenId1={mergeData.token1.tokenId}
-            tokenId2={mergeData.token2.tokenId}
-            contractAddress={mergeData.contractAddress}
-            account={account}
-            successCallback={handleSuccessfulTx}
-        />
+        <>
+          <MergeTxWrapper
+              tokenId1={mergeData.token1.tokenId}
+              tokenId2={mergeData.token2.tokenId}
+              contractAddress={mergeData.contractAddress}
+              account={account}
+              successCallback={handleSuccessfulTx}
+          />
+          {
+            mergeData.tokenMergeResult !== null && (
+              <>
+                <PageSubHeader>Token Attributes</PageSubHeader>
+                <AttributesTable tokenAttributes={mergeData.tokenMergeResult?.tokenAttributes}/>
+              </>
+            )
+          }
+        </>
       }
     </>
   );

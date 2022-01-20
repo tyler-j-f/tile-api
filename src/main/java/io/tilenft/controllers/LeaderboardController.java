@@ -2,6 +2,7 @@ package io.tilenft.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.tilenft.eth.token.TokenFacade;
 import io.tilenft.eth.token.TokenFacadeDTO;
 import io.tilenft.eth.token.TokenLeaderboardRetriever;
 import io.tilenft.eth.token.TokenRetriever;
@@ -27,6 +28,7 @@ public class LeaderboardController extends BaseController {
   @Autowired private TokenRepository tokenRepository;
   @Autowired private TokenRetriever tokenRetriever;
   @Autowired private MergeTokenHandler mergeTokenHandler;
+  @Autowired private TokenFacade tokenFacade;
 
   @GetMapping("getLeaders")
   public String getLeaders(
@@ -114,14 +116,15 @@ public class LeaderboardController extends BaseController {
     if (burnedNft1 == null || burnedNft2 == null) {
       throw new ControllerException("burnedNft1 or burnedNft2 is null");
     }
-    TokenFacadeDTO mergeTokenOutput =
+    TokenFacadeDTO mergeTokenWouldBeResult =
         mergeTokenHandler.mintNewTokenForMerge(
             getNumberOfAllTokensLong() + 1,
             burnedNft1,
             burnedNft2,
             System.currentTimeMillis(),
             true);
-    return new ObjectMapper().writeValueAsString(mergeTokenOutput);
+    return new ObjectMapper()
+        .writeValueAsString(tokenFacade.loadToken(mergeTokenWouldBeResult).buildTokenMetadataDTO());
   }
 
   private int getEndIndex(List<LeaderboardEntryDTO> tokenIdList, int endIndex) {

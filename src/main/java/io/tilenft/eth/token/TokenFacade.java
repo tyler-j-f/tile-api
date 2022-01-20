@@ -50,9 +50,13 @@ public class TokenFacade implements TokenFacadeInterface {
   }
 
   public TokenFacade loadToken(Long tokenId) throws TokenInitializeException {
-    TokenFacadeDTO token = tokenRetriever.get(tokenId);
+    return loadToken(tokenRetriever.get(tokenId));
+  }
+
+  public TokenFacade loadToken(TokenFacadeDTO token) throws TokenInitializeException {
     if (token == null) {
-      String out = "tokenRetriever failed to retrieve token. tokenId: " + tokenId;
+      String out =
+          "tokenRetriever failed to retrieve token. tokenId: " + token.getTokenDTO().getTokenId();
       System.out.println(out);
       throw new TokenInitializeException(out);
     }
