@@ -30,6 +30,7 @@ public class MergeTokenHandler {
       Long seedForTraits,
       boolean isDryRun)
       throws TokenInitializeException {
-    return mergeTokenInitializer.initialize(newTokenId, burnedNft1, burnedNft2, seedForTraits);
+    return mergeTokenInitializer.initialize(
+        newTokenId, burnedNft1, burnedNft2, seedForTraits, isDryRun);
   }
 }

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import TokenMergeSelector from "../merge/TokenMergeSelector";
 import {useEthers} from "@usedapp/core";
 import ConnectButton from "../updateTileNft/ConnectButton";
@@ -9,6 +9,8 @@ import PageHeader from "../styledComponents/PageHeader";
 import {Col, Row} from "react-bootstrap";
 import PageSubHeader from "../styledComponents/PageSubHeader";
 import AttributesTable from "../view/AttributesTable";
+import loadMergeTokensOutputtedToken
+  from "../merge/loadMergeTokensOutputtedToken";
 
 const MergePage = () => {
 
@@ -24,7 +26,8 @@ const MergePage = () => {
       isInvalidTokenNumber: false
     },
     tokenMergeResult: {
-      tokenAttributes: {}
+      attributes: {},
+      name: ''
     },
     contractAddress: '',
     txStatus: {
@@ -32,6 +35,23 @@ const MergePage = () => {
       txId: ''
     }
   });
+
+  useEffect(
+      () => {
+        if (getIsToken1IdValidAndSelected() && getIsToken2IdValidAndSelected()) {
+          loadMergeTokensOutputtedToken({
+            tokenId1: mergeData.token1.tokenId,
+            tokenId2: mergeData.token2.tokenId
+          }).then(result => {
+            setMergeData({
+              ...mergeData,
+              tokenMergeResult: result
+            });
+          })
+        }
+      },
+      [mergeData?.token1, mergeData?.token2]
+  );
 
   const handleToken1Selected = ({
     tokenId: token1IdToSet,
@@ -119,10 +139,10 @@ const MergePage = () => {
               successCallback={handleSuccessfulTx}
           />
           {
-            !!mergeData?.tokenMergeResult && mergeData.tokenMergeResult?.tokenAttributes !== {} && (
+            !!mergeData?.tokenMergeResult?.attributes && Object.keys(mergeData.tokenMergeResult.attributes).length > 0 && (
               <>
-                <PageSubHeader>Merge Outcome, Token Attributes</PageSubHeader>
-                <AttributesTable tokenAttributes={mergeData.tokenMergeResult?.tokenAttributes}/>
+                <PageSubHeader>Merge Result, {mergeData.tokenMergeResult.name}</PageSubHeader>
+                <AttributesTable tokenAttributes={mergeData.tokenMergeResult.attributes}/>
               </>
             )
           }
