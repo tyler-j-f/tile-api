@@ -104,14 +104,6 @@ const ViewPage = () => {
                           &nbsp;on OpenSea.
                         </StyledText>
                       </li>
-                      <li>
-                        <StyledText>
-                          <StyledAnchor href={tokenData.openSeaData.saleUrl} target="_blank" >
-                            View token sale
-                          </StyledAnchor>
-                          &nbsp;on OpenSea.
-                        </StyledText>
-                      </li>
                     </>
                 )}
                 {isValidLockedInTokenId() && (
