@@ -10,6 +10,8 @@ import {Col, Row} from "react-bootstrap";
 import StyledText from "../styledComponents/StyledText";
 import styled from "styled-components";
 import PageSubHeader from "../styledComponents/PageSubHeader";
+import loadOpenSeaData
+  from "../updateTileNft/tokenDataLoaders/loadOpenSeaData";
 
 const ViewPage = () => {
 
@@ -23,12 +25,15 @@ const ViewPage = () => {
 
   useEffect(() => {
     if (tokenData?.tokenId !== '') {
-      loadTokenAttributes({tokenId: tokenData.tokenId}).then(result => {
-        setTokenData({
-          ...tokenData,
-          tokenAttributes: result
+      loadTokenAttributes({tokenId: tokenData.tokenId}).then(loadTokenAttributesResult => {
+        loadOpenSeaData({tokenId: tokenData.tokenId}).then(loadOpenSeaDataResult => {
+          setTokenData({
+            ...tokenData,
+            tokenAttributes: loadTokenAttributesResult,
+            openSeaData: loadOpenSeaDataResult
+          })
         })
-      })
+      });
     }
   }, [tokenData.tokenId]);
 
@@ -44,15 +49,14 @@ const ViewPage = () => {
   const shouldRenderAttributesTable = () => tokenData.tokenAttributes &&
       Object.keys(tokenData.tokenAttributes).length > 0 && !tokenData.isInvalidTokenNumber;
 
+  const shouldRenderOpenSeaLinks = () => tokenData.openSeaData &&
+      Object.keys(tokenData.openSeaData).length > 0 && !tokenData.isInvalidTokenNumber;
+
   const isValidLockedInTokenId = () => tokenData.tokenId !== '' && !tokenData.isInvalidTokenNumber;
 
   const shouldRenderBlockExplorerLink = () => tokenData.blockExplorerUrl !== '' && !tokenData.isInvalidTokenNumber;
 
   const getTwitterImageUrl = () => `${window.location.origin}/api/image/twitter/tile/get/${tokenData.tokenId}`
-
-  const getOpenSeaTokenUrl = () => `${window.location.origin}/api/contract/getOpenSeaTokenUrl/${tokenData.tokenId}`
-
-  const getOpenSeaSaleUrl = () => `${window.location.origin}/api/contract/getOpenSeaSaleUrl`
 
   return (
       <StyledPage>
@@ -90,11 +94,11 @@ const ViewPage = () => {
                     </StyledText>
                   </li>
                 }
-                {isValidLockedInTokenId() && (
+                {shouldRenderOpenSeaLinks() && (
                     <>
                       <li>
                         <StyledText>
-                          <StyledAnchor href={getOpenSeaTokenUrl()} target="_blank" >
+                          <StyledAnchor href={tokenData.openSeaData.tokenUrl} target="_blank" >
                             View token
                           </StyledAnchor>
                           &nbsp;on OpenSea.
@@ -102,7 +106,7 @@ const ViewPage = () => {
                       </li>
                       <li>
                         <StyledText>
-                          <StyledAnchor href={getOpenSeaSaleUrl()} target="_blank" >
+                          <StyledAnchor href={tokenData.openSeaData.saleUrl} target="_blank" >
                             View token sale
                           </StyledAnchor>
                           &nbsp;on OpenSea.
