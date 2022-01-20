@@ -119,9 +119,9 @@ const MergePage = () => {
               successCallback={handleSuccessfulTx}
           />
           {
-            mergeData.tokenMergeResult !== null && (
+            !!mergeData?.tokenMergeResult && mergeData.tokenMergeResult?.tokenAttributes !== {} && (
               <>
-                <PageSubHeader>Token Attributes</PageSubHeader>
+                <PageSubHeader>Merge Outcome, Token Attributes</PageSubHeader>
                 <AttributesTable tokenAttributes={mergeData.tokenMergeResult?.tokenAttributes}/>
               </>
             )
