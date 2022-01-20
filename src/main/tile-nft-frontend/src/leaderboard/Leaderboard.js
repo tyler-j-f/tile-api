@@ -45,7 +45,7 @@ const Leaderboard = () => {
       ...leaderboardData,
       isLoading: true
     });
-    return loadNumberOfTokens().then(() => loadLeaders(pageNumber))
+    return loadNumberOfTokens().then((loadNumberOfTokensResult) => loadLeaders(pageNumber, loadNumberOfTokensResult))
   }
 
   const loadNumberOfTokens = () => {
@@ -59,25 +59,24 @@ const Leaderboard = () => {
     })
     .then(numberOfTokens => {
       let maxPaginationPage = Math.ceil(numberOfTokens/leaderboardData.itemsPerPage);
-      setLeaderboardData({
+      return {
         ...leaderboardData,
         maxPaginationPage: maxPaginationPage,
         isLoading: false,
         isGeneralError: false
-      });
+      };
     })
     .catch(err => {
-      setLeaderboardData({
-        ...leaderboardData,
-        isLoading: false,
-        isGeneralError: true
-      });
-      console.log("Error caught!!!");
-      console.log(err)
+      console.log("Error caught!!!", err);
+      return {
+      ...leaderboardData,
+          isLoading: false,
+          isGeneralError: true
+      };
     });
   }
 
-  const loadLeaders = (pageNumber) => {
+  const loadLeaders = (pageNumber, loadNumberOfTokensResult) => {
     return fetch(getLeaderboardUrl(pageNumber), {method: 'get'})
     .then(response => {
       console.log(response);
@@ -86,7 +85,9 @@ const Leaderboard = () => {
     .then(leaders => {
       setLeaderboardData({
         ...leaderboardData,
+        ...loadNumberOfTokensResult,
         leaders,
+        paginationPage: pageNumber,
         isLoading: false,
         isGeneralError: false
       });
@@ -94,6 +95,7 @@ const Leaderboard = () => {
     .catch(err => {
       setLeaderboardData({
         ...leaderboardData,
+        ...loadNumberOfTokensResult,
         isLoading: false,
         isGeneralError: true
       });
