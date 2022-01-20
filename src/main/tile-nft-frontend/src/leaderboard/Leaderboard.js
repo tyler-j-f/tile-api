@@ -1,61 +1,54 @@
-import React, {Component} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import Spinner from 'react-bootstrap/Spinner';
-import {forEach} from "react-bootstrap/ElementChildren";
 import StyledLabel from "../styledComponents/StyledLabel";
 import TotalTokens from "../view/TotalTokens";
 
-class Leaderboard extends Component {
+const Leaderboard = () => {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isGeneralError: false,
-      isLoading: false,
-      leaders: [],
-      itemsPerPage: 10,
-      paginationPage: 1,
-      maxPaginationPage: 10,
-      totalUnburntTokens: null,
-      totalTokens: null
-    };
-  }
+  const [leaderboardData, setLeaderboardData] = useState({
+    isGeneralError: false,
+    isLoading: false,
+    leaders: [],
+    itemsPerPage: 10,
+    paginationPage: 1,
+    maxPaginationPage: 10,
+    totalUnburntTokens: null,
+    totalTokens: null
+  });
 
-  componentDidMount() {
-    this.loadLeaderboardData(1);
-  }
+  useEffect(
+      () => {
+        loadLeaderboardData(1);
+      },
+      []
+  );
 
-  render() {
-    let isLoading = this.state.isLoading && this.state.leaders !== [];
-    let loadingSymbol = isLoading ? this.getSpinner() : null;
-    let leaderboard = isLoading ? null : this.getLeaderboard();
-    return isLoading ? loadingSymbol : leaderboard;
-  }
-
-  getTotalTokens() {
+  const getTotalTokens = () => {
     return (
         <TotalTokens
-            totalUnburntTokens={this.state.totalUnburntTokens}
-            totalTokens={this.state.totalTokens}
+            totalUnburntTokens={leaderboardData.totalUnburntTokens}
+            totalTokens={leaderboardData.totalTokens}
             useLoadData
         />
     )
   }
 
-  getLeaderboardUrl(pageNumber) {
-    let startIndex = (pageNumber - 1) * this.state.itemsPerPage;
-    let endIndex = startIndex + this.state.itemsPerPage;
+  const getLeaderboardUrl = (pageNumber) => {
+    let startIndex = (pageNumber - 1) * leaderboardData.itemsPerPage;
+    let endIndex = startIndex + leaderboardData.itemsPerPage;
     return `${window.location.origin}/api/leaderboard/getLeaders?startIndex=${startIndex}&endIndex=${endIndex}`;
   }
 
-  loadLeaderboardData(pageNumber) {
-    this.setState({
+  const loadLeaderboardData = (pageNumber) => {
+    setLeaderboardData({
+      ...leaderboardData,
       isLoading: true
     });
-    return this.loadNumberOfTokens().then(() => this.loadLeaders(pageNumber))
+    return loadNumberOfTokens().then(() => loadLeaders(pageNumber))
   }
 
-  loadNumberOfTokens() {
+  const loadNumberOfTokens = () => {
     return fetch(
         `${window.location.origin}/api/leaderboard/getNumberOfUnburntTokens`,
         {method: 'get'}
@@ -65,15 +58,17 @@ class Leaderboard extends Component {
       return response.json();
     })
     .then(numberOfTokens => {
-      let maxPaginationPage = Math.ceil(numberOfTokens/this.state.itemsPerPage);
-      this.setState({
+      let maxPaginationPage = Math.ceil(numberOfTokens/leaderboardData.itemsPerPage);
+      setLeaderboardData({
+        ...leaderboardData,
         maxPaginationPage: maxPaginationPage,
         isLoading: false,
         isGeneralError: false
       });
     })
     .catch(err => {
-      this.setState({
+      setLeaderboardData({
+        ...leaderboardData,
         isLoading: false,
         isGeneralError: true
       });
@@ -82,21 +77,23 @@ class Leaderboard extends Component {
     });
   }
 
-  loadLeaders(pageNumber) {
-    return fetch(this.getLeaderboardUrl(pageNumber), {method: 'get'})
+  const loadLeaders = (pageNumber) => {
+    return fetch(getLeaderboardUrl(pageNumber), {method: 'get'})
     .then(response => {
       console.log(response);
       return response.json();
     })
     .then(leaders => {
-      this.setState({
+      setLeaderboardData({
+        ...leaderboardData,
         leaders,
         isLoading: false,
         isGeneralError: false
       });
     })
     .catch(err => {
-      this.setState({
+      setLeaderboardData({
+        ...leaderboardData,
         isLoading: false,
         isGeneralError: true
       });
@@ -105,17 +102,17 @@ class Leaderboard extends Component {
     });
   }
 
-  getLeaderboard() {
-    if (this.state.isGeneralError) {
-      return this.getGeneralErrorText();
+  const getLeaderboard = () => {
+    if (leaderboardData.isGeneralError) {
+      return getGeneralErrorText();
     }
-    let leaderboard =  this.state.leaders.map(
+    let leaderboard =  leaderboardData.leaders.map(
         (
             {tokenId, rankCount}
-        ) => this.getTokenImage(tokenId, rankCount)
+        ) => getTokenImage(tokenId, rankCount)
     );
-    let pagination = this.getPagination();
-    let totalTokens = this.getTotalTokens();
+    let pagination = getPagination();
+    let totalTokens = getTotalTokens();
     return (
         <>
           {totalTokens}
@@ -125,13 +122,13 @@ class Leaderboard extends Component {
     );
   }
 
-  getGeneralErrorText() {
+  const getGeneralErrorText = () => {
     return (
         <StyledErrorText>Error! Please try again later.</StyledErrorText>
     )
   }
 
-  getTokenImage(tokenId, rank) {
+  const getTokenImage = (tokenId, rank) => {
     return (
         <div>
           <StyledLabel># {rank}</StyledLabel>
@@ -140,62 +137,66 @@ class Leaderboard extends Component {
     );
   }
 
-  getSpinner() {
+  const getSpinner = () => {
     return (
         <Spinner animation="border" variant="primary" />
     );
   }
 
-  setPageAndLoad(pageNumber) {
-    this.setState({
+  const setPageAndLoad = (pageNumber) => {
+    setLeaderboardData({
+      ...leaderboardData,
       paginationPage: pageNumber
     });
-    this.loadLeaderboardData(pageNumber);
+    loadLeaderboardData(pageNumber);
   }
 
-  decrementPageAndLoad() {
-    let pageNumber = this.state.paginationPage;
-    this.decrementPage();
-    this.loadLeaderboardData(pageNumber - 1);
+  const decrementPageAndLoad = () => {
+    let pageNumber = leaderboardData.paginationPage;
+    decrementPage();
+    loadLeaderboardData(pageNumber - 1);
   }
 
-  incrementPageAndLoad() {
-    let pageNumber = this.state.paginationPage;
-    this.incrementPage();
-    this.loadLeaderboardData(pageNumber + 1);
+  const incrementPageAndLoad = () => {
+    let pageNumber = leaderboardData.paginationPage;
+    incrementPage();
+    loadLeaderboardData(pageNumber + 1);
   }
 
-  incrementPageTwiceAndLoad() {
-    let pageNumber = this.state.paginationPage;
-    this.incrementPageTwice();
-    this.loadLeaderboardData(pageNumber + 2);
+  const incrementPageTwiceAndLoad = () => {
+    let pageNumber = leaderboardData.paginationPage;
+    incrementPageTwice();
+    loadLeaderboardData(pageNumber + 2);
   }
 
-  incrementPage() {
-    let currentPage = this.state.paginationPage;
-    if (currentPage < this.state.maxPaginationPage) {
-      this.setState({
+  const incrementPage = () => {
+    let currentPage = leaderboardData.paginationPage;
+    if (currentPage < leaderboardData.maxPaginationPage) {
+      setLeaderboardData({
+        ...leaderboardData,
         paginationPage: currentPage + 1
       });
     }
   }
 
-  incrementPageTwice() {
-    let currentPage = this.state.paginationPage;
-    if (currentPage < this.state.maxPaginationPage - 1) {
-      this.setState({
+  const incrementPageTwice = () => {
+    let currentPage = leaderboardData.paginationPage;
+    if (currentPage < leaderboardData.maxPaginationPage - 1) {
+      setLeaderboardData({
+        ...leaderboardData,
         paginationPage: currentPage + 2
       });
     }
   }
 
-  decrementPage() {
-    let currentPage = this.state.paginationPage;
+  const decrementPage = () => {
+    let currentPage = leaderboardData.paginationPage;
     console.log(
         "Should be decrementing page num: " + currentPage
     )
     if (currentPage > 1) {
-      this.setState({
+      setLeaderboardData({
+        ...leaderboardData,
         paginationPage: currentPage - 1
       });
     }
@@ -204,24 +205,24 @@ class Leaderboard extends Component {
     )
   }
 
-  getPagination() {
-    let currentPage = this.state.paginationPage;
+  const getPagination = () => {
+    let currentPage = leaderboardData.paginationPage;
     let shouldShowPreviousPageButton = currentPage > 1;
     let shouldShowPageOneButton = currentPage > 2;
-    let previousPageButton = shouldShowPreviousPageButton ? this.getPreviousPageButton() : null;
-    let pageOneButton = shouldShowPageOneButton ? this.getPageOneButton() : null;
-    let pageMinusOneButton = shouldShowPreviousPageButton ? this.getPageMinusOneButton() : null;
-    let shouldShowNextPageButton = currentPage < this.state.maxPaginationPage;
-    let nextPageButton = shouldShowNextPageButton ? this.getNextPageButton() : null;
+    let previousPageButton = shouldShowPreviousPageButton ? getPreviousPageButton() : null;
+    let pageOneButton = shouldShowPageOneButton ? getPageOneButton() : null;
+    let pageMinusOneButton = shouldShowPreviousPageButton ? getPageMinusOneButton() : null;
+    let shouldShowNextPageButton = currentPage < leaderboardData.maxPaginationPage;
+    let nextPageButton = shouldShowNextPageButton ? getNextPageButton() : null;
     if (previousPageButton == null && nextPageButton == null) {
       return null;
     }
-    let pagePlusOneButton = shouldShowNextPageButton ? this.getPagePlusOneButton() : null;
-    let shouldShowPagePlusTwoButton = currentPage + 1 < this.state.maxPaginationPage;
-    let pagePlusTwoButton = shouldShowPagePlusTwoButton ? this.getPagePlusTwoButton() : null;
-    let shouldShowLastPageButton = currentPage + 2 < this.state.maxPaginationPage;
-    let lastPageButton = shouldShowLastPageButton ? this.getLastPageButton() : null;
-    let currentPageButton = this.getCurrentPageButton()
+    let pagePlusOneButton = shouldShowNextPageButton ? getPagePlusOneButton() : null;
+    let shouldShowPagePlusTwoButton = currentPage + 1 < leaderboardData.maxPaginationPage;
+    let pagePlusTwoButton = shouldShowPagePlusTwoButton ? getPagePlusTwoButton() : null;
+    let shouldShowLastPageButton = currentPage + 2 < leaderboardData.maxPaginationPage;
+    let lastPageButton = shouldShowLastPageButton ? getLastPageButton() : null;
+    let currentPageButton = getCurrentPageButton()
     return (
         <nav aria-label="Page navigation example">
           <ul className="pagination">
@@ -238,59 +239,62 @@ class Leaderboard extends Component {
     );
   }
 
-  getCurrentPageButton() {
+  const getCurrentPageButton = () => {
     return (
-        <li className="page-item"><StyledCurrentPageAnchor className="page-link" >{this.state.paginationPage}</StyledCurrentPageAnchor>
+        <li className="page-item"><StyledCurrentPageAnchor className="page-link" >{leaderboardData.paginationPage}</StyledCurrentPageAnchor>
         </li>
     );
   }
 
-  getPreviousPageButton() {
+  const getPreviousPageButton = () => {
     return (
-        <li className="page-item"><a className="page-link" onClick={this.decrementPageAndLoad.bind(this)}>Previous</a></li>
+        <li className="page-item"><a className="page-link" onClick={decrementPageAndLoad.bind(this)}>Previous</a></li>
     );
   }
 
-
-  getPageOneButton() {
+  const getPageOneButton = () => {
     return (
-        <li className="page-item"><a className="page-link" onClick={() => this.setPageAndLoad.bind(this)(1)}>1</a></li>
+        <li className="page-item"><a className="page-link" onClick={() => setPageAndLoad.bind(this)(1)}>1</a></li>
     );
   }
 
-  getPageMinusOneButton() {
+  const getPageMinusOneButton = () => {
     return (
-        <li className="page-item"><a className="page-link" onClick={this.decrementPageAndLoad.bind(this)}>{this.state.paginationPage - 1}</a></li>
+        <li className="page-item"><a className="page-link" onClick={decrementPageAndLoad.bind(this)}>{leaderboardData.paginationPage - 1}</a></li>
     );
   }
 
-  getNextPageButton() {
+  const getNextPageButton = () => {
     return (
-        <li className="page-item"><a className="page-link" onClick={this.incrementPageAndLoad.bind(this)}>Next</a>
+        <li className="page-item"><a className="page-link" onClick={incrementPageAndLoad.bind(this)}>Next</a>
         </li>
     );
   }
 
-  getPagePlusOneButton() {
+  const getPagePlusOneButton = () => {
     return (
-        <li className="page-item"><a className="page-link" onClick={this.incrementPageAndLoad.bind(this)}>{this.state.paginationPage + 1}</a>
+        <li className="page-item"><a className="page-link" onClick={incrementPageAndLoad.bind(this)}>{leaderboardData.paginationPage + 1}</a>
         </li>
     );
   }
 
-  getPagePlusTwoButton() {
+  const getPagePlusTwoButton = () => {
     return (
-        <li className="page-item"><a className="page-link" onClick={this.incrementPageTwiceAndLoad.bind(this)}>{this.state.paginationPage + 2}</a>
+        <li className="page-item"><a className="page-link" onClick={incrementPageTwiceAndLoad.bind(this)}>{leaderboardData.paginationPage + 2}</a>
         </li>
     );
   }
 
-  getLastPageButton() {
+  const getLastPageButton = () => {
     return (
-        <li className="page-item"><a className="page-link" onClick={() => this.setPageAndLoad.bind(this)(this.state.maxPaginationPage)}>{this.state.maxPaginationPage}</a></li>
+        <li className="page-item"><a className="page-link" onClick={() => setPageAndLoad.bind(this)(leaderboardData.maxPaginationPage)}>{leaderboardData.maxPaginationPage}</a></li>
     );
   }
 
+  let isLoading = leaderboardData.isLoading && leaderboardData.leaders !== [];
+  let loadingSymbol = isLoading ? getSpinner() : null;
+  let leaderboard = isLoading ? null : getLeaderboard();
+  return isLoading ? loadingSymbol : leaderboard;
 }
 
 const StyledImg =
