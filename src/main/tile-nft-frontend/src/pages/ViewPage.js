@@ -58,6 +58,11 @@ const ViewPage = () => {
 
   const getTwitterImageUrl = () => `${window.location.origin}/api/image/twitter/tile/get/${tokenData.tokenId}`
 
+  const getInitialTokenId = () => {
+   let url = new URL(window.location.href).searchParams.get('tokenId');
+   return !!url ? url : '';
+  };
+
   return (
       <StyledPage>
         <Row>
@@ -68,6 +73,7 @@ const ViewPage = () => {
                 tokenLoadedCallback={handleTokenLoadedCallback}
                 enableUrlSearch={true}
                 enableBlockExplorerLink={true}
+                initialTokenId={getInitialTokenId()}
             />
           </Col>
           <Col xs={2} sm={2} md={2} lg={2} xl={2} />

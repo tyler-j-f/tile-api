@@ -214,7 +214,6 @@ public class ImageController extends BaseController {
     response.setContentType(MediaType.IMAGE_PNG_VALUE);
     List<String> tileColors = getTileColors(nft);
     if (wasTileColorChangeRequested(metadataSetDTO)) {
-      System.out.println("debug wasTileColorChangeRequested true");
       updateTileColors(tileColors, metadataSetDTO);
     }
     String[] emojiFileNames = getEmojiFileNames(nft);

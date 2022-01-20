@@ -8,10 +8,10 @@ import {Button} from "react-bootstrap";
 
 const noop = () => {};
 
-const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetadataToUpdateTokenUrl = noop, enableUrlSearch = false, enableBlockExplorerLink = false}) => {
+const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetadataToUpdateTokenUrl = noop, enableUrlSearch = false, enableBlockExplorerLink = false, initialTokenId  = ''}) => {
 
   const [viewTokenData, setViewTokenData] = useState({
-    tokenId: '',
+    tokenId: initialTokenId,
     isLoading: false,
     isInvalidTokenNumber: false,
     isGeneralError: false,
@@ -20,18 +20,10 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
   });
 
   useEffect(() => {
-    if (enableUrlSearch) {
-      let tokenId = new URL(window.location.href).searchParams.get('tokenId');
-      if (tokenId) {
-        setViewTokenData({
-          ...viewTokenData,
-          tokenId,
-          isLoading: true
-        })
-        loadViewTokenData({
-          tokenId, viewTokenData, setViewTokenData, tokenLoadedCallback, metadataToUpdate, getMetadataToUpdateTokenUrl, enableBlockExplorerLink
-        });
-      }
+    if (enableUrlSearch && initialTokenId !== '') {
+      loadViewTokenData({
+        tokenId: initialTokenId, viewTokenData, setViewTokenData, tokenLoadedCallback, metadataToUpdate, getMetadataToUpdateTokenUrl, enableBlockExplorerLink
+      });
     }
   }, []);
 
