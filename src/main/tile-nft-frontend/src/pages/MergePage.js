@@ -11,6 +11,7 @@ import PageSubHeader from "../styledComponents/PageSubHeader";
 import AttributesTable from "../view/AttributesTable";
 import loadMergeTokensOutputtedToken
   from "../merge/loadMergeTokensOutputtedToken";
+import MergeResultDetails from "../merge/MergeResultDetails";
 
 const MergePage = () => {
 
@@ -160,14 +161,23 @@ const MergePage = () => {
           <Col xs={2} sm={2} md={2} lg={2} xl={2} />
         </Row>
         {!!mergeData?.tokenMergeResult?.attributes && Object.keys(mergeData.tokenMergeResult.attributes).length > 0 && (
-            <Row>
-              <Col xs={2} sm={2} md={2} lg={2} xl={2} />
-              <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
-                <PageSubHeader>Merge Result, {mergeData.tokenMergeResult.name}</PageSubHeader>
-                <AttributesTable tokenAttributes={mergeData.tokenMergeResult.attributes}/>
-              </Col>
-              <Col xs={2} sm={2} md={2} lg={2} xl={2} />
-            </Row>
+            <>
+              <Row>
+                <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+                <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
+                  <PageSubHeader>Merge Result, {mergeData.tokenMergeResult.name}</PageSubHeader>
+                  <AttributesTable tokenAttributes={mergeData.tokenMergeResult.attributes}/>
+                </Col>
+                <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+              </Row>
+              <Row>
+                <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+                <Col xs={8} sm={8} md={8} lg={8} xl={8} >
+                  <MergeResultDetails />
+                </Col>
+                <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+              </Row>
+            </>
         )}
     </>
   );
