@@ -12,6 +12,7 @@ import io.tilenft.sql.dtos.GetOverallRankDTO;
 import io.tilenft.sql.dtos.LeaderboardEntryDTO;
 import io.tilenft.sql.dtos.TotalTokensDTO;
 import io.tilenft.sql.repositories.TokenRepository;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +36,9 @@ public class LeaderboardController extends BaseController {
       @RequestParam(required = false, defaultValue = "0") int startIndex,
       @RequestParam(required = false, defaultValue = "5") int endIndex)
       throws JsonProcessingException {
+    if (getNumberOfAllTokensLong().equals(0L)) {
+      return new ObjectMapper().writeValueAsString(new ArrayList<LeaderboardEntryDTO>());
+    }
     List<LeaderboardEntryDTO> leaderboardEntries = tokenLeaderboardRetriever.get(endIndex);
     return new ObjectMapper()
         .writeValueAsString(
@@ -86,13 +90,16 @@ public class LeaderboardController extends BaseController {
   @GetMapping("getTotalTokensData")
   public String getTotalTokensData() throws JsonProcessingException {
     Long numberOfTokens = getNumberOfAllTokensLong();
-    return new ObjectMapper()
-        .writeValueAsString(
-            TotalTokensDTO.builder()
-                .totalTokens(getNumberOfAllTokensLong())
-                .totalUnburntTokens(
-                    (long) tokenLeaderboardRetriever.get(Math.toIntExact(numberOfTokens)).size())
-                .build());
+    TotalTokensDTO.TotalTokensDTOBuilder totalTokensDTOBuilder = TotalTokensDTO.builder();
+    if (numberOfTokens.equals(0L)) {
+      totalTokensDTOBuilder.totalTokens(0L).totalUnburntTokens(0L);
+    } else {
+      totalTokensDTOBuilder
+          .totalTokens(getNumberOfAllTokensLong())
+          .totalUnburntTokens(
+              (long) tokenLeaderboardRetriever.get(Math.toIntExact(numberOfTokens)).size());
+    }
+    return new ObjectMapper().writeValueAsString(totalTokensDTOBuilder.build());
   }
 
   @GetMapping("getNumberOfAllTokens")
@@ -102,9 +109,13 @@ public class LeaderboardController extends BaseController {
 
   @GetMapping("getNumberOfUnburntTokens")
   public String getNumberOfUnburntTokens() throws JsonProcessingException {
+    Long numberOfTokens = getNumberOfAllTokensLong();
+    if (numberOfTokens.equals(0L)) {
+      return new ObjectMapper().writeValueAsString(0L);
+    }
     return new ObjectMapper()
         .writeValueAsString(
-            String.valueOf(tokenLeaderboardRetriever.getSize(tokenRepository.getCount())));
+            String.valueOf(tokenLeaderboardRetriever.getSize(getNumberOfAllTokensLong())));
   }
 
   @GetMapping("getMergeOverallRarity/{burnedToken1}/{burnedToken2}")
