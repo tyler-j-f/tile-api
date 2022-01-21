@@ -22,11 +22,17 @@ const MergeResultDetailsTable = ({}) => {
       </tr>
   );
 
+  const getRowOne = () => {
+    return (
+        <tr>
+          <td><StyledText>Merged TileNFT, Tile # Rarity (M<sub>R#</sub>)</StyledText></td>
+          <td><StyledText>(B1<sub>R#</sub> * B1<sub>M#</sub> * B2<sub>MM</sub>) + (B2<sub>R#</sub> * B2<sub>M#</sub> * B1<sub>MM</sub>)</StyledText></td>
+        </tr>
+    );
+  }
+
   const getTableRows = () => {
-    let row1 = getAttributeRow({
-      traitType: "Merged TileNFT, Tile # Rarity (MR#)",
-      valueDescription: "(B1R# * B1M# * B2MM) + (B2R# * B2M# * B1MM)"
-    });
+    let row1 = getRowOne();
     let row2 = getAttributeRow({
       traitType: "Merged TileNFT, Tile # Multiplier (MM#)",
       valueDescription: "1"
