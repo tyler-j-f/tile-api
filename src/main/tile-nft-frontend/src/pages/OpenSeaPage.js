@@ -27,11 +27,8 @@ const OpenSeaPage = () => {
 
   return (
       <StyledPage>
-        <PageHeader>Buy TileNFTs On OpenSea</PageHeader>
+        <PageHeader>Buy TileNFTs On&nbsp;<StyledAnchor href={OPEN_SEA_URL} >OpenSea</StyledAnchor></PageHeader>
         <div>
-          <PageSubHeader>Buy TileNFTs from&nbsp;
-            <StyledAnchor href={OPEN_SEA_URL} >OpenSea</StyledAnchor>!
-          </PageSubHeader>
           {(openSeaData.saleUrl !== '' || openSeaData.collectionUrl !== '') && (
               <ul>
                 <li>

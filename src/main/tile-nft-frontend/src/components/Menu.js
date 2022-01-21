@@ -8,11 +8,11 @@ const Menu = ({handleNavToggle}) => {
       <StyledMenu>
         <StyledLink onClick={handleNavToggle} to="/">Home</StyledLink>
         <StyledLink onClick={handleNavToggle} to="/leaderboard">Leaderboard</StyledLink>
-        <StyledLink onClick={handleNavToggle} to="/view">View TileNFT</StyledLink>
+        <StyledLink onClick={handleNavToggle} to="/view">View Your TileNFT</StyledLink>
         <StyledLink onClick={handleNavToggle} to="/openSea">Buy On OpenSea</StyledLink>
-        <StyledLink onClick={handleNavToggle} to="/update">Update TileNFT</StyledLink>
-        <StyledLink onClick={handleNavToggle} to="/merge">Merge TileNFTs</StyledLink>
-        <StyledLink onClick={handleNavToggle} to="/contact">Contact Page</StyledLink>
+        <StyledLink onClick={handleNavToggle} to="/update">Update Your TileNFT</StyledLink>
+        <StyledLink onClick={handleNavToggle} to="/merge">Merge Your TileNFTs</StyledLink>
+        <StyledLink onClick={handleNavToggle} to="/info">Info</StyledLink>
         <CloseToggle onClick={handleNavToggle}><FaTimes/></CloseToggle>
       </StyledMenu>
   )

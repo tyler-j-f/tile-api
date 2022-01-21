@@ -12,7 +12,7 @@ import Menu from './components/Menu';
 // pages
 import HomePage from './pages/HomePage';
 import ViewPage from './pages/ViewPage';
-import ContactPage from './pages/ContactPage'
+import InfoPage from './pages/InfoPage'
 import LeaderboardPage from "./pages/LeaderboardPage";
 import MergePage from "./pages/MergePage";
 import {Container, Navbar, Row} from "react-bootstrap";
@@ -73,7 +73,7 @@ function TileNftApp() {
           <Route exact path="/openSea" element={<OpenSeaPage/>}/>
           <Route exact path="/update" element={<UpdateTileNftPage />}/>
           <Route exact path="/merge" element={<MergePage />}/>
-          <Route exact path="/contact" element={<ContactPage/>}/>
+          <Route exact path="/info" element={<InfoPage/>}/>
         </Routes>
       </Router>
   );
