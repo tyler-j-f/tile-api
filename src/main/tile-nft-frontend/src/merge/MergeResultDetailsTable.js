@@ -31,16 +31,29 @@ const MergeResultDetailsTable = ({}) => {
     );
   }
 
+  const getRowTwo = () => {
+    return (
+        <tr>
+          <td><StyledText>Merged TileNFT, Tile # Multiplier (M<sub>M#</sub>)</StyledText></td>
+          <td><StyledText>1</StyledText></td>
+        </tr>
+    );
+  }
+
+  const getRowThree = () => {
+    let valueDescription = "Random value:  0 < x <= 10";
+    return (
+        <tr>
+          <td><StyledText>Merged TileNFT, Tile # Rarity (M<sub>R#</sub>)</StyledText></td>
+          <td><StyledText>{valueDescription}</StyledText></td>
+        </tr>
+    );
+  }
+
   const getTableRows = () => {
     let row1 = getRowOne();
-    let row2 = getAttributeRow({
-      traitType: "Merged TileNFT, Tile # Multiplier (MM#)",
-      valueDescription: "1"
-    });
-    let row3 = getAttributeRow({
-      traitType: "Merged TileNFT, Tile # Rarity (MR#)",
-      valueDescription: "Random value:  0 < x <= 10"
-    });
+    let row2 = getRowTwo();
+    let row3 = getRowThree();
     return (
         <tbody>
           {row1}

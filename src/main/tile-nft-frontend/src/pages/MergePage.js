@@ -147,6 +147,7 @@ const MergePage = () => {
         <Row>
           <Col xs={2} sm={2} md={2} lg={2} xl={2} />
           <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
+            <PageSubHeader>Send Transaction</PageSubHeader>
             <ConnectButton />
             {getShouldShowSendTransaction() &&  (
                 <MergeTxWrapper
