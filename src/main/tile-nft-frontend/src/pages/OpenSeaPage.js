@@ -13,10 +13,11 @@ const OpenSeaPage = () => {
     collectionUrl: ''
   });
 
+  const OPEN_SEA_URL = "https://opensea.io/";
+
   useEffect(() => {
     // Load token 1 related data, thew token id doe not matter.
     loadOpenSeaData({tokenId: 1}).then(loadOpenSeaDataResult => {
-      console.log("Debug loadOpenSeaDataResult", loadOpenSeaDataResult);
       setOpenSeaData({
         ...openSeaData,
         ...loadOpenSeaDataResult
@@ -24,12 +25,13 @@ const OpenSeaPage = () => {
     })
   }, []);
 
-  console.debug("debug render", openSeaData, openSeaData.saleUrl !== '', openSeaData.collectionUrl !== '');
   return (
       <StyledPage>
         <PageHeader>OpenSea</PageHeader>
         <div>
-          <PageSubHeader>Buy new TileNFTs from the initial sale on OpenSea!!</PageSubHeader>
+          <PageSubHeader>Buy TileNFTs from&nbsp;
+            <StyledAnchor href={OPEN_SEA_URL} >OpenSea</StyledAnchor>!!
+          </PageSubHeader>
           {(openSeaData.saleUrl !== '' || openSeaData.collectionUrl !== '') && (
               <ul>
                 <li>
@@ -41,7 +43,7 @@ const OpenSeaPage = () => {
                 <li>
                   <StyledText>
                     <StyledAnchor href={openSeaData.collectionUrl}>Link to</StyledAnchor>
-                    &nbsp;view TileNFTs OpenSea collection. For buying/selling the tokens on OpenSea.
+                    &nbsp;view TileNFTs OpenSea collection. For buying/selling on OpenSea.
                   </StyledText>
                 </li>
               </ul>
