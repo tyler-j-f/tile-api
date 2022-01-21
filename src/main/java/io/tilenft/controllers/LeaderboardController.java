@@ -2,12 +2,14 @@ package io.tilenft.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.tilenft.eth.metadata.TokenMetadataDTO;
 import io.tilenft.eth.token.TokenFacade;
 import io.tilenft.eth.token.TokenFacadeDTO;
 import io.tilenft.eth.token.TokenLeaderboardRetriever;
 import io.tilenft.eth.token.TokenRetriever;
 import io.tilenft.eth.token.initializers.MergeTokenHandler;
 import io.tilenft.eth.token.initializers.TokenInitializeException;
+import io.tilenft.eth.token.traits.Trait;
 import io.tilenft.sql.dtos.GetOverallRankDTO;
 import io.tilenft.sql.dtos.LeaderboardEntryDTO;
 import io.tilenft.sql.dtos.TotalTokensDTO;
@@ -134,8 +136,20 @@ public class LeaderboardController extends BaseController {
             burnedNft2,
             System.currentTimeMillis(),
             true);
-    return new ObjectMapper()
-        .writeValueAsString(tokenFacade.loadToken(mergeTokenWouldBeResult).buildTokenMetadataDTO());
+    TokenMetadataDTO mergeToken =
+        tokenFacade.loadToken(mergeTokenWouldBeResult).buildTokenMetadataDTO();
+    setMergeMultiplierToQuestionMark(mergeToken);
+    return new ObjectMapper().writeValueAsString(mergeToken);
+  }
+
+  private void setMergeMultiplierToQuestionMark(TokenMetadataDTO mergeToken) {
+    List<Trait> attributes = (List<Trait>) (List<?>) mergeToken.getAttributes();
+    Trait mergeMultiplierTrait =
+        attributes.stream()
+            .filter(trait -> trait.getTrait_type().equals("Merge Multiplier"))
+            .findFirst()
+            .get();
+    mergeMultiplierTrait.setValue("?");
   }
 
   private int getEndIndex(List<LeaderboardEntryDTO> tokenIdList, int endIndex) {

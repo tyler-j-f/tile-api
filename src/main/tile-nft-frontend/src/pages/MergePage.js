@@ -144,25 +144,25 @@ const MergePage = () => {
           </Col>
           <Col xs={2} sm={2} md={2} lg={2} xl={2} />
         </Row>
-        <Row>
-          <Col xs={2} sm={2} md={2} lg={2} xl={2} />
-          <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
-            <PageSubHeader>Send Transaction</PageSubHeader>
-            <ConnectButton />
-            {getShouldShowSendTransaction() &&  (
-                <MergeTxWrapper
-                    tokenId1={mergeData.token1.tokenId}
-                    tokenId2={mergeData.token2.tokenId}
-                    contractAddress={mergeData.contractAddress}
-                    account={account}
-                    successCallback={handleSuccessfulTx}
-                />
-            )}
-          </Col>
-          <Col xs={2} sm={2} md={2} lg={2} xl={2} />
-        </Row>
         {!!mergeData?.tokenMergeResult?.attributes && Object.keys(mergeData.tokenMergeResult.attributes).length > 0 && (
             <>
+              <Row>
+                <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+                <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
+                  <PageSubHeader>Send Transaction</PageSubHeader>
+                  <ConnectButton />
+                  {getShouldShowSendTransaction() &&  (
+                      <MergeTxWrapper
+                          tokenId1={mergeData.token1.tokenId}
+                          tokenId2={mergeData.token2.tokenId}
+                          contractAddress={mergeData.contractAddress}
+                          account={account}
+                          successCallback={handleSuccessfulTx}
+                      />
+                  )}
+                </Col>
+                <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+              </Row>
               <Row>
                 <Col xs={2} sm={2} md={2} lg={2} xl={2} />
                 <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >

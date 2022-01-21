@@ -15,13 +15,6 @@ const MergeResultDetailsTable = ({}) => {
     );
   }
 
-  const getAttributeRow = ({traitType, valueDescription}) => (
-      <tr>
-        <td><StyledText>{traitType}</StyledText></td>
-        <td><StyledText>{valueDescription}</StyledText></td>
-      </tr>
-  );
-
   const getRowOne = () => {
     return (
         <tr>
@@ -41,7 +34,7 @@ const MergeResultDetailsTable = ({}) => {
   }
 
   const getRowThree = () => {
-    let valueDescription = "Random value:  0 < x <= 10";
+    let valueDescription = "Random int: 0 < x <= 10";
     return (
         <tr>
           <td><StyledText>Merged TileNFT, Tile # Rarity (M<sub>R#</sub>)</StyledText></td>
