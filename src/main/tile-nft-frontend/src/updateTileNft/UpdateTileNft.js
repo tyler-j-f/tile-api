@@ -3,7 +3,9 @@ import MetadataSetTxWrapper from "./MetadataSetTxWrapper";
 import {useEthers} from "@usedapp/core";
 import ViewToken from "../view/ViewToken";
 import React, {useState} from "react";
-import {Button} from "react-bootstrap";
+import {Button, Col, Row} from "react-bootstrap";
+import PageSubHeader from "../styledComponents/PageSubHeader";
+import MergeTxWrapper from "../merge/MergeTxWrapper";
 
 const noop = () => {};
 
@@ -74,36 +76,55 @@ const UpdateTileNft = ({
         />
         {tokenId !== '' && !isInvalidTokenNumber && (
             <>
-              {metadataToUpdate.length > 0 && metadataToUpdate.map(
-                  metadataMapper
-              )}
-              {metadataToUpdate.length < numberOfEntriesToSet &&
-                <SelectorSection
-                    metadataToUpdate={metadataToUpdate}
-                    handleKeepMetadataValue={handleKeepMetadataValue}
-                    handleDataSelected={handleDataSelected}
-                />
-              }
-              {metadataToUpdate.length > 0 &&
-                <Button onClick={handleClearSelections} className="styledButton" >
-                  <p>Clear Selected</p>
-                </Button>
-              }
-              <ConnectButton />
-              {getShouldShowSendTx() && (
-                  <MetadataSetTxWrapper
-                      tokenId={tokenId}
-                      metadataToUpdate={metadataToUpdate}
-                      contractAddress={contractAddress}
-                      metadataToSetIndex={dataToSetIndex}
-                      dataToSetGetter={dataToSetGetter}
-                      loadDataToUpdateRelatedData={loadDataToUpdateRelatedData}
-                      successCallback={successCallback}
-                      attributesRegex={attributesRegex}
-                      numberOfEntriesToSet={numberOfEntriesToSet}
-                      account={account}
-                  />
-              )}
+              <Row>
+                <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+                <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
+                  {metadataToUpdate.length > 0 && metadataToUpdate.map(
+                      metadataMapper
+                  )}
+                </Col>
+                <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+              </Row>
+              <SelectorSection
+                  metadataToUpdate={metadataToUpdate}
+                  handleKeepMetadataValue={handleKeepMetadataValue}
+                  handleDataSelected={handleDataSelected}
+              />
+              <Row>
+                <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+                <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
+                  {metadataToUpdate.length > 0 &&
+                    <Button onClick={handleClearSelections} className="styledButton text-nowrap" >
+                      <p>Clear Selected</p>
+                    </Button>
+                  }
+                </Col>
+                <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+              </Row>
+              <Row>
+                <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+                <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
+                  {getShouldShowSendTx() && (
+                      <>
+                        <PageSubHeader>Send Transaction</PageSubHeader>
+                        <ConnectButton />
+                        <MetadataSetTxWrapper
+                            tokenId={tokenId}
+                            metadataToUpdate={metadataToUpdate}
+                            contractAddress={contractAddress}
+                            metadataToSetIndex={dataToSetIndex}
+                            dataToSetGetter={dataToSetGetter}
+                            loadDataToUpdateRelatedData={loadDataToUpdateRelatedData}
+                            successCallback={successCallback}
+                            attributesRegex={attributesRegex}
+                            numberOfEntriesToSet={numberOfEntriesToSet}
+                            account={account}
+                        />
+                      </>
+                  )}
+                </Col>
+                <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+              </Row>
             </>
         )}
       </>
