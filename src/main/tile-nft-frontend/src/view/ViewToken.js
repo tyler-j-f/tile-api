@@ -41,10 +41,12 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
   }
 
   const handleSubmit = (event) => {
-    setViewTokenData({...viewTokenData, isLoading: true})
-    loadViewTokenData({
-      tokenId: viewTokenData.tokenId, viewTokenData, setViewTokenData, tokenLoadedCallback, metadataToUpdate, getMetadataToUpdateTokenUrl, enableBlockExplorerLink
-    });
+    if (!!viewTokenData.tokenId) {
+      setViewTokenData({...viewTokenData, isLoading: true})
+      loadViewTokenData({
+        tokenId: viewTokenData.tokenId, viewTokenData, setViewTokenData, tokenLoadedCallback, metadataToUpdate, getMetadataToUpdateTokenUrl, enableBlockExplorerLink
+      });
+    }
     event.preventDefault();
   }
 
