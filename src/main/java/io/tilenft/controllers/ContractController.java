@@ -46,4 +46,9 @@ public class ContractController extends BaseController {
   public String getOpenSeaSaleUrl() throws JsonProcessingException {
     return new ObjectMapper().writeValueAsString(eventsConfig.getOpenSeaSaleUrl());
   }
+
+  @GetMapping("getOpenSeaCollectionUrl")
+  public String getOpenSeaCollectionUrl() throws JsonProcessingException {
+    return new ObjectMapper().writeValueAsString(eventsConfig.getOpenSeaCollectionUrl());
+  }
 }

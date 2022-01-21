@@ -8,4 +8,5 @@ spring:
       setMetadataHashSignature: "0x8dc11f38f5dd33f31676778f70bf3598f9521ac596e3c165aee368ed47467ac0"
       schedulerFixedRateMs: 60000
       schedulerNumberOfBlocksToLookBack: 200000
-      baseOpenSeaUrl: "https://testnets.opensea.io/assets/"
+      baseOpenSeaUrl: "https://testnets.opensea.io"
+      openSeaCollectionPath: "tile-nft-v4"

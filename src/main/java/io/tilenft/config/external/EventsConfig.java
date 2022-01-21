@@ -16,12 +16,17 @@ public class EventsConfig {
   private String schedulerFixedRateMs;
   private String schedulerNumberOfBlocksToLookBack;
   private String baseOpenSeaUrl;
+  private String openSeaCollectionPath;
 
   public String getOpenSeaTokenUrl(Long tokenId) {
-    return baseOpenSeaUrl + nftContractAddress + "/" + tokenId;
+    return baseOpenSeaUrl + "/assets/" + nftContractAddress + "/" + tokenId;
   }
 
   public String getOpenSeaSaleUrl() {
-    return baseOpenSeaUrl + nftFactoryContractAddress + "/0";
+    return baseOpenSeaUrl + "/assets/" + nftFactoryContractAddress + "/0";
+  }
+
+  public String getOpenSeaCollectionUrl() {
+    return baseOpenSeaUrl + "/collection/" + openSeaCollectionPath;
   }
 }

@@ -2,36 +2,48 @@ export const loadOpenSeaData = ({
   tokenId
 }) => {
 
-  const getOpenSeaTokenUrl = (tokenId) => `${window.location.origin}/api/contract/getOpenSeaTokenUrl/${tokenId}`
+  const getOpenSeaTokenPath = (tokenId) => `${window.location.origin}/api/contract/getOpenSeaTokenUrl/${tokenId}`
 
-  const getOpenSeaSaleUrl = () => `${window.location.origin}/api/contract/getOpenSeaSaleUrl`
+  const getOpenSeaSalePath = () => `${window.location.origin}/api/contract/getOpenSeaSaleUrl`
 
-  return fetch(getOpenSeaTokenUrl(tokenId), {method: 'get'})
+  const getOpenSeaCollectionPath = () => `${window.location.origin}/api/contract/getOpenSeaCollectionUrl`
+
+  const getTokenUrl = () => fetch(getOpenSeaTokenPath(tokenId), {method: 'get'})
   .then(response => {
     if (response.status === 200) {
       return response.json();
     }
-    throw "loadOpenSeaData getOpenSeaTokenUrl -> invalid response";
-  })
-  .then(getOpenSeaTokenUrlResult =>
-    fetch(getOpenSeaSaleUrl(), {method: 'get'})
-    .then(response => {
-      if (response.status === 200) {
-        return response.json();
-      }
-      throw "loadOpenSeaData getOpenSeaSaleUrl -> invalid response";
-    })
-    .then(
-        getOpenSeaSaleUrlResult => {
-          return {
-            tokenUrl: getOpenSeaTokenUrlResult,
-            saleUrl: getOpenSeaSaleUrlResult
-          }
-        }
+    throw "loadOpenSeaData getOpenSeaTokenPath -> invalid response";
+  });
+
+  const getSaleUrl = () => fetch(getOpenSeaSalePath(), {method: 'get'})
+  .then(response => {
+    if (response.status === 200) {
+      return response.json();
+    }
+    throw "loadOpenSeaData getOpenSeaSalePath -> invalid response";
+  });
+
+  const getCollectionUrl = () => fetch(getOpenSeaCollectionPath(), {method: 'get'})
+  .then(response => {
+    if (response.status === 200) {
+      return response.json();
+    }
+    throw "loadOpenSeaData getCollectionUrl -> invalid response";
+  });
+
+  return getTokenUrl().then(getOpenSeaTokenUrlResult =>
+    getSaleUrl().then(getOpenSeaSaleUrlResult =>
+        getCollectionUrl().then(getOpenSeaCollectionUrlResult => ({
+        tokenUrl: getOpenSeaTokenUrlResult,
+        saleUrl: getOpenSeaSaleUrlResult,
+        collectionUrl: getOpenSeaCollectionUrlResult
+      }))
     )
   )
   .catch(err => {
     console.log("loadTokenAttributes error caught!!!", err);
+    return {};
   });
 }
 
