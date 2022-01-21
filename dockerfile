@@ -10,6 +10,6 @@ RUN mvn -f /home/app/pom.xml clean package -P remote
 # Package stage
 #
 FROM openjdk:18-ea-17-slim
-COPY --from=build /home/app/target/demo_api-0.0.1-SNAPSHOT.jar /usr/local/lib/demo_api.jar
+COPY --from=build /home/app/target/tile-api-app:v1.0.2 /usr/local/lib/demo_api.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/usr/local/lib/demo_api.jar"]
