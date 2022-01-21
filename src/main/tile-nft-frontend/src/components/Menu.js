@@ -9,6 +9,7 @@ const Menu = ({handleNavToggle}) => {
         <StyledLink onClick={handleNavToggle} to="/">Home</StyledLink>
         <StyledLink onClick={handleNavToggle} to="/leaderboard">Leaderboard</StyledLink>
         <StyledLink onClick={handleNavToggle} to="/view">View TileNFT</StyledLink>
+        <StyledLink onClick={handleNavToggle} to="/openSea">OpenSea</StyledLink>
         <StyledLink onClick={handleNavToggle} to="/update">Update TileNFT</StyledLink>
         <StyledLink onClick={handleNavToggle} to="/merge">Merge TileNFTs</StyledLink>
         <StyledLink onClick={handleNavToggle} to="/contact">Contact Page</StyledLink>

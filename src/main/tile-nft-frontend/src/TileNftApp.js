@@ -19,6 +19,7 @@ import {Container, Navbar, Row} from "react-bootstrap";
 import styled from "styled-components";
 import UpdateTileNftPage from "./pages/UpdateTileNftPage";
 import StyledErrorText from "./styledComponents/StyledErrorText";
+import OpenSeaPage from "./pages/OpenSeaPage";
 
 function TileNftApp() {
 
@@ -69,6 +70,7 @@ function TileNftApp() {
           <Route exact path="/" element={<HomePage/>}/>
           <Route exact path="/leaderboard" element={<LeaderboardPage/>}/>
           <Route exact path="/view" element={<ViewPage/>}/>
+          <Route exact path="/openSea" element={<OpenSeaPage/>}/>
           <Route exact path="/update" element={<UpdateTileNftPage />}/>
           <Route exact path="/merge" element={<MergePage />}/>
           <Route exact path="/contact" element={<ContactPage/>}/>
