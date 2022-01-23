@@ -2,14 +2,28 @@ import { useEthers, useEtherBalance } from "@usedapp/core";
 import { formatEther } from "@ethersproject/units";
 import {Button} from "react-bootstrap";
 import StyledText from "../styledComponents/StyledText";
+import {useEffect} from "react";
 
-export default function ConnectButton() {
-  const {activateBrowserWallet, account } = useEthers();
+const noop = () => {};
+
+export default function ConnectButton({
+    connectToWalletCallback = noop
+}) {
+  const {activateBrowserWallet, account} = useEthers();
   const etherBalance = useEtherBalance(account);
 
   function handleConnectWallet() {
     activateBrowserWallet();
   }
+
+  useEffect(
+      () => {
+        if (!!account) {
+          connectToWalletCallback(account);
+        }
+      },
+      [account]
+  );
 
   return (account && etherBalance) ? (
       <StyledText className="addMargin5" >

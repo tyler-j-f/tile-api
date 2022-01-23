@@ -1,10 +1,11 @@
 import TileContract from '../contractsJson/Tile.json'
 import {useEthers} from "@usedapp/core";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import MetadataSetTx
   from "./MetadataSetTx";
 import {ethers} from "ethers";
 import StyledWarningText from "../styledComponents/StyledWarningText";
+import ConnectButton from "./ConnectButton";
 
 const noop = () => {};
 
@@ -26,6 +27,7 @@ const MetadataSetTxWrapper = ({
   const [signer, setSigner] = useState(null);
   const [dataToUpdateRelatedData, setDataToUpdateRelatedData] = useState([]);
   const [tokenOwnerAddress, setTokenOwnerAddress] = useState('');
+  const [accountState, setAccountState] = useState(account);
 
   useEffect(
       () => {
@@ -44,13 +46,13 @@ const MetadataSetTxWrapper = ({
 
   useEffect(
       () => {
-        if (tileContract && tokenOwnerAddress === '') {
+        if (tileContract && accountState && tokenOwnerAddress === '') {
           tileContract.ownerOf(tokenId).then(
               result => setTokenOwnerAddress(result)
           );
         };
       },
-      [tileContract]
+      [tileContract, accountState]
   );
   
   const getShouldRender = () => {
@@ -69,10 +71,15 @@ const MetadataSetTxWrapper = ({
     }
   }
 
-  const getIsTokenOwner = () => tokenOwnerAddress !== '' && account === tokenOwnerAddress;
+  const getIsTokenOwner = () => tokenOwnerAddress !== '' && accountState === tokenOwnerAddress;
+
+  const handleWalletConnected = (account) => setAccountState(account);
 
   return (
       <>
+        <ConnectButton
+          connectToWalletCallback={handleWalletConnected}
+        />
         {getIsTokenOwner() ? null : <StyledWarningText>Logged in account is not the token owner!</StyledWarningText>}
         {getShouldRender() &&
           <MetadataSetTx

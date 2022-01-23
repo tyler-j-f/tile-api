@@ -1,11 +1,9 @@
-import ConnectButton from "./ConnectButton";
 import MetadataSetTxWrapper from "./MetadataSetTxWrapper";
 import {useEthers} from "@usedapp/core";
 import ViewToken from "../view/ViewToken";
 import React, {useState} from "react";
 import {Button, Col, Row} from "react-bootstrap";
 import PageSubHeader from "../styledComponents/PageSubHeader";
-import MergeTxWrapper from "../merge/MergeTxWrapper";
 
 const noop = () => {};
 
@@ -65,7 +63,8 @@ const UpdateTileNft = ({
 
   const areAllEntriesNull = (array) => array.every(val => val === null)
 
-  const getShouldShowSendTx = () => account && metadataToUpdate.length === numberOfEntriesToSet && contractAddress;
+  const getShouldShowSendTxOrConnectToMetamask = () =>
+      metadataToUpdate.length === numberOfEntriesToSet && !!contractAddress;
 
   return (
       <>
@@ -85,11 +84,13 @@ const UpdateTileNft = ({
                 </Col>
                 <Col xs={2} sm={2} md={2} lg={2} xl={2} />
               </Row>
-              <SelectorSection
-                  metadataToUpdate={metadataToUpdate}
-                  handleKeepMetadataValue={handleKeepMetadataValue}
-                  handleDataSelected={handleDataSelected}
-              />
+              {metadataToUpdate.length < numberOfEntriesToSet && (
+                  <SelectorSection
+                      metadataToUpdate={metadataToUpdate}
+                      handleKeepMetadataValue={handleKeepMetadataValue}
+                      handleDataSelected={handleDataSelected}
+                  />
+              )}
               <Row>
                 <Col xs={2} sm={2} md={2} lg={2} xl={2} />
                 <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
@@ -104,10 +105,9 @@ const UpdateTileNft = ({
               <Row>
                 <Col xs={2} sm={2} md={2} lg={2} xl={2} />
                 <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
-                  {getShouldShowSendTx() && (
+                  {getShouldShowSendTxOrConnectToMetamask() && (
                       <>
                         <PageSubHeader>Send Transaction</PageSubHeader>
-                        <ConnectButton />
                         <MetadataSetTxWrapper
                             tokenId={tokenId}
                             metadataToUpdate={metadataToUpdate}
