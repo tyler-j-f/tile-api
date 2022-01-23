@@ -1,5 +1,4 @@
 import MetadataSetTxWrapper from "./MetadataSetTxWrapper";
-import {useEthers} from "@usedapp/core";
 import ViewToken from "../view/ViewToken";
 import React, {useState} from "react";
 import {Button, Col, Row} from "react-bootstrap";
@@ -18,7 +17,6 @@ const UpdateTileNft = ({
   attributesRegex = '',
   numberOfEntriesToSet = 4
 }) => {
-  const {account} = useEthers();
   const [tokenId, setTokenId] = useState('');
   const [contractAddress, setContractAddress] = useState('');
   const [metadataToUpdate, setMetadataToUpdate] = useState([]);
@@ -118,7 +116,6 @@ const UpdateTileNft = ({
                             successCallback={successCallback}
                             attributesRegex={attributesRegex}
                             numberOfEntriesToSet={numberOfEntriesToSet}
-                            account={account}
                         />
                       </>
                   )}
