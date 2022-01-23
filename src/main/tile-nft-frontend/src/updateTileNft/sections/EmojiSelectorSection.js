@@ -21,7 +21,7 @@ const ColorSelectorSection = ({metadataToUpdate, handleKeepMetadataValue, handle
       <>
         <StyledText>Select Tile {metadataToUpdate.length + 1} Color</StyledText>
         <Button onClick={handleKeepMetadataValue} className="styledButton" >
-          <p>Keep Tile {metadataToUpdate.length + 1} Color</p>
+          <p>Keep Tile {metadataToUpdate.length + 1} Emoji</p>
         </Button>
         <Picker onEmojiClick={handleEmojiPickerClick} />
       </>
