@@ -47,12 +47,9 @@ const MetadataSetTxWrapper = ({
   useEffect(
       () => {
         let a = tileContract && accountState && tokenOwnerAddress === '';
-        console.log("debug useEffect", tileContract, accountState, tokenOwnerAddress, a);
         if (tileContract && accountState && tokenOwnerAddress === '') {
-          console.log("debug ownerOf");
           tileContract.ownerOf(tokenId).then(
               result => {
-                console.log("debug result", result);
                 return setTokenOwnerAddress(result);
               }
           );
@@ -73,17 +70,14 @@ const MetadataSetTxWrapper = ({
   }
 
   const handleProviderAndSigner = () => {
-    console.log("debug handleProviderAndSigner", provider);
     if (provider) {
-      console.log("debug tileContract");
-      let tileContract =  new ethers.Contract(contractAddress, TileContract.abi, provider);
+      let tileContract = new ethers.Contract(contractAddress, TileContract.abi, provider);
       setTileContract(tileContract);
       // The MetaMask plugin also allows signing transactions to
       // send ether and pay to change state within the blockchain.
       // For this, you need the account signer...\
       let signer =  provider.getSigner();
       setSigner(signer);
-      console.log("debug handleProviderAndSigner, provider found");
     }
   }
 
@@ -92,7 +86,6 @@ const MetadataSetTxWrapper = ({
   const handleWalletConnected = (account) => setAccountState(account);
 
   const getNotLoggedInText = () => {
-    console.log("debug account", accountState, account, Object.keys(accountState).length);
     if (getIsTokenOwner() || Object.keys(accountState).length === 0) {
       return null;
     }
