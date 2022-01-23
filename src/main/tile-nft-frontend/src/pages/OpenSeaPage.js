@@ -4,7 +4,7 @@ import PageHeader from "../styledComponents/PageHeader";
 import StyledText from "../styledComponents/StyledText";
 import PageSubHeader from "../styledComponents/PageSubHeader";
 import styled from "styled-components";
-import loadOpenSeaData from "../updateTileNft/tokenDataLoaders/loadOpenSeaData";
+import loadOpenSeaData from "../customizeTileNft/tokenDataLoaders/loadOpenSeaData";
 
 const OpenSeaPage = () => {
 

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import ViewToken from "../view/ViewToken";
 import loadTokenAttributes
-  from "../updateTileNft/tokenDataLoaders/loadTokenAttributes";
+  from "../customizeTileNft/tokenDataLoaders/loadTokenAttributes";
 import AttributesTable from "../view/AttributesTable";
 import OverallRank from "../view/OverallRank";
 import StyledPage from "../styledComponents/StyledPage";
@@ -11,7 +11,7 @@ import StyledText from "../styledComponents/StyledText";
 import styled from "styled-components";
 import PageSubHeader from "../styledComponents/PageSubHeader";
 import loadOpenSeaData
-  from "../updateTileNft/tokenDataLoaders/loadOpenSeaData";
+  from "../customizeTileNft/tokenDataLoaders/loadOpenSeaData";
 
 const ViewPage = () => {
 

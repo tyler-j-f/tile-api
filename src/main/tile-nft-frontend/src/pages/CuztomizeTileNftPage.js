@@ -1,27 +1,27 @@
 import React, {useState} from 'react'
-import UpdateTileNft from "../updateTileNft/UpdateTileNft";
+import CustomizeTileNft from "../customizeTileNft/CustomizeTileNft";
 import {Button} from "react-bootstrap";
-import ColorSelectorSection from "../updateTileNft/sections/ColorSelectorSection";
+import ColorSelectorSection from "../customizeTileNft/sections/ColorSelectorSection";
 import colorDataToSetGetter
-  from "../updateTileNft/dataToSetGetters/colorDataToSetGetter";
+  from "../customizeTileNft/dataToSetGetters/colorDataToSetGetter";
 import emojiDataToSetGetter
-  from "../updateTileNft/dataToSetGetters/emojiDataToSetGetter";
+  from "../customizeTileNft/dataToSetGetters/emojiDataToSetGetter";
 import EmojiSelectorSection
-  from "../updateTileNft/sections/EmojiSelectorSection";
+  from "../customizeTileNft/sections/EmojiSelectorSection";
 import getColorsMetadataUpdatedTokenUrl
   from "../view/metadataUpdatedTokenUrlGetters/getColorsMetadataUpdatedTokenUrl";
 import getEmojisMetadataUpdatedTokenUrl
   from "../view/metadataUpdatedTokenUrlGetters/getEmojisMetadataUpdatedTokenUrl";
 import loadColorTokenAttributes
-  from "../updateTileNft/tokenDataLoaders/loadColorTokenAttributes";
+  from "../customizeTileNft/tokenDataLoaders/loadColorTokenAttributes";
 import loadEmojiTokenAttributes
-  from "../updateTileNft/tokenDataLoaders/loadEmojiTokenAttributes";
+  from "../customizeTileNft/tokenDataLoaders/loadEmojiTokenAttributes";
 import TransactionSuccess from "../etc/TransactionSuccess";
 import StyledPage from "../styledComponents/StyledPage";
 import PageHeader from "../styledComponents/PageHeader";
 import StyledText from "../styledComponents/StyledText";
 
-const UpdateTileNftPage = () => {
+const CuztomizeTileNftPage = () => {
   const [txData, setTxData] = useState({
     isSuccess: false,
     txId: '',
@@ -62,7 +62,7 @@ const UpdateTileNftPage = () => {
 
   const getUpdateColorsHtml = () => {
     return (
-        <UpdateTileNft
+        <CustomizeTileNft
             successCallback={handleSuccessfulTx}
             dataToSetIndex={0}
             SelectorSection={
@@ -81,7 +81,7 @@ const UpdateTileNftPage = () => {
 
   const getUpdateEmojisHtml = () => {
     return (
-        <UpdateTileNft
+        <CustomizeTileNft
             successCallback={handleSuccessfulTx}
             dataToSetIndex={1}
             SelectorSection={
@@ -128,4 +128,4 @@ const UpdateTileNftPage = () => {
   )
 }
 
-export default UpdateTileNftPage
+export default CuztomizeTileNftPage

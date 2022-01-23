@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import TokenMergeSelector from "../merge/TokenMergeSelector";
 import {useEthers} from "@usedapp/core";
-import ConnectButton from "../updateTileNft/ConnectButton";
+import ConnectButton from "../customizeTileNft/ConnectButton";
 import MergeTxWrapper from "../merge/MergeTxWrapper";
 import TransactionSuccess from "../etc/TransactionSuccess";
 import StyledPage from "../styledComponents/StyledPage";

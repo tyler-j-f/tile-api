@@ -6,7 +6,7 @@ import PageSubHeader from "../styledComponents/PageSubHeader";
 
 const noop = () => {};
 
-const UpdateTileNft = ({
+const CustomizeTileNft = ({
   successCallback = noop,
   metadataMapper = noop,
   dataToSetGetter = noop,
@@ -128,4 +128,4 @@ const UpdateTileNft = ({
   );
 }
 
-export default UpdateTileNft;
+export default CustomizeTileNft;

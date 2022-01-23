@@ -10,7 +10,7 @@ const Menu = ({handleNavToggle}) => {
         <StyledLink onClick={handleNavToggle} to="/leaderboard">Leaderboard</StyledLink>
         <StyledLink onClick={handleNavToggle} to="/view">View Your TileNFT</StyledLink>
         <StyledLink onClick={handleNavToggle} to="/openSea">Buy On OpenSea</StyledLink>
-        <StyledLink onClick={handleNavToggle} to="/update">Update Your TileNFT</StyledLink>
+        <StyledLink onClick={handleNavToggle} to="/customize">Customize Your TileNFT</StyledLink>
         <StyledLink onClick={handleNavToggle} to="/merge">Merge Your TileNFTs</StyledLink>
         <StyledLink onClick={handleNavToggle} to="/info">Info</StyledLink>
         <CloseToggle onClick={handleNavToggle}><FaTimes/></CloseToggle>
