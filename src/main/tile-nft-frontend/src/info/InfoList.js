@@ -9,6 +9,8 @@ const InfoList = () => {
   const TWITTER_URL = "https://twitter.com/Tile_NFT_io";
   const DISCORD_SERVER_URL = "https://discord.gg/3xuZpB3FDH";
   const LINKEDIN_URL = "https://www.linkedin.com/in/tylerjohnfitzgerald/";
+  const TILE_API_REPO_URL = "https://github.com/tyler-j-f/tile-api";
+  const TILE_NFT_REPO_URL = "https://github.com/tyler-j-f/tile-nft";
 
   const getWhitepaperText = () => {
     return (
@@ -37,25 +39,23 @@ const InfoList = () => {
           <PageSubHeader>
             Contact Channels
           </PageSubHeader>
-          <ul>
-            <li>
-              Email: tyler@tilenft.io
-            </li>
-            <li>
-              Twitter: <StyledAnchor href={TWITTER_URL} >Link to</StyledAnchor>&nbsp;@Tile_NFT_io account
-            </li>
-            <li>
-              Discord:
-              <ul>
-                <li>
-                  <StyledAnchor href={DISCORD_SERVER_URL} >Link to</StyledAnchor>&nbsp;TileNFT Discord server
-                </li>
-                <li>
-                  TileNFT Discord username: TileNFT#1210
-                </li>
-              </ul>
-            </li>
-          </ul>
+          <li>
+            Email: tyler@tilenft.io
+          </li>
+          <li>
+            Twitter: <StyledAnchor href={TWITTER_URL} >Link to</StyledAnchor>&nbsp;@Tile_NFT_io account
+          </li>
+          <li>
+            Discord:
+            <ul>
+              <li>
+                <StyledAnchor href={DISCORD_SERVER_URL} >Link to</StyledAnchor>&nbsp;TileNFT Discord server
+              </li>
+              <li>
+                TileNFT Discord username: TileNFT#1210
+              </li>
+            </ul>
+          </li>
         </>
 
     );
@@ -65,17 +65,25 @@ const InfoList = () => {
     return (
         <>
           <PageSubHeader>
-            Code Repositories
+            GitHub Repositories
           </PageSubHeader>
           <li>
-            TileNFT Smart Contract Code (Solidity)
+            <StyledAnchor href={TILE_API_REPO_URL} >Link to</StyledAnchor>&nbsp;TileNFT Smart Contract Code (Solidity)
+            <ul>
+              <li>
+                Please feel free to help out by auditing the smart contract code
+              </li>
+              <li>
+                Additional tests will be added over the next few days
+              </li>
+            </ul>
           </li>
           <li>
-            TileNFT API/Frontend Code
+            <StyledAnchor href={TILE_NFT_REPO_URL} >Link to</StyledAnchor>&nbsp;TileNFT API & Frontend Code
           </li>
           <ul>
             <li>
-              The API/frontend repo is currently private. If you would like to view the code, please contact me.
+              The API & frontend repo is currently private. If you would like to view the code, please contact me.
             </li>
           </ul>
         </>
