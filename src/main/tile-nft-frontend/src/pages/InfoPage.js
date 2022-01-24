@@ -1,28 +1,27 @@
 import React from 'react'
-import styled from 'styled-components';
 import PageHeader from "../styledComponents/PageHeader";
 import StyledPage from "../styledComponents/StyledPage";
+import {Col, Row} from "react-bootstrap";
+import InfoList from "../info/InfoList";
 
 const InfoPage = () => {
   return (
       <StyledPage>
-        <PageHeader>Contact Page</PageHeader>
-        <Content>
-          <h1>👋 Hey there </h1>
-          <p>Info Info Info</p>
-        </Content>
+        <Row>
+          <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+          <Col xs={8} sm={8} md={8} lg={8} xl={8}>
+            <PageHeader>Information</PageHeader>
+          </Col>
+          <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+        </Row><Row>
+          <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+          <Col xs={8} sm={8} md={8} lg={8} xl={8}>
+            <InfoList />
+          </Col>
+          <Col xs={2} sm={2} md={2} lg={2} xl={2} />
+        </Row>
       </StyledPage>
   )
 }
-
-const Content = styled.div`
-    color: #eee;
-    font-size: clamp(1.5rem, 2vw, 4vw);
-
-    a {
-        color: skyblue;
-        text-decoration: none;
-    }
-`;
 
 export default InfoPage
