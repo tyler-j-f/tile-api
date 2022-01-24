@@ -2,6 +2,7 @@ import React, {useEffect} from 'react'
 import styled from 'styled-components';
 import {useNavigate} from "react-router-dom";
 import StyledPage from "../styledComponents/StyledPage";
+import {DropdownButton, Dropdown} from "react-bootstrap";
 
 const HomePage = () => {
 
@@ -16,8 +17,18 @@ const HomePage = () => {
 
   const getImageUrl = () => `${window.location.origin}/api/image/getLogo`;
 
+  const getNetworkSelectDropdown = () => {
+    return (
+        <DropdownButton title="Select ETH Network" menuVariant={'warning'}>
+          <Dropdown.Item href="#/rinkeby" active >Testnet (Rinkeby)</Dropdown.Item>
+          <Dropdown.Item href="#/mainnet" disabled >Mainnet (Not deployed on mainnet at this moment.)</Dropdown.Item>
+        </DropdownButton>
+    );
+  }
+
   return (
       <StyledPage>
+        {getNetworkSelectDropdown()}
         <StyledImg
             src={getImageUrl()}
             alt={"TileNFT"}
