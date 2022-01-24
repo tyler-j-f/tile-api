@@ -101,8 +101,14 @@ const InfoList = () => {
             <ul>
               <li>Linkedin: <StyledAnchor href={LINKEDIN_URL} >Link to</StyledAnchor>&nbsp;Tyler's LinkedIn account.</li>
               <li>This app is still a WIP, please reach out for any questions, concerns, or bugs.</li>
-              <li>I am open to employment opportunities.</li>
-              <li>Please reach out on LinkedIn (or one of the above contact channels), if you want Rinkeby Testnet ETH for testing this app. I can send you some.</li>
+              <li>Equity is for potential sale (price point dependent), CONTACT US.</li>
+              <li>Calling all CSS/SASS/style developers... please reach out to me about improving ALL the UX. I can develop full stack, but hate to deal with styling/UX, so help me out (Future income T.B.D., no promises on any income).</li>
+              <li>Please reach out on LinkedIn (or any of the above channels).
+                <ul>
+                If you want Rinkeby Testnet ETH for testing this app. I can send you some.
+                </ul>
+              </li>
+              <li>Tyler is open to employment opportunities.</li>
             </ul>
           </li>
         </>
