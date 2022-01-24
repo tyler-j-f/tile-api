@@ -13,13 +13,8 @@ const InfoPage = () => {
             <PageHeader>Information</PageHeader>
           </Col>
           <Col xs={2} sm={2} md={2} lg={2} xl={2} />
-        </Row><Row>
-          <Col xs={2} sm={2} md={2} lg={2} xl={2} />
-          <Col xs={8} sm={8} md={8} lg={8} xl={8}>
-            <InfoList />
-          </Col>
-          <Col xs={2} sm={2} md={2} lg={2} xl={2} />
         </Row>
+        <InfoList />
       </StyledPage>
   )
 }

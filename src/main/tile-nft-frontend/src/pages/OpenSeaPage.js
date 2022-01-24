@@ -5,6 +5,7 @@ import StyledText from "../styledComponents/StyledText";
 import PageSubHeader from "../styledComponents/PageSubHeader";
 import styled from "styled-components";
 import loadOpenSeaData from "../customizeTileNft/tokenDataLoaders/loadOpenSeaData";
+import StyledAnchor from "../styledComponents/styledAnchor";
 
 const OpenSeaPage = () => {
 
@@ -49,11 +50,5 @@ const OpenSeaPage = () => {
       </StyledPage>
   )
 }
-
-const StyledAnchor = styled.a`
-  width: 275px;
-  text-align: center;
-  color: #9F566F;
-`;
 
 export default OpenSeaPage

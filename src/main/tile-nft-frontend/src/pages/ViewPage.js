@@ -12,6 +12,7 @@ import styled from "styled-components";
 import PageSubHeader from "../styledComponents/PageSubHeader";
 import loadOpenSeaData
   from "../customizeTileNft/tokenDataLoaders/loadOpenSeaData";
+import StyledAnchor from "../styledComponents/styledAnchor";
 
 const ViewPage = () => {
 
@@ -140,14 +141,6 @@ const ViewPage = () => {
       </StyledPage>
   )
 }
-
-
-const StyledAnchor = styled.a`
-  width: 275px;
-  text-align: center;
-  color: #9F566F;
-`;
-
 
 const StyledList = styled.ul`
   width: 275px;
