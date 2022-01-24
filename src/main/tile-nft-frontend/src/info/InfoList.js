@@ -71,10 +71,10 @@ const InfoList = () => {
             <StyledAnchor href={TILE_API_REPO_URL} >Link to</StyledAnchor>&nbsp;TileNFT Smart Contract Code (Solidity)
             <ul>
               <li>
-                Please feel free to help out by auditing the smart contract code
+                Please feel free to help out by reviewing/auditing the smart contract code.
               </li>
               <li>
-                Additional tests will be added over the next few days
+                Additional tests will be added over the next few days.
               </li>
             </ul>
           </li>
