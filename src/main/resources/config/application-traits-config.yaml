@@ -108,14 +108,13 @@ spring:
         - {id: null, traitTypeWeightId: 78, traitTypeId: 8, likelihood: 3, value: 8, displayTypeValue: null}
         - {id: null, traitTypeWeightId: 79, traitTypeId: 8, likelihood: 2, value: 9, displayTypeValue: null}
         - {id: null, traitTypeWeightId: 80, traitTypeId: 8, likelihood: 1, value: 10, displayTypeValue: null}
-        - {id: null, traitTypeWeightId: 81, traitTypeId: 9, likelihood: 24, value: 1, displayTypeValue: null}
-        - {id: null, traitTypeWeightId: 82, traitTypeId: 9, likelihood: 19, value: 2, displayTypeValue: null}
-        - {id: null, traitTypeWeightId: 83, traitTypeId: 9, likelihood: 16, value: 3, displayTypeValue: null}
-        - {id: null, traitTypeWeightId: 84, traitTypeId: 9, likelihood: 13, value: 4, displayTypeValue: null}
-        - {id: null, traitTypeWeightId: 85, traitTypeId: 9, likelihood: 10, value: 5, displayTypeValue: null}
-        - {id: null, traitTypeWeightId: 86, traitTypeId: 9, likelihood: 7, value: 6, displayTypeValue: null}
-        - {id: null, traitTypeWeightId: 87, traitTypeId: 9, likelihood: 5, value: 7, displayTypeValue: null}
-        - {id: null, traitTypeWeightId: 88, traitTypeId: 9, likelihood: 3, value: 8, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 82, traitTypeId: 9, likelihood: 25, value: 2, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 83, traitTypeId: 9, likelihood: 21, value: 3, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 84, traitTypeId: 9, likelihood: 17, value: 4, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 85, traitTypeId: 9, likelihood: 14, value: 5, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 86, traitTypeId: 9, likelihood: 9, value: 6, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 87, traitTypeId: 9, likelihood: 7, value: 7, displayTypeValue: null}
+        - {id: null, traitTypeWeightId: 88, traitTypeId: 9, likelihood: 4, value: 8, displayTypeValue: null}
         - {id: null, traitTypeWeightId: 89, traitTypeId: 9, likelihood: 2, value: 9, displayTypeValue: null}
         - {id: null, traitTypeWeightId: 90, traitTypeId: 9, likelihood: 1, value: 10, displayTypeValue: null}
         - {id: null, traitTypeWeightId: 91, traitTypeId: 10, likelihood: 100, value: "openmoji.org - https://creativecommons.org/licenses/by-sa/4.0/ (Attribution-ShareAlike 4.0 International — CC BY-SA 4.0) Changes were not made", displayTypeValue: null}
