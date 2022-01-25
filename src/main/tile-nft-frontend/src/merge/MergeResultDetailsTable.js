@@ -34,7 +34,7 @@ const MergeResultDetailsTable = ({}) => {
   }
 
   const getRowThree = () => {
-    let valueDescription = "Random int: 0 < x <= 10";
+    let valueDescription = "Random int: 1 < x <= 10";
     return (
         <tr>
           <td><StyledText>Merged TileNFT, Tile # Rarity (M<sub>R#</sub>)</StyledText></td>
