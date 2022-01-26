@@ -10,9 +10,13 @@ import org.springframework.context.annotation.Configuration;
 public class ContractConfig {
   private String name;
   private String description;
-  private String image;
   private String external_link;
+  private String get_image_url_postfix;
   private String seller_fee_basis_points;
   private String fee_recipient;
   private String block_explorer_base_url;
+
+  public String getImage() {
+    return external_link + get_image_url_postfix;
+  }
 }
