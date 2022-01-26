@@ -3,7 +3,6 @@ package io.tilenft.image;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import org.springframework.core.io.Resource;
@@ -34,17 +33,16 @@ public class ImageResourcesLoader {
   public void loadResources() throws IOException {
     resources =
         ResourcePatternUtils.getResourcePatternResolver(resourceLoader).getResources(loadPattern);
-    List<Resource> a =
+    Resource[] sortedResources = new Resource[resources.length];
+    int x = 0;
+    for (Resource resourceToSort :
         Arrays.stream(resources)
             .sorted(Comparator.comparing(Resource::getFilename))
-            .collect(Collectors.toList());
-    Resource[] c = new Resource[a.size()];
-    int x = 0;
-    for (Resource b : a) {
-      c[x] = b;
+            .collect(Collectors.toList())) {
+      sortedResources[x] = resourceToSort;
       x++;
     }
-    resources = c;
+    resources = sortedResources;
   }
 
   public Resource[] getResources() throws IOException {
