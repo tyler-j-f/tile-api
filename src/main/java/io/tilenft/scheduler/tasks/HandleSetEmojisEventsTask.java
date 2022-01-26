@@ -11,6 +11,7 @@ import io.tilenft.sql.dtos.WeightlessTraitDTO;
 import io.tilenft.sql.repositories.WeightlessTraitRepository;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -105,6 +106,9 @@ public class HandleSetEmojisEventsTask extends AbstractMetadataSetEventsRetrieve
     List<WeightlessTraitDTO> traitsToUpdate = new ArrayList<>();
     WeightlessTraitDTO updateTrait;
     Resource[] resources = emojiResourcesLoader.getResources();
+    System.out.println(
+        "debug emojiResourcesLoader loaded: "
+            + Arrays.toString(Arrays.copyOfRange(resources, 0, 20)));
     int resourcesArrayLength = resources.length;
     for (String tileEmojiIndex : getTileEmojiIndexFromEvent(event)) {
       if (!validateTraitValueToUpdate(tileEmojiIndex, resourcesArrayLength)) {
