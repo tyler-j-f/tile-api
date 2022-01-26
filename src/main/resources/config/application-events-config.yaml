@@ -1,12 +1,12 @@
 spring:
   application:
     events-config:
-      nftContractAddress: "0xB92Bc1e8dA598B2920e4d8846B2FB9a66236045a"
-      nftFactoryContractAddress: "0xd11D9622E2C6B89C613B0649BE8eb5562F45dD01"
+      nftContractAddress: "0xe00c4c5Fc8AE80a0Ac4110e3F47BFa8fe6AA8092"
+      nftFactoryContractAddress: "0x1287253cD5B4BCA64400b99345C0075d45d7495D"
       mintEventHashSignature: "0x07883703ed0e86588a40d76551c92f8a4b329e3bf19765e0e6749473c1a84665"
       mergeEventHashSignature: "0xaf49bfaf2e89d3c4c27597e51083974866f80562836b8ceec82e54a67948709f"
       setMetadataHashSignature: "0x8dc11f38f5dd33f31676778f70bf3598f9521ac596e3c165aee368ed47467ac0"
       schedulerFixedRateMs: 60000
       schedulerNumberOfBlocksToLookBack: 200000
       baseOpenSeaUrl: "https://testnets.opensea.io"
-      openSeaCollectionPath: "tile-nft-v4"
+      openSeaCollectionPath: "tile-nft-v5"

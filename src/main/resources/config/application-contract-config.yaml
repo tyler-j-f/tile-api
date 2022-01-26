@@ -3,7 +3,7 @@ spring:
     contract-config:
       name: "Tile NFTs"
       description: "Tile NFTs. Buy tiles and customize them yourself!!! Each tile will be generated with unique traits that decide how rare each Tile is."
-      external_link: "http://34.150.230.209"
+      external_link: "http://tilenft.io"
       seller_fee_basis_points: 100 # Indicates a 1% seller fee.
       fee_recipient: "0x4fdF8DF271e1A65B119D858eeA2A7681da8F9c15" # Where seller fees will be paid to.
       block_explorer_base_url: "https://rinkeby.etherscan.io/token/"
