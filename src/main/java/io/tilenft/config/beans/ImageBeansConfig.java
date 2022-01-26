@@ -34,6 +34,12 @@ public class ImageBeansConfig {
   }
 
   @Bean
+  @Qualifier(value = "tileNFTsResourceLoader")
+  public ImageResourcesLoader tileNFTsResourceLoader() {
+    return new ImageResourcesLoader(resourceLoader, "classpath:tileNFTs/*");
+  }
+
+  @Bean
   public EmojiDrawer emojiDrawer() {
     return new EmojiDrawer();
   }

@@ -42,6 +42,10 @@ public class ImageController extends BaseController {
   @Autowired
   private ImageResourcesLoader logoResourcesLoader;
 
+  @Qualifier("tileNFTsResourceLoader")
+  @Autowired
+  private ImageResourcesLoader tileNFTsResourceLoader;
+
   @Autowired private TokenRetriever tokenRetriever;
   @Autowired private WeightlessTraitsListFinder weightlessTraitsListFinder;
   @Autowired private WeightedTraitsListFinder weightedTraitsListFinder;
@@ -96,11 +100,14 @@ public class ImageController extends BaseController {
 
   @GetMapping(value = "saleImage/get/{saleImageId}", produces = MediaType.IMAGE_PNG_VALUE)
   public void getSaleImage(HttpServletResponse response, @PathVariable int saleImageId)
-      throws ControllerException {
+      throws ControllerException, IOException {
     if (saleImageId > Integer.parseInt(salesConfig.getNumber_of_sales()) - 1) {
       throw new ControllerException("No sale available. id: " + saleImageId);
     }
-    return;
+    response.setContentType(MediaType.IMAGE_PNG_VALUE);
+    StreamUtils.copy(
+        tileNFTsResourceLoader.getResourceByName("tile_question_mark.png").getInputStream(),
+        response.getOutputStream());
   }
 
   @GetMapping(value = "emoji/indexes")
