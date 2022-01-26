@@ -106,7 +106,7 @@ public class ImageController extends BaseController {
     }
     response.setContentType(MediaType.IMAGE_PNG_VALUE);
     StreamUtils.copy(
-        tileNFTsResourceLoader.getResourceByName("tile_question_mark.png").getInputStream(),
+        tileNFTsResourceLoader.getResourceByName("tile-sale-img-1.png").getInputStream(),
         response.getOutputStream());
   }
 
