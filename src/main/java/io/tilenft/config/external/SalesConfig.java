@@ -16,6 +16,7 @@ public class SalesConfig {
   private String external_url;
   private String name;
   private String get_image_url_postfix;
+  private String number_of_sales;
 
   public String getImage() {
     return contractConfig.getExternal_link() + get_image_url_postfix;

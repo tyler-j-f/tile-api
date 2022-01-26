@@ -1,6 +1,7 @@
 package io.tilenft.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.tilenft.config.external.SalesConfig;
 import io.tilenft.etc.lists.finders.WeightedTraitsListFinder;
 import io.tilenft.etc.lists.finders.WeightlessTraitsListFinder;
 import io.tilenft.eth.token.TokenFacadeDTO;
@@ -44,6 +45,7 @@ public class ImageController extends BaseController {
   @Autowired private TokenRetriever tokenRetriever;
   @Autowired private WeightlessTraitsListFinder weightlessTraitsListFinder;
   @Autowired private WeightedTraitsListFinder weightedTraitsListFinder;
+  @Autowired private SalesConfig salesConfig;
 
   @GetMapping(value = "tile/get/{tokenId}", produces = MediaType.IMAGE_PNG_VALUE)
   public void getTokenImage(HttpServletResponse response, @PathVariable Long tokenId)
@@ -93,7 +95,11 @@ public class ImageController extends BaseController {
   }
 
   @GetMapping(value = "saleImage/get/{saleImageId}", produces = MediaType.IMAGE_PNG_VALUE)
-  public void getSaleImage(HttpServletResponse response, @PathVariable Long saleImageId) {
+  public void getSaleImage(HttpServletResponse response, @PathVariable int saleImageId)
+      throws ControllerException {
+    if (saleImageId > Integer.parseInt(salesConfig.getNumber_of_sales()) - 1) {
+      throw new ControllerException("No sale available. id: " + saleImageId);
+    }
     return;
   }
 

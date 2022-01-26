@@ -1,6 +1,7 @@
 import {Button} from "react-bootstrap";
 import ColorSelector from "../ColorSelector";
 import StyledText from "../../styledComponents/StyledText";
+import styled from "styled-components";
 
 const ColorSelectorSection = ({metadataToUpdate, handleKeepMetadataValue, handleDataSelected}) => {
   return (
@@ -9,9 +10,16 @@ const ColorSelectorSection = ({metadataToUpdate, handleKeepMetadataValue, handle
         <Button onClick={handleKeepMetadataValue} className="styledButton" >
           <p>Keep Tile {metadataToUpdate.length + 1} Color</p>
         </Button>
-        <ColorSelector onAccept={handleDataSelected} />
+        <StyledDiv>
+          <ColorSelector onAccept={handleDataSelected} />
+        </StyledDiv>
       </>
   );
 }
+
+const StyledDiv =
+    styled.div`
+    margin-bottom: 10px;
+    `;
 
 export default ColorSelectorSection;

@@ -1,6 +1,7 @@
 import {Button} from "react-bootstrap";
 import Picker from 'emoji-picker-react';
 import StyledText from "../../styledComponents/StyledText";
+import styled from "styled-components";
 
 const ColorSelectorSection = ({metadataToUpdate, handleKeepMetadataValue, handleDataSelected}) => {
 
@@ -23,9 +24,16 @@ const ColorSelectorSection = ({metadataToUpdate, handleKeepMetadataValue, handle
         <Button onClick={handleKeepMetadataValue} className="styledButton" >
           <p>Keep Tile {metadataToUpdate.length + 1} Emoji</p>
         </Button>
-        <Picker onEmojiClick={handleEmojiPickerClick} />
+        <StyledDiv>
+          <Picker onEmojiClick={handleEmojiPickerClick} />
+        </StyledDiv>
       </>
   );
 }
+
+const StyledDiv =
+    styled.div`
+    margin-bottom: 10px;
+    `;
 
 export default ColorSelectorSection;

@@ -5,3 +5,4 @@ spring:
       description: "When you purchase this option, you will receive one Tile NFT. Hopefully it's rare! Customize or merge your tile. Enjoy!"
       name: "Tile NFT Sale"
       get_image_url_postfix: "/api/image/saleImage/get/0"
+      number_of_sales: 1

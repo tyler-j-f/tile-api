@@ -17,7 +17,7 @@ import LeaderboardPage from "./pages/LeaderboardPage";
 import MergePage from "./pages/MergePage";
 import {Container, Navbar, Row} from "react-bootstrap";
 import styled from "styled-components";
-import CuztomizeTileNftPage from "./pages/CuztomizeTileNftPage";
+import CustomizeTileNftPage from "./pages/CustomizeTileNftPage";
 import StyledErrorText from "./styledComponents/StyledErrorText";
 import OpenSeaPage from "./pages/OpenSeaPage";
 
@@ -71,7 +71,7 @@ function TileNftApp() {
           <Route exact path="/leaderboard" element={<LeaderboardPage/>}/>
           <Route exact path="/view" element={<ViewPage/>}/>
           <Route exact path="/openSea" element={<OpenSeaPage/>}/>
-          <Route exact path="/customize" element={<CuztomizeTileNftPage />}/>
+          <Route exact path="/customize" element={<CustomizeTileNftPage />}/>
           <Route exact path="/merge" element={<MergePage />}/>
           <Route exact path="/info" element={<InfoPage/>}/>
         </Routes>

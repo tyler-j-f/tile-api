@@ -21,7 +21,7 @@ import StyledPage from "../styledComponents/StyledPage";
 import PageHeader from "../styledComponents/PageHeader";
 import StyledText from "../styledComponents/StyledText";
 
-const CuztomizeTileNftPage = () => {
+const CustomizeTileNftPage = () => {
   const [txData, setTxData] = useState({
     isSuccess: false,
     txId: '',
@@ -128,4 +128,4 @@ const CuztomizeTileNftPage = () => {
   )
 }
 
-export default CuztomizeTileNftPage
+export default CustomizeTileNftPage
