@@ -69,6 +69,13 @@ public class HandleSetEmojisEventsTask extends AbstractMetadataSetEventsRetrieve
     return bigIntegerFactory.buildHex(eventEmojisValue.substring(28, 32), 16).intValue();
   }
 
+  /**
+   * @param eventEmojisValue
+   * @param tileIndex
+   * @param emojiSetIndex There is currently only an emoji set, from openmoji.org
+   * @return
+   * @throws EthEventException
+   */
   private String getTileEmojiValue(String eventEmojisValue, int tileIndex, int emojiSetIndex)
       throws EthEventException {
     if (emojiSetIndex != EMOJI_SET_SPECIFIER_INDEX) {
