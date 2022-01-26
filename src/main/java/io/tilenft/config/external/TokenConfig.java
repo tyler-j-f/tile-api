@@ -18,6 +18,7 @@ public class TokenConfig {
   private String base_animation_url;
   private String base_youtube_url;
   // 'attributes' key decided by TraitsConfig
+
   public String getBase_image_url() {
     return contractConfig.getExternal_link() + base_image_url_postfix;
   }

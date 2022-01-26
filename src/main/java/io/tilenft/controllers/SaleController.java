@@ -14,10 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = {"/api/sales"})
 public class SaleController extends BaseController {
 
+  private final int MAX_SALES = 1;
+
   @Autowired private SalesConfig salesConfig;
 
   @GetMapping("get/{id}")
-  public String getSaleJSON(@PathVariable String id) throws JsonProcessingException {
+  public String getSaleJSON(@PathVariable int id)
+      throws JsonProcessingException, ControllerException {
+    if (id > MAX_SALES - 1) {
+      throw new ControllerException("No sale available. id: " + id);
+    }
     return new ObjectMapper()
         .writeValueAsString(
             SaleMetadataDTO.builder()
