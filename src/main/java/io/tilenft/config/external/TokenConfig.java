@@ -26,4 +26,8 @@ public class TokenConfig {
   public String getBase_external_url() {
     return contractConfig.getExternal_link() + base_external_url_postfix;
   }
+
+  public String getDiscord_url() {
+    return contractConfig.getDiscord_url();
+  }
 }

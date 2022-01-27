@@ -17,4 +17,5 @@ public class TokenDTO {
   private String description;
   private String externalUrl;
   private String imageUrl;
+  private String discordUrl;
 }

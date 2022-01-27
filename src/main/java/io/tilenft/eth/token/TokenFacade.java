@@ -79,6 +79,7 @@ public class TokenFacade implements TokenFacadeInterface {
         .external_url(tokenDTO.getExternalUrl())
         .image(tokenDTO.getImageUrl())
         .name(tokenDTO.getName())
+        .discord_url(tokenDTO.getName())
         .build();
   }
 

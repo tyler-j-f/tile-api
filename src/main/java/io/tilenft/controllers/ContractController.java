@@ -29,6 +29,7 @@ public class ContractController extends BaseController {
                 .external_link(contractConfig.getExternal_link())
                 .seller_fee_basis_points(contractConfig.getSeller_fee_basis_points())
                 .fee_recipient(contractConfig.getFee_recipient())
+                .discord_url(contractConfig.getDiscord_url())
                 .build());
   }
 

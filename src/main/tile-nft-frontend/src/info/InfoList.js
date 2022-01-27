@@ -103,7 +103,7 @@ const InfoList = () => {
               <li>This app is still a WIP, please reach out for any questions, concerns, or bugs.</li>
               <li>Please contact me if you would like to work on this project. Or have any other interest in this project.</li>
               <ul>
-                <li>CSS/SASS/style developers... please reach out if you're interested in improving the UX. Styling/UX and working with the frontend in general, is not my strong suit.</li>
+                <li>Frontend developers... please reach out if you're interested in improving the styling/UX. Styling, UX, and working with the frontend in general, is not my strong suit.</li>
               </ul>
               <li>Open to employment opportunities.</li>
               <li>If you want Rinkeby Testnet ETH for testing this app. I can send you some.</li>

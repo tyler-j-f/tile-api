@@ -12,4 +12,5 @@ public class ContractMetadataDTO {
   private String external_link;
   private String seller_fee_basis_points;
   private String fee_recipient;
+  private String discord_url;
 }

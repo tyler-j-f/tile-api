@@ -15,6 +15,7 @@ public class TokenDTOTest {
   private static final String DESCRIPTION = "STRING_B";
   private static final String EXTERNAL_URL = "STRING_C";
   private static final String IMAGE_URL = "STRING_D";
+  private static final String DISCORD_URL = "STRING_I";
   // Value set 2
   // Value set 1
   private static final Long ID_2 = 1L;
@@ -24,12 +25,14 @@ public class TokenDTOTest {
   private static final String DESCRIPTION_2 = "STRING_F";
   private static final String EXTERNAL_URL_2 = "STRING_G";
   private static final String IMAGE_URL_2 = "STRING_H";
+  private static final String DISCORD_URL_2 = "STRING_J";
 
   @Test
   void testConstructor() {
     // Create with value set 1.
     TokenDTO tokenDTO =
-        new TokenDTO(ID, TOKEN_ID, SALE_ID, NAME, DESCRIPTION, EXTERNAL_URL, IMAGE_URL);
+        new TokenDTO(
+            ID, TOKEN_ID, SALE_ID, NAME, DESCRIPTION, EXTERNAL_URL, IMAGE_URL, DISCORD_URL);
     // Assert that getters return value set 1.
     assertThat(tokenDTO.getId()).isEqualTo(ID);
     assertThat(tokenDTO.getTokenId()).isEqualTo(TOKEN_ID);
@@ -44,7 +47,8 @@ public class TokenDTOTest {
   void testGetterSetters() {
     // Create with value set 1 initially.
     TokenDTO tokenDTO =
-        new TokenDTO(ID, TOKEN_ID, SALE_ID, NAME, DESCRIPTION, EXTERNAL_URL, IMAGE_URL);
+        new TokenDTO(
+            ID, TOKEN_ID, SALE_ID, NAME, DESCRIPTION, EXTERNAL_URL, IMAGE_URL, DISCORD_URL);
     // Set value set 2.
     tokenDTO.setId(ID_2);
     tokenDTO.setTokenId(TOKEN_ID_2);
@@ -53,6 +57,7 @@ public class TokenDTOTest {
     tokenDTO.setDescription(DESCRIPTION_2);
     tokenDTO.setExternalUrl(EXTERNAL_URL_2);
     tokenDTO.setImageUrl(IMAGE_URL_2);
+    tokenDTO.setDiscordUrl(DISCORD_URL_2);
     // Assert that getters return value set 2.
     assertThat(tokenDTO.getId()).isEqualTo(ID_2);
     assertThat(tokenDTO.getTokenId()).isEqualTo(TOKEN_ID_2);
@@ -61,6 +66,7 @@ public class TokenDTOTest {
     assertThat(tokenDTO.getDescription()).isEqualTo(DESCRIPTION_2);
     assertThat(tokenDTO.getExternalUrl()).isEqualTo(EXTERNAL_URL_2);
     assertThat(tokenDTO.getImageUrl()).isEqualTo(IMAGE_URL_2);
+    assertThat(tokenDTO.getDiscordUrl()).isEqualTo(DISCORD_URL_2);
   }
 
   @Test

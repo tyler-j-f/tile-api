@@ -12,4 +12,5 @@ public class SaleMetadataDTO {
   private String external_url;
   private String image;
   private String name;
+  private String discord_url;
 }

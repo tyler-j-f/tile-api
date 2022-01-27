@@ -15,6 +15,7 @@ public class ContractConfig {
   private String seller_fee_basis_points;
   private String fee_recipient;
   private String block_explorer_base_url;
+  private String discord_url;
 
   public String getImage() {
     return external_link + get_image_url_postfix;

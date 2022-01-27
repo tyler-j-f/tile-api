@@ -30,6 +30,7 @@ public class SaleController extends BaseController {
                 .external_url(salesConfig.getExternal_url())
                 .image(salesConfig.getImage())
                 .name(salesConfig.getName())
+                .discord_url(salesConfig.getDiscord_url())
                 .build());
   }
 }

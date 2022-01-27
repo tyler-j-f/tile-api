@@ -2,7 +2,7 @@ spring:
   application:
     token-config:
       base_name: "Tile #"
-      description: "TileNFT. Buy a tile and customize it yourself!!! Each tile will be generated with unique traits that decide how rare your TileNFT is."
+      description: "This is a rare TileNFT!!! Customize your TileNFT artwork. Or merge two TileNFTs to create a third TileNFT that's even more rare. Use TileNFT.io for customizing and merging TileNFTs."
       base_external_url_postfix: "/?tokenId="
       base_image_url_postfix: "/api/image/tile/get/"
       background_color: null # maybe we should add a background_color?
