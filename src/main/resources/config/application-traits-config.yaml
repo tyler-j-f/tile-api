@@ -24,7 +24,7 @@ spring:
         - {id: null, traitTypeId: 6, traitTypeName: "Tile 2 Multiplier", description: "Rarity Multiplier value of the top right 'sub-tile'. The higher the rarity value, the better!"}
         - {id: null, traitTypeId: 7, traitTypeName: "Tile 3 Multiplier", description: "Rarity multiplier value of the bottom left 'sub-tile'. The higher the rarity value, the better!"}
         - {id: null, traitTypeId: 8, traitTypeName: "Tile 4 Multiplier", description: "Rarity multiplier value of the bottom right 'sub-tile'. The higher the rarity value, the better!"}
-        - {id: null, traitTypeId: 9, traitTypeName: "Merge Multiplier", description: "Merge (and burn) Two TileNFTs to output ONE, even more rare TileNFT!!! The merge multiplier value of each TileNFT will be used to increase the rarity of the outputted TileNFT after merging two!! The higher the rarity value, the better!"}
+        - {id: null, traitTypeId: 9, traitTypeName: "Merge Multiplier", description: "Merge (and burn) Two TileNFTs to output ONE, even more rare TileNFT!!! The merge multiplier value of each TileNFT will be used to increase the rarity of the outputted TileNFT after merging two!"}
         - {id: null, traitTypeId: 10, traitTypeName: "Emoji Source", description: "Attribution/credit details for the emoji type used by the TileNFT"}
         - {id: null, traitTypeId: 24, traitTypeName: "Is Burnt Token", description: "A token with this attribute has been burnt. The token is no longer tradable." }
       type-weights:
