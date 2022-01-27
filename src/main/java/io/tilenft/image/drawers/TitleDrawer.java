@@ -14,7 +14,12 @@ public class TitleDrawer {
 
   public Mat drawTitle(Mat src, Long tokenId) {
     Imgproc.putText(
-        src, "Tile # ?", new Point(20, 27), Core.FONT_HERSHEY_COMPLEX, 1, new Scalar(0, 0, 0, 255));
+        src,
+        "Tile #" + numberFormat.format(tokenId),
+        new Point(20, 27),
+        Core.FONT_HERSHEY_COMPLEX,
+        1,
+        new Scalar(0, 0, 0, 255));
     return src;
   }
 }
