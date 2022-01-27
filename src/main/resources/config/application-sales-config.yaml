@@ -2,7 +2,7 @@ spring:
   application:
     sales-config:
       attributes: null
-      description: "When you purchase this option, you will receive one Tile NFT. Hopefully it's rare! Customize or merge your tile. Enjoy!"
-      name: "Tile NFT Sale"
+      description: "When you purchase this option, you will receive one TileNFT. Hopefully it's rare! Customize or merge your tile. Enjoy!"
+      name: "TileNFT Sale"
       get_image_url_postfix: "/api/image/saleImage/get/0"
       number_of_sales: 1

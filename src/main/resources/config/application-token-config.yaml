@@ -2,7 +2,7 @@ spring:
   application:
     token-config:
       base_name: "Tile #"
-      description: "Tile NFT. Buy a tile and customize it yourself!!! Each tile will be generated with unique traits that decide how rare your Tile is."
+      description: "TileNFT. Buy a tile and customize it yourself!!! Each tile will be generated with unique traits that decide how rare your TileNFT is."
       base_external_url_postfix: "/?tokenId="
       base_image_url_postfix: "/api/image/tile/get/"
       background_color: null # maybe we should add a background_color?
