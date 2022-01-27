@@ -2,7 +2,7 @@ spring:
   application:
     sales-config:
       attributes: null
-      description: "Buy and collect TileNFTs! Each tile will be generated with unique traits that determine how rare your TileNFT is. Customize your TileNFT artwork. Or merge two TileNFTs (and burn them), to create a third TileNFT that's even more rare than the two merge tokens combined. Use TileNFT.io for customizing and merging TileNFTs."
+      description: "Buy and collect TileNFTs! Each TileNFT will be generated with unique traits that determine how rare your TileNFT is. The higher the overall rarity points, the better! Customize your TileNFT artwork. Or merge two TileNFTs (and burn them), to create a third TileNFT that's even more rare than the two merge tokens combined. Use TileNFT.io for customizing and merging TileNFTs."
       name: "TileNFT Sale"
       get_image_url_postfix: "/api/image/saleImage/get/0"
       number_of_sales: 1

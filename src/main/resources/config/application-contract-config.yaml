@@ -2,7 +2,7 @@ spring:
   application:
     contract-config:
       name: "Tile NFTs"
-      description: "TileNFTs. Buy tiles and customize them yourself!!! Each tile will be generated with unique traits that decide how rare each Tile is."
+      description: "TileNFTs. Buy tiles and customize them yourself! The higher the overall rarity points, the better! Each TileNFT will be generated with unique traits that decide ."
       external_link: "http://tilenft.io"
       discord_url: "https://discord.gg/3xuZpB3FDH"
       seller_fee_basis_points: 100 # Indicates a 1% seller fee.
