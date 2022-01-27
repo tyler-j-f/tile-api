@@ -31,14 +31,32 @@ public class Scheduler {
    */
   @Scheduled(fixedDelayString = "${spring.application.events-config.schedulerFixedRateMs}")
   public void executeTasks() throws TaskSchedulerException {
-    if (Boolean.parseBoolean(env.getProperty("shouldResetSqlTables")) && !hasSqlTablesBeenReset) {
+    if (shouldResetSqlTables()) {
       System.out.println("Resetting all of the SQL tables!!!");
       handleResetSqlTask.execute();
       hasSqlTablesBeenReset = true;
     }
+    if (shouldResetSqlTablesAndTerminateScheduler()) {
+      System.out.println(
+          "Scheduler is disabled! ETH events will be ignored. Reset and remove the shouldResetSqlTablesAndTerminateScheduler flag to enable listening for ETH events.");
+      return;
+    }
+    ;
     handleMintEventsTask.execute();
     handleSetColorsEventsTask.execute();
     handleSetEmojisEventsTask.execute();
     handleMergeEventsTask.execute();
+  }
+
+  private boolean shouldResetSqlTables() {
+    boolean shouldResetSqlTables = Boolean.parseBoolean(env.getProperty("shouldResetSqlTables"));
+    boolean shouldResetSqlTablesAndTerminateScheduler =
+        Boolean.parseBoolean(env.getProperty("shouldResetSqlTablesAndTerminateScheduler"));
+    return shouldResetSqlTables
+        || shouldResetSqlTablesAndTerminateScheduler && !hasSqlTablesBeenReset;
+  }
+
+  private boolean shouldResetSqlTablesAndTerminateScheduler() {
+    return Boolean.parseBoolean(env.getProperty("shouldResetSqlTablesAndTerminateScheduler"));
   }
 }
