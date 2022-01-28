@@ -119,7 +119,7 @@ const ViewPage = () => {
                         <StyledAnchor href={getTwitterImageUrl()} target="_blank" >
                           View Twitter
                         </StyledAnchor>
-                        &nbsp;version of image.
+                        &nbsp;version of image (To be improved. A circular version (that fits the twitter profile picture estitique) will be added soon.
                       </StyledText>
                     </li>
                 )}
