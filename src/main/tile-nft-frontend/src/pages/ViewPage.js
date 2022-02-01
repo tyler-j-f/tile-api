@@ -13,8 +13,10 @@ import PageSubHeader from "../styledComponents/PageSubHeader";
 import loadOpenSeaData
   from "../customizeTileNft/tokenDataLoaders/loadOpenSeaData";
 import StyledAnchor from "../styledComponents/styledAnchor";
+import loadContractAddress from "../view/loadContractAddress";
 
 const ViewPage = () => {
+  const [tokenOwnerAddress, setTokenOwnerAddress] = useState('');
 
   const [tokenData, setTokenData] = useState({
     tokenId: '',
@@ -23,6 +25,20 @@ const ViewPage = () => {
     blockExplorerUrl: '',
     openSeaData: {}
   });
+
+  useEffect(
+      () => {
+        if (tokenData.tokenId !== '') {
+          loadContractAddress(tokenData.tokenId).then(
+              tokenOwner => setTokenOwnerAddress(tokenOwner)
+          ).catch(e => {
+            console.log("ERROR CAUGHT!!!", e);
+            setTokenOwnerAddress('');
+          });
+        }
+      },
+      [tokenData.tokenId]
+  );
 
   useEffect(() => {
     if (tokenData?.tokenId !== '') {
@@ -56,6 +72,8 @@ const ViewPage = () => {
   const isValidLockedInTokenId = () => tokenData.tokenId !== '' && !tokenData.isInvalidTokenNumber;
 
   const shouldRenderBlockExplorerLink = () => tokenData.blockExplorerUrl !== '' && !tokenData.isInvalidTokenNumber;
+
+  const shouldRenderOwnerAddress = () => tokenOwnerAddress!== '' && tokenData.tokenId !== '';
 
   const getTwitterImageUrl = () => `${window.location.origin}/api/image/twitter/tile/get/${tokenData.tokenId}`
 
@@ -91,16 +109,6 @@ const ViewPage = () => {
                     />
                   </li>
                 }
-                {shouldRenderBlockExplorerLink() &&
-                  <li>
-                    <StyledText>
-                      <StyledAnchor href={tokenData.blockExplorerUrl} target="_blank" >
-                        View token
-                      </StyledAnchor>
-                      &nbsp;on block explorer.
-                    </StyledText>
-                  </li>
-                }
                 {shouldRenderOpenSeaLinks() && (
                     <>
                       <li>
@@ -113,6 +121,27 @@ const ViewPage = () => {
                       </li>
                     </>
                 )}
+                {shouldRenderBlockExplorerLink() &&
+                  <li>
+                    <StyledText>
+                      <StyledAnchor href={tokenData.blockExplorerUrl} target="_blank" >
+                        View token
+                      </StyledAnchor>
+                      &nbsp;on block explorer.
+                    </StyledText>
+                  </li>
+                }
+                {shouldRenderOwnerAddress() &&
+                  <li>
+                    <StyledText>
+                      Owner Address:&nbsp;
+                      <br/>
+                      <StyledAnchor href={`https://rinkeby.etherscan.io/address/${tokenOwnerAddress}`} target="_blank" >
+                        {tokenOwnerAddress}
+                      </StyledAnchor>
+                    </StyledText>
+                  </li>
+                }
                 {isValidLockedInTokenId() && (
                     <li>
                       <StyledText>
@@ -123,7 +152,7 @@ const ViewPage = () => {
                         <StyledList>
                           <li>
                             <StyledText>
-                              To be improved. A circular version will be available soon (to fits the twitter profile picture aesthetic).
+                              To be improved. A circular version will be available soon (to better fit the twitter profile picture aesthetic).
                             </StyledText>
                           </li>
                         </StyledList>
