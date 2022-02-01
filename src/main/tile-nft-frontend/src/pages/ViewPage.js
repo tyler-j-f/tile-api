@@ -123,12 +123,7 @@ const ViewPage = () => {
                         <StyledList>
                           <li>
                             <StyledText>
-                              To be improved
-                            </StyledText>
-                          </li>
-                          <li>
-                            <StyledText>
-                              A circular version (that fits the twitter profile picture estitique) will be available soon.
+                              To be improved. A circular version will be available soon (to fits the twitter profile picture aesthetic).
                             </StyledText>
                           </li>
                         </StyledList>

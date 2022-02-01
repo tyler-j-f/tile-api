@@ -62,7 +62,6 @@ public class HandleMintEventsTask extends AbstractEthEventsRetrieverTask {
       tokenId = hexValueToDecimal.getLongFromHexString(event.getTokenId());
       transactionHash = hexValueToDecimal.getLongFromHexString(event.getTransactionHash());
       TokenDTO existingTokenDTO = tokenRepository.readById(tokenId);
-      System.out.println("\nFound mint event for new token. newTokenId: " + tokenId);
       if (existingTokenDTO != null) {
         System.out.println(
             "Token for mint event was previously added to the DB. tokenId: " + tokenId);
@@ -74,7 +73,8 @@ public class HandleMintEventsTask extends AbstractEthEventsRetrieverTask {
         continue;
       }
       tokens.add(token);
-      System.out.println("Added Token for mint event to token DB. TokenId: " + tokenId);
+      System.out.println("Added Token for mint event to token DB");
+      System.out.println("Newly minted token: tokenId: " + tokenId);
     }
     return tokens;
   }

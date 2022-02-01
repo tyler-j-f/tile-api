@@ -6,7 +6,6 @@ import io.tilenft.scheduler.tasks.HandleResetSqlTask;
 import io.tilenft.scheduler.tasks.HandleSetColorsEventsTask;
 import io.tilenft.scheduler.tasks.HandleSetEmojisEventsTask;
 import java.util.concurrent.ExecutionException;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Scheduler {
-  @Autowired private Logger logger;
   @Autowired private HandleMintEventsTask handleMintEventsTask;
   @Autowired private HandleSetColorsEventsTask handleSetColorsEventsTask;
   @Autowired private HandleSetEmojisEventsTask handleSetEmojisEventsTask;
@@ -42,10 +40,6 @@ public class Scheduler {
           "Scheduler is disabled! ETH events will be ignored. Reset and remove the shouldResetSqlTablesAndTerminateScheduler flag to enable listening for ETH events.");
       return;
     }
-    logger.info("DEBUG: Simple log with inputs {}, {} and {}", 1, 2, 3);
-    logger.warn("DEBUG: Simple log WARNING");
-    logger.error("DEBUG: Simple log ERROR");
-    logger.debug("DEBUG: Simple log debug");
     handleMintEventsTask.execute();
     handleSetColorsEventsTask.execute();
     handleSetEmojisEventsTask.execute();
