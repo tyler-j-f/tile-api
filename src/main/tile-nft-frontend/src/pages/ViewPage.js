@@ -46,8 +46,8 @@ const ViewPage = () => {
 
   useEffect(
       () => {
-        console.log("DEBUG: useEffect. about to handleProviderAndSigner", tokenData)
-        handleProviderAndSigner();
+        console.log("DEBUG: useEffect. about to handleLoadContract", tokenData)
+        handleLoadContract();
       },
       [tokenData.contractAddress]
   );
@@ -82,17 +82,15 @@ const ViewPage = () => {
     }
   }, [tokenData.tokenId]);
 
-  const handleProviderAndSigner = () => {
-    console.log("DEBUG: handleProviderAndSigner", provider, tokenData.contractAddress , tokenData);
-    if (provider && tokenData.contractAddress !== '') {
-      console.log("DEBUG: handleProviderAndSigner. Inside closure");
+  const handleLoadContract = () => {
+    console.log("DEBUG: handleLoadContract", provider, tokenData.contractAddress , tokenData);
+    if (tokenData.contractAddress !== '') {
+      console.log("DEBUG: handleLoadContract. Inside closure");
       let contract = new ethers.Contract(tokenData.contractAddress, TileContract.abi, provider);
-      let signer = provider.getSigner();
-      console.log("DEBUG: handleProviderAndSigner. set data", tokenData)
+      console.log("DEBUG: handleLoadContract. set data", tokenData)
       setTokenData({
         ...tokenData,
-        contract: contract,
-        signer: signer
+        contract: contract
       });
     }
   }
@@ -114,9 +112,9 @@ const ViewPage = () => {
 
   const isValidLockedInTokenId = () => tokenData.tokenId !== '' && !tokenData.isInvalidTokenNumber;
 
-  const shouldRenderBlockExplorerTokenLink = () => tokenData.ownerAddress !== '' && !tokenData.isInvalidTokenNumber;
+  const shouldRenderBlockExplorerTokenLink = () => tokenData.blockExplorerUrl !== '' && !tokenData.isInvalidTokenNumber;
 
-  const shouldRenderBlockExplorerAccountLink = () => tokenData.blockExplorerUrl !== '' && !tokenData.isInvalidTokenNumber;
+  const shouldRenderBlockExplorerAccountLink = () => tokenData.ownerAddress !== '' && !tokenData.isInvalidTokenNumber;
 
   const getTwitterImageUrl = () => `${window.location.origin}/api/image/twitter/tile/get/${tokenData.tokenId}`
 
@@ -177,10 +175,11 @@ const ViewPage = () => {
                 {shouldRenderBlockExplorerAccountLink() &&
                   <li>
                     <StyledText>
-                      <StyledAnchor href={tokenData.blockExplorerUrl} target="_blank" >
-                        View token
+                      Token owner address:&nbsp;
+                      <br/>
+                      <StyledAnchor href={tokenData.ownerAddress} target="_blank" >
+                        {tokenData.ownerAddress}
                       </StyledAnchor>
-                      &nbsp;on block explorer.
                     </StyledText>
                   </li>
                 }
