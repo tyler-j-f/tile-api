@@ -32,7 +32,7 @@ spec:
           secretName: hello-app-key
       containers:
       - name: hello-app
-        image: us-east4-docker.pkg.dev/dev-eth-api/tile-api-repo/tile-api-app:v1.0.24
+        image: us-east4-docker.pkg.dev/dev-eth-api/tile-api-repo/tile-api-app:v1.0.25
         volumeMounts:
         - name: google-cloud-key
           mountPath: /var/secrets/google
