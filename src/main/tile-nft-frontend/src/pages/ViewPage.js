@@ -13,16 +13,68 @@ import PageSubHeader from "../styledComponents/PageSubHeader";
 import loadOpenSeaData
   from "../customizeTileNft/tokenDataLoaders/loadOpenSeaData";
 import StyledAnchor from "../styledComponents/styledAnchor";
+import {ethers} from "ethers";
+import TileContract from "../contractsJson/Tile.json";
+import {useEthers} from "@usedapp/core";
+import loadContractAddress from "../view/loadContractAddress";
 
 const ViewPage = () => {
-
+  const { library: provider } = useEthers()
   const [tokenData, setTokenData] = useState({
     tokenId: '',
     tokenAttributes: {},
     isInvalidTokenNumber: false,
     blockExplorerUrl: '',
-    openSeaData: {}
+    openSeaData: {},
+    contractAddress: '',
+    tileContract: null,
+    signer: null,
+    ownerAddress: ''
   });
+
+  useEffect(
+      () => {
+        console.log("DEBUG: useEffect", tokenData);
+        loadContractAddress().then(contractAddress => {
+          console.log("DEBUG: loadContractAddress result", contractAddress, tokenData);
+          setTokenData({
+            ...tokenData,
+            contractAddress: contractAddress
+          });
+        })
+      },
+      []
+  );
+
+  useEffect(
+      () => {
+        console.log("DEBUG: useEffect handleProviderAndSigner", tokenData);
+        if (provider && tokenData.contractAddress !== '') {
+          handleProviderAndSigner();
+        }
+      },
+      [provider, tokenData.contractAddress]
+  );
+
+  useEffect(
+      () => {
+        console.log("DEBUG: useEffect ownerOf", tokenData);
+        if (tokenData.tokenId !== '' && tokenData.tileContract !== null && tokenData.signer !== null) {
+          tokenData.tileContract.ownerOf(tokenData.tokenId).then(
+              tokenOwner => {
+                console.log("DEBUG: useEffect ownerOf result", tokenOwner, tokenData);
+                setTokenData({
+                  ...tokenData,
+                  ownerAddress: tokenOwner
+                })
+              }
+          ).catch(e => {
+            console.log("ERROR CAUGHT!!!", e);
+          });
+        }
+      },
+      [tokenData.tileContract, tokenData.signer, tokenData.tokenId]
+  );
 
   useEffect(() => {
     if (tokenData?.tokenId !== '') {
@@ -37,6 +89,20 @@ const ViewPage = () => {
       });
     }
   }, [tokenData.tokenId]);
+
+  const handleProviderAndSigner = () => {
+    let tileContract = new ethers.Contract(tokenData.contractAddress, TileContract.abi, provider);
+    let signer = provider.getSigner();
+    console.log("DEBUG: loadContractAddress result", tileContract, signer, tokenData);
+    // The MetaMask plugin also allows signing transactions to
+    // send ether and pay to change state within the blockchain.
+    // For this, you need the account signer...
+    setTokenData({
+      ...tokenData,
+      tileContract: tileContract,
+      signer: signer
+    });
+  }
 
   const handleTokenLoadedCallback = ({tokenId, isInvalidTokenNumber, blockExplorerUrl}) => {
     setTokenData({
