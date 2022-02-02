@@ -7,7 +7,7 @@ const TransactionSuccess = ({txId, handleSendAnotherTx, subText}) => {
   return (
       <>
         <StyledText>
-          Success!!! Transaction Id: <a href={`https://rinkeby.etherscan.io/tx/${txId}`} >{txId}</a>
+          Success!!! Transaction Id: <a href={`https://rinkeby.etherscan.io/tx/${txId}`} target="_blank" >{txId}</a>
         </StyledText>
         <StyledText>{subText}</StyledText>
         <Button onClick={handleSendAnotherTx} className="styledButton" >

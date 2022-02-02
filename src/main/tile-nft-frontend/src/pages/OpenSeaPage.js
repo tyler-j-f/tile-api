@@ -34,13 +34,13 @@ const OpenSeaPage = () => {
               <ul>
                 <li>
                   <StyledText>
-                    <StyledAnchor href={openSeaData.saleUrl}>Link to</StyledAnchor>
+                    <StyledAnchor href={openSeaData.saleUrl} target="_blank" >Link to</StyledAnchor>
                     &nbsp;the OpenSea TileNFT sale.
                   </StyledText>
                 </li>
                 <li>
                   <StyledText>
-                    <StyledAnchor href={openSeaData.collectionUrl}>Link to</StyledAnchor>
+                    <StyledAnchor href={openSeaData.collectionUrl} target="_blank" >Link to</StyledAnchor>
                     &nbsp;view TileNFTs OpenSea collection. For buying/selling on OpenSea.
                   </StyledText>
                 </li>

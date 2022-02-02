@@ -114,7 +114,7 @@ const CustomizeTileNftPage = () => {
 
   return (
       <StyledPage>
-        <PageHeader>Update TileNFT</PageHeader>
+        <PageHeader>Customize TileNFT</PageHeader>
         {!txData.isSuccess && getSelectWhatToUpdateButtons()}
         {txData.dataToSetIndex !== null && getUpdateHtml()}
         {txData.isSuccess &&
