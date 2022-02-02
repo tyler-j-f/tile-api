@@ -31,7 +31,6 @@ const loadBlockExplorerUrl = (
 
   return loadUrl().then(
       response => {
-        console.log("Debug loadBlockExplorerUrl response", response);
         return response;
       }
   );

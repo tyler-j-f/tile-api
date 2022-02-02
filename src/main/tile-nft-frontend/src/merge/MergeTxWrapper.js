@@ -26,7 +26,7 @@ const MergeTxWrapper = ({
       account = {}
     }
 ) => {
-  const { library: provider } = useEthers()
+  const { library: provider } = useEthers();
   const [tileContract, setTileContract] = useState(null);
   const [signer, setSigner] = useState(null);
   const [tokenOwnerAddresses, setTokenOwnerAddresses] = useState(initialTokenOwnerAddressesState);

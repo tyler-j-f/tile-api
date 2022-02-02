@@ -13,16 +13,60 @@ import PageSubHeader from "../styledComponents/PageSubHeader";
 import loadOpenSeaData
   from "../customizeTileNft/tokenDataLoaders/loadOpenSeaData";
 import StyledAnchor from "../styledComponents/styledAnchor";
+import {useEthers} from "@usedapp/core";
+import {ethers} from "ethers";
+import TileContract from "../contractsJson/Tile.json";
+import loadContractAddress from "../view/loadContractAddress";
 
 const ViewPage = () => {
 
+  const { library: provider } = useEthers();
   const [tokenData, setTokenData] = useState({
     tokenId: '',
     tokenAttributes: {},
     isInvalidTokenNumber: false,
     blockExplorerUrl: '',
-    openSeaData: {}
+    openSeaData: {},
+    ownerAddress: "",
+    contractAddress: '',
+    contract: null,
+    signer: null
   });
+
+  useEffect(() => {
+    console.log("DEBUG: useEffect. about to loadContractAddress", tokenData);
+    loadContractAddress().then(contractAddress => {
+      console.log("DEBUG: loadContractAddress result", contractAddress, tokenData);
+      setTokenData({
+        ...tokenData,
+        contractAddress: contractAddress
+      })
+    })
+  }, []);
+
+  useEffect(
+      () => {
+        console.log("DEBUG: useEffect. about to handleProviderAndSigner", tokenData)
+        handleProviderAndSigner();
+      },
+      [tokenData.contractAddress]
+  );
+
+  useEffect(() => {
+    console.log("DEBUG: useEffect. about to call ownerOf 1", tokenData);
+    if (tokenData?.tokenId !== '' && tokenData.contract !== null) {
+      console.log("DEBUG: useEffect. about to call ownerOf 2");
+      tokenData.contract.ownerOf(tokenData.tokenId).then(
+          (ownerAddress) => {
+            console.log("ownerOf result", ownerAddress, tokenData);
+            setTokenData({
+              ...tokenData,
+              ownerAddress: ownerAddress
+            });
+          }
+      )
+    }
+  }, [tokenData.contract, tokenData.tokenId]);
 
   useEffect(() => {
     if (tokenData?.tokenId !== '') {
@@ -38,6 +82,21 @@ const ViewPage = () => {
     }
   }, [tokenData.tokenId]);
 
+  const handleProviderAndSigner = () => {
+    console.log("DEBUG: handleProviderAndSigner", provider, tokenData.contractAddress , tokenData);
+    if (provider && tokenData.contractAddress !== '') {
+      console.log("DEBUG: handleProviderAndSigner. Inside closure");
+      let contract = new ethers.Contract(tokenData.contractAddress, TileContract.abi, provider);
+      let signer = provider.getSigner();
+      console.log("DEBUG: handleProviderAndSigner. set data", tokenData)
+      setTokenData({
+        ...tokenData,
+        contract: contract,
+        signer: signer
+      });
+    }
+  }
+
   const handleTokenLoadedCallback = ({tokenId, isInvalidTokenNumber, blockExplorerUrl}) => {
     setTokenData({
       ...tokenData,
@@ -47,7 +106,7 @@ const ViewPage = () => {
     });
   }
 
-  const shouldRenderAttributesTable = () => tokenData.tokenAttributes &&
+  const shouldRenderAttributesTable = () => tokenData.tokenId !== '' && tokenData.tokenAttributes &&
       Object.keys(tokenData.tokenAttributes).length > 0 && !tokenData.isInvalidTokenNumber;
 
   const shouldRenderOpenSeaLinks = () => tokenData.openSeaData &&
@@ -55,7 +114,9 @@ const ViewPage = () => {
 
   const isValidLockedInTokenId = () => tokenData.tokenId !== '' && !tokenData.isInvalidTokenNumber;
 
-  const shouldRenderBlockExplorerLink = () => tokenData.blockExplorerUrl !== '' && !tokenData.isInvalidTokenNumber;
+  const shouldRenderBlockExplorerTokenLink = () => tokenData.ownerAddress !== '' && !tokenData.isInvalidTokenNumber;
+
+  const shouldRenderBlockExplorerAccountLink = () => tokenData.blockExplorerUrl !== '' && !tokenData.isInvalidTokenNumber;
 
   const getTwitterImageUrl = () => `${window.location.origin}/api/image/twitter/tile/get/${tokenData.tokenId}`
 
@@ -79,7 +140,7 @@ const ViewPage = () => {
           </Col>
           <Col xs={2} sm={2} md={2} lg={2} xl={2} />
         </Row>
-        {(isValidLockedInTokenId() || shouldRenderBlockExplorerLink()) &&
+        {(isValidLockedInTokenId() || shouldRenderBlockExplorerTokenLink() || shouldRenderBlockExplorerAccountLink()) &&
           <Row>
             <Col xs={2} sm={2} md={2} lg={2} xl={2} />
             <Col xs={8} sm={8} md={8} lg={8} xl={8} className="text-center" >
@@ -89,16 +150,6 @@ const ViewPage = () => {
                     <OverallRank
                         tokenId={tokenData.tokenId}
                     />
-                  </li>
-                }
-                {shouldRenderBlockExplorerLink() &&
-                  <li>
-                    <StyledText>
-                      <StyledAnchor href={tokenData.blockExplorerUrl} target="_blank" >
-                        View token
-                      </StyledAnchor>
-                      &nbsp;on block explorer.
-                    </StyledText>
                   </li>
                 }
                 {shouldRenderOpenSeaLinks() && (
@@ -113,6 +164,26 @@ const ViewPage = () => {
                       </li>
                     </>
                 )}
+                {shouldRenderBlockExplorerTokenLink() &&
+                  <li>
+                    <StyledText>
+                      <StyledAnchor href={tokenData.blockExplorerUrl} target="_blank" >
+                        View token
+                      </StyledAnchor>
+                      &nbsp;on block explorer.
+                    </StyledText>
+                  </li>
+                }
+                {shouldRenderBlockExplorerAccountLink() &&
+                  <li>
+                    <StyledText>
+                      <StyledAnchor href={tokenData.blockExplorerUrl} target="_blank" >
+                        View token
+                      </StyledAnchor>
+                      &nbsp;on block explorer.
+                    </StyledText>
+                  </li>
+                }
                 {isValidLockedInTokenId() && (
                     <li>
                       <StyledText>
