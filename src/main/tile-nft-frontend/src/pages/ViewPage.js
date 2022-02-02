@@ -27,16 +27,15 @@ const ViewPage = () => {
     isInvalidTokenNumber: false,
     blockExplorerUrl: '',
     openSeaData: {},
-    ownerAddress: "",
     contractAddress: '',
     contract: null,
     signer: null
   });
 
+  const [ownerAddress, setOwnerAddress] = useState('');
+
   useEffect(() => {
-    console.log("DEBUG: useEffect. about to loadContractAddress", tokenData);
     loadContractAddress().then(contractAddress => {
-      console.log("DEBUG: loadContractAddress result", contractAddress, tokenData);
       setTokenData({
         ...tokenData,
         contractAddress: contractAddress
@@ -46,23 +45,19 @@ const ViewPage = () => {
 
   useEffect(
       () => {
-        console.log("DEBUG: useEffect. about to handleLoadContract", tokenData)
         handleLoadContract();
       },
       [tokenData.contractAddress]
   );
 
   useEffect(() => {
-    console.log("DEBUG: useEffect. about to call ownerOf 1", tokenData);
+    console.log("useEffect. Before ownerOf", tokenData);
     if (tokenData?.tokenId !== '' && tokenData.contract !== null) {
-      console.log("DEBUG: useEffect. about to call ownerOf 2");
+      console.log("about to call ownerOf", tokenData);
       tokenData.contract.ownerOf(tokenData.tokenId).then(
-          (ownerAddress) => {
-            console.log("ownerOf result", ownerAddress, tokenData);
-            setTokenData({
-              ...tokenData,
-              ownerAddress: ownerAddress
-            });
+          (foundOwnerAddress) => {
+            console.log("ownerOf result", foundOwnerAddress, tokenData);
+            setOwnerAddress(foundOwnerAddress);
           }
       )
     }
@@ -83,11 +78,8 @@ const ViewPage = () => {
   }, [tokenData.tokenId]);
 
   const handleLoadContract = () => {
-    console.log("DEBUG: handleLoadContract", provider, tokenData.contractAddress , tokenData);
     if (tokenData.contractAddress !== '') {
-      console.log("DEBUG: handleLoadContract. Inside closure");
       let contract = new ethers.Contract(tokenData.contractAddress, TileContract.abi, provider);
-      console.log("DEBUG: handleLoadContract. set data", tokenData)
       setTokenData({
         ...tokenData,
         contract: contract
@@ -114,7 +106,7 @@ const ViewPage = () => {
 
   const shouldRenderBlockExplorerTokenLink = () => tokenData.blockExplorerUrl !== '' && !tokenData.isInvalidTokenNumber;
 
-  const shouldRenderBlockExplorerAccountLink = () => tokenData.ownerAddress !== '' && !tokenData.isInvalidTokenNumber;
+  const shouldRenderBlockExplorerAccountLink = () => ownerAddress !== '' && !tokenData.isInvalidTokenNumber;
 
   const getTwitterImageUrl = () => `${window.location.origin}/api/image/twitter/tile/get/${tokenData.tokenId}`
 
@@ -177,12 +169,19 @@ const ViewPage = () => {
                     <StyledText>
                       Token owner address:&nbsp;
                       <br/>
-                      <StyledAnchor href={tokenData.ownerAddress} target="_blank" >
-                        {tokenData.ownerAddress}
+                      <StyledAnchor href={`https://rinkeby.etherscan.io/address/${ownerAddress}`} target="_blank" >
+                        {ownerAddress}
                       </StyledAnchor>
                     </StyledText>
                   </li>
                 }
+                {!shouldRenderBlockExplorerAccountLink() && (
+                    <li>
+                      <StyledText>
+                        The current token owner address can be found via the block explorer or Opensea links above.
+                      </StyledText>
+                    </li>
+                )}
                 {isValidLockedInTokenId() && (
                     <li>
                       <StyledText>
