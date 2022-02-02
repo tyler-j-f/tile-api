@@ -169,7 +169,7 @@ const ViewPage = () => {
                     <StyledText>
                       Token owner address:&nbsp;
                       <br/>
-                      <StyledAnchor href={`https://rinkeby.etherscan.io/address/${ownerAddress}`} target="_blank" >
+                      <StyledAnchor href={`https://rinkeby.etherscan.io/address/${ownerAddress}#tokentxnsErc721`} target="_blank" >
                         {ownerAddress}
                       </StyledAnchor>
                     </StyledText>
