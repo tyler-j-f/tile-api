@@ -24,16 +24,20 @@ const StyledMenu = styled.div`
     right: 0;
     height: 100vh;
     width: 100%;
-    @media screen and (min-width: 790px) {
-        width: 60%;
-    }
     background-color: rgb(58, 66, 81, .9);
     z-index: 99;
-
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    @media screen and (min-width: 501px) {
+      align-items: center;
+      justify-content: center;
+    }
+    @media screen and (max-width: 500px) and (min-width: 321px) {
+      padding-left 10px;
+    }
+    @media screen and (max-width: 320px) {
+      padding-left 10px;
+    }
 `;
 
 const StyledLink = styled(Link)`
