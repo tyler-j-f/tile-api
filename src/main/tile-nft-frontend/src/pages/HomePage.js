@@ -53,7 +53,7 @@ const HomePage = () => {
       <StyledPage>
         {getNetworkSelectDropdown()}
         {getActiveNetwork()}
-        <StyledImg
+        <StyledLogo
             src={getImageUrl()}
             alt={"TileNFT"}
         />
@@ -61,7 +61,7 @@ const HomePage = () => {
   )
 }
 
-const StyledImg =
+const StyledLogo =
     styled.img.attrs(props => props)`
     margin: 10px;
     margin-top: 50px;

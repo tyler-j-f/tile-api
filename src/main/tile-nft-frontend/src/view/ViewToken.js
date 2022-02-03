@@ -1,10 +1,10 @@
 import {useEffect, useState} from 'react';
-import styled from 'styled-components';
 import Spinner from 'react-bootstrap/Spinner';
 import loadViewTokenData from "./loadViewTokenData";
 import StyledLabel from "../styledComponents/StyledLabel";
 import StyledErrorText from "../styledComponents/StyledErrorText";
 import {Button} from "react-bootstrap";
+import StyledImage from "../styledComponents/StyledImage";
 
 const noop = () => {};
 
@@ -88,7 +88,7 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
       return getTokenNumberErrorText();
     }
     return viewTokenData.imgValue !== '' && (
-        <StyledImg imgSource={viewTokenData.imgValue} />
+        <StyledImage imgSource={viewTokenData.imgValue} />
     );
   }
 
@@ -103,15 +103,5 @@ const ViewToken = ({tokenLoadedCallback = noop, metadataToUpdate = [], getMetada
   );
 
 }
-
-const StyledImg =
-    styled.img.attrs(props => ({
-      src: props.imgSource
-    }))`
-    width: 350px;
-    height: 350px;
-    margin: 10px;
-    display: block
-    `;
 
 export default ViewToken;

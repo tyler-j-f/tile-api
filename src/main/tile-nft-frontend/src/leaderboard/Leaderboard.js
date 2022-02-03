@@ -6,6 +6,7 @@ import TotalTokens from "../view/TotalTokens";
 import LeaderboardPagination from "./LeaderboardPagination";
 import loadNumberOfTokens from "./loadNumberOfTokens";
 import loadLeaders from "./loadLeaders";
+import StyledImage from "../styledComponents/StyledImage";
 
 const Leaderboard = () => {
 
@@ -88,7 +89,7 @@ const Leaderboard = () => {
     return (
         <div>
           <StyledLabel># {rank}</StyledLabel>
-          <StyledImg imgSource={`${window.location.origin}/api/image/tile/get/${tokenId}`} />
+          <StyledImage imgSource={`${window.location.origin}/api/image/tile/get/${tokenId}`} />
         </div>
     );
   }
@@ -104,26 +105,6 @@ const Leaderboard = () => {
   let leaderboard = isLoading ? null : getLeaderboard();
   return isLoading ? loadingSymbol : leaderboard;
 }
-
-const StyledImg =
-    styled.img.attrs(props => ({
-      src: props.imgSource
-    }))`
-    @media screen and (min-width: 501px) {
-      width: 350px;
-      height: 350px;
-    }
-    @media screen and (max-width: 500px) and (min-width: 321px) {
-      width: 200px;
-      height: 200px;
-    }
-    @media screen and (max-width: 320px) {
-      width: 150px;
-      height: 150px;
-    }
-    margin: 10px;
-    display: block;
-    `;
 
 const StyledErrorText =
     styled.p`
