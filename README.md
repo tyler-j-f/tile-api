@@ -3,7 +3,7 @@
 * View [TileNFT.io](http://tilenft.io/)
 * This project is based off of the OpenSea tutorial for ["opensea-creatures"](https://github.com/ProjectOpenSea/opensea-creatures)
 * There's a Solidity smart contract repo that goes along with this
-    * TileNFT Smart Contracts: https://github.com/tyler-j-f/tile-nft
+    * [TileNFT Smart Contracts](https://github.com/tyler-j-f/tile-nft)
 * This whole project is a work in progress (W.I.P)
     * For this repo:
       * Additional comments should be added (in a lot of places)
