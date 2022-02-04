@@ -38,7 +38,6 @@ java -jar target/demo_api-0.0.1-SNAPSHOT.jar
 ```
 ### Running the app and resetting all SQL tables
 * When testing this application, we sometimes need to reset it completely
-  * This can be done to test the app
   * This will have to be done if you deploy a new version of the smart contracts. This will clear out metadata from the older deploy of the smart contracts.
 
 Run (from project root)
