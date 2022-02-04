@@ -2,8 +2,8 @@
 * [View the whitepaper](https://docs.google.com/document/d/1dUbI74EY_JYr42cpUB3k2hbykZwzWkBXsK0cf8wo1zM/edit?usp=sharing) for a detailed explanation of this project 
 * View [TileNFT.io](http://tilenft.io/)
 * This project is based off of the OpenSea tutorial for ["opensea-creatures"](https://github.com/ProjectOpenSea/opensea-creatures)
-* There's a metadata NFT server project which goes along with this
-    * TileNFT API: https://github.com/tyler-j-f/tile-api
+* There's a Solidity smart contract repo that goes along with this
+    * TileNFT Smart Contracts: https://github.com/tyler-j-f/tile-nft
 * This whole project is a work in progress (W.I.P)
     * For this repo:
       * Additional comments should be added (in a lot of places)
