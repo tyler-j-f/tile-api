@@ -1,15 +1,11 @@
 spring:
   application:
-    name: tile-nft
-    tileCount: 1
-    bitsPerTile: 24
     alchemyAPIKey: "cM6mpgOs8PlQFVgeYtPIW-fUzy5L5tC8"
     alchemyBaseUrl: "https://eth-rinkeby.alchemyapi.io/v2/"
-    nftContractAddress: "0x8218f4f459c90dc0151bc3e4617bB8BF800f9b57"
-    nftFactoryContractAddress: "0x9bb585CEb0FcfE3EB909FBD91545EBe92c27a891"
-    mintEventHashSignature: "0x070aa035fe0a09f0d9305bdc2d7a5d93cd4733db3b1ff869b4a7033c9501909a"
-    schedulerFixedRateMs: 60000
-    schedulerNumberOfBlocksToLookBack: 200000
+  datasource:
+    url: @active-datasource-url@
+    username:  "root"
+    password:  @active-datasource-password@
 
   profiles:
     include:
@@ -18,6 +14,7 @@ spring:
       - token-config
       - contract-config
       - sales-config
+      - events-config
 
   cloud:
     gcp:
@@ -25,7 +22,6 @@ spring:
         database-name: "db1"
         instance-connection-name: "dev-eth-api:us-east4:sql-1"
 
-  datasource:
-    continue-on-error: true
-    initialization-mode: always
-    password: "kksb2iA18s22jaIk"
+server:
+  error:
+    path: "/error"

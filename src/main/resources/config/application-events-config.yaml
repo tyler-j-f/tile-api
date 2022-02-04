@@ -1,0 +1,12 @@
+spring:
+  application:
+    events-config:
+      nftContractAddress: "0xd5bE0b487C687E715f739EF9AE4B3D4001622474"
+      nftFactoryContractAddress: "0xcBff5b575725857Bad51b50045e4e3Dd06a22c6E"
+      mintEventHashSignature: "0x07883703ed0e86588a40d76551c92f8a4b329e3bf19765e0e6749473c1a84665"
+      mergeEventHashSignature: "0xaf49bfaf2e89d3c4c27597e51083974866f80562836b8ceec82e54a67948709f"
+      setMetadataHashSignature: "0x8dc11f38f5dd33f31676778f70bf3598f9521ac596e3c165aee368ed47467ac0"
+      schedulerFixedRateMs: 60000
+      schedulerNumberOfBlocksToLookBack: 200000
+      baseOpenSeaUrl: "https://testnets.opensea.io"
+      openSeaCollectionPath: "tilenft-1"

@@ -1,0 +1,32 @@
+.App {
+  background-color: #D1CCDC;
+  position: relative;
+}
+
+.centered {
+  text-align: center;
+}
+
+.styledButton {
+  height: 35px;
+  margin: 5px;
+  background-color: white;
+  border-color: #774054;
+  color: #774054;
+}
+
+.styledDropdown > button {
+  height: 35px;
+  margin: 5px;
+  background-color: white;
+  border-color: #774054;
+  color: #774054;
+}
+
+.addMargin5 {
+  margin: 5px;
+}
+
+.addMarginRight60 {
+  margin-right: 60px;
+}

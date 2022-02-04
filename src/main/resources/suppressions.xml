@@ -5,10 +5,25 @@
         "https://checkstyle.org/dtds/suppressions_1_0.dtd">
 
 <suppressions>
-    <suppress checks="JavadocStyleCheck"
-              files="GeneratedObject.java"
-              lines="50-9999"/>
-    <suppress checks="MagicNumberCheck"
-              files="LegacyDatasetConvertor.java"
-              lines="221,250-295"/>
+    <!--Ignore test files, we're not going to worry about style errors/warnings from tests. -->
+    <suppress files="[a-zA-Z0-9]Test.java"
+      checks="[a-zA-Z0-9]*"
+    />
+    <!--Ignore check, CustomImportOrderCheck , it does not work with the auto-formatter plugin. -->
+    <suppress
+      checks="CustomImportOrderCheck"
+      files="[a-zA-Z0-9]*"
+    />
+    <suppress
+      checks="MemberNameCheck"
+      files="TokenConfig.java"
+    />
+    <suppress
+      checks="MemberNameCheck"
+      files="ContractConfig.java"
+    />
+    <suppress
+      checks="MemberNameCheck"
+      files="SalesConfig.java"
+    />
 </suppressions>
