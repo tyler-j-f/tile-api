@@ -14,6 +14,19 @@
         * Code should be cleaned up.
         * Additional comments should be added in some places
 
+## Technologies Used
+* Java
+* SpringBoot Framework
+* MySQL
+* Maven
+* npm
+* Web3J (for reading/interacting with ETH based blockchains)
+* React
+* Google cloud
+* Many more. View here, for a list of some of the other dependencies:
+  * pom.xml
+  * src/main/tile-nft-frontend/package.json (frontend dependencies)
+
 ## Building The Application
 ### Using a local SQL DB instance
 * Follow [this guide](https://docs.oracle.com/cd/E19078-01/mysql/mysql-workbench/wb-getting-started-tutorial.html) to set up mysql-workbench locally
