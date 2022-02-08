@@ -1,6 +1,6 @@
 # TileNFT API
-* An application that is used to create, read, update, and persist metadata related to non-fungible tokens (NFTs) on the [Ethereum](https://ethereum.org/en/) blockchain
-    * NFTs use the [ERC-721](https://eips.ethereum.org/EIPS/eip-721) NFT standard
+* A [Springboot](https://spring.io/projects/spring-boot) application that is used to create, read, update, and persist metadata related to non-fungible tokens (NFTs) on the [Ethereum](https://ethereum.org/en/) blockchain
+    * NFTs use the [ERC-721](https://eips.ethereum.org/EIPS/eip-721) standard
     * Serves metadata which can be consumed by other apps/websites via the ERC-721 NFT standard
     * Serves a Javascript/Html fronted application (tileNFT.io)
 * [View the whitepaper](https://docs.google.com/document/d/1dUbI74EY_JYr42cpUB3k2hbykZwzWkBXsK0cf8wo1zM/edit?usp=sharing) for a detailed explanation of this project 
@@ -32,6 +32,14 @@
 * Many more. View here, for a list of some of the other dependencies:
   * pom.xml
   * src/main/tile-nft-frontend/package.json (frontend dependencies)
+
+# Testnet NFTs
+This application is currently deployed on the [Rinkeby](https://www.rinkeby.io/) testnet
+* The minted TileNFTs can be viewed on [TileNFT.io](http://tilenft.io/)
+* The minted TileNFTs can be viewed on [Opensea](https://testnets.opensea.io/collection/tilenft-1)
+* Here is the [NFT contract on Etherscan](https://rinkeby.etherscan.io/address/0xd5bE0b487C687E715f739EF9AE4B3D4001622474)
+* Here is the [NFT sale contract on Etherscan](https://rinkeby.etherscan.io/address/0xcBff5b575725857Bad51b50045e4e3Dd06a22c6E)
+
 
 ## Building The Application
 ### Using a local SQL DB instance
