@@ -10,7 +10,7 @@
 * There's a Solidity smart contract repo that goes along with this
     * [TileNFT Smart Contracts](https://github.com/tyler-j-f/tile-nft)
 * This whole project is a work in progress (W.I.P)
-    * For this repo:
+    * For this repo: 
       * Additional comments should be added (in a lot of places)
       * Code should be cleaned up
       * Checkstyle warnings should be resolved
